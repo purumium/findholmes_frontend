@@ -4,7 +4,7 @@
       <h2 class="payment-summary-title">최종 결제 내역</h2>
       <div class="payment-details">
         <div class="detail-row">
-          <span class="label">주문 번호</span>
+          <span class="label">주문번호</span>
           <span class="value">{{ merchantUid }}</span>
         </div>
         <div class="detail-row">
@@ -40,7 +40,6 @@ export default {
   justify-content: center;
   align-items: center;
   height: 66vh; /* Viewport Height: 화면 높이의 100% */
-  background-color: #f0f0f0;
 }
 
 .payment-summary-container {
@@ -48,7 +47,7 @@ export default {
   padding: 40px 25px 50px 25px;
   border: 1px solid #e6e6e6;
   border-radius: 5px;
-  background-color: #f9f9f9c9;
+  background-color: #f9f9f96b;
   font-family: Arial, sans-serif;
 }
 
@@ -89,9 +88,9 @@ export default {
   align-items: center;
   justify-content: space-evenly;
   padding: 14px 16px;
-  margin-top: 20px;
+  margin-top: 30px;
   border: 1px solid #eee;
-  background-color: #ede99c;
+  background-color: #f7f284b3;
 }
 
 .total-amount span:first-child {
@@ -101,6 +100,6 @@ export default {
 .total-price {
   color: #5c970f;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 17px;
 }
 </style>

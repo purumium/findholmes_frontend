@@ -71,6 +71,7 @@ const routes = [
           },
           {
             path: "paymentResult",
+            name: "dePaymentResult",
             component: DePaymentResultCompo,
             props: (route) => ({
               merchantUid: route.query.merchantUid,

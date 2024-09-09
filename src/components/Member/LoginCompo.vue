@@ -62,8 +62,8 @@ export default {
         });
         const token = response.data.token;
         const decoded = jwtDecode(token);
-        console.log(token);
 
+        console.log(token);
         console.log("role : " + decoded); // 디코딩된 정보 출력
 
         // Vuex 스토어에 토큰 및 사용자 정보 저장
@@ -76,9 +76,12 @@ export default {
         // 로컬 스토리지에 토큰 저장 (필요한 경우)
         localStorage.setItem("token", token);
 
-        // 추가적인 성공 처리 로직, 예: 페이지 리디렉션
-        // window.location.href = '/dashboard'; // 로그인 후 대시보드 페이지로 이동
-        router.push("/");
+        // 화면이 이동(탐정화면, 의뢰인 화면)
+        if (decoded.roles.includes("ROLE_DETECTIVE")) {
+          router.push("/detective");
+        } else {
+          router.push("/");
+        }
       } catch (error) {
         console.error(error);
         errorMessage.value = "Login failed. Please check your credentials.";
@@ -86,7 +89,7 @@ export default {
     };
 
     const goToRegister = () => {
-      router.push("/register"); // /register로 이동
+      router.push("/register"); // 회원가입 화면 이동
     };
 
     return {

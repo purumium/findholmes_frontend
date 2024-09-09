@@ -49,7 +49,14 @@
             id="email"
             placeholder="Email"
             required
+            @blur="checkEmail"
           />
+          <p
+            v-if="emailStatus"
+            :class="{ success: isEmailValid, error: !isEmailValid }"
+          >
+            {{ emailStatus }}
+          </p>
         </div>
         <div class="form-group">
           <input
@@ -79,7 +86,9 @@
           />
         </div>
         <div class="button-group">
-          <button type="submit" class="btn-register">가입하기</button>
+          <button type="submit" class="btn-register" :disabled="!isEmailValid">
+            가입하기
+          </button>
         </div>
       </form>
       <p v-if="message" :class="{ success: isSuccess, error: !isSuccess }">
@@ -92,24 +101,50 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const username = ref("");
 const email = ref("");
 const phonenumber = ref("");
 const password = ref("");
 const role = ref("ROLE_USER");
 const message = ref("");
+const emailStatus = ref("");
+const isEmailValid = ref(false);
 const isSuccess = ref(false);
+
+// 이메일 중복 체크 함수
+const checkEmail = async () => {
+  try {
+    const response = await axios.get("/api/member/check-email", {
+      params: { email: email.value },
+    });
+    if (response.data) {
+      emailStatus.value = "사용 가능한 이메일입니다.";
+      isEmailValid.value = true;
+    } else {
+      emailStatus.value = "이미 사용 중인 이메일입니다.";
+      isEmailValid.value = false;
+    }
+  } catch (error) {
+    emailStatus.value = "이메일 확인에 실패했습니다.";
+    isEmailValid.value = false;
+  }
+};
+
 const handleSubmit = async () => {
   try {
     const response = await axios.post("/api/member/register", {
-      username: username.value,
+      userName: username.value,
       email: email.value,
-      phonenumber: phonenumber.value,
+      phoneNumber: phonenumber.value,
       password: password.value,
       role: role.value,
     });
     message.value = response.data;
     isSuccess.value = true;
+    router.push("/login");
   } catch (error) {
     message.value =
       "Registration failed: " + (error.response?.data || error.message);
