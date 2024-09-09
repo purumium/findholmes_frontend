@@ -87,7 +87,6 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-
     const tooltipText = ref(""); // 툴팁 텍스트
 
     // Vuex에서 로그인 상태를 가져오기

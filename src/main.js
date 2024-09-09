@@ -41,8 +41,11 @@ const app = createApp(App);
 // FontAwesomeIcon 컴포넌트를 전역 컴포넌트로 등록
 app.component("font-awesome-icon", FontAwesomeIcon);
 
+
 // Vue 애플리케이션에 라우터 추가
 app.use(router);
 app.use(store);
+
 // 애플리케이션을 DOM 요소에 마운트
 app.mount("#app");
+
