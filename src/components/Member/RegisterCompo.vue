@@ -92,7 +92,6 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
-
 const username = ref("");
 const email = ref("");
 const phonenumber = ref("");
@@ -100,9 +99,8 @@ const password = ref("");
 const role = ref("ROLE_USER");
 const message = ref("");
 const isSuccess = ref(false);
-
 const handleSubmit = async () => {
-  try 
+  try {
     const response = await axios.post("/api/member/register", {
       username: username.value,
       email: email.value,
@@ -113,7 +111,8 @@ const handleSubmit = async () => {
     message.value = response.data;
     isSuccess.value = true;
   } catch (error) {
-    message.value = 'Registration failed: ' + (error.response?.data || error.message);
+    message.value =
+      "Registration failed: " + (error.response?.data || error.message);
     isSuccess.value = false;
   }
 };
