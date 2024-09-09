@@ -2,10 +2,10 @@
   <header>
     <nav class="header-nav">
       <div class="navbar-left">
-        <router-link to="/">
+        <router-link to="/detective">
           <div class="navbar-left-logo">
             <img src="@/assets/findholmes_logo.png" width="40px" />
-            <!-- <span class="title">찾아줘 홈즈</span> -->
+            <span class="title">홈즈페이지</span>
           </div>
         </router-link>
       </div>
@@ -43,7 +43,7 @@
             @mouseover="tooltipText = '채팅'"
             @mouseleave="tooltipText = ''"
           >
-            <router-link to="/chat" active-class="active">
+            <router-link to="/detective/chat" active-class="active">
               <font-awesome-icon :icon="['fas', 'comment-dots']" class="icon" />
             </router-link>
             <span v-if="tooltipText === '채팅'" class="tooltip">채팅</span>
@@ -54,7 +54,7 @@
             @mouseover="tooltipText = '알림'"
             @mouseleave="tooltipText = ''"
           >
-            <router-link to="/notification" active-class="active">
+            <router-link to="/detective/notification" active-class="active">
               <font-awesome-icon :icon="['fas', 'bell']" class="icon" />
             </router-link>
             <span v-if="tooltipText === '알림'" class="tooltip">알림</span>
@@ -87,6 +87,7 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
+
     const tooltipText = ref(""); // 툴팁 텍스트
 
     // Vuex에서 로그인 상태를 가져오기
