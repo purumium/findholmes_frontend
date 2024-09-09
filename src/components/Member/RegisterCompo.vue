@@ -24,35 +24,38 @@
       </div>
       <button type="submit">Register</button>
     </form>
-    <p v-if="message" :class="{ success: isSuccess, error: !isSuccess }">{{ message }}</p>
+    <p v-if="message" :class="{ success: isSuccess, error: !isSuccess }">
+      {{ message }}
+    </p>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import axios from 'axios';
+import { ref } from "vue";
+import axios from "axios";
 
-const username = ref('');
-const email = ref('');
-const phonenumber = ref('');
-const password = ref('');
-const role = ref('');
-const message = ref('');
+const username = ref("");
+const email = ref("");
+const phonenumber = ref("");
+const password = ref("");
+const role = ref("");
+const message = ref("");
 const isSuccess = ref(false);
 
 const handleSubmit = async () => {
   try {
-    const response = await axios.post('/api/member/register', {
-      username: username.value,
+    const response = await axios.post("/api/member/register", {
+      userName: username.value,
       email: email.value,
-      phonenumber: phonenumber.value,
+      phoneNumber: phonenumber.value,
       password: password.value,
-      role: role.value
+      role: role.value,
     });
     message.value = response.data;
     isSuccess.value = true;
   } catch (error) {
-    message.value = 'Registration failed: ' + (error.response?.data || error.message);
+    message.value =
+      "Registration failed: " + (error.response?.data || error.message);
     isSuccess.value = false;
   }
 };
@@ -73,21 +76,21 @@ const handleSubmit = async () => {
 }
 
 .register-form label {
-  margin-bottom: .5em;
+  margin-bottom: 0.5em;
   color: #333;
   display: block;
 }
 
 .register-form input {
   border: 1px solid #ccc;
-  padding: .5em;
+  padding: 0.5em;
   font-size: 1em;
   width: 100%;
   box-sizing: border-box;
 }
 
 .register-form button {
-  padding: .7em;
+  padding: 0.7em;
   color: #fff;
   background-color: #007bff;
   border: none;
