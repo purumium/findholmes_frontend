@@ -2,32 +2,48 @@
   <footer>
     <nav class="footer-nav">
       <ul>
+        <!-- 받은 의뢰서 페이지로 이동 -->
         <li>
-          <router-link to="/request" class="footer-item" active-class="active">
+          <router-link
+            to="/detective/received"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'pencil-alt']" />
-            <span class="text">의뢰요청</span>
+            <span class="text">받은의뢰서</span>
           </router-link>
         </li>
+
+        <!-- 보낸 견적서 페이지로 이동 -->
         <li>
-          <router-link to="/find" class="footer-item" active-class="active">
+          <router-link
+            to="/detective/estimate"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'search']" />
-            <span class="text">탐정찾기</span>
+            <span class="text">보낸견적서</span>
           </router-link>
         </li>
+
+        <!-- 홈 (탐정 대시보드)로 이동 -->
         <li>
-          <router-link to="/" class="footer-item" active-class="active">
+          <router-link
+            to="/detective"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'home']" />
             <span class="text">홈</span>
           </router-link>
         </li>
+        <!-- 내 페이지 (탐정 마이페이지)로 이동 -->
         <li>
-          <router-link to="/receive" class="footer-item" active-class="active">
-            <font-awesome-icon class="icon" :icon="['fas', 'envelope']" />
-            <span class="text">받은견적</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link to="/mypage" class="footer-item" active-class="active">
+          <router-link
+            to="/detective/mypage"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'user']" />
             <span class="text">내페이지</span>
           </router-link>

@@ -2,7 +2,7 @@
   <div class="main-container">
     <section class="hero">
       <div class="header-section">
-        <img src="@/assets/main/user_main.png" />
+        <img src="@/assets/main/detective_main.png" />
       </div>
     </section>
 
@@ -10,18 +10,18 @@
       <div class="service-cards">
         <div class="service-card">
           <img src="@/assets/main/service1.png" />
-          <div>필요한 서비스를 선택하고</div>
-          <div>의뢰서를 작성하세요</div>
+          <div>의뢰인의 요청이 오면</div>
+          <div>견적서를 작성합니다</div>
         </div>
         <div class="service-card">
           <img src="@/assets/main/service2.png" />
-          <div>무료로 탐정에게</div>
-          <div>답변서를 받아볼 수 있어요</div>
+          <div>의뢰인이 견적서를 보고</div>
+          <div>탐정에게 의뢰를 맡깁니다</div>
         </div>
         <div class="service-card">
           <img src="@/assets/main/service3.png" />
-          <div>딱 맞는 탐정을 추천받고</div>
-          <div>이야기를 나눠보세요</div>
+          <div>찾아줘 홈즈를 통해</div>
+          <div>의뢰인과 대화해 보세요</div>
         </div>
       </div>
     </section>
@@ -104,7 +104,7 @@ export default {
 
 .header-section img {
   width: 100%;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .services {
