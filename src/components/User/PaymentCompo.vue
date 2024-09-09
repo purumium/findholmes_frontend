@@ -1,6 +1,7 @@
 <template>
   <div class="payment-container">
     <!-- 첫 번째 결제 옵션 -->
+    <h2>사용자의 포인트 결제</h2>
     <div class="payment-option" @click="handlePayment(100)">
       <div>
         <div class="payment-cash">100 캐시</div>
@@ -80,13 +81,13 @@ export default {
 
       // Axios 요청으로 사용자 정보 가져오기
       axios
-        .get("/api/test/getdetail")
+        .get("/api/member/userinfo")
         .then((response) => {
           // 서버에서 사용자 정보 받아와서 저장
-          this.username = response.data.username;
+          this.username = response.data.userName;
           this.role = response.data.role;
           this.email = response.data.email;
-          this.phonenumber = response.data.phonenumber;
+          this.phonenumber = response.data.phoneNumber;
 
           console.log(
             `결제 데이터 : ${this.username},  ${this.role},  ${this.email},  ${this.phonenumber} `

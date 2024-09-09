@@ -45,7 +45,7 @@ const store = createStore({
       return state.user;
     },
     getRoles(state) {
-      return state.roles; // roles 배열 반환
+      return state.roles;
     },
     hasRole: (state) => (role) => {
       return state.roles ? state.roles.includes(role) : false; // 특정 역할이 있는지 확인
