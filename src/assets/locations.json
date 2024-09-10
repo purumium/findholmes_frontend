@@ -1,0 +1,12 @@
+[
+  { "locationId": 0, "locationName": "서울특별시" },
+  { "locationId": 1, "locationName": "경기도(인천)" },
+  { "locationId": 2, "locationName": "강원도" },
+  { "locationId": 3, "locationName": "충청북도" },
+  { "locationId": 4, "locationName": "충청남도" },
+  { "locationId": 5, "locationName": "전라북도" },
+  { "locationId": 6, "locationName": "전라남도(광주)" },
+  { "locationId": 7, "locationName": "경상북도(대구)" },
+  { "locationId": 8, "locationName": "경상남도(부산,울산)" },
+  { "locationId": 9, "locationName": "제주특별자치도" }
+]
