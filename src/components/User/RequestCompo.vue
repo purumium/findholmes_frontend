@@ -54,6 +54,13 @@
       </select>
 
       <div>
+        의뢰 제목
+        <div>
+          <input v-model="title" v-on="console.log(description)" />
+        </div>
+      </div>
+
+      <div>
         의뢰 내용
         <div>
           <textarea
@@ -66,6 +73,8 @@
         <button type="submit">작성 완료</button>
       </div>
     </form>
+  </div>
+  <div>
     <h1>없나요? :{{ getUser }}</h1>
     <h1>됐나요? : {{ isAuthenticated }}</h1>
     <button @click="printToken">토큰</button>
@@ -86,6 +95,7 @@ export default {
       selectedLocation: "",
       selectedGender: "",
       selectedSpeciality: "",
+      title: "",
       description: "",
     };
   },

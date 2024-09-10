@@ -6,12 +6,18 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
       messages: [],
       eventSource: null,
+      assignedRequests: [],
     };
+  },
+  created() {
+    this.getAssignedRequests();
   },
   mounted() {
     this.startSse();
@@ -27,6 +33,22 @@ export default {
       fetch("/api/test2/notify", {
         method: "POST",
       });
+    },
+    async getAllSpecialties() {
+      try {
+        const response = await axios.get("api/speciality");
+        this.specialities = response.data;
+      } catch (error) {
+        this.specialities = [];
+      }
+    },
+    async getAssignedRequests() {
+      try {
+        const response = await axios.get("api/estimate");
+        this.assignedRequests = response.data;
+      } catch (error) {
+        this.assignedRequests = [];
+      }
     },
   },
   beforeUnmount() {

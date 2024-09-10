@@ -102,9 +102,9 @@ const isSuccess = ref(false);
 const handleSubmit = async () => {
   try {
     const response = await axios.post("/api/member/register", {
-      username: username.value,
+      userName: username.value,
       email: email.value,
-      phonenumber: phonenumber.value,
+      phoneNumber: phonenumber.value,
       password: password.value,
       role: role.value,
     });
