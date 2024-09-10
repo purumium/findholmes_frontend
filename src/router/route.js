@@ -25,6 +25,9 @@ import DePaymentCompo from "@/components/Detective/DePaymentCompo.vue";
 import DePaymentListCompo from "@/components/Detective/DePaymentListCompo.vue";
 import DePaymentResultCompo from "@/components/Detective/DePaymentResultCompo.vue";
 import DeChatCompo from "@/components/Detective/DeChatCompo.vue";
+import ChatRoomCompo from "@/components/User/ChatRoomCompo.vue";
+import DetailReceiveCompo from "@/components/User/DetailReceiveCompo.vue";
+import DeChatRoomCompo from "@/components/Detective/DeChatRoomCompo.vue";
 
 const routes = [
   {
@@ -43,6 +46,14 @@ const routes = [
       {
         path: "chat",
         component: DeChatCompo,
+      },
+      {
+        path: "chatroom",
+        name: "DetectiveChatRoom",
+        component: DeChatRoomCompo,
+        props: (route) => ({
+          chatId: route.params.chatId,
+        }),
       },
       {
         path: "estimate",
@@ -71,6 +82,7 @@ const routes = [
           },
           {
             path: "paymentResult",
+            name: "dePaymentResult",
             component: DePaymentResultCompo,
             props: (route) => ({
               merchantUid: route.query.merchantUid,
@@ -105,6 +117,14 @@ const routes = [
         component: ChatCompo,
       },
       {
+        path: "chatroom",
+        name: "ChatRoom",
+        component: ChatRoomCompo,
+        props: (route) => ({
+          chatId: route.params.chatId,
+        }),
+      },
+      {
         path: "notification",
         component: NotificationCompo,
       },
@@ -120,6 +140,11 @@ const routes = [
         path: "receive",
         component: ReceiveCompo,
       },
+      {
+        path: "estimate",
+        component: DetailReceiveCompo,
+      },
+
       {
         path: "mypage",
         component: MypageCompo,

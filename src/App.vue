@@ -1,14 +1,14 @@
 <template>
   <div id="app" class="container">
     <!-- 탐정으로 로그인한 경우 -->
-    <div class="wrapper" v-if="isAuthenticated && isDetective">
+    <div class="wrapper" v-if="isDetective">
       <DeHeaderCompo class="header"></DeHeaderCompo>
       <DeMiddleCompo class="middle"></DeMiddleCompo>
       <DeFooterCompo class="footer"></DeFooterCompo>
     </div>
 
     <!-- 일반 사용자로 로그인한 경우 -->
-    <div class="wrapper" v-else-if="isAuthenticated && !isDetective">
+    <div class="wrapper" v-else-if="isUser">
       <HeaderCompo class="header"></HeaderCompo>
       <MiddleCompo class="middle"></MiddleCompo>
       <FooterCompo class="footer"></FooterCompo>
@@ -30,9 +30,7 @@ import MiddleCompo from "./components/MiddleCompo.vue";
 import DeHeaderCompo from "./components/Detective/DeHeaderCompo.vue";
 import DeMiddleCompo from "./components/Detective/DeMiddleCompo.vue";
 import DeFooterCompo from "./components/Detective/DeFooterCompo.vue";
-import { useStore } from "vuex";
-import { computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import { mapGetters } from "vuex";
 
 export default {
   name: "App",
@@ -44,30 +42,16 @@ export default {
     DeMiddleCompo,
     DeFooterCompo,
   },
-  setup() {
-    const store = useStore();
-    const router = useRouter();
+  computed: {
+    ...mapGetters(["getRoles"]), // Vuex의 getRoles 가져오기
 
-    // 로그인 상태 확인
-    const isAuthenticated = computed(() => store.getters.isAuthenticated);
-
-    // 탐정인지 확인
-    const isDetective = computed(() => {
-      const roles = store.getters.getRoles || []; // roles가 null일 경우 빈 배열로 처리
-      return roles.includes("ROLE_DETECTIVE");
-    });
-
-    // 로그인 후 탐정일 경우 자동으로 탐정 메인 페이지로 이동
-    onMounted(() => {
-      if (isAuthenticated.value && isDetective.value) {
-        router.push("/detective"); // 탐정 대시보드로 이동
-      }
-    });
-
-    return {
-      isAuthenticated,
-      isDetective,
-    };
+    isDetective() {
+      this.getRoles === "ROLE_DETECTIVE";
+      return this.getRoles === "ROLE_DETECTIVE";
+    },
+    isUser() {
+      return this.getRoles === "ROLE_USER";
+    },
   },
 };
 </script>

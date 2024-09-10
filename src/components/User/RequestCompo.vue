@@ -56,7 +56,7 @@
       <div>
         의뢰 제목
         <div>
-          <input v-model="title" v-on="console.log(description)" />
+          <input v-model="title" v-on="console.log(description)" required />
         </div>
       </div>
 
