@@ -5,7 +5,7 @@
         <router-link to="/">
           <div class="navbar-left-logo">
             <img src="@/assets/findholmes_logo.png" width="40px" />
-            <!-- <span class="title">찾아줘 홈즈</span> -->
+            <span class="title">찾아줘 홈즈!</span>
           </div>
         </router-link>
       </div>
