@@ -1,7 +1,6 @@
 <template>
   <div class="receive-container">
-    <h2>받은 견적서</h2>
-    <!-- 응답서 목록 -->
+    <h2>받은 견적서 리스트</h2>
     <div
       v-for="(response, index) in responses"
       :key="index"
@@ -13,7 +12,7 @@
       <div class="response-content">
         <h4>{{ response.title }}</h4>
         <p>의뢰 요청 일시 : {{ response.date }}</p>
-        <button @click="viewResponse(response)">견적서 보기</button>
+        <button @click="viewResponse()">견적서 보기</button>
       </div>
     </div>
   </div>
@@ -31,9 +30,8 @@ export default {
     };
   },
   methods: {
-    viewResponse(response) {
-      // 응답서 보기 로직
-      console.log(response);
+    viewResponse() {
+      this.$router.push("/estimate");
     },
   },
 };

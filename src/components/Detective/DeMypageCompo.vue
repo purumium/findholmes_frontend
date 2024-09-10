@@ -4,7 +4,7 @@
       <ul>
         <li>
           <router-link
-            to="/mypage/myinfo"
+            to="/detective/mypage/myinfo"
             class="nav-item"
             active-class="active"
             >내정보보기</router-link
@@ -12,7 +12,7 @@
         </li>
         <li>
           <router-link
-            to="/mypage/payment"
+            to="/detective/mypage/payment"
             class="nav-item"
             active-class="active"
             >포인트결제</router-link
@@ -20,7 +20,7 @@
         </li>
         <li>
           <router-link
-            to="/mypage/paymentlist"
+            to="/detective/mypage/paymentlist"
             class="nav-item"
             active-class="active"
             >내결제내역</router-link
