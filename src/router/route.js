@@ -29,6 +29,7 @@ import ChatRoomCompo from "@/components/User/ChatRoomCompo.vue";
 import DetailReceiveCompo from "@/components/User/DetailReceiveCompo.vue";
 import DeChatRoomCompo from "@/components/Detective/DeChatRoomCompo.vue";
 import DeReceivedDetailCompo from "@/components/Detective/DeReceivedDetailCompo.vue";
+import DeReplyRequestCompo from "@/components/Detective/DeReplyRequestCompo.vue";
 
 const routes = [
   {
@@ -70,7 +71,11 @@ const routes = [
         component: DeReceivedDetailCompo,
         props: true,
       },
-
+      {
+        path: "reply/:requestId",
+        component: DeReplyRequestCompo,
+        props: true,
+      },
       {
         path: "mypage",
         component: DeMypageCompo,

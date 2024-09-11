@@ -3,6 +3,7 @@
     <h2>견적 상세보기</h2>
     <h1>{{ requestId }}</h1>
     <button @click="getUserInfo">클릭</button>
+    <button @click="moveToReply">이동</button>
   </div>
 </template>
 
@@ -39,6 +40,9 @@ export default {
     },
     getUserInfo() {
       console.log(this.getUser);
+    },
+    moveToReply() {
+      this.$router.push(`/detective/reply/${this.request.requestId}`);
     },
   },
 };
