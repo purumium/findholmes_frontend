@@ -1,7 +1,7 @@
 <template>
   <div class="receive-container">
     <h2>받은 견적서</h2>
-    <p>의뢰 요청에 대한 홈즈의 견적서</p>
+    <p>의뢰 요청에 대해 홈즈가 보내준 견적서</p>
     <div class="receive-list">
       <div
         v-for="(estimate, index) in estimates"
@@ -12,14 +12,14 @@
           <img src="/images/estimate.png" alt="Placeholder Image" />
         </div>
         <div class="estimate-content">
-          <div class="estimate">
+          <div class="estimate" @click="viewDetailRequest()">
             <h4>{{ estimate.title }}</h4>
             <div class="estimate-date">
               <div>#{{ estimate.date }}</div>
               <div>#{{ estimate.speciality }}</div>
             </div>
           </div>
-          <button @click="viewResponse()">견적서 보기</button>
+          <button @click="viewEstimate()">견적서 보기</button>
         </div>
       </div>
     </div>
@@ -50,8 +50,11 @@ export default {
     };
   },
   methods: {
-    viewResponse() {
+    viewEstimate() {
       this.$router.push("/estimate");
+    },
+    viewDetailRequest() {
+      this.$router.push("/detailrequest");
     },
   },
 };
@@ -62,7 +65,7 @@ export default {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 30px 0;
 }
 
 h2 {
@@ -77,10 +80,26 @@ p {
   margin-bottom: 30px;
 }
 
+.estimate {
+  border: 1px solid #80808052;
+  padding: 12px 0px 12px 15px;
+  max-width: 400px;
+  width: 400px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 11px;
+  transition: background-color 0.4s ease;
+}
+
+.estimate:hover {
+  cursor: pointer;
+  background-color: #80808013;
+}
+
 .estimate-card {
   display: flex;
   align-items: center;
-  background-color: #bbb4b412;
+  background-color: #bbb4b41a;
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -114,16 +133,6 @@ p {
   color: #666;
 }
 
-.estimate {
-  border: 1px solid #80808052;
-  padding: 10px 25px;
-  max-width: 400px;
-  width: 400px;
-  border-radius: 20px;
-  box-sizing: border-box;
-  margin-bottom: 11px;
-}
-
 button {
   background-color: #fdf7b8bf;
   border: 1px solid #e8e37e;
@@ -134,7 +143,6 @@ button {
   cursor: pointer;
 }
 
-/* Media Query for small devices */
 @media (max-width: 768px) {
   h2 {
     font-size: 20px;

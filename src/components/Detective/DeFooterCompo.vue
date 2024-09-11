@@ -5,7 +5,7 @@
         <!-- 받은 의뢰서 페이지로 이동 -->
         <li>
           <router-link
-            to="/detective/received"
+            to="/detective/requestlist"
             class="footer-item"
             active-class="active"
           >
@@ -17,7 +17,7 @@
         <!-- 보낸 견적서 페이지로 이동 -->
         <li>
           <router-link
-            to="/detective/estimate"
+            to="/detective/estimatelist"
             class="footer-item"
             active-class="active"
           >
