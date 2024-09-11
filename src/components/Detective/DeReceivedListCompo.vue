@@ -6,16 +6,17 @@
       v-for="(assigned, index) in assignedRequests"
       :key="index"
       class="response-card"
-      @click="console.log(assigned)"
     >
-      <div class="response-image">
-        <img src="@/assets/findholmes_logo.png" alt="Placeholder Image" />
-      </div>
-      <div class="response-content">
-        <h4>{{ assigned.description }}</h4>
-        <p>의뢰 요청 일시 : {{ assigned.createAt }}</p>
-        <!-- <button @click="viewResponse(response)">견적서 보기</button> -->
-      </div>
+      <router-link :to="`/detective/received/${assigned.requestId}`">
+        <div class="response-image">
+          <img src="@/assets/findholmes_logo.png" alt="Placeholder Image" />
+        </div>
+        <div class="response-content">
+          <h4>{{ assigned.title }}</h4>
+          <p>의뢰 요청 일시 : {{ assigned.createAt }}</p>
+          <!-- <button @click="viewResponse(response)">견적서 보기</button> -->
+        </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -40,7 +41,7 @@ export default {
     async getAssignedRequests() {
       console.log("실행시도");
       try {
-        const response = await axios.get("/estimate", {
+        const response = await axios.get("/receive", {
           baseURL: "http://localhost:8080/",
           params: { email: this.getUser },
         });
@@ -49,6 +50,9 @@ export default {
       } catch (error) {
         this.assignedRequests = [];
       }
+    },
+    moveToRequestDetail(requestId) {
+      this.$router.push(`/detective/received/${requestId}`);
     },
   },
 };
