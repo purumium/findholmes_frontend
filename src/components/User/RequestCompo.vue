@@ -213,18 +213,18 @@ textarea {
 
 textarea {
   height: 100px;
+  resize: none;
 }
 
 .submit-button {
   width: 100%;
-  padding: 13px;
-  background-color: #ede99cd4;
-  color: #282828;
-  border: none;
-  border-radius: 5px;
+  background-color: #efe7945e;
+  border: 1px solid #d3cb3a5e;
+  padding: 8px 0px;
+  border-radius: 20px;
   font-size: 14px;
-  cursor: pointer;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .submit-button:hover {
