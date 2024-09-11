@@ -1,31 +1,3 @@
-<!-- <template>
-  <div class="receive-container">
-    <h2>받은 상담요청서 리스트</h2>
-    <p>사용자가 작성한 상담 요청서가 도착했습니다</p>
-    <div class="receive-list">
-      <div
-        v-for="(assigned, index) in assignedRequests"
-        :key="index"
-        class="estimate-card"
-      >
-        <router-link :to="`/detective/received/${assigned.requestId}`">
-          <div class="estimate-image">
-            <img src="/images/request.png" alt="Placeholder Image" />
-          </div>
-          <div class="estimate-content">
-            <h4>{{ assigned.title }}</h4>
-            <div class="estimate-date">
-              <div># 받은 일자 : {{ assigned.createAt }}</div>
-              <div># 분야 : {{ assigned.speciality.specialityName }}</div>
-            </div>
-            <button @click="createEstimate()">견적서 작성</button>
-          </div>
-        
-      </div>
-    </div>
-  </div>
-</template> -->
-
 <template>
   <div class="receive-container">
     <h2>받은 상담요청서 리스트</h2>
