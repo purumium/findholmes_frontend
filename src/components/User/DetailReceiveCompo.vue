@@ -1,6 +1,7 @@
 <template>
   <div class="estimate-detail-container">
-    <h2>받은 견적서 상세보기</h2>
+    <h2>견적서 상세보기</h2>
+    <p>홈즈가 보낸 견적서 자세히 보고 비교하기</p>
     <div class="estimate-detail">
       <!-- 사이드 바 -->
       <div class="sidebar">
@@ -9,6 +10,7 @@
             v-for="(detective, index) in detectives"
             :key="index"
             @click="selectDetective(detective)"
+            :class="{ active: selectedDetective === detective }"
           >
             <div class="detective-info">
               <div class="detective-details">
@@ -115,18 +117,34 @@ export default {
 
 <style scoped>
 .estimate-detail-container {
-  /* display: flex; */
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: -10px;
+}
+
+p {
+  text-align: center;
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 30px;
 }
 
 .estimate-detail {
   display: flex;
   justify-content: center;
-  padding: 15px;
-  height: 85%;
+  height: 88%;
+  min-height: 600px;
 }
 
 .sidebar {
-  width: 25%;
+  width: 30%;
   background-color: #f5f5f5;
   padding: 0px;
 }
@@ -140,7 +158,6 @@ export default {
   cursor: pointer;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #ededed;
   display: flex;
   align-items: center;
 }
@@ -148,13 +165,15 @@ export default {
 .sidebar li:hover {
   background-color: #e0e0e0;
 }
+.sidebar li.active {
+  background-color: white; /* 선택된 항목의 배경색 */
+  font-weight: bold; /* 선택된 항목의 텍스트 강조 */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* 선택된 항목에 그림자 추가 */
+  border-top-right-radius: 10px; /* 왼쪽 위 */
+  border-bottom-right-radius: 10px; /* 왼쪽 아래 */
+}
 
 .detective-name {
-  border: 1px solid rgb(208, 206, 206);
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 3px 10px;
   display: flex;
   justify-content: center;
 }
@@ -169,8 +188,13 @@ export default {
   max-width: 800px;
   background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-top-left-radius: 10px; /* 왼쪽 위 */
+  border-bottom-left-radius: 10px; /* 왼쪽 아래 */
   padding: 20px;
+  box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 계산 */
+  display: flex;
+  flex-direction: column; /* flex 방향을 컬럼으로 설정하여 요소를 위에서 아래로 배치 */
+  justify-content: space-between; /* 상하 요소 사이에 공간을 분배 */
 }
 
 .detective-info-container {
@@ -244,58 +268,19 @@ export default {
   background-color: #e0e0e0;
 }
 
-/* .detective-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
+/* 반응형 디자인: 화면 크기가 줄어들 때의 대응 */
+@media screen and (max-width: 768px) {
+  .estimate-detail {
+    flex-direction: column; /* 작은 화면에서는 사이드바와 콘텐츠가 위아래로 배치 */
+  }
 
-.detective-info {
-  display: flex;
-  align-items: center;
-}
+  .sidebar {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 
-.detective-name {
-  font-weight: bold;
-  display: block;
+  .main-content {
+    width: 100%;
+  }
 }
-
-.detective-price {
-  color: gray;
-}
-
-.main-content {
-  width: 75%;
-  padding: 20px;
-  border: 1px solid #8080803b;
-}
-
-.main-content-line {
-  border: 1px solid #8080803b;
-}
-
-.estimate-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.estimate-body {
-  margin-bottom: 20px;
-}
-
-.actions button {
-  margin-right: 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.actions button:hover {
-  background-color: #0056b3;
-} */
 </style>
