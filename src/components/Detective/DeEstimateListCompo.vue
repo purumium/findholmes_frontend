@@ -23,8 +23,7 @@
               <div># 분야 : {{ estimate.speciality }}</div>
             </div>
           </div>
-          <button @click="viewEstimate(estimate.requestId)">견적서 보기</button>
-          <!-- <button @click="createEstimate()">답변서 작성</button> -->
+          <button @click="viewEstimate(estimate.requestId)">의뢰서 보기</button>
         </div>
       </div>
     </div>
