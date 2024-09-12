@@ -83,17 +83,18 @@ body {
 }
 
 .header {
-  width: 100%; /* 부모의 너비를 따르게 설정 */
-  height: 90px;
+  display: fixed;
+  width: 100%;
+  height: 80px;
   z-index: 10;
-  background-color: #f9f9f9;
+  border-bottom: 5px solid #c5c4c43b;
 }
 
 .middle {
   flex: 1;
   overflow-y: auto; /* 세로 스크롤만 허용 */
   overflow-x: hidden; /* 가로 스크롤 없애기 */
-  padding: 10px;
+  /* padding: 10px; */
   background-color: #fff;
   font-size: 1rem; /* 기본 폰트 크기 */
   width: 100%;
@@ -101,6 +102,7 @@ body {
 }
 
 .footer {
+  display: fixed;
   width: 100%;
   height: 90px; /* footer의 높이 설정 */
   z-index: 10;

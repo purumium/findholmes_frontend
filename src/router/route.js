@@ -31,6 +31,7 @@ import DeChatRoomCompo from "@/components/Detective/DeChatRoomCompo.vue";
 import DeCreateEstimateCompo from "@/components/Detective/DeCreateEstimateCompo.vue";
 import DeReceivedRequestCompo from "@/components/Detective/DeReceivedRequestCompo.vue";
 import DetailRequestCompo from "@/components/User/DetailRequestCompo.vue";
+import DetectiveListCompo from "@/components/User/DetectiveListCompo.vue";
 
 const routes = [
   {
@@ -150,6 +151,10 @@ const routes = [
       {
         path: "find",
         component: FindCompo,
+      },
+      {
+        path: "detectivelist",
+        component: DetectiveListCompo,
       },
       {
         path: "request",

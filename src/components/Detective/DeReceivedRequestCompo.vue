@@ -1,10 +1,9 @@
 <template>
   <div class="request-form-table">
     <h2>의뢰서</h2>
-    <p>의뢰서 상세보기</p>
+    <p>사용자가 보낸 의뢰서를 확인하고 답변하기</p>
     <div class="request">
       <table class="request-table">
-        <!-- 의뢰내용 -->
         <tr>
           <td class="label">의뢰 제목</td>
         </tr>
@@ -12,7 +11,6 @@
           <td class="value">{{ request.title }}</td>
         </tr>
 
-        <!-- 의뢰종류 -->
         <tr>
           <td class="label">의뢰 종류</td>
         </tr>
@@ -20,7 +18,6 @@
           <td class="value">{{ request.category }}</td>
         </tr>
 
-        <!-- 지역 -->
         <tr>
           <td class="label">의뢰 지역</td>
         </tr>
@@ -28,7 +25,6 @@
           <td class="value">{{ request.location }}</td>
         </tr>
 
-        <!-- 탐정 성별 -->
         <tr>
           <td class="label">탐정 성별</td>
         </tr>
@@ -36,16 +32,19 @@
           <td class="value">{{ request.gender }}</td>
         </tr>
 
-        <!-- 상담 내용 -->
         <tr>
-          <td class="label">의뢰에 대한 자세한 내용</td>
+          <td class="label">의뢰 내용에 대해 자세한 설명</td>
         </tr>
         <tr>
-          <td class="value description">{{ request.description }}</td>
+          <td class="value description">
+            <div class="content">
+              {{ request.description }}
+            </div>
+          </td>
         </tr>
       </table>
       <div class="btn">
-        <button @click="createEstimate()">요청에 대한 견적서 작성</button>
+        <button @click="createEstimate()">의뢰에 대해 답변서 작성</button>
       </div>
     </div>
   </div>
@@ -109,20 +108,23 @@ p {
   font-weight: bold;
   text-align: left;
   font-size: 13px;
-  padding: 8px 15px !important;
+  padding: 6px 15px !important;
 }
 
 .value {
   text-align: left;
-  padding: 10px 15px !important;
+  padding: 9px 15px !important;
   font-size: 13px;
   font-family: math !important;
 }
 
 .description {
-  min-height: 210px;
-  height: 210px;
   padding: 10px 15px !important;
+}
+
+.content {
+  height: 200px;
+  margin: 10px 0;
 }
 
 .btn {
@@ -138,6 +140,10 @@ button {
   font-weight: 600;
   cursor: pointer;
   width: 100%;
+}
+
+button:hover {
+  background-color: #e9e48db2;
 }
 
 @media screen and (max-width: 768px) {

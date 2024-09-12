@@ -1,49 +1,8 @@
 <template>
   <div class="middle-component">
     <div>
-      <h2>홈즈 찾기</h2>
-      <p>지역과 분야를 선택하여 직접 홈즈 찾기</p>
-    </div>
-    <div class="search-bar">
-      <select v-model="selectedRegion" @change="onRegionChange">
-        <option value="" disabled selected>지역을 선택해주세요</option>
-        <option v-for="region in regions" :key="region.id" :value="region.name">
-          {{ region.name }}
-        </option>
-      </select>
-
-      <select v-model="selectedCategory" @change="onCategoryChange">
-        <option value="" disabled selected>의뢰 분야를 선택해주세요</option>
-        <option
-          v-for="category in categories"
-          :key="category.id"
-          :value="category.name"
-        >
-          {{ category.name }}
-        </option>
-      </select>
-
-      <button @click="detectiveSeahch()">검색</button>
-    </div>
-
-    <!-- 중간: 광고 케러셀 -->
-    <div class="carousel">
-      <div
-        class="carousel-wrapper"
-        :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
-      >
-        <div
-          class="carousel-slide"
-          v-for="(ad, index) in ads"
-          :key="index"
-          :style="{ backgroundImage: 'url(' + ad.image + ')' }"
-        >
-          <div class="ad-text">
-            <h3>{{ ad.title }}</h3>
-            <p>{{ ad.description }}</p>
-          </div>
-        </div>
-      </div>
+      <h2>홈즈 검색 결과</h2>
+      <p>홈즈의 프로필을 확인하기</p>
     </div>
   </div>
 </template>
@@ -66,19 +25,19 @@ export default {
       ],
       ads: [
         {
-          image: "/images/ad1.jpg",
-          title: "딱 24시간 동안 담아보세요",
-          description: "월간이구홈 테이블웨어 단독 ~61+12%",
+          image: "/images/detective.jpg",
+          title: "상담 시간: 24시간 언제든지 가능합니다",
+          description: "전화 상담: 010-1234-5678",
         },
         {
-          image: "/images/ad2.jpg",
-          title: "추석선물 10%쿠폰",
-          description: "지금 바로 적용 가능!",
+          image: "/images/estimate.jpg",
+          title: "셜록은 당신을 기다립니다",
+          description: "전화 상담가느",
         },
         {
-          image: "/images/ad3.jpg",
-          title: "봄 세일 시작!",
-          description: "최대 50% 할인",
+          image: "/images/request.jpg",
+          title: "당신의 남편! 지켜봐 드립니다",
+          description: "전화 상담: 010-1234-5678",
         },
       ],
       currentSlide: 0,
@@ -86,9 +45,6 @@ export default {
     };
   },
   methods: {
-    detectiveSeahch() {
-      this.$router.push("/detectivelist");
-    },
     onRegionChange() {
       console.log("Selected Region: ", this.selectedRegion);
     },

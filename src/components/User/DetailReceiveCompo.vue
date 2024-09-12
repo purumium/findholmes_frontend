@@ -1,9 +1,10 @@
 <template>
   <div class="estimate-detail-container">
-    <h2>견적서 상세보기</h2>
-    <p>홈즈가 보낸 견적서 자세히 보고 비교하기</p>
+    <div>
+      <h2>답변서</h2>
+      <p>홈즈가 보낸 답변서를 비교하기</p>
+    </div>
     <div class="estimate-detail">
-      <!-- 사이드 바 -->
       <div class="sidebar">
         <ul>
           <li
@@ -22,11 +23,9 @@
         </ul>
       </div>
 
-      <!-- 탐정의 견적서-->
       <div class="main-content" v-if="selectedDetective">
         <div class="main-content-line">
           <div class="estimate-header">
-            <!-- 탐정 정보 및 프로필 보기 -->
             <div class="detective-info-container">
               <div class="detective-img">
                 <img
@@ -38,7 +37,7 @@
               <div class="detective-details-large">
                 <div class="detective-name-container">
                   <h3>{{ selectedDetective.name }}</h3>
-                  <button class="profile-button">프로필 보기</button>
+                  <button class="profile-button">홈즈의 프로필</button>
                 </div>
                 <div class="detective-contact">
                   <span>🔒 {{ selectedDetective.nickname }}</span>
@@ -77,6 +76,18 @@ export default {
           name: "셜록 홈즈",
           price: "123,000",
           estimate: "이 탐정은 매우 경험이 풍부합니다...",
+          avatar: "/images/detective.png",
+        },
+        {
+          name: "포와로",
+          price: "110,000",
+          estimate: "명탐정 포와로는 당신의 사건을 해결할 것입니다...",
+          avatar: "/images/detective.png",
+        },
+        {
+          name: "포와로",
+          price: "110,000",
+          estimate: "명탐정 포와로는 당신의 사건을 해결할 것입니다...",
           avatar: "/images/detective.png",
         },
         {
@@ -139,12 +150,14 @@ p {
 .estimate-detail {
   display: flex;
   justify-content: center;
-  height: 88%;
-  min-height: 600px;
+  height: 86%;
+  min-height: 620px;
 }
 
 .sidebar {
   width: 30%;
+  border-top: 1px solid #8080801c;
+  border-bottom: 1px solid #8080801c;
   background-color: #f5f5f5;
   padding: 0px;
 }
@@ -156,7 +169,7 @@ p {
 
 .sidebar li {
   cursor: pointer;
-  padding: 10px;
+  padding: 10px 20px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
@@ -175,26 +188,24 @@ p {
 
 .detective-name {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
 }
 
 .detective-price {
-  font-size: 12px;
-  margin: 4px 0 0 7px;
+  margin-top: 7px;
+  font-size: 15px;
 }
 
 .main-content {
   width: 100%;
   max-width: 800px;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border-top-left-radius: 10px; /* 왼쪽 위 */
-  border-bottom-left-radius: 10px; /* 왼쪽 아래 */
-  padding: 20px;
-  box-sizing: border-box; /* 패딩과 보더를 포함하여 크기 계산 */
+  border: 1px solid #cccccc99;
+  padding: 30px 25px;
+  box-sizing: border-box;
   display: flex;
-  flex-direction: column; /* flex 방향을 컬럼으로 설정하여 요소를 위에서 아래로 배치 */
-  justify-content: space-between; /* 상하 요소 사이에 공간을 분배 */
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .detective-info-container {
@@ -223,11 +234,11 @@ p {
 }
 
 .profile-button {
-  background-color: #fdf7b8bf;
-  border: 1px solid #e8e37e;
-  padding: 6px 16px;
+  background-color: #efe7945e;
+  border: 1px solid #d3cb3a5e;
+  padding: 6px 17px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -276,7 +287,6 @@ p {
 
   .sidebar {
     width: 100%;
-    margin-bottom: 20px;
   }
 
   .main-content {
