@@ -30,7 +30,6 @@ import DetailReceiveCompo from "@/components/User/DetailReceiveCompo.vue";
 import DeChatRoomCompo from "@/components/Detective/DeChatRoomCompo.vue";
 
 import DeReceivedDetailCompo from "@/components/Detective/DeReceivedDetailCompo.vue";
-import DeReplyRequestCompo from "@/components/Detective/DeReplyRequestCompo.vue";
 
 import DeCreateEstimateCompo from "@/components/Detective/DeCreateEstimateCompo.vue";
 import DeReceivedRequestCompo from "@/components/Detective/DeReceivedRequestCompo.vue";
@@ -70,8 +69,9 @@ const routes = [
         component: DeEstimateListCompo,
       },
       {
-        path: "estimate",
+        path: "estimate/:requestId",
         component: DeCreateEstimateCompo,
+        props: true,
       },
       {
         path: "requestlist",
@@ -83,11 +83,7 @@ const routes = [
         component: DeReceivedDetailCompo,
         props: true,
       },
-      {
-        path: "reply/:requestId",
-        component: DeReplyRequestCompo,
-        props: true,
-      },
+
       {
         path: "detailrequest",
         component: DeReceivedRequestCompo,

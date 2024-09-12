@@ -4,23 +4,19 @@
       <h2>답변서</h2>
       <p>사용자의 의뢰에 대한 답변서를 작성해주세요</p>
     </div>
-
+    <!-- <form @submit.prevent="replyRequest"> -->
     <div class="response-main">
       <div class="receive-list">
-        <div
-          v-for="(request, index) in requests"
-          :key="index"
-          class="estimate-card"
-        >
+        <div class="estimate-card">
           <div class="estimate-image">
             <img src="/images/request.png" alt="Placeholder Image" />
           </div>
           <div class="estimate-content">
             <div class="estimate">
-              <h4>{{ request.title }}</h4>
+              <h4>{{ requests.title }}</h4>
               <div class="estimate-date">
-                <div># 요청일자 : {{ request.date }}</div>
-                <div># 요청분야 : {{ request.speciality }}</div>
+                <div># 요청일자 : {{ requests.createAt }}</div>
+                <div># 요청분야 : {{ requests.speciality }}</div>
               </div>
             </div>
           </div>
@@ -39,11 +35,12 @@
         </div>
 
         <div class="form-group">
-          <label for="amount">금액</label>
+          <label for="price">금액</label>
           <input
-            type="text"
-            id="amount"
-            v-model="amount"
+            type="number"
+            id="price"
+            v-model="price"
+            class="no-spinner"
             placeholder="금액을 입력하세요"
           />
         </div>
@@ -57,33 +54,77 @@
           ></textarea>
         </div>
 
-        <button @click="submitResponse" class="submit-button">
-          견적서 전송하기
-        </button>
+        <!-- <button type="submit" class="submit-button">견적서 전송하기</button> -->
+        <p></p>
+        <div><button @click="timeconvert">시간변환</button></div>
       </div>
     </div>
+    <!-- </form> -->
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
+  props: ["requestId"],
   data() {
     return {
-      requests: [
-        {
-          title: "제 돈 떼 먹은 놈을 찾아주세요",
-          date: "2024-08-30",
-          speciality: "사람찾기",
-        },
-      ],
+      title: "",
+      description: "",
+      price: "",
+      requests: this.getRequestDetail(),
     };
   },
+  computed: {
+    ...mapGetters(["getUser"]),
+  },
+  async created() {
+    await this.getRequestDetail();
+    console.log("컴포넌트 생성 : " + this.requests);
+  },
   methods: {
-    submitResponse() {
-      // Add your submit logic here (for example, axios call)
-      console.log("Quotation Submitted");
-      console.log("Amount:", this.amount);
-      console.log("Description:", this.description);
+    async getRequestDetail() {
+      console.log("실행시도", this.requestId);
+      try {
+        const response = await axios.get("/receive/detail", {
+          baseURL: "http://localhost:8080/",
+          params: { requestId: this.requestId },
+        });
+        this.requests = response.data;
+        this.requests.createAt = this.timeconvert(this.requests.createAt);
+        console.log(this.requests);
+      } catch (error) {
+        this.requests = [];
+      }
+    },
+    async replyRequest() {
+      try {
+        await axios.post("/api/reply", {
+          requestId: this.requestId,
+          clientId: this.requests.clientId,
+          price: parseInt(this.price, 10),
+          email: this.getUser,
+          description: this.description,
+        });
+        alert("답변서를 전송하였습니다.");
+        this.$router.push("/detective/estimatelist");
+      } catch (error) {
+        return;
+      }
+    },
+    click() {
+      console.log(this.requests);
+    },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}년${month}월${day}일 ${hour}시${minute}분`;
     },
   },
 };
@@ -148,7 +189,7 @@ p {
 }
 
 .estimate-date {
-  display: flex;
+  /* display: flex; */
   gap: 14px;
   align-items: end;
   margin-top: 4px;
@@ -199,5 +240,11 @@ p {
 
 .submit-button:hover {
   background-color: #eae54bd3;
+}
+
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 </style>
