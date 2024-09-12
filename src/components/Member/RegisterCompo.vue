@@ -217,7 +217,7 @@ const handleSubmit = async () => {
 }
 
 .role-label.active {
-  border-color: #c1ba33; /* 선택된 경우 테두리 색상 변경 */
+  border-color: #ffdf3e9c; /* 선택된 경우 테두리 색상 변경 */
 }
 
 .role-option input[type="radio"] {
@@ -233,7 +233,7 @@ const handleSubmit = async () => {
   padding: 10px;
   border: 1px solid #eae8c1;
   border-radius: 5px;
-  background-color: #ede99c;
+  background-color: #ffdf3e9c;
   color: #46444a;
   cursor: pointer;
   font-size: 14px;
@@ -249,5 +249,51 @@ const handleSubmit = async () => {
 .error {
   color: red;
   margin-top: 10px;
+}
+
+/* 반응형 스타일 */
+
+/* 태블릿 화면 (768px 이하) */
+@media (max-width: 768px) {
+  .register-form {
+    width: 90%;
+    padding: 30px;
+  }
+
+  .form-group input {
+    font-size: 14px;
+    padding: 10px 0 10px 15px;
+  }
+
+  .role-label {
+    padding: 10px 30px;
+  }
+
+  .btn-register {
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+
+/* 모바일 화면 (480px 이하) */
+@media (max-width: 480px) {
+  .register-form {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .form-group input {
+    font-size: 13px;
+    padding: 8px 0 8px 10px;
+  }
+
+  .role-label {
+    padding: 8px 20px;
+  }
+
+  .btn-register {
+    font-size: 12px;
+    padding: 7px;
+  }
 }
 </style>

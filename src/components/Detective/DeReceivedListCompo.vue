@@ -147,9 +147,9 @@ p {
 }
 
 button {
-  background-color: #efe7945e;
+  background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 6px 17px;
+  padding: 7px 12px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;

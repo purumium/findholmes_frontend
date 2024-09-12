@@ -15,8 +15,8 @@
               <div class="estimate">
                 <h4>{{ requests.title }}</h4>
                 <div class="estimate-date">
-                  <div># 요청일자 : {{ requests.createAt }}</div>
-                  <div># 요청분야 : {{ requests.speciality }}</div>
+                  <div>✔️ 의뢰 일자 : {{ requests.createAt }}</div>
+                  <div>✔️ 의뢰 분야 : {{ requests.speciality }}</div>
                 </div>
               </div>
             </div>
@@ -25,36 +25,36 @@
 
         <div class="response-form">
           <div class="form-group">
-            <label for="title">제목</label>
+            <label for="title">답변서 제목</label>
             <input
               type="text"
               id="title"
               v-model="title"
-              placeholder="제목을 입력하세요"
+              placeholder="(예) 증거를 찾아드리겠습니다"
             />
           </div>
 
           <div class="form-group">
-            <label for="price">금액</label>
+            <label for="title">견적 금액</label>
             <input
               type="number"
               id="price"
               v-model="price"
               class="no-spinner"
-              placeholder="금액을 입력하세요"
+              placeholder="(예) 90,000"
             />
           </div>
 
           <div class="form-group">
-            <label for="description">의뢰 내용</label>
+            <label for="title">답변 내용</label>
             <textarea
               id="description"
               v-model="description"
-              placeholder="의뢰 내용에 맞춰서 작성해주세요"
+              placeholder=""
             ></textarea>
           </div>
 
-          <button type="submit" class="submit-button">견적서 전송하기</button>
+          <button type="submit" class="submit-button">답변서 전송</button>
         </div>
       </div>
     </form>
@@ -140,107 +140,148 @@ p {
 }
 
 .response-page-contatiner {
-  padding: 30px 20px;
+  padding: 30px;
   max-width: 600px;
   margin: auto;
-}
-
-.estimate {
-  border: 1px solid #80808052;
-  padding: 12px 0px 12px 15px;
-  max-width: 400px;
-  width: 400px;
-  border-radius: 8px;
-  box-sizing: border-box;
-  margin-bottom: 11px;
-  transition: background-color 0.4s ease;
 }
 
 .estimate-card {
   display: flex;
   align-items: center;
-  margin: 30px 20px;
-  /* justify-content: center; */
-  /* background-color: #bbb4b41a; */
-  /* padding: 12px 10px; */
-  /* margin-bottom: 20px; */
-  /* border: 1px solid #8080803b; */
+  flex-direction: column;
+  padding: 25px 20px 25px 15px;
+  border: 1px solid #8080803b;
 }
 
 .estimate-image img {
   width: 50px;
   height: 50px;
   border-radius: 8px;
-  margin: 20px 30px;
 }
 
 .estimate-content {
-  flex: 1;
+  width: 94%;
 }
 
 .estimate-content h4 {
   color: #2a2929d6;
-  margin: 0;
-  font-size: 14px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  font-size: 16px;
 }
 
 .estimate-date {
-  /* display: flex; */
-  gap: 14px;
-  align-items: end;
-  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 16px;
 }
 
 .estimate-date div {
-  font-size: 12px;
+  font-size: 14px;
   color: #666;
 }
 
 .response-main {
-  border: 1px solid #80808040;
   height: 600px;
+  width: 100%;
 }
 
 .response-form {
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 17px;
 }
 
 .form-group label {
   display: block;
-  font-size: 1em;
-  margin-bottom: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 0px;
+  background-color: #80808012;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 10px;
 }
 
-.form-group input,
-.form-group textarea {
-  width: 95%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.form-group input {
+  width: 100%;
+  padding: 12px 10px;
+  font-size: 13px;
+  border: none;
+  border-bottom: 1px solid #ccccccb0;
   box-sizing: border-box;
 }
 
-.submit-button {
-  padding: 10px 20px;
-  background-color: #eae54b;
-  color: rgb(28, 5, 5);
+.form-group textarea {
+  width: 100%;
+  padding: 12px 10px;
+  font-size: 13px;
   border: none;
-  border-radius: 5px;
+  border-left: 1px solid #8080803d;
+  border-right: 1px solid #8080803d;
+  border-bottom: 1px solid #8080803d;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-sizing: border-box;
+  height: 160px;
+  resize: none;
+}
+
+.submit-button {
+  width: 100%;
+  background-color: #ffdf3e9c;
+  border: 1px solid #d3cb3a5e;
+  padding: 8px 0px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
 }
 
-.submit-button:hover {
-  background-color: #eae54bd3;
-}
+@media (max-width: 480px) {
+  .response-page-contatiner {
+    padding: 15px;
+  }
 
-.no-spinner::-webkit-inner-spin-button,
-.no-spinner::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  h2 {
+    font-size: 16px;
+  }
+
+  p {
+    font-size: 11px;
+  }
+
+  .estimate-card[data-v-64b51341] {
+    padding: 17px 10px;
+  }
+
+  .estimate-image img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .estimate-content h4 {
+    font-size: 13px;
+  }
+
+  .estimate-date {
+    font-size: 12px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 11px;
+    padding: 8px;
+  }
+
+  .submit-button {
+    font-size: 11px;
+    padding: 7px 0;
+  }
 }
 </style>
