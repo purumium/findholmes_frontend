@@ -4,62 +4,60 @@
       <h2>답변서</h2>
       <p>사용자의 의뢰에 대한 답변서를 작성해주세요</p>
     </div>
-    <!-- <form @submit.prevent="replyRequest"> -->
-    <div class="response-main">
-      <div class="receive-list">
-        <div class="estimate-card">
-          <div class="estimate-image">
-            <img src="/images/request.png" alt="Placeholder Image" />
-          </div>
-          <div class="estimate-content">
-            <div class="estimate">
-              <h4>{{ requests.title }}</h4>
-              <div class="estimate-date">
-                <div># 요청일자 : {{ requests.createAt }}</div>
-                <div># 요청분야 : {{ requests.speciality }}</div>
+    <form @submit.prevent="replyRequest">
+      <div class="response-main">
+        <div class="receive-list">
+          <div class="estimate-card">
+            <div class="estimate-image">
+              <img src="/images/request.png" alt="Placeholder Image" />
+            </div>
+            <div class="estimate-content">
+              <div class="estimate">
+                <h4>{{ requests.title }}</h4>
+                <div class="estimate-date">
+                  <div># 요청일자 : {{ requests.createAt }}</div>
+                  <div># 요청분야 : {{ requests.speciality }}</div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        <div class="response-form">
+          <div class="form-group">
+            <label for="title">제목</label>
+            <input
+              type="text"
+              id="title"
+              v-model="title"
+              placeholder="제목을 입력하세요"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="price">금액</label>
+            <input
+              type="number"
+              id="price"
+              v-model="price"
+              class="no-spinner"
+              placeholder="금액을 입력하세요"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="description">의뢰 내용</label>
+            <textarea
+              id="description"
+              v-model="description"
+              placeholder="의뢰 내용에 맞춰서 작성해주세요"
+            ></textarea>
+          </div>
+
+          <button type="submit" class="submit-button">견적서 전송하기</button>
+        </div>
       </div>
-
-      <div class="response-form">
-        <div class="form-group">
-          <label for="title">제목</label>
-          <input
-            type="text"
-            id="title"
-            v-model="title"
-            placeholder="제목을 입력하세요"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="price">금액</label>
-          <input
-            type="number"
-            id="price"
-            v-model="price"
-            class="no-spinner"
-            placeholder="금액을 입력하세요"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="description">의뢰 내용</label>
-          <textarea
-            id="description"
-            v-model="description"
-            placeholder="의뢰 내용에 맞춰서 작성해주세요"
-          ></textarea>
-        </div>
-
-        <!-- <button type="submit" class="submit-button">견적서 전송하기</button> -->
-        <p></p>
-        <div><button @click="timeconvert">시간변환</button></div>
-      </div>
-    </div>
-    <!-- </form> -->
+    </form>
   </div>
 </template>
 
@@ -82,11 +80,9 @@ export default {
   },
   async created() {
     await this.getRequestDetail();
-    console.log("컴포넌트 생성 : " + this.requests);
   },
   methods: {
     async getRequestDetail() {
-      console.log("실행시도", this.requestId);
       try {
         const response = await axios.get("/receive/detail", {
           baseURL: "http://localhost:8080/",
@@ -103,7 +99,7 @@ export default {
       try {
         await axios.post("/api/reply", {
           requestId: this.requestId,
-          clientId: this.requests.clientId,
+          title: this.title,
           price: parseInt(this.price, 10),
           email: this.getUser,
           description: this.description,
