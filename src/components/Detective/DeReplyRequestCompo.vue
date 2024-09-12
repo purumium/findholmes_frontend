@@ -5,6 +5,7 @@
     <input v-model="price" />
     <textarea v-model="description"></textarea>
     <button @click="replyRequest">보내기</button>
+    <button @click="click">버튼</button>
   </div>
 </template>
 
@@ -31,9 +32,9 @@ export default {
     async getRequestDetail() {
       console.log("실행시도", this.requestId);
       try {
-        const response = await axios.get(`/receive/detail/${this.requestId}`, {
+        const response = await axios.get("/receive/detail", {
           baseURL: "http://localhost:8080/",
-          params: { email: this.getUser },
+          params: { requestId: this.requestId },
         });
         this.request = response.data;
         console.log(this.request);
@@ -47,12 +48,30 @@ export default {
           requestId: this.requestId,
           clientId: this.request.clientId,
           price: this.price,
-          detectiveId: this.request.detectiveId,
+          email: this.getUser,
           description: this.description,
         });
       } catch (error) {
         return;
       }
+    },
+    click() {
+      console.log(
+        "requestId:" +
+          this.requestId +
+          " / " +
+          "clientId:" +
+          this.request.clientId +
+          " / " +
+          "price:" +
+          this.price +
+          " / " +
+          "detectiveId:" +
+          this.request.detectiveId +
+          " / " +
+          "description:" +
+          this.description
+      );
     },
   },
 };

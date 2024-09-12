@@ -163,16 +163,18 @@ const routes = [
         component: RequestCompo,
       },
       {
-        path: "detailrequest",
+        path: "detailrequest/:requestId",
         component: DetailRequestCompo,
+        props: true,
       },
       {
         path: "receive",
         component: ReceiveCompo,
       },
       {
-        path: "estimate",
+        path: "estimate/:requestId",
         component: DetailReceiveCompo,
+        props: true,
       },
 
       {

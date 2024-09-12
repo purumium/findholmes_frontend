@@ -17,7 +17,7 @@
           <td class="label">의뢰 종류</td>
         </tr>
         <tr>
-          <td class="value">{{ request.category }}</td>
+          <td class="value">{{ request.speciality }}</td>
         </tr>
 
         <!-- 지역 -->
@@ -49,21 +49,41 @@
 </template>
 
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
+  props: ["requestId"],
+  computed: {
+    ...mapGetters(["getUser"]),
+  },
   data() {
     return {
-      request: {
-        title: "어렸을 때 잃어버린 동생을 찾고 싶어요",
-        category: "법률 상담",
-        location: "서울",
-        gender: "남성",
-        description: "어렸을 때 잃어버린 동생을 찾고 싶어요",
-      },
+      request: [],
     };
   },
+  created() {
+    this.getRequestDetail();
+  },
   methods: {
-    createEstimate() {
-      this.$router.push("estimate");
+    async getRequestDetail() {
+      console.log("실행시도", this.requestId);
+      try {
+        const response = await axios.get("/receive/detail", {
+          baseURL: "http://localhost:8080/",
+          params: { requestId: this.requestId },
+        });
+        this.request = response.data;
+        console.log(this.request);
+      } catch (error) {
+        this.assignedRequests = [];
+      }
+    },
+    getUserInfo() {
+      console.log(this.getUser);
+    },
+    moveToReply() {
+      this.$router.push(`/detective/reply/${this.request.requestId}`);
     },
   },
 };
