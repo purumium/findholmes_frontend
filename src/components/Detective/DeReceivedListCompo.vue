@@ -66,7 +66,7 @@ export default {
       this.$router.push(`/detective/received/${requestId}`);
     },
     createEstimate(requestId) {
-      this.$router.push(`/detective/reply/${requestId}`);
+      this.$router.push(`/detective/estimate/${requestId}`);
     },
   },
 };
