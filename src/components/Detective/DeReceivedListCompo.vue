@@ -24,10 +24,6 @@
           </div>
 
           <button @click="createEstimate(assigned.requestId)">
-            견적서 작성
-          </button>
-
-          <button @click="createEstimate(assigned.requestId)">
             답변서 작성
           </button>
         </div>
