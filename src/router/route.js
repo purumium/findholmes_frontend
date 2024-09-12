@@ -92,6 +92,14 @@ const routes = [
             component: DePaymentListCompo,
           },
           {
+            path: "deregister",
+            component: DeRegisterCompo,
+          },
+          {
+            path: "test",
+            component: TestCompo,
+          },
+          {
             path: "paymentResult",
             name: "dePaymentResult",
             component: DePaymentResultCompo,
