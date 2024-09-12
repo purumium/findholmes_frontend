@@ -2,7 +2,6 @@
   <footer>
     <nav class="footer-nav">
       <ul>
-        <!-- 받은 의뢰서 페이지로 이동 -->
         <li>
           <router-link
             to="/detective/requestlist"
@@ -10,11 +9,10 @@
             active-class="active"
           >
             <font-awesome-icon class="icon" :icon="['fas', 'pencil-alt']" />
-            <span class="text">받은의뢰서</span>
+            <span class="text">의뢰서보기</span>
           </router-link>
         </li>
 
-        <!-- 보낸 견적서 페이지로 이동 -->
         <li>
           <router-link
             to="/detective/estimatelist"
@@ -22,11 +20,10 @@
             active-class="active"
           >
             <font-awesome-icon class="icon" :icon="['fas', 'search']" />
-            <span class="text">보낸견적서</span>
+            <span class="text">답변서보기</span>
           </router-link>
         </li>
 
-        <!-- 홈 (탐정 대시보드)로 이동 -->
         <li>
           <router-link
             to="/detective"
@@ -37,7 +34,7 @@
             <span class="text">홈</span>
           </router-link>
         </li>
-        <!-- 내 페이지 (탐정 마이페이지)로 이동 -->
+
         <li>
           <router-link
             to="/detective/mypage"
@@ -45,7 +42,7 @@
             active-class="active"
           >
             <font-awesome-icon class="icon" :icon="['fas', 'user']" />
-            <span class="text">내페이지</span>
+            <span class="text">홈즈페이지</span>
           </router-link>
         </li>
       </ul>
