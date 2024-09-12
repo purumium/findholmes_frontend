@@ -24,10 +24,6 @@
           </div>
 
           <button @click="createEstimate(assigned.requestId)">
-            견적서 작성
-          </button>
-
-          <button @click="createEstimate(assigned.requestId)">
             답변서 작성
           </button>
         </div>
@@ -70,7 +66,7 @@ export default {
       this.$router.push(`/detective/received/${requestId}`);
     },
     createEstimate(requestId) {
-      this.$router.push(`/detective/reply/${requestId}`);
+      this.$router.push(`/detective/estimate/${requestId}`);
     },
   },
 };
