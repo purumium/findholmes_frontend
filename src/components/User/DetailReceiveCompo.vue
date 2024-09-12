@@ -8,15 +8,15 @@
       <div class="sidebar">
         <ul>
           <li
-            v-for="(detective, index) in detectives"
+            v-for="(estimate, index) in estimates"
             :key="index"
-            @click="selectDetective(detective)"
-            :class="{ active: selectedDetective === detective }"
+            @click="selectDetective(estimate)"
+            :class="{ active: selectedDetective === estimate }"
           >
             <div class="detective-info">
               <div class="detective-details">
-                <div class="detective-name">{{ detective.name }}</div>
-                <div class="detective-price">{{ detective.price }}원</div>
+                <div class="detective-name">{{ estimate.detectiveName }}</div>
+                <div class="detective-price">{{ estimate.price }}원</div>
               </div>
             </div>
           </li>
@@ -30,13 +30,13 @@
               <div class="detective-img">
                 <img
                   class="detective-avatar-large"
-                  :src="selectedDetective.avatar"
+                  src="/images/detective.png"
                   alt="Detective Avatar"
                 />
               </div>
               <div class="detective-details-large">
                 <div class="detective-name-container">
-                  <h3>{{ selectedDetective.name }}</h3>
+                  <h3>{{ selectedDetective.detectiveName }}</h3>
                   <button class="profile-button">홈즈의 프로필</button>
                 </div>
                 <div class="detective-contact">
@@ -53,7 +53,7 @@
 
           <!-- 견적 내용 -->
           <div class="estimate-body">
-            <p>{{ selectedDetective.estimate }}</p>
+            <p>{{ selectedDetective.description }}</p>
           </div>
 
           <!-- 하단 버튼 -->
@@ -68,45 +68,34 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  props: ["requestId"],
   data() {
     return {
-      detectives: [
-        {
-          name: "셜록 홈즈",
-          price: "123,000",
-          estimate: "이 탐정은 매우 경험이 풍부합니다...",
-          avatar: "/images/detective.png",
-        },
-        {
-          name: "포와로",
-          price: "110,000",
-          estimate: "명탐정 포와로는 당신의 사건을 해결할 것입니다...",
-          avatar: "/images/detective.png",
-        },
-        {
-          name: "포와로",
-          price: "110,000",
-          estimate: "명탐정 포와로는 당신의 사건을 해결할 것입니다...",
-          avatar: "/images/detective.png",
-        },
-        {
-          name: "포와로",
-          price: "110,000",
-          estimate: "명탐정 포와로는 당신의 사건을 해결할 것입니다...",
-          avatar: "/images/detective.png",
-        },
-        {
-          name: "메그레",
-          price: "115,000",
-          estimate: "프랑스 최고의 형사, 메그레입니다...",
-          avatar: "/images/detective.png",
-        },
-      ],
+      estimates: [],
+
       selectedDetective: null,
     };
   },
+  created() {
+    this.getEstimates();
+  },
   methods: {
+    async getEstimates() {
+      console.log(this.requestId);
+      try {
+        const response = await axios.get("/api/reply/detail", {
+          params: { requestId: this.requestId },
+        });
+        this.estimates = response.data;
+        this.selectedDetective = this.estimates[0];
+        console.log(this.estimates);
+      } catch (error) {
+        return;
+      }
+    },
     selectDetective(detective) {
       this.selectedDetective = detective;
     },
@@ -117,12 +106,12 @@ export default {
       this.$router.push("/chatroom");
     },
   },
-  mounted() {
-    // detectives 배열의 첫 번째 탐정을 자동으로 선택
-    if (this.detectives.length > 0) {
-      this.selectedDetective = this.detectives[0];
-    }
-  },
+  // mounted() {
+  //   // detectives 배열의 첫 번째 탐정을 자동으로 선택
+  //   if (this.estimates.length > 0) {
+  //     this.selectedDetective = this.estimates[0];
+  //   }
+  // },
 };
 </script>
 
@@ -188,7 +177,7 @@ p {
 
 .detective-name {
   display: flex;
-  /* justify-content: center; */
+  justify-content: start;
 }
 
 .detective-price {

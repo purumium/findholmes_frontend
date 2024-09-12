@@ -139,6 +139,7 @@ export default {
           location: this.selectedLocation,
           gender: this.selectedGender,
           speciality: this.selectedSpeciality,
+          title: this.title,
           description: this.description,
         });
         alert("의뢰요청에 성공했습니다.");

@@ -12,14 +12,20 @@
           <img src="/images/estimate.png" alt="Placeholder Image" />
         </div>
         <div class="estimate-content">
-          <div class="estimate" @click="viewDetailRequest()">
+          <div
+            class="estimate"
+            @click="moveToRequestDetail(estimate.requestId)"
+          >
             <h4>{{ estimate.title }}</h4>
             <div class="estimate-date">
-              <div>#{{ estimate.date }}</div>
+              <div>#{{ estimate.createAt }}</div>
               <div>#{{ estimate.speciality }}</div>
             </div>
           </div>
-          <button @click="viewEstimate()">홈즈의 답변서</button>
+
+          <button @click="viewEstimate(estimate.requestId)">
+            홈즈의 답변서
+          </button>
         </div>
       </div>
     </div>
@@ -27,34 +33,38 @@
 </template>
 
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      estimates: [
-        {
-          title: "제 돈 떼 먹은 놈을 찾아주세요",
-          date: "2024-08-30",
-          speciality: "사람찾기",
-        },
-        {
-          title: "중고거래 사기범을 잡아주세요",
-          date: "2024-09-01",
-          speciality: "사람찾기",
-        },
-        {
-          title: "광주 무등산 근방의 임장을 다녀와주세요",
-          date: "2024-08-30",
-          speciality: "민원문제",
-        },
-      ],
+      estimates: [],
     };
   },
+  computed: {
+    ...mapGetters(["getUser"]),
+  },
+  created() {
+    this.getEstimateList();
+  },
   methods: {
-    viewEstimate() {
-      this.$router.push("/estimate");
+    async getEstimateList() {
+      try {
+        const response = await axios.get("api/receive/estimate", {
+          params: { email: this.getUser },
+        });
+        this.estimates = response.data;
+        console.log(this.estimates);
+      } catch (err) {
+        return;
+      }
     },
-    viewDetailRequest() {
-      this.$router.push("/detailrequest");
+    viewEstimate(requestId) {
+      this.$router.push(`/estimate/${requestId}`);
+    },
+    moveToRequestDetail(requestId) {
+      this.$router.push(`/detailrequest/${requestId}`);
     },
   },
 };

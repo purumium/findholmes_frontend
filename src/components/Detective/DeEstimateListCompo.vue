@@ -2,6 +2,7 @@
   <div class="receive-container">
     <h2>답변서 목록</h2>
     <p>탐정이 사용자에게 보낸 답변서 리스트</p>
+
     <div class="receive-list">
       <div
         v-for="(estimate, index) in estimates"
@@ -12,14 +13,18 @@
           <img src="/images/request.png" alt="Placeholder Image" />
         </div>
         <div class="estimate-content">
-          <div class="estimate" @click="viewDetailRequest()">
+          <div
+            class="estimate"
+            @click="moveToRequestDetail(estimate.requestId)"
+          >
             <h4>{{ estimate.title }}</h4>
             <div class="estimate-date">
-              <div># 받은 일자 : {{ estimate.date }}</div>
+              <div># 받은 일자 : {{ estimate.createAt }}</div>
               <div># 분야 : {{ estimate.speciality }}</div>
             </div>
           </div>
-          <button @click="createEstimate()">답변서 작성</button>
+          <button @click="viewEstimate(estimate.requestId)">견적서 보기</button>
+          <!-- <button @click="createEstimate()">답변서 작성</button> -->
         </div>
       </div>
     </div>
@@ -27,34 +32,38 @@
 </template>
 
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      estimates: [
-        {
-          title: "제 돈 떼 먹은 놈을 찾아주세요",
-          date: "2024-08-30",
-          speciality: "사람찾기",
-        },
-        {
-          title: "중고거래 사기범을 잡아주세요",
-          date: "2024-09-01",
-          speciality: "사람찾기",
-        },
-        {
-          title: "광주 무등산 근방의 임장을 다녀와주세요",
-          date: "2024-08-30",
-          speciality: "민원문제",
-        },
-      ],
+      estimates: [],
     };
   },
+  computed: {
+    ...mapGetters(["getUser"]),
+  },
+  created() {
+    this.getEstimateList();
+  },
   methods: {
-    createEstimate() {
-      this.$router.push("estimate");
+    async getEstimateList() {
+      try {
+        const response = await axios.get("/api/reply/estimate", {
+          params: { email: this.getUser },
+        });
+        this.estimates = response.data;
+        console.log(this.estimates);
+      } catch (err) {
+        return;
+      }
     },
-    viewDetailRequest() {
-      this.$router.push("detailrequest");
+    viewEstimate(requestId) {
+      this.$router.push(`/estimate/${requestId}`);
+    },
+    moveToRequestDetail(requestId) {
+      this.$router.push(`/detailrequest/${requestId}`);
     },
   },
 };
@@ -64,7 +73,6 @@ export default {
 .receive-container {
   width: 100%;
   max-width: 800px;
-
   margin: 0 auto;
   padding: 30px 0;
 }
@@ -140,11 +148,13 @@ button {
   padding: 6px 17px;
   border-radius: 20px;
   font-size: 12px;
+
   font-weight: 600;
   cursor: pointer;
 }
 
 /* Media Query for small devices */
+
 @media (max-width: 768px) {
   h2 {
     font-size: 20px;

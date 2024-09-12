@@ -28,6 +28,10 @@ import DeChatCompo from "@/components/Detective/DeChatCompo.vue";
 import ChatRoomCompo from "@/components/User/ChatRoomCompo.vue";
 import DetailReceiveCompo from "@/components/User/DetailReceiveCompo.vue";
 import DeChatRoomCompo from "@/components/Detective/DeChatRoomCompo.vue";
+
+import DeReceivedDetailCompo from "@/components/Detective/DeReceivedDetailCompo.vue";
+import DeReplyRequestCompo from "@/components/Detective/DeReplyRequestCompo.vue";
+
 import DeCreateEstimateCompo from "@/components/Detective/DeCreateEstimateCompo.vue";
 import DeReceivedRequestCompo from "@/components/Detective/DeReceivedRequestCompo.vue";
 import DetailRequestCompo from "@/components/User/DetailRequestCompo.vue";
@@ -72,6 +76,17 @@ const routes = [
       {
         path: "requestlist",
         component: DeReceivedListCompo,
+      },
+
+      {
+        path: "received/:requestId",
+        component: DeReceivedDetailCompo,
+        props: true,
+      },
+      {
+        path: "reply/:requestId",
+        component: DeReplyRequestCompo,
+        props: true,
       },
       {
         path: "detailrequest",
@@ -163,16 +178,18 @@ const routes = [
         component: RequestCompo,
       },
       {
-        path: "detailrequest",
+        path: "detailrequest/:requestId",
         component: DetailRequestCompo,
+        props: true,
       },
       {
         path: "receive",
         component: ReceiveCompo,
       },
       {
-        path: "estimate",
+        path: "estimate/:requestId",
         component: DetailReceiveCompo,
+        props: true,
       },
 
       {

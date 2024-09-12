@@ -1,9 +1,10 @@
 <template>
   <div class="request-form-table">
-    <h2>의뢰서</h2>
-    <p>홈즈에게 보낸 의뢰서</p>
+    <h2>보낸 요청서</h2>
+    <p>보낸 요청서 자세히 보기</p>
     <div class="request">
       <table class="request-table">
+        <!-- 의뢰내용 -->
         <tr>
           <td class="label">의뢰 제목</td>
         </tr>
@@ -11,6 +12,7 @@
           <td class="value">{{ request.title }}</td>
         </tr>
 
+        <!-- 의뢰종류 -->
         <tr>
           <td class="label">의뢰 종류</td>
         </tr>
@@ -18,6 +20,7 @@
           <td class="value">{{ request.speciality }}</td>
         </tr>
 
+        <!-- 지역 -->
         <tr>
           <td class="label">의뢰 지역</td>
         </tr>
@@ -25,6 +28,7 @@
           <td class="value">{{ request.location }}</td>
         </tr>
 
+        <!-- 탐정 성별 -->
         <tr>
           <td class="label">탐정 성별</td>
         </tr>
@@ -32,15 +36,12 @@
           <td class="value">{{ request.gender }}</td>
         </tr>
 
+        <!-- 상담 내용 -->
         <tr>
-          <td class="label">의뢰 내용에 대해 자세한 설명</td>
+          <td class="label">의뢰에 대한 자세한 내용</td>
         </tr>
         <tr>
-          <td class="value description">
-            <div class="content">
-              {{ request.description }}
-            </div>
-          </td>
+          <td class="value description">{{ request.description }}</td>
         </tr>
       </table>
     </div>
@@ -136,12 +137,9 @@ p {
 }
 
 .description {
-  padding: 10px 15px !important;
-}
-
-.content {
+  min-height: 210px;
   height: 210px;
-  margin: 10px 0;
+  padding: 10px 15px !important;
 }
 
 @media screen and (max-width: 768px) {

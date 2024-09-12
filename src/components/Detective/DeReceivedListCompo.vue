@@ -4,7 +4,7 @@
     <p>사용자가 보낸 의뢰서에 답변서 보내기</p>
     <div class="receive-list">
       <div
-        v-for="(estimate, index) in estimates"
+        v-for="(assigned, index) in assignedRequests"
         :key="index"
         class="estimate-card"
       >
@@ -12,14 +12,24 @@
           <img src="/images/request.png" alt="Placeholder Image" />
         </div>
         <div class="estimate-content">
-          <div class="estimate" @click="viewDetailRequest()">
-            <h4>{{ estimate.title }}</h4>
+          <div
+            class="estimate"
+            @click="moveToRequestDetail(assigned.requestId)"
+          >
+            <h4>{{ assigned.title }}</h4>
             <div class="estimate-date">
-              <div># 받은 일자 : {{ estimate.date }}</div>
-              <div># 분야 : {{ estimate.speciality }}</div>
+              <div># 받은 일자 : {{ assigned.createAt }}</div>
+              <div># 분야 : {{ assigned.speciality.specialityName }}</div>
             </div>
           </div>
-          <button @click="createEstimate()">답변서 작성</button>
+
+          <button @click="createEstimate(assigned.requestId)">
+            견적서 작성
+          </button>
+
+          <button @click="createEstimate(assigned.requestId)">
+            답변서 작성
+          </button>
         </div>
       </div>
     </div>
@@ -27,34 +37,40 @@
 </template>
 
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
+
 export default {
   data() {
     return {
-      estimates: [
-        {
-          title: "제 돈 떼 먹은 놈을 찾아주세요",
-          date: "2024-08-30",
-          speciality: "사람찾기",
-        },
-        {
-          title: "중고거래 사기범을 잡아주세요",
-          date: "2024-09-01",
-          speciality: "사람찾기",
-        },
-        {
-          title: "광주 무등산 근방의 임장을 다녀와주세요",
-          date: "2024-08-30",
-          speciality: "민원문제",
-        },
-      ],
+      assignedRequests: [],
     };
   },
+  computed: {
+    ...mapGetters(["isAuthenticated", "getUser"]),
+  },
+  created() {
+    this.getAssignedRequests();
+  },
   methods: {
-    createEstimate() {
-      this.$router.push("estimate");
+    async getAssignedRequests() {
+      console.log("실행시도");
+      try {
+        const response = await axios.get("/receive", {
+          baseURL: "http://localhost:8080/",
+          params: { email: this.getUser },
+        });
+        this.assignedRequests = response.data;
+        console.log(this.assignedRequests);
+      } catch (error) {
+        this.assignedRequests = [];
+      }
     },
-    viewDetailRequest() {
-      this.$router.push("detailrequest");
+    moveToRequestDetail(requestId) {
+      this.$router.push(`/detective/received/${requestId}`);
+    },
+    createEstimate(requestId) {
+      this.$router.push(`/detective/reply/${requestId}`);
     },
   },
 };
