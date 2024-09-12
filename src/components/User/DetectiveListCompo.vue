@@ -4,6 +4,48 @@
       <h2>홈즈 검색 결과</h2>
       <p>홈즈의 프로필을 확인하기</p>
     </div>
+
+    <div class="profile-grid">
+      <div
+        v-for="(detective, index) in detectives"
+        :key="index"
+        class="profile-card"
+      >
+        <div class="profile-content">
+          <img
+            :src="detective.imageUrl"
+            alt="Profile Image"
+            class="profile-image"
+          />
+          <div class="profile-details">
+            <div class="profile-title">
+              <div class="title">
+                <div>홈즈</div>
+                <div>{{ detective.name }}</div>
+              </div>
+              <div class="title-company">{{ detective.company }}</div>
+              <div class="ratings">
+                <div>⭐ {{ detective.rate }}%</div>
+                <div>⭐후기 {{ detective.reviews }}건</div>
+              </div>
+            </div>
+            <div class="profile-tags">
+              <div class="tag">활동지역</div>
+              <div class="value">{{ detective.location }}</div>
+
+              <div class="tag">전문분야</div>
+              <div class="value">{{ detective.category }}</div>
+
+              <div class="tag">특이사항</div>
+              <div class="value">{{ detective.speciality }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="profile-description">
+          <p>{{ detective.description }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,73 +53,62 @@
 export default {
   data() {
     return {
-      selectedRegion: "",
-      selectedCategory: "",
-      regions: [
-        { id: 1, name: "서울" },
-        { id: 2, name: "경기" },
-        { id: 3, name: "부산" },
-      ],
-      categories: [
-        { id: 1, name: "법률 상담" },
-        { id: 2, name: "탐정 조사" },
-        { id: 3, name: "기타 의뢰" },
-      ],
-      ads: [
+      detectives: [
         {
-          image: "/images/detective.jpg",
-          title: "상담 시간: 24시간 언제든지 가능합니다",
-          description: "전화 상담: 010-1234-5678",
+          id: 1,
+          name: "김민수",
+          company: "탐정사무소 민수",
+          description:
+            "실종 사건 및 의뢰자 맞춤형 상담을 제공합니다. 신속하고 정확한 조사.",
+          category: "사람찾기",
+          location: "서울",
+          rate: 4.5,
+          reviews: 200,
+          imageUrl: "/images/detective_img/detective1.png",
         },
         {
-          image: "/images/estimate.jpg",
-          title: "셜록은 당신을 기다립니다",
-          description: "전화 상담가느",
+          id: 2,
+          name: "이정호",
+          company: "탐정사무소 정호",
+          description:
+            "개인 사생활 조사 및 법률 관련 상담을 제공합니다. 정확한 사실 확인이 가능합니다.",
+          category: "법률자문",
+          location: "부산",
+          rate: 4.5,
+          reviews: 200,
+          imageUrl: "/images/detective_img/detective1.png",
         },
         {
-          image: "/images/request.jpg",
-          title: "당신의 남편! 지켜봐 드립니다",
-          description: "전화 상담: 010-1234-5678",
+          id: 3,
+          name: "박수진",
+          company: "탐정사무소 수진",
+          description:
+            "기업 및 개인을 위한 신용 조사 서비스. 전문적이고 신뢰할 수 있는 정보 제공.",
+          category: "기업조사",
+          location: "대전",
+          rate: 4.5,
+          reviews: 200,
+          imageUrl: "/images/detective_img/detective1.png",
+        },
+        {
+          id: 4,
+          name: "박수진",
+          company: "탐정사무소 수진",
+          description:
+            "기업 및 개인을 위한 신용 조사 서비스. 전문적이고 신뢰할 수 있는 정보 제공.",
+          category: "기업조사",
+          location: "대전",
+          rate: 4.5,
+          reviews: 200,
+          imageUrl: "/images/detective_img/detective1.png",
         },
       ],
-      currentSlide: 0,
-      slideInterval: null, // 슬라이드 자동 전환을 위한 변수
     };
-  },
-  methods: {
-    onRegionChange() {
-      console.log("Selected Region: ", this.selectedRegion);
-    },
-    onCategoryChange() {
-      console.log("Selected Category: ", this.selectedCategory);
-    },
-    onSearch() {
-      console.log("Searching with", this.selectedRegion, this.selectedCategory);
-      // 검색 로직 추가
-    },
-    startSlideShow() {
-      this.slideInterval = setInterval(() => {
-        this.currentSlide = (this.currentSlide + 1) % this.ads.length;
-      }, 3000); // 3초마다 슬라이드 전환
-    },
-    stopSlideShow() {
-      clearInterval(this.slideInterval);
-    },
-  },
-  mounted() {
-    this.startSlideShow(); // 컴포넌트가 로드되면 슬라이드 쇼 시작
-  },
-  beforeUnmount() {
-    this.stopSlideShow(); // 컴포넌트가 파괴되기 전에 슬라이드 쇼 정지
   },
 };
 </script>
 
 <style scoped>
-.middle-component {
-  padding: 30px 40px;
-}
-
 h2 {
   text-align: center;
   margin-bottom: -10px;
@@ -87,66 +118,103 @@ p {
   text-align: center;
   color: #666;
   font-size: 13px;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
-.search-bar {
+.profile-grid {
   display: flex;
-  justify-content: space-between;
-  margin: 45px 0px;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
-select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
-  width: 40%;
-}
-
-button {
-  color: #3f3939;
-  background-color: #efe7945e;
-  border: 1px solid #d3cb3a5e;
-  padding: 8px 15px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #e9e48db2;
-}
-
-.carousel {
-  width: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.carousel-wrapper {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
-
-.carousel-slide {
-  min-width: 100%;
-  /* height: 400px; */
-  /* max-height: 400px; */
-  background-size: cover;
-  background-position: center;
-  position: relative;
+.profile-content {
   /* display: flex; */
-  /* justify-content: center; */
+  /* align-items: flex-start; */
 }
 
-.ad-text {
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
+.profile-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  width: 46%; /* 두 개씩 배치되도록 설정 */
+  box-sizing: border-box;
   text-align: center;
-  height: 400px;
-  max-height: 400px;
+}
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.profile-title {
+  margin-bottom: 10px;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  align-items: center;
+}
+
+.title div:nth-child(1) {
+  font-size: 12px !important;
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 2px 10px;
+  background-color: #e9e48d8a;
+}
+
+.title div:nth-child(2) {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.title-company {
+  font-size: 14px;
+  margin-top: 5px;
+  font-weight: 600;
+  color: #443838;
+}
+
+.ratings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+  gap: 8px;
+  font-size: 12px;
+  color: #888;
+}
+
+.profile-tags {
+  margin: 15px 0;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin: 5px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.value {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 5px 0px;
+  margin: 5px;
+  font-size: 12px;
+  /* border: 1px solid #ddd; */
+}
+
+.profile-description {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #555;
 }
 </style>
