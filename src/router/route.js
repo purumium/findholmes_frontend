@@ -32,6 +32,8 @@ import DeCreateEstimateCompo from "@/components/Detective/DeCreateEstimateCompo.
 import DeReceivedRequestCompo from "@/components/Detective/DeReceivedRequestCompo.vue";
 import DetailRequestCompo from "@/components/User/DetailRequestCompo.vue";
 import DetectiveListCompo from "@/components/User/DetectiveListCompo.vue";
+import DeRegisterCompo from "@/components/Detective/DeRegisterCompo.vue";
+import TestCompo from "@/components/Admin/TestCompo.vue";
 
 const routes = [
   {
