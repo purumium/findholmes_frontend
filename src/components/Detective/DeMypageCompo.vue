@@ -26,6 +26,22 @@
             >내결제내역</router-link
           >
         </li>
+        <li>
+          <router-link
+            to="/detective/mypage/deregister"
+            class="nav-item"
+            active-class="active"
+            >탐정등록</router-link
+          >
+        </li>
+        <li>
+          <router-link
+            to="/detective/mypage/test"
+            class="nav-item"
+            active-class="active"
+            >관리자승인</router-link
+          >
+        </li>
       </ul>
     </nav>
 

@@ -1,13 +1,13 @@
 <template>
   <div class="requestform">
-    <h2>의뢰 요청서</h2>
-    <p>상담하고자 하는 내용을 작성해주세요</p>
+    <h2>의뢰서</h2>
+    <p>홈즈에게 의뢰하고자 하는 내용을 작성</p>
     <form @submit.prevent="doRequest">
       <!-- 의뢰 제목 입력 -->
       <div class="form-group">
         <label for="title">
           <div>의뢰 제목</div>
-          <div>제목을 적어주세요</div>
+          <div>의뢰할 제목을 적어주세요</div>
         </label>
         <input id="title" v-model="title" required />
       </div>
@@ -16,7 +16,7 @@
       <div class="form-group">
         <label for="specialityCategory">
           <div>의뢰 종류</div>
-          <div>의뢰하고자 하는 분야를 선택해주세요</div></label
+          <div>의뢰하고 싶은 종류를 선택해주세요</div></label
         >
         <select
           id="specialityCategory"
@@ -39,7 +39,7 @@
       <div class="form-group">
         <label for="locationCategory">
           <div>지역</div>
-          <div>의뢰할 지역을 선택해주세요</div>
+          <div>홈즈가 활동할 지역을 선택해주세요</div>
         </label>
         <select
           id="locationCategory"
@@ -61,8 +61,8 @@
       <!-- 탐정 성별 선택 -->
       <div class="form-group">
         <label for="genderCategory">
-          <div>성별</div>
-          <div>탐정의 성별을 선택해주세요</div>
+          <div>탐정 성별</div>
+          <div>의뢰하고 싶은 홈즈의 성별을 선택해주세요</div>
         </label>
         <select
           id="genderCategory"
@@ -81,7 +81,7 @@
       <div class="form-group">
         <label for="description">
           <div>의뢰 내용</div>
-          <div>상담하고자 하는 내용을 상세히 적어주세요</div>
+          <div>의뢰하고자 하는 내용을 상세히 적어주세요</div>
         </label>
         <textarea id="description" v-model="description" required></textarea>
       </div>

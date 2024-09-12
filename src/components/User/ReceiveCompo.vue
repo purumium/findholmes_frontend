@@ -1,7 +1,7 @@
 <template>
   <div class="receive-container">
-    <h2>받은 견적서</h2>
-    <p>의뢰 요청에 대해 홈즈가 보내준 견적서</p>
+    <h2>의뢰서와 답변서</h2>
+    <p>홈즈에게 전송한 의뢰서와 받은 답변서</p>
     <div class="receive-list">
       <div
         v-for="(estimate, index) in estimates"
@@ -22,7 +22,10 @@
               <div>#{{ estimate.speciality }}</div>
             </div>
           </div>
-          <button @click="viewEstimate(estimate.requestId)">견적서 보기</button>
+
+          <button @click="viewEstimate(estimate.requestId)">
+            홈즈의 답변서
+          </button>
         </div>
       </div>
     </div>
@@ -141,11 +144,11 @@ p {
 }
 
 button {
-  background-color: #fdf7b8bf;
-  border: 1px solid #e8e37e;
-  padding: 6px 16px;
+  background-color: #efe7945e;
+  border: 1px solid #d3cb3a5e;
+  padding: 6px 15px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
 }

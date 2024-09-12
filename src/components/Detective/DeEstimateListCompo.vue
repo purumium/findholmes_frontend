@@ -1,7 +1,8 @@
 <template>
   <div class="receive-container">
-    <h2>보낸 견적서</h2>
-    <p>의뢰 요청에 대해 홈즈가 보내준 견적서</p>
+    <h2>답변서 목록</h2>
+    <p>탐정이 사용자에게 보낸 답변서 리스트</p>
+
     <div class="receive-list">
       <div
         v-for="(estimate, index) in estimates"
@@ -9,7 +10,7 @@
         class="estimate-card"
       >
         <div class="estimate-image">
-          <img src="/images/estimate.png" alt="Placeholder Image" />
+          <img src="/images/request.png" alt="Placeholder Image" />
         </div>
         <div class="estimate-content">
           <div
@@ -18,11 +19,12 @@
           >
             <h4>{{ estimate.title }}</h4>
             <div class="estimate-date">
-              <div>#{{ estimate.createAt }}</div>
-              <div>#{{ estimate.speciality }}</div>
+              <div># 받은 일자 : {{ estimate.createAt }}</div>
+              <div># 분야 : {{ estimate.speciality }}</div>
             </div>
           </div>
           <button @click="viewEstimate(estimate.requestId)">견적서 보기</button>
+          <!-- <button @click="createEstimate()">답변서 작성</button> -->
         </div>
       </div>
     </div>
@@ -141,14 +143,17 @@ p {
 }
 
 button {
-  background-color: #fdf7b8bf;
-  border: 1px solid #e8e37e;
-  padding: 6px 16px;
+  background-color: #efe7945e;
+  border: 1px solid #d3cb3a5e;
+  padding: 6px 17px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 12px;
+
   font-weight: 600;
   cursor: pointer;
 }
+
+/* Media Query for small devices */
 
 @media (max-width: 768px) {
   h2 {

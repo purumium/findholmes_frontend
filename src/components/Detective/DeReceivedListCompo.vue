@@ -1,7 +1,7 @@
 <template>
   <div class="receive-container">
-    <h2>받은 상담요청서 리스트</h2>
-    <p>사용자가 작성한 상담 요청서가 도착했습니다</p>
+    <h2>의뢰서 목록</h2>
+    <p>사용자가 보낸 의뢰서에 답변서 보내기</p>
     <div class="receive-list">
       <div
         v-for="(assigned, index) in assignedRequests"
@@ -22,8 +22,13 @@
               <div># 분야 : {{ assigned.speciality.specialityName }}</div>
             </div>
           </div>
+
           <button @click="createEstimate(assigned.requestId)">
             견적서 작성
+          </button>
+
+          <button @click="createEstimate(assigned.requestId)">
+            답변서 작성
           </button>
         </div>
       </div>
@@ -148,9 +153,9 @@ p {
 button {
   background-color: #efe7945e;
   border: 1px solid #d3cb3a5e;
-  padding: 6px 16px;
+  padding: 6px 17px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
 }

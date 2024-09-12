@@ -35,6 +35,9 @@ import DeReplyRequestCompo from "@/components/Detective/DeReplyRequestCompo.vue"
 import DeCreateEstimateCompo from "@/components/Detective/DeCreateEstimateCompo.vue";
 import DeReceivedRequestCompo from "@/components/Detective/DeReceivedRequestCompo.vue";
 import DetailRequestCompo from "@/components/User/DetailRequestCompo.vue";
+import DetectiveListCompo from "@/components/User/DetectiveListCompo.vue";
+import DeRegisterCompo from "@/components/Detective/DeRegisterCompo.vue";
+import TestCompo from "@/components/Admin/TestCompo.vue";
 
 const routes = [
   {
@@ -107,6 +110,14 @@ const routes = [
             component: DePaymentListCompo,
           },
           {
+            path: "deregister",
+            component: DeRegisterCompo,
+          },
+          {
+            path: "test",
+            component: TestCompo,
+          },
+          {
             path: "paymentResult",
             name: "dePaymentResult",
             component: DePaymentResultCompo,
@@ -157,6 +168,10 @@ const routes = [
       {
         path: "find",
         component: FindCompo,
+      },
+      {
+        path: "detectivelist",
+        component: DetectiveListCompo,
       },
       {
         path: "request",
