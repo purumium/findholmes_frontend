@@ -171,16 +171,17 @@ p {
 }
 
 .form-group {
-  margin-bottom: 40px;
+  margin-bottom: 15px;
 }
 
 label {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 0px;
   background-color: #80808012;
-  border: 1px solid #8080805c;
-  border-radius: 8px;
-  padding: 10px;
+  border: none;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  padding: 7px 12px;
   font-size: 13px;
 }
 
@@ -192,23 +193,32 @@ label div:nth-of-type(1) {
 label div:nth-child(2) {
   color: rgb(107, 101, 101);
   margin-top: 5px;
+  font-size: 10px;
 }
 
 select {
   width: 100%;
-  padding: 14px 10px;
+  padding: 10px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-right: 1px solid #8080804d;
+  border-bottom: 1px solid #8080804d;
+  border-left: 1px solid #8080804d;
 }
 
 input,
 textarea {
   width: 100%;
-  padding: 12px 10px;
+  padding: 10px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-right: 1px solid #8080804d;
+  border-bottom: 1px solid #8080804d;
+  border-left: 1px solid #8080804d;
   box-sizing: border-box;
 }
 
@@ -219,7 +229,7 @@ textarea {
 
 .submit-button {
   width: 100%;
-  background-color: #efe7945e;
+  background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
   padding: 8px 0px;
   border-radius: 20px;
@@ -229,6 +239,70 @@ textarea {
 }
 
 .submit-button:hover {
-  background-color: #e9e48db2;
+  background-color: #ffdf3ee0;
+}
+
+/* 반응형 스타일 */
+
+/* 태블릿 화면 (768px 이하) */
+@media (max-width: 768px) {
+  .requestform {
+    padding: 20px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  p {
+    font-size: 11px;
+  }
+
+  .form-group label {
+    font-size: 12px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .submit-button {
+    font-size: 13px;
+    padding: 7px;
+  }
+}
+
+/* 모바일 화면 (480px 이하) */
+@media (max-width: 480px) {
+  .requestform {
+    padding: 15px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  p {
+    font-size: 10px;
+  }
+
+  .form-group label {
+    font-size: 11px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 12px;
+    padding: 7px;
+  }
+
+  .submit-button {
+    font-size: 12px;
+    padding: 6px;
+  }
 }
 </style>

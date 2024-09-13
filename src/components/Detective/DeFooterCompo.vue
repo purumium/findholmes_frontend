@@ -9,7 +9,7 @@
             active-class="active"
           >
             <font-awesome-icon class="icon" :icon="['fas', 'pencil-alt']" />
-            <span class="text">의뢰서보기</span>
+            <span class="text">받은의뢰서</span>
           </router-link>
         </li>
 
@@ -20,7 +20,7 @@
             active-class="active"
           >
             <font-awesome-icon class="icon" :icon="['fas', 'search']" />
-            <span class="text">답변서보기</span>
+            <span class="text">보낸답변서</span>
           </router-link>
         </li>
 
@@ -32,6 +32,17 @@
           >
             <font-awesome-icon class="icon" :icon="['fas', 'home']" />
             <span class="text">홈</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link
+            to="/detective/chat"
+            class="footer-item"
+            active-class="active"
+          >
+            <font-awesome-icon :icon="['fas', 'comment-dots']" class="icon" />
+            <span class="text">채팅</span>
           </router-link>
         </li>
 

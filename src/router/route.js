@@ -28,11 +28,8 @@ import DeChatCompo from "@/components/Detective/DeChatCompo.vue";
 import ChatRoomCompo from "@/components/User/ChatRoomCompo.vue";
 import DetailReceiveCompo from "@/components/User/DetailReceiveCompo.vue";
 import DeChatRoomCompo from "@/components/Detective/DeChatRoomCompo.vue";
-
 import DeReceivedDetailCompo from "@/components/Detective/DeReceivedDetailCompo.vue";
-
 import DeCreateEstimateCompo from "@/components/Detective/DeCreateEstimateCompo.vue";
-import DeReceivedRequestCompo from "@/components/Detective/DeReceivedRequestCompo.vue";
 import DetailRequestCompo from "@/components/User/DetailRequestCompo.vue";
 import DetectiveListCompo from "@/components/User/DetectiveListCompo.vue";
 import DeRegisterCompo from "@/components/Detective/DeRegisterCompo.vue";
@@ -82,11 +79,6 @@ const routes = [
         path: "received/:requestId",
         component: DeReceivedDetailCompo,
         props: true,
-      },
-
-      {
-        path: "detailrequest",
-        component: DeReceivedRequestCompo,
       },
       {
         path: "mypage",
@@ -150,12 +142,9 @@ const routes = [
         component: ChatCompo,
       },
       {
-        path: "chatroom",
+        path: "chat/:chatRoomId", // URL 경로에 chatRoomId를 파라미터로 받음
         name: "ChatRoom",
-        component: ChatRoomCompo,
-        props: (route) => ({
-          chatId: route.params.chatId,
-        }),
+        component: ChatRoomCompo, // ChatRoomCompo는 ChatRoom 컴포넌트로 대체
       },
       {
         path: "notification",

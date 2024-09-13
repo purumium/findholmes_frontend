@@ -114,22 +114,27 @@ export default {
   height: 100vh;
   padding: 20px;
 }
+
 .login-box {
   padding: 40px;
   text-align: center;
   width: 400px;
 }
+
 .login-logo {
   margin-bottom: 30px;
 }
+
 .login-logo img {
   width: 150px;
   border-radius: 100px;
   border: 1px solid #2f4f4f2e;
 }
+
 .form-group {
   margin-bottom: 15px;
 }
+
 .form-group input {
   width: 90%;
   padding: 12px 0 12px 20px;
@@ -138,20 +143,57 @@ export default {
   background-color: #fff;
   font-size: 15px;
 }
+
 .btn-login {
   width: 95%;
   padding: 10px;
   border: 1px solid #eae8c1;
   border-radius: 5px;
-  background-color: #ede99c;
+  background-color: #ffdf3e9c;
   color: #46444a;
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
   margin: 7px;
 }
+
 .error {
   color: red;
   margin-top: 10px;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .login-box {
+    width: 90%;
+    padding: 30px;
+  }
+
+  .form-group input {
+    font-size: 14px;
+    padding: 10px 0 10px 15px;
+  }
+
+  .btn-login {
+    font-size: 13px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-box {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .form-group input {
+    font-size: 13px;
+    padding: 8px 0 8px 10px;
+  }
+
+  .btn-login {
+    font-size: 12px;
+    padding: 7px;
+  }
 }
 </style>

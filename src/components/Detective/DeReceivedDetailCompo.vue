@@ -1,7 +1,7 @@
 <template>
   <div class="request-form-table">
-    <h2>보낸 요청서</h2>
-    <p>보낸 요청서 자세히 보기</p>
+    <h2>의뢰서</h2>
+    <p>사용자가 보낸 의뢰서 확인하기</p>
     <div class="request">
       <table class="request-table">
         <!-- 의뢰내용 -->
@@ -44,6 +44,9 @@
           <td class="value description">{{ request.description }}</td>
         </tr>
       </table>
+      <div class="btn">
+        <button @click="createEstimate(requestId)">답변서 작성</button>
+      </div>
     </div>
   </div>
 </template>
@@ -84,6 +87,9 @@ export default {
     },
     moveToReply() {
       this.$router.push(`/detective/reply/${this.request.requestId}`);
+    },
+    createEstimate(requestId) {
+      this.$router.push(`/detective/estimate/${requestId}`);
     },
   },
 };
@@ -140,6 +146,21 @@ p {
   min-height: 210px;
   height: 210px;
   padding: 10px 15px !important;
+}
+
+.btn {
+  margin-top: 20px;
+}
+
+button {
+  width: 100%;
+  background-color: #ffdf3e9c;
+  border: 1px solid #d3cb3a5e;
+  padding: 8px 0px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
