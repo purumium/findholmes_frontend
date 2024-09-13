@@ -7,15 +7,18 @@ module.exports = defineConfig({
     proxy: {
       "/api": {
         target: "http://localhost:8080", // 백엔드 서버의 URL
+        ws: false,
         changeOrigin: true,
         pathRewrite: { "^/api": "" }, // '/api'를 제거하여 실제 API 경로와 일치시킵니다.
       },
-      // 웹소켓 경로를 프록시 설정
-      "/ws": {
-        target: "ws://localhost:8080", // Spring Boot 서버의 웹소켓 주소
-        ws: true, // 웹소켓 프록시 활성화
-        changeOrigin: true,
-      },
+      // "/ws": {
+      //   target: "http://localhost:8080", // Spring Boot 서버 주소
+      //   ws: true, // WebSocket을 위한 설정
+      //   changeOrigin: true,
+      //   secure: false, // https 사용 시 true로 변경
+      //   pathRewrite: { "^/ws": "/ws" }, // 필요에 따라 경로 재작성
+      //   logLevel: "debug", // 디버깅용 로그
+      // },
     },
   },
 });

@@ -6,23 +6,29 @@ const store = createStore({
     token: localStorage.getItem("token") || null, // 로컬 스토리지에서 토큰을 가져옵니다.
     user: null,
     roles: null, // 사용자 역할을 저장할 배열
+    userId: null,
   },
   mutations: {
     setToken(state, token) {
       state.token = token;
       state.user = token ? jwtDecode(token).sub : null;
       state.roles = token ? jwtDecode(token).roles : null;
+      state.userId = token ? jwtDecode(token).id : null;
     },
     setUser(state, token) {
       state.user = token ? jwtDecode(token).sub : null;
     },
     setRole(state, token) {
-      state.user = token ? jwtDecode(token).sub : null;
+      state.user = token ? jwtDecode(token).roles : null;
+    },
+    setId(state, token) {
+      state.userId = token ? jwtDecode(token).id : null;
     },
     clearAuthData(state) {
       state.token = null;
       state.user = null;
       state.roles = null;
+      state.userId = null;
     },
   },
   actions: {
@@ -46,6 +52,9 @@ const store = createStore({
     },
     getRoles(state) {
       return state.roles;
+    },
+    getId(state) {
+      return state.userId;
     },
     hasRole: (state) => (role) => {
       return state.roles ? state.roles.includes(role) : false; // 특정 역할이 있는지 확인

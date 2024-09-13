@@ -117,12 +117,9 @@ const routes = [
         component: ChatCompo,
       },
       {
-        path: "chatroom",
+        path: "chat/:chatRoomId", // URL 경로에 chatRoomId를 파라미터로 받음
         name: "ChatRoom",
-        component: ChatRoomCompo,
-        props: (route) => ({
-          chatId: route.params.chatId,
-        }),
+        component: ChatRoomCompo, // ChatRoomCompo는 ChatRoom 컴포넌트로 대체
       },
       {
         path: "notification",
