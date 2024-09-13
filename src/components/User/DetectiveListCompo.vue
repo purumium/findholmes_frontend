@@ -13,7 +13,7 @@
       >
         <div class="profile-content">
           <img
-            :src="detective.imageUrl"
+            :src="`http://localhost:8080/${detective.profilePicture}`"
             alt="Profile Image"
             class="profile-image"
           />
@@ -21,7 +21,7 @@
             <div class="profile-title">
               <div class="title">
                 <div>홈즈</div>
-                <div>{{ detective.name }}</div>
+                <div>{{ detective.userName }}</div>
               </div>
               <div class="title-company">{{ detective.company }}</div>
               <div class="ratings">
@@ -34,7 +34,7 @@
               <div class="value">{{ detective.location }}</div>
 
               <div class="tag">전문분야</div>
-              <div class="value">{{ detective.category }}</div>
+              <div class="value">{{ detective.specialtiesName }}</div>
 
               <div class="tag">특이사항</div>
               <div class="value">{{ detective.speciality }}</div>
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="profile-description">
-          <p>{{ detective.description }}</p>
+          <p>{{ detective.introduction }}</p>
         </div>
       </div>
     </div>
@@ -50,10 +50,15 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
-      detectives: [
+      location:null,
+      specialityId: null,
+      detectives:[],
+      detectives2: [
         {
           id: 1,
           name: "김민수",
@@ -105,6 +110,33 @@ export default {
       ],
     };
   },
+  mounted: async function() {
+    try {
+      // 쿼리 파라미터 받기
+      this.location = this.$route.query.location;
+      this.specialityId = this.$route.query.specialityId;
+
+      // 콘솔 로그로 확인
+      console.log('Location:', this.location);
+      console.log('Speciality ID:', this.specialityId);
+
+      const token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      // 다른 탐정 정보를 서버에 전송
+      const response = await axios.post('/api/client/finddetectives', {
+        location: this.location,
+        specialityId: this.specialityId
+      });
+
+      this.detectives = response.data;
+      console.log(this.detectives);
+
+    } catch (error) {
+      console.log("에러:", error);
+    }
+  },
+
 };
 </script>
 
