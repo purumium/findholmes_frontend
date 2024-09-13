@@ -4,8 +4,8 @@
       <div class="navbar-left">
         <router-link to="/">
           <div class="navbar-left-logo">
-            <img src="@/assets/findholmes_logo.png" width="40px" />
-            <span class="title">찾아줘 홈즈!</span>
+            <img src="/images/logoforhome.png" width="40px" />
+            <span class="title">FINDMYHOLMES</span>
           </div>
         </router-link>
       </div>
@@ -109,7 +109,6 @@ export default {
 </script>
 
 <style scoped>
-/* 기본 레이아웃 */
 header {
   display: flex;
   align-items: center;
@@ -120,7 +119,7 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: 0 29px 0 27px;
+  margin: 0px 25px;
 }
 
 .navbar-left a {
@@ -134,13 +133,14 @@ header {
 }
 
 .navbar-left-logo img {
-  border: 1px solid #8080807a;
-  border-radius: 40px;
+  /* border: 1px solid #8080807a;
+  border-radius: 40px; */
 }
 
 .title {
-  margin-left: 8px;
-  font-size: 20px;
+  margin-left: 6px;
+  font-size: 16px;
+  letter-spacing: -1px;
   font-weight: 600;
 }
 
@@ -155,7 +155,7 @@ header {
 }
 
 .icon {
-  font-size: 24px;
+  font-size: 25px;
   cursor: pointer;
   color: rgb(0 0 0 / 41%);
 }
@@ -192,12 +192,14 @@ header {
   }
 
   .title {
-    font-size: 18px; /* 타이틀 크기를 줄임 */
-    margin-left: 0;
+    margin-left: 3px;
+    font-size: 15px;
+    letter-spacing: -1px;
+    font-weight: 600;
   }
 
   .icon {
-    font-size: 20px; /* 아이콘 크기 줄이기 */
+    font-size: 30px; /* 아이콘 크기 줄이기 */
   }
 
   .icon-container {
@@ -213,7 +215,7 @@ header {
 /* 더 작은 화면 (모바일) 레이아웃 조정 */
 @media screen and (max-width: 480px) {
   .title {
-    font-size: 14px; /* 타이틀 크기를 더 줄임 */
+    font-size: 15px; /* 타이틀 크기를 더 줄임 */
   }
 
   .icon {

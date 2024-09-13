@@ -28,6 +28,12 @@ import DeChatCompo from "@/components/Detective/DeChatCompo.vue";
 import ChatRoomCompo from "@/components/User/ChatRoomCompo.vue";
 import DetailReceiveCompo from "@/components/User/DetailReceiveCompo.vue";
 import DeChatRoomCompo from "@/components/Detective/DeChatRoomCompo.vue";
+import DeReceivedDetailCompo from "@/components/Detective/DeReceivedDetailCompo.vue";
+import DeCreateEstimateCompo from "@/components/Detective/DeCreateEstimateCompo.vue";
+import DetailRequestCompo from "@/components/User/DetailRequestCompo.vue";
+import DetectiveListCompo from "@/components/User/DetectiveListCompo.vue";
+import DeRegisterCompo from "@/components/Detective/DeRegisterCompo.vue";
+import TestCompo from "@/components/Admin/TestCompo.vue";
 
 const routes = [
   {
@@ -56,12 +62,23 @@ const routes = [
         }),
       },
       {
-        path: "estimate",
+        path: "estimatelist",
         component: DeEstimateListCompo,
       },
       {
-        path: "received",
+        path: "estimate/:requestId",
+        component: DeCreateEstimateCompo,
+        props: true,
+      },
+      {
+        path: "requestlist",
         component: DeReceivedListCompo,
+      },
+
+      {
+        path: "received/:requestId",
+        component: DeReceivedDetailCompo,
+        props: true,
       },
       {
         path: "mypage",
@@ -79,6 +96,14 @@ const routes = [
           {
             path: "paymentlist",
             component: DePaymentListCompo,
+          },
+          {
+            path: "deregister",
+            component: DeRegisterCompo,
+          },
+          {
+            path: "test",
+            component: TestCompo,
           },
           {
             path: "paymentResult",
@@ -130,16 +155,26 @@ const routes = [
         component: FindCompo,
       },
       {
+        path: "detectivelist",
+        component: DetectiveListCompo,
+      },
+      {
         path: "request",
         component: RequestCompo,
+      },
+      {
+        path: "detailrequest/:requestId",
+        component: DetailRequestCompo,
+        props: true,
       },
       {
         path: "receive",
         component: ReceiveCompo,
       },
       {
-        path: "estimate",
+        path: "estimate/:requestId",
         component: DetailReceiveCompo,
+        props: true,
       },
 
       {

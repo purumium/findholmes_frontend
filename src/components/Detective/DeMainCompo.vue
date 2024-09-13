@@ -2,7 +2,7 @@
   <div class="main-container">
     <section class="hero">
       <div class="header-section">
-        <img src="@/assets/main/detective_main.png" />
+        <img src="/images/maintitle.jpg" />
       </div>
     </section>
 

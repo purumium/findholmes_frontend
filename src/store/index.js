@@ -6,7 +6,7 @@ const store = createStore({
     token: localStorage.getItem("token") || null, // 로컬 스토리지에서 토큰을 가져옵니다.
     user: null,
     roles: null, // 사용자 역할을 저장할 배열
-    userId: null,
+    userId: null
   },
   mutations: {
     setToken(state, token) {

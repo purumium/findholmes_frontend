@@ -1,42 +1,43 @@
 <template>
   <div class="estimate-detail-container">
-    <h2>받은 견적서 상세보기</h2>
+    <div>
+      <h2>답변서</h2>
+      <p>홈즈가 보낸 답변서를 비교하기</p>
+    </div>
     <div class="estimate-detail">
-      <!-- 사이드 바 -->
       <div class="sidebar">
         <ul>
           <li
-            v-for="(detective, index) in detectives"
+            v-for="(estimate, index) in estimates"
             :key="index"
-            @click="selectDetective(detective)"
+            @click="selectDetective(estimate)"
+            :class="{ active: selectedDetective === estimate }"
           >
             <div class="detective-info">
               <div class="detective-details">
-                <div class="detective-name">{{ detective.name }}</div>
-                <div class="detective-price">{{ detective.price }}원</div>
+                <div class="detective-name">{{ estimate.detectiveName }}</div>
+                <div class="detective-price">{{ estimate.price }}원</div>
               </div>
             </div>
           </li>
         </ul>
       </div>
 
-      <!-- 탐정의 견적서-->
       <div class="main-content" v-if="selectedDetective">
         <div class="main-content-line">
           <div class="estimate-header">
-            <!-- 탐정 정보 및 프로필 보기 -->
             <div class="detective-info-container">
               <div class="detective-img">
                 <img
                   class="detective-avatar-large"
-                  :src="selectedDetective.avatar"
+                  src="/images/detective.png"
                   alt="Detective Avatar"
                 />
               </div>
               <div class="detective-details-large">
                 <div class="detective-name-container">
-                  <h3>{{ selectedDetective.name }}</h3>
-                  <button class="profile-button">프로필 보기</button>
+                  <h3>{{ selectedDetective.detectiveName }}</h3>
+                  <button class="profile-button">홈즈의 프로필</button>
                 </div>
                 <div class="detective-contact">
                   <span>🔒 {{ selectedDetective.nickname }}</span>
@@ -52,7 +53,7 @@
 
           <!-- 견적 내용 -->
           <div class="estimate-body">
-            <p>{{ selectedDetective.estimate }}</p>
+            <p>{{ selectedDetective.description }}</p>
           </div>
 
           <!-- 하단 버튼 -->
@@ -67,33 +68,34 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
+  props: ["requestId"],
   data() {
     return {
-      detectives: [
-        {
-          name: "셜록 홈즈",
-          price: "123,000",
-          estimate: "이 탐정은 매우 경험이 풍부합니다...",
-          avatar: "/images/detective.png",
-        },
-        {
-          name: "포와로",
-          price: "110,000",
-          estimate: "명탐정 포와로는 당신의 사건을 해결할 것입니다...",
-          avatar: "/images/detective.png",
-        },
-        {
-          name: "메그레",
-          price: "115,000",
-          estimate: "프랑스 최고의 형사, 메그레입니다...",
-          avatar: "/images/detective.png",
-        },
-      ],
+      estimates: [],
+
       selectedDetective: null,
     };
   },
+  created() {
+    this.getEstimates();
+  },
   methods: {
+    async getEstimates() {
+      console.log(this.requestId);
+      try {
+        const response = await axios.get("/api/reply/detail", {
+          params: { requestId: this.requestId },
+        });
+        this.estimates = response.data;
+        this.selectedDetective = this.estimates[0];
+        console.log(this.estimates);
+      } catch (error) {
+        return;
+      }
+    },
     selectDetective(detective) {
       this.selectedDetective = detective;
     },
@@ -104,29 +106,47 @@ export default {
       this.$router.push("/chatroom");
     },
   },
-  mounted() {
-    // detectives 배열의 첫 번째 탐정을 자동으로 선택
-    if (this.detectives.length > 0) {
-      this.selectedDetective = this.detectives[0];
-    }
-  },
+  // mounted() {
+  //   // detectives 배열의 첫 번째 탐정을 자동으로 선택
+  //   if (this.estimates.length > 0) {
+  //     this.selectedDetective = this.estimates[0];
+  //   }
+  // },
 };
 </script>
 
 <style scoped>
 .estimate-detail-container {
-  /* display: flex; */
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: -10px;
+}
+
+p {
+  text-align: center;
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 30px;
 }
 
 .estimate-detail {
   display: flex;
   justify-content: center;
-  padding: 15px;
-  height: 85%;
+  height: 86%;
+  min-height: 620px;
 }
 
 .sidebar {
-  width: 25%;
+  width: 30%;
+  border-top: 1px solid #8080801c;
+  border-bottom: 1px solid #8080801c;
   background-color: #f5f5f5;
   padding: 0px;
 }
@@ -138,9 +158,8 @@ export default {
 
 .sidebar li {
   cursor: pointer;
-  padding: 10px;
+  padding: 10px 20px;
   margin-bottom: 10px;
-  background-color: #ededed;
   display: flex;
   align-items: center;
 }
@@ -148,29 +167,34 @@ export default {
 .sidebar li:hover {
   background-color: #e0e0e0;
 }
+.sidebar li.active {
+  background-color: white; /* 선택된 항목의 배경색 */
+  font-weight: bold; /* 선택된 항목의 텍스트 강조 */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* 선택된 항목에 그림자 추가 */
+  border-top-right-radius: 10px; /* 왼쪽 위 */
+  border-bottom-right-radius: 10px; /* 왼쪽 아래 */
+}
 
 .detective-name {
-  border: 1px solid rgb(208, 206, 206);
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 3px 10px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
 }
 
 .detective-price {
-  font-size: 12px;
-  margin: 4px 0 0 7px;
+  margin-top: 7px;
+  font-size: 15px;
 }
 
 .main-content {
   width: 100%;
   max-width: 800px;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
+  border: 1px solid #cccccc99;
+  padding: 30px 25px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .detective-info-container {
@@ -199,11 +223,11 @@ export default {
 }
 
 .profile-button {
-  background-color: #fdf7b8bf;
-  border: 1px solid #e8e37e;
-  padding: 6px 16px;
+  background-color: #efe7945e;
+  border: 1px solid #d3cb3a5e;
+  padding: 6px 17px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -244,58 +268,18 @@ export default {
   background-color: #e0e0e0;
 }
 
-/* .detective-avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
+/* 반응형 디자인: 화면 크기가 줄어들 때의 대응 */
+@media screen and (max-width: 768px) {
+  .estimate-detail {
+    flex-direction: column; /* 작은 화면에서는 사이드바와 콘텐츠가 위아래로 배치 */
+  }
 
-.detective-info {
-  display: flex;
-  align-items: center;
-}
+  .sidebar {
+    width: 100%;
+  }
 
-.detective-name {
-  font-weight: bold;
-  display: block;
+  .main-content {
+    width: 100%;
+  }
 }
-
-.detective-price {
-  color: gray;
-}
-
-.main-content {
-  width: 75%;
-  padding: 20px;
-  border: 1px solid #8080803b;
-}
-
-.main-content-line {
-  border: 1px solid #8080803b;
-}
-
-.estimate-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.estimate-body {
-  margin-bottom: 20px;
-}
-
-.actions button {
-  margin-right: 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.actions button:hover {
-  background-color: #0056b3;
-} */
 </style>

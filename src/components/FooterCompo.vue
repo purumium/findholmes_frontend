@@ -5,13 +5,13 @@
         <li>
           <router-link to="/request" class="footer-item" active-class="active">
             <font-awesome-icon class="icon" :icon="['fas', 'pencil-alt']" />
-            <span class="text">의뢰요청</span>
+            <span class="text">의뢰서작성</span>
           </router-link>
         </li>
         <li>
           <router-link to="/find" class="footer-item" active-class="active">
             <font-awesome-icon class="icon" :icon="['fas', 'search']" />
-            <span class="text">탐정찾기</span>
+            <span class="text">홈즈찾기</span>
           </router-link>
         </li>
         <li>
@@ -23,13 +23,13 @@
         <li>
           <router-link to="/receive" class="footer-item" active-class="active">
             <font-awesome-icon class="icon" :icon="['fas', 'envelope']" />
-            <span class="text">받은견적</span>
+            <span class="text">의뢰&답변</span>
           </router-link>
         </li>
         <li>
           <router-link to="/mypage" class="footer-item" active-class="active">
             <font-awesome-icon class="icon" :icon="['fas', 'user']" />
-            <span class="text">내페이지</span>
+            <span class="text">마이페이지</span>
           </router-link>
         </li>
       </ul>
