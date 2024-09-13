@@ -1,29 +1,58 @@
 <template>
   <div class="receive-container">
-    <h2>답변서 목록</h2>
-    <p>탐정이 사용자에게 보낸 답변서 리스트</p>
+    <div>
+      <h2>답변서 목록</h2>
+      <p>탐정이 사용자에게 보낸 답변서 리스트</p>
+    </div>
 
     <div class="receive-list">
       <div
+        class="estimate-row"
         v-for="(estimate, index) in estimates"
-        :key="index"
-        class="estimate-card"
+        :key="'estimate-' + index"
       >
-        <div class="estimate-image">
-          <img src="/images/request.png" alt="Placeholder Image" />
-        </div>
-        <div class="estimate-content">
-          <div
-            class="estimate"
-            @click="moveToRequestDetail(estimate.requestId)"
-          >
-            <h4>{{ estimate.title }}</h4>
-            <div class="estimate-date">
-              <div># 받은 일자 : {{ estimate.createAt }}</div>
-              <div># 분야 : {{ estimate.speciality }}</div>
+        <!-- Request Card (matching the estimate) -->
+        <div v-if="assignedRequests[index]" class="estimate-card">
+          <div class="estimate-image">
+            <img src="/images/request.png" alt="Placeholder Image" />
+          </div>
+          <div class="estimate-content">
+            <div
+              class="estimate"
+              @click="moveToRequestDetail(assignedRequests[index].requestId)"
+            >
+              <h4>{{ assignedRequests[index].title }}</h4>
+              <div class="estimate-date">
+                <div>
+                  ✔️ 의뢰 일자 :
+                  {{ timeconvert(assignedRequests[index].createAt) }}
+                </div>
+                <div>
+                  ✔️ 의뢰 분야 :
+                  {{ assignedRequests[index].speciality.specialityName }}
+                </div>
+              </div>
             </div>
           </div>
-          <button @click="viewEstimate(estimate.requestId)">의뢰서 보기</button>
+        </div>
+
+        <!-- Estimate Card -->
+        <div class="estimate-card">
+          <div class="estimate-image">
+            <img src="/images/estimate.png" alt="Placeholder Image" />
+          </div>
+          <div class="estimate-content">
+            <div
+              class="estimate"
+              @click="moveToEstimateDetail(estimate.requestId)"
+            >
+              <h4>{{ estimate.title }}</h4>
+              <div class="estimate-date">
+                <div>✔️ 답변 일자 : {{ timeconvert(estimate.createAt) }}</div>
+                <div>✔️ 답변 분야 : {{ estimate.speciality }}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -37,16 +66,31 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
+      assignedRequests: [],
       estimates: [],
     };
   },
   computed: {
-    ...mapGetters(["getUser"]),
+    ...mapGetters(["getUser", "isAuthenticated"]),
   },
   created() {
     this.getEstimateList();
+    this.getAssignedRequests();
   },
   methods: {
+    async getAssignedRequests() {
+      console.log("실행시도");
+      try {
+        const response = await axios.get("/receive", {
+          baseURL: "http://localhost:8080/",
+          params: { email: this.getUser },
+        });
+        this.assignedRequests = response.data;
+        console.log(this.assignedRequests);
+      } catch (error) {
+        this.assignedRequests = [];
+      }
+    },
     async getEstimateList() {
       try {
         const response = await axios.get("/api/reply/estimate", {
@@ -58,11 +102,20 @@ export default {
         return;
       }
     },
-    viewEstimate(requestId) {
+    moveToEstimateDetail(requestId) {
       this.$router.push(`/estimate/${requestId}`);
     },
     moveToRequestDetail(requestId) {
       this.$router.push(`/detailrequest/${requestId}`);
+    },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
     },
   },
 };
@@ -73,7 +126,7 @@ export default {
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  padding: 30px 0;
+  padding: 30px 20px;
 }
 
 h2 {
@@ -88,15 +141,31 @@ p {
   margin-bottom: 30px;
 }
 
+.receive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.estimate-row {
+  display: flex;
+  gap: 8px;
+  border: 1px solid #80808033;
+  border-radius: 10px;
+}
+
+.estimate-card {
+  flex: 1;
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+}
+
 .estimate {
   border: 1px solid #80808052;
-  padding: 12px 0px 12px 15px;
-  max-width: 400px;
-  width: 400px;
+  padding: 10px;
   border-radius: 8px;
   box-sizing: border-box;
-  margin-bottom: 11px;
-  transition: background-color 0.4s ease;
 }
 
 .estimate:hover {
@@ -104,19 +173,14 @@ p {
   background-color: #80808013;
 }
 
-.estimate-card {
-  display: flex;
-  align-items: center;
-  background-color: #bbb4b41a;
-  padding: 20px;
-  margin-bottom: 20px;
+.estimate-image {
+  text-align: center;
 }
 
 .estimate-image img {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  margin: 20px 30px;
+  width: 30px;
+  height: 30px;
+  margin: 10px;
 }
 
 .estimate-content {
@@ -130,15 +194,13 @@ p {
 }
 
 .estimate-date {
-  display: flex;
-  gap: 14px;
-  align-items: end;
-  margin-top: 4px;
+  margin-top: 7px;
 }
 
 .estimate-date div {
-  font-size: 12px;
+  font-size: 13px;
   color: #666;
+  margin-bottom: 4px;
 }
 
 button {

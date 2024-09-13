@@ -2,6 +2,16 @@
   <div class="receive-container">
     <h2>의뢰서 목록</h2>
     <p>사용자가 보낸 의뢰서에 답변서 보내기</p>
+
+    <!-- Filter Select -->
+    <div class="filter-container">
+      <select v-model="filterStatus" id="status-filter">
+        <option value="all">전체</option>
+        <option value="waiting">답변 대기중</option>
+        <option value="completed">답변 완료</option>
+      </select>
+    </div>
+
     <div class="receive-list">
       <div
         v-for="(assigned, index) in assignedRequests"
@@ -18,14 +28,10 @@
           >
             <h4>{{ assigned.title }}</h4>
             <div class="estimate-date">
-              <div># 받은 일자 : {{ assigned.createAt }}</div>
-              <div># 분야 : {{ assigned.speciality.specialityName }}</div>
+              <div>✔️ 의뢰 일자 : {{ assigned.createAt }}</div>
+              <div>✔️ 의뢰 분야 : {{ assigned.speciality.specialityName }}</div>
             </div>
           </div>
-
-          <button @click="createEstimate(assigned.requestId)">
-            답변서 작성
-          </button>
         </div>
       </div>
     </div>
@@ -40,6 +46,7 @@ export default {
   data() {
     return {
       assignedRequests: [],
+      filterStatus: "waiting",
     };
   },
   computed: {
@@ -62,11 +69,21 @@ export default {
         this.assignedRequests = [];
       }
     },
+    filteredRequests() {
+      if (this.filterStatus === "waiting") {
+        return this.assignedRequests.filter(
+          (request) => request.responseStatus === "waiting"
+        );
+      } else if (this.filterStatus === "completed") {
+        return this.assignedRequests.filter(
+          (request) => request.responseStatus === "completed"
+        );
+      } else {
+        return this.assignedRequests; // Show all requests when 'all' is selected
+      }
+    },
     moveToRequestDetail(requestId) {
       this.$router.push(`/detective/received/${requestId}`);
-    },
-    createEstimate(requestId) {
-      this.$router.push(`/detective/estimate/${requestId}`);
     },
   },
 };
@@ -91,6 +108,19 @@ p {
   color: #666;
   font-size: 13px;
   margin-bottom: 30px;
+}
+
+.filter-container {
+  margin-bottom: 20px;
+  margin-right: 20px;
+  text-align: right;
+}
+
+#status-filter {
+  padding: 8px 11px;
+  font-size: 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
 }
 
 .estimate {
@@ -135,15 +165,13 @@ p {
 }
 
 .estimate-date {
-  display: flex;
-  gap: 14px;
-  align-items: end;
-  margin-top: 4px;
+  margin-top: 7px;
 }
 
 .estimate-date div {
-  font-size: 12px;
+  font-size: 13px;
   color: #666;
+  margin-bottom: 4px;
 }
 
 button {
