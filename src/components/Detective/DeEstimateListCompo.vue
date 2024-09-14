@@ -31,6 +31,7 @@
                   ✔️ 의뢰 분야 :
                   {{ assignedRequests[index].speciality.specialityName }}
                 </div>
+                <div>{{ estimate.requestId }}</div>
               </div>
             </div>
           </div>
@@ -50,6 +51,7 @@
               <div class="estimate-date">
                 <div>✔️ 답변 일자 : {{ timeconvert(estimate.createAt) }}</div>
                 <div>✔️ 답변 분야 : {{ estimate.speciality }}</div>
+                <div>{{ estimate.requestId }}</div>
               </div>
             </div>
           </div>
@@ -79,14 +81,12 @@ export default {
   },
   methods: {
     async getAssignedRequests() {
-      console.log("실행시도");
       try {
-        const response = await axios.get("/receive", {
-          baseURL: "http://localhost:8080/",
+        const response = await axios.get("/api/receive", {
           params: { email: this.getUser },
         });
         this.assignedRequests = response.data;
-        console.log(this.assignedRequests);
+        console.log("assigned : ", this.assignedRequests);
       } catch (error) {
         this.assignedRequests = [];
       }
@@ -97,7 +97,7 @@ export default {
           params: { email: this.getUser },
         });
         this.estimates = response.data;
-        console.log(this.estimates);
+        console.log("estimate : ", this.estimates);
       } catch (err) {
         return;
       }
