@@ -5,16 +5,27 @@
 
     <!-- Filter Select -->
     <div class="filter-container">
+      <span class="hello-world"
+        ><h3>
+          {{
+            filterStatus === "all"
+              ? "전체"
+              : filterStatus === "WAITING"
+              ? "답변 대기중"
+              : "답변 완료"
+          }}
+        </h3></span
+      >
       <select v-model="filterStatus" id="status-filter">
         <option value="all">전체</option>
-        <option value="waiting">답변 대기중</option>
-        <option value="completed">답변 완료</option>
+        <option value="WAITING">답변 대기중</option>
+        <option value="ANSWERED">답변 완료</option>
       </select>
     </div>
 
     <div class="receive-list">
       <div
-        v-for="(assigned, index) in assignedRequests"
+        v-for="(assigned, index) in filteredRequests"
         :key="index"
         class="estimate-card"
       >
@@ -46,11 +57,25 @@ export default {
   data() {
     return {
       assignedRequests: [],
-      filterStatus: "waiting",
+      filterStatus: "all",
     };
   },
   computed: {
     ...mapGetters(["isAuthenticated", "getUser"]),
+
+    filteredRequests() {
+      if (this.filterStatus === "WAITING") {
+        return this.assignedRequests.filter(
+          (request) => request.status === "WAITING"
+        );
+      } else if (this.filterStatus === "ANSWERED") {
+        return this.assignedRequests.filter(
+          (request) => request.status === "ANSWERED"
+        );
+      } else {
+        return this.assignedRequests; // Show all requests when 'all' is selected
+      }
+    },
   },
   created() {
     this.getAssignedRequests();
@@ -59,27 +84,13 @@ export default {
     async getAssignedRequests() {
       console.log("실행시도");
       try {
-        const response = await axios.get("/receive", {
-          baseURL: "http://localhost:8080/",
+        const response = await axios.get("/api/receive", {
           params: { email: this.getUser },
         });
         this.assignedRequests = response.data;
         console.log(this.assignedRequests);
       } catch (error) {
         this.assignedRequests = [];
-      }
-    },
-    filteredRequests() {
-      if (this.filterStatus === "waiting") {
-        return this.assignedRequests.filter(
-          (request) => request.responseStatus === "waiting"
-        );
-      } else if (this.filterStatus === "completed") {
-        return this.assignedRequests.filter(
-          (request) => request.responseStatus === "completed"
-        );
-      } else {
-        return this.assignedRequests; // Show all requests when 'all' is selected
       }
     },
     moveToRequestDetail(requestId) {
@@ -93,7 +104,6 @@ export default {
 .receive-container {
   width: 100%;
   max-width: 800px;
-
   margin: 0 auto;
   padding: 30px 0;
 }
@@ -113,7 +123,15 @@ p {
 .filter-container {
   margin-bottom: 20px;
   margin-right: 20px;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hello-world {
+  font-size: 14px;
+  color: #333;
+  margin-left: 20px;
 }
 
 #status-filter {

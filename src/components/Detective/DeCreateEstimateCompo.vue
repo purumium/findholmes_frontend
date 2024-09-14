@@ -84,8 +84,7 @@ export default {
   methods: {
     async getRequestDetail() {
       try {
-        const response = await axios.get("/receive/detail", {
-          baseURL: "http://localhost:8080/",
+        const response = await axios.get("/api/receive/detail", {
           params: { requestId: this.requestId },
         });
         this.requests = response.data;
