@@ -31,6 +31,7 @@ import DeHeaderCompo from "./components/Detective/DeHeaderCompo.vue";
 import DeMiddleCompo from "./components/Detective/DeMiddleCompo.vue";
 import DeFooterCompo from "./components/Detective/DeFooterCompo.vue";
 import { mapGetters } from "vuex";
+import { jwtDecode } from "jwt-decode"; // jwtDecode는 이렇게 임포트해야 합니다.
 
 export default {
   name: "App",
@@ -41,6 +42,17 @@ export default {
     DeHeaderCompo,
     DeMiddleCompo,
     DeFooterCompo,
+  },
+  created() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = jwtDecode(token);
+      this.$store.dispatch("login", {
+        token,
+        user: decoded.sub,
+        roles: decoded.roles, // 역할 저장 (roles 배열일 수 있음)
+      });
+    }
   },
   computed: {
     ...mapGetters(["getRoles"]), // Vuex의 getRoles 가져오기

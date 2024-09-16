@@ -33,8 +33,12 @@
     <div>
       <div class="city-title">지역별 홈즈가 궁금하신가요?</div>
       <div class="city-container">
-        <div class="item" v-for="(city, index) in cities" :key="index" >
-          <img :src="city.imgSrc" :alt="city.name" @click="detectiveSearch2(city.value)" />
+        <div class="item" v-for="(city, index) in cities" :key="index">
+          <img
+            :src="city.imgSrc"
+            :alt="city.name"
+            @click="detectiveSearch2(city.value)"
+          />
           <p>{{ city.name }}</p>
         </div>
       </div>
@@ -103,28 +107,56 @@ export default {
         { id: 10, name: "사람 찾기" },
       ],
       cities: [
-        { name: "서울", imgSrc: "/images/location.png", value:"서울특별시"},
-        { name: "경기(인천)", imgSrc: "/images/location.png", value:"인천광역시" },
-        { name: "강원", imgSrc: "/images/location.png", value:"강원도" },
-        { name: "충북(세종)", imgSrc: "/images/location.png", value:"충청북도" },
-        { name: "충남(대전)", imgSrc: "/images/location.png", value:"충청남도(대전,세종)" },
-        { name: "전북", imgSrc: "/images/location.png", value:"전라북도" },
-        { name: "전남(광주)", imgSrc: "/images/location.png", value:"전라남도(광주)" },
-        { name: "경북(대구)", imgSrc: "/images/location.png", value:"경상북도(대구)" },
-        { name: "경남(부산,울산)", imgSrc: "/images/location.png", value:"경상남도(부산,울산)" },
-        { name: "제주", imgSrc: "/images/location.png", value:"제주특별자치도" },
+        { name: "서울", imgSrc: "/images/location.png", value: "서울특별시" },
+        {
+          name: "경기(인천)",
+          imgSrc: "/images/location.png",
+          value: "인천광역시",
+        },
+        { name: "강원", imgSrc: "/images/location.png", value: "강원도" },
+        {
+          name: "충북(세종)",
+          imgSrc: "/images/location.png",
+          value: "충청북도",
+        },
+        {
+          name: "충남(대전)",
+          imgSrc: "/images/location.png",
+          value: "충청남도(대전,세종)",
+        },
+        { name: "전북", imgSrc: "/images/location.png", value: "전라북도" },
+        {
+          name: "전남(광주)",
+          imgSrc: "/images/location.png",
+          value: "전라남도(광주)",
+        },
+        {
+          name: "경북(대구)",
+          imgSrc: "/images/location.png",
+          value: "경상북도(대구)",
+        },
+        {
+          name: "경남(부산,울산)",
+          imgSrc: "/images/location.png",
+          value: "경상남도(부산,울산)",
+        },
+        {
+          name: "제주",
+          imgSrc: "/images/location.png",
+          value: "제주특별자치도",
+        },
       ],
       specialities: [
-        { name: "가족문제", imgSrc: "/images/speciality.jpeg", id:1},
-        { name: "기업문제", imgSrc: "/images/speciality.jpeg", id:2 },
-        { name: "디지털조사", imgSrc: "/images/speciality.jpeg", id:3 },
-        { name: "민원대행", imgSrc: "/images/speciality.jpeg", id:4 },
-        { name: "부동산", imgSrc: "/images/speciality.jpeg", id:5 },
-        { name: "불법기기탐지", imgSrc: "/images/speciality.jpeg", id:6 },
-        { name: "사기및분쟁", imgSrc: "/images/speciality.jpeg", id:7 },
-        { name: "스토킹", imgSrc: "/images/speciality.jpeg", id:8 },
-        { name: "아동경호", imgSrc: "/images/speciality.jpeg", id:9 },
-        { name: "사람찾기", imgSrc: "/images/speciality.jpeg", id:10 },
+        { name: "가족문제", imgSrc: "/images/speciality.png", id: 1 },
+        { name: "기업문제", imgSrc: "/images/speciality.png", id: 2 },
+        { name: "디지털조사", imgSrc: "/images/speciality.png", id: 3 },
+        { name: "민원대행", imgSrc: "/images/speciality.png", id: 4 },
+        { name: "부동산", imgSrc: "/images/speciality.png", id: 5 },
+        { name: "불법기기탐지", imgSrc: "/images/speciality.png", id: 6 },
+        { name: "사기및분쟁", imgSrc: "/images/speciality.png", id: 7 },
+        { name: "스토킹", imgSrc: "/images/speciality.png", id: 8 },
+        { name: "아동경호", imgSrc: "/images/speciality.png", id: 9 },
+        { name: "사람찾기", imgSrc: "/images/speciality.png", id: 10 },
       ],
       ads: [
         {
@@ -149,23 +181,26 @@ export default {
   },
   methods: {
     detectiveSearch() {
-      this.$router.push({ 
-          path: '/detectivelist', 
-          query: { location: this.selectedRegion, specialityId: this.selectedCategory }
+      this.$router.push({
+        path: "/detectivelist",
+        query: {
+          location: this.selectedRegion,
+          specialityId: this.selectedCategory,
+        },
       });
     },
     detectiveSearch2(name) {
-      console.log(name)
-      this.$router.push({ 
-          path: '/detectivelist', 
-          query: { location: name, specialityId: 0 }
+      console.log(name);
+      this.$router.push({
+        path: "/detectivelist",
+        query: { location: name, specialityId: 0 },
       });
     },
     detectiveSearch3(index) {
-      console.log(index+1)
-      this.$router.push({ 
-          path: '/detectivelist', 
-          query: { location: "", specialityId: index+1 }
+      console.log(index + 1);
+      this.$router.push({
+        path: "/detectivelist",
+        query: { location: "", specialityId: index + 1 },
       });
     },
     onRegionChange() {
