@@ -7,7 +7,6 @@ import FindCompo from "@/components/User/FindCompo.vue";
 import RequestCompo from "@/components/User/RequestCompo.vue";
 import ReceiveCompo from "@/components/User/ReceiveCompo.vue";
 import LogoutCompo from "@/components/Member/LogoutCompo.vue";
-import MypageCompo from "@/components/User/MypageCompo.vue";
 import PaymentCompo from "@/components/User/PaymentCompo.vue";
 import PaymentListCompo from "@/components/User/PaymentListCompo.vue";
 import MyinfoCompo from "@/components/User/MyInfoCompo.vue";
@@ -34,6 +33,11 @@ import DetailRequestCompo from "@/components/User/DetailRequestCompo.vue";
 import DetectiveListCompo from "@/components/User/DetectiveListCompo.vue";
 import DeRegisterCompo from "@/components/Detective/DeRegisterCompo.vue";
 import TestCompo from "@/components/Admin/TestCompo.vue";
+import ReviewListCompo from "@/components/User/ReviewListCompo.vue";
+import PointHistoryCompo from "@/components/User/PointHistoryCompo.vue";
+import ContactUsCompo from "@/components/User/ContactUsCompo.vue";
+import DeleteAccount from "@/components/User/DeleteAccount.vue";
+import PrivacyPolicyCompo from "@/components/User/PrivacyPolicyCompo.vue";
 
 const routes = [
   {
@@ -176,38 +180,50 @@ const routes = [
         component: DetailReceiveCompo,
         props: true,
       },
-
       {
-        path: "mypage",
-        component: MypageCompo,
-        children: [
-          {
-            path: "myinfo",
-            component: MyinfoCompo,
-            alias: [""],
-          },
-          {
-            path: "payment",
-            component: PaymentCompo,
-          },
-          {
-            path: "paymentlist",
-            component: PaymentListCompo,
-          },
-
-          {
-            path: "paymentResult",
-            name: "paymentResult",
-            component: PaymentResultCompo,
-            props: (route) => ({
-              merchantUid: route.query.merchantUid,
-              paymentDetails: route.query.paymentDetails,
-              paymentAt: route.query.paymentAt,
-              price: route.query.price,
-            }),
-          },
-        ],
+        path: "myinfo",
+        component: MyinfoCompo, // 프로필 편집
       },
+      {
+        path: "reviewlist",
+        component: ReviewListCompo, // 리뷰 내역
+      },
+      {
+        path: "point",
+        component: PointHistoryCompo, // 포인트 사용내역
+      },
+      {
+        path: "payment",
+        component: PaymentCompo, // 결제하기
+      },
+      {
+        path: "paymentlist",
+        component: PaymentListCompo, // 결제 내역
+      },
+      {
+        path: "paymentResult",
+        name: "paymentResult",
+        component: PaymentResultCompo,
+        props: (route) => ({
+          merchantUid: route.query.merchantUid,
+          paymentDetails: route.query.paymentDetails,
+          paymentAt: route.query.paymentAt,
+          price: route.query.price,
+        }),
+      },
+      {
+        path: "contactus",
+        component: ContactUsCompo, // 문의하기
+      },
+      {
+        path: "deleteaccount",
+        component: DeleteAccount, // 회원탈퇴
+      },
+      {
+        path: "privacypolicy",
+        component: PrivacyPolicyCompo, // 개인정보처리방침
+      },
+
       {
         path: "logout",
         component: LogoutCompo,

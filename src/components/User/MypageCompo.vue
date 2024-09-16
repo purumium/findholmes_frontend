@@ -1,79 +1,153 @@
 <template>
-  <div class="mypage-container">
-    <nav class="mypage-nav">
-      <ul>
-        <li>
-          <router-link
-            to="/mypage/myinfo"
-            class="nav-item"
-            active-class="active"
-            >내정보보기</router-link
-          >
-        </li>
-        <li>
-          <router-link
-            to="/mypage/payment"
-            class="nav-item"
-            active-class="active"
-            >포인트결제</router-link
-          >
-        </li>
-        <li>
-          <router-link
-            to="/mypage/paymentlist"
-            class="nav-item"
-            active-class="active"
-            >내결제내역</router-link
-          >
-        </li>
-      </ul>
-    </nav>
+  <div class="mypage">
+    <div class="profile-header">
+      <img class="profile-picture" :src="profileImage" alt="프로필 사진" />
+      <div class="profile-info">
+        <h2>{{ userName }}</h2>
+        <p>{{ email }}</p>
+      </div>
+    </div>
 
-    <div class="content">
-      <router-view></router-view>
-      <!-- 각 페이지의 내용을 렌더링 -->
+    <div class="btn">
+      <button class="edit-profile-button" @click="editMyinfo">
+        <span>프로필 편집</span>
+      </button>
+      <button class="edit-profile-button" @click="pointUsageHistory">
+        <span>💰 {{ points }} 포인트</span>
+      </button>
+    </div>
+
+    <div class="menu">
+      <ul>
+        <li @click="reviewlist" class="nav-item">내리뷰보기</li>
+        <li @click="doPayment" class="nav-item">포인트결제</li>
+        <li @click="paymentList" class="nav-item">내결제내역</li>
+        <li @click="contactUs" class="nav-item">문의하기</li>
+        <li @click="deleteAccount" class="nav-item">회원탈퇴</li>
+        <li @click="privacyPolicy" class="nav-item">개인정보처리방침</li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "MyPage",
+  data() {
+    return {
+      profileImage: "https://via.placeholder.com/150", // 기본 프로필 이미지
+      userName: "선선선선해",
+      email: "one@gmail.com",
+      points: 1000, // 포인트 기본값
+    };
+  },
+  methods: {
+    editMyinfo() {
+      this.$router.push("/myinfo");
+    },
+    pointUsageHistory() {
+      this.$router.push("/point");
+    },
+    reviewlist() {
+      this.$router.push("/reviewlist");
+    },
+    doPayment() {
+      this.$router.push("/payment");
+    },
+    paymentList() {
+      this.$router.push("/paymentList");
+    },
+    contactUs() {
+      this.$router.push("/contactus");
+    },
+    deleteAccount() {
+      this.$router.push("/deleteaccount");
+    },
+    privacyPolicy() {
+      this.$router.push("/privacypolicy");
+    },
+  },
 };
 </script>
 
 <style scoped>
-.mypage-container {
-  width: 100%;
-  padding: 20px;
+.mypage {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px 25px;
+  font-family: Arial, sans-serif;
 }
 
-.mypage-nav ul {
+.profile-header {
   display: flex;
-  justify-content: end;
-  gap: 30px;
-  list-style: none;
-  padding: 0;
+  align-items: center;
+  margin: 35px 0;
+}
+
+.profile-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.profile-info {
+  flex-grow: 1;
+}
+
+h2 {
   margin: 0;
-  border-bottom: 0px solid #ccc;
+  font-size: 24px;
 }
 
-.mypage-nav li {
-  font-size: 12px;
-  padding: 5px 0;
+.follow-info {
+  margin-top: 10px;
+  color: gray;
 }
 
-.nav-item {
-  color: rgb(0 0 0 / 41%);
-  text-decoration: none;
+.point-contain {
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
 }
 
-.active {
-  color: rgba(0, 0, 0, 0.952);
+.points-section {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.btn {
+  display: flex;
+  gap: 20px;
+}
+
+.edit-profile-button {
+  display: block;
+  width: 100%;
+  padding: 12px 10px;
+  background-color: #efe794;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
   font-weight: 600;
 }
 
-.content {
-  padding: 20px;
+.menu {
+  margin-top: 20px;
+}
+
+.menu ul {
+  list-style: none;
+  padding: 20px 0;
+}
+
+.menu li {
+  padding: 20px 5px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.menu li:hover {
+  color: #007bff;
 }
 </style>
