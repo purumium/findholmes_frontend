@@ -1,7 +1,18 @@
 <template>
   <div class="receive-container">
-    <h2>의뢰서 목록</h2>
-    <p>사용자가 보낸 의뢰서에 답변서 보내기</p>
+    <header class="receive-header" @click="goBack">
+      <button class="back-button">&lt;</button>
+      <h2>받은 의뢰서</h2>
+      <span class="receive-span"></span>
+    </header>
+
+    <section class="services">
+      <div class="service-card">
+        <img src="@/assets/main/service1.png" />
+        <div>사용자가 보낸 의뢰서를 확인하고</div>
+        <div>답변서를 보내보세요</div>
+      </div>
+    </section>
 
     <!-- Filter Select -->
     <div class="filter-container">
@@ -23,23 +34,21 @@
       </select>
     </div>
 
-    <div class="receive-list">
+    <div class="receive-contain">
       <div
         v-for="(assigned, index) in filteredRequests"
         :key="index"
         class="estimate-card"
+        @click="moveToRequestDetail(assigned.requestId)"
       >
         <div class="estimate-image">
           <img src="/images/request.png" alt="Placeholder Image" />
         </div>
         <div class="estimate-content">
-          <div
-            class="estimate"
-            @click="moveToRequestDetail(assigned.requestId)"
-          >
+          <div class="estimate">
             <h4>{{ assigned.title }}</h4>
             <div class="estimate-date">
-              <div>✔️ 의뢰 일자 : {{ assigned.createAt }}</div>
+              <div>✔️ 의뢰 일자 : {{ timeconvert(assigned.createAt) }}</div>
               <div>✔️ 의뢰 분야 : {{ assigned.speciality.specialityName }}</div>
             </div>
           </div>
@@ -81,6 +90,9 @@ export default {
     this.getAssignedRequests();
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     async getAssignedRequests() {
       console.log("실행시도");
       try {
@@ -96,33 +108,76 @@ export default {
     moveToRequestDetail(requestId) {
       this.$router.push(`/detective/received/${requestId}`);
     },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    },
   },
 };
 </script>
 
 <style scoped>
 .receive-container {
-  width: 100%;
   max-width: 800px;
-  margin: 0 auto;
-  padding: 30px 0;
+  font-family: Arial, sans-serif;
+}
+
+.receive-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 h2 {
-  text-align: center;
-  margin-bottom: -10px;
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-p {
-  text-align: center;
+.receive-span {
   color: #666;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
+}
+
+.services {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.service-card {
+  background-color: #c4c2ba17;
+  padding: 15px 0;
+}
+
+.service-card img {
+  height: 110px;
+  width: 130px;
+}
+
+.service-card div {
   font-size: 13px;
-  margin-bottom: 30px;
+  color: #190404;
+  margin: 5px 0;
 }
 
 .filter-container {
-  margin-bottom: 20px;
-  margin-right: 20px;
+  margin: 10px 10px 0 -7px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -141,39 +196,44 @@ p {
   border: 1px solid #ccc;
 }
 
-.estimate {
-  border: 1px solid #80808052;
-  padding: 12px 0px 12px 15px;
-  max-width: 400px;
-  width: 400px;
-  border-radius: 8px;
-  box-sizing: border-box;
-  margin-bottom: 11px;
-  transition: background-color 0.4s ease;
+.receive-contain {
+  margin: 0 auto;
+  padding: 10px 10px 25px 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
 }
 
-.estimate:hover {
+.estimate-card {
+  align-items: center;
+  border: 1px solid #80808038;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.estimate {
+  padding: 2px 10px;
+  max-width: 245px;
+  box-sizing: border-box;
+}
+
+.estimate-card:hover {
   cursor: pointer;
   background-color: #80808013;
 }
 
-.estimate-card {
-  display: flex;
-  align-items: center;
-  background-color: #bbb4b41a;
-  padding: 20px;
-  margin-bottom: 20px;
+.estimate-content {
+  flex: 1;
+}
+
+.estimate-image {
+  margin: 10px auto;
+  text-align: center;
 }
 
 .estimate-image img {
   width: 50px;
   height: 50px;
-  border-radius: 8px;
-  margin: 20px 30px;
-}
-
-.estimate-content {
-  flex: 1;
 }
 
 .estimate-content h4 {
@@ -202,27 +262,15 @@ button {
   cursor: pointer;
 }
 
-/* Media Query for small devices */
+/* 작은 화면에서는 1열로 표시되도록 Media Query */
 @media (max-width: 768px) {
-  h2 {
-    font-size: 20px;
+  .receive-contain {
+    grid-template-columns: 1fr; /* 작은 화면에서는 한 행에 1개의 카드 */
   }
 
   .estimate {
-    border: 1px solid #80808052;
-    padding: 10px 25px;
-    max-width: 400px;
-    border-radius: 20px;
+    padding: 2px 10px;
     box-sizing: border-box;
-    text-align: center;
-  }
-
-  .estimate-date {
-    display: flex;
-    gap: 14px;
-    align-items: end;
-    justify-content: center;
-    margin-top: 4px;
   }
 
   .estimate-card {
@@ -235,7 +283,6 @@ button {
   }
 
   .estimate-content {
-    margin-top: 10px;
   }
 
   .estimate-content h4 {

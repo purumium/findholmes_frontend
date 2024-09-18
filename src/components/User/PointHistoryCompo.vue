@@ -13,9 +13,18 @@
 
 <script>
 export default {
+  computed: {
+    roles() {
+      return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
+    },
+  },
   methods: {
     goBack() {
-      this.$router.push("/mypage");
+      if (this.roles === "ROLE_DETECTIVE") {
+        this.$router.push("/detective/mypage");
+      } else {
+        this.$router.push("/mypage");
+      }
     },
   },
 };

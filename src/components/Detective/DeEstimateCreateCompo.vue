@@ -1,63 +1,73 @@
 <template>
-  <div class="response-page-contatiner">
-    <div>
-      <h2>답변서</h2>
-      <p>사용자의 의뢰에 대한 답변서를 작성해주세요</p>
-    </div>
-    <form @submit.prevent="replyRequest">
-      <div class="response-main">
-        <div class="receive-list">
-          <div class="estimate-card">
-            <div class="estimate-image">
+  <div class="response-container">
+    <header class="response-header" @click="goBack">
+      <button class="back-button">&lt;</button>
+      <h2>답변서 작성</h2>
+      <span class="header-span">의뢰에 대한 답변서를 작성해주세요</span>
+    </header>
+
+    <div class="response-contain">
+      <form @submit.prevent="replyRequest">
+        <div class="response-main">
+          <div class="request-card">
+            <div class="request-image">
               <img src="/images/request.png" alt="Placeholder Image" />
             </div>
-            <div class="estimate-content">
-              <div class="estimate">
-                <h4>{{ requests.title }}</h4>
-                <div class="estimate-date">
+            <div class="request-content">
+              <div class="request">
+                <h4>
+                  {{ requests.title }}
+                  <span class="request-nametag">의뢰서</span>
+                </h4>
+                <div class="request-date">
                   <div>✔️ 의뢰 일자 : {{ requests.createAt }}</div>
                   <div>✔️ 의뢰 분야 : {{ requests.speciality }}</div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="response-form">
+            <div class="form-group">
+              <label for="title">답변서 제목</label>
+              <input
+                type="text"
+                id="title"
+                v-model="title"
+                placeholder="(예) 증거를 찾아드리겠습니다"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="title">예상 금액</label>
+              <input
+                type="number"
+                id="price"
+                v-model="price"
+                class="no-spinner"
+                placeholder="(예) 90,000"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="title">답변 내용</label>
+              <textarea
+                id="description"
+                v-model="description"
+                placeholder=""
+              ></textarea>
+            </div>
+
+            <button type="submit" class="submit-button">
+              <div class="submit-div">
+                <span>답변서 전송</span>
+                <span>💰 -1000</span>
+              </div>
+            </button>
+          </div>
         </div>
-
-        <div class="response-form">
-          <div class="form-group">
-            <label for="title">답변서 제목</label>
-            <input
-              type="text"
-              id="title"
-              v-model="title"
-              placeholder="(예) 증거를 찾아드리겠습니다"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="title">견적 금액</label>
-            <input
-              type="number"
-              id="price"
-              v-model="price"
-              class="no-spinner"
-              placeholder="(예) 90,000"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="title">답변 내용</label>
-            <textarea
-              id="description"
-              v-model="description"
-              placeholder=""
-            ></textarea>
-          </div>
-
-          <button type="submit" class="submit-button">답변서 전송</button>
-        </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -82,6 +92,9 @@ export default {
     await this.getRequestDetail();
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     async getRequestDetail() {
       try {
         const response = await axios.get("/api/receive/detail", {
@@ -126,57 +139,84 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  text-align: center;
-  margin-bottom: -10px;
+.response-container {
+  font-family: Arial, sans-serif;
 }
 
-p {
-  text-align: center;
-  color: #666;
-  font-size: 13px;
-  margin-bottom: 25px;
-}
-
-.response-page-contatiner {
-  padding: 30px;
-  max-width: 600px;
-  margin: auto;
-}
-
-.estimate-card {
+.response-header {
   display: flex;
   align-items: center;
-  flex-direction: column;
-  padding: 25px 20px 25px 15px;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+h2 {
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.header-span {
+  color: #666;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
+}
+
+.response-contain {
+  margin: 25px 20px;
+}
+
+.request-card {
+  display: flex;
+  align-items: center;
+  /* flex-direction: column; */
+  gap: 30px;
+  padding: 25px 30px;
   border: 1px solid #8080803b;
 }
 
-.estimate-image img {
+.request-image img {
   width: 50px;
   height: 50px;
   border-radius: 8px;
 }
 
-.estimate-content {
+.request-nametag {
+  border: 1px solid #8080804d;
+  padding: 3px 10px;
+  font-size: 11px;
+  background-color: #f7f284d4;
+  border-radius: 20px;
+}
+
+.request-content {
   width: 94%;
 }
 
-.estimate-content h4 {
+.request-content h4 {
   color: #2a2929d6;
   margin-top: 0px;
   margin-bottom: 10px;
   font-size: 16px;
 }
 
-.estimate-date {
+.request-date {
   display: flex;
   flex-direction: column;
   gap: 4px;
   font-size: 16px;
 }
 
-.estimate-date div {
+.request-date div {
   font-size: 14px;
   color: #666;
 }
@@ -236,10 +276,23 @@ p {
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
   padding: 8px 0px;
-  border-radius: 20px;
+  border-radius: 9px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.submit-div {
+  display: flex;
+  justify-content: end;
+  gap: 150px;
+  margin-right: 26px;
+}
+
+.submit-div span:nth-child(2) {
+  color: #ecb900;
+  font-size: 15px;
+  letter-spacing: 1px;
 }
 
 @media (max-width: 480px) {
@@ -255,20 +308,33 @@ p {
     font-size: 11px;
   }
 
-  .estimate-card[data-v-64b51341] {
-    padding: 17px 10px;
+  .submit-div {
+    display: flex;
+    justify-content: end;
+    gap: 66px;
+    margin-right: 15px;
   }
 
-  .estimate-image img {
+  .submit-div span:nth-child(2) {
+    color: #ecb900;
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .request-card[data-v-64b51341] {
+    padding: 20px;
+  }
+
+  .request-image img {
     width: 35px;
     height: 35px;
   }
 
-  .estimate-content h4 {
+  .request-content h4 {
     font-size: 13px;
   }
 
-  .estimate-date {
+  .request-date {
     font-size: 12px;
   }
 

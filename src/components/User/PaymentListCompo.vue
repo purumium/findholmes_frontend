@@ -48,7 +48,11 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push("/mypage");
+      if (this.roles === "ROLE_DETECTIVE") {
+        this.$router.push("/detective/mypage");
+      } else {
+        this.$router.push("/mypage");
+      }
     },
     fetchPaymentHistory() {
       axios.defaults.headers.common[

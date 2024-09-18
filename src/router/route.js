@@ -15,20 +15,16 @@ import NotificationCompo from "@/components/User/NotificationCompo.vue";
 import PaymentResultCompo from "@/components/User/PaymentResultCompo.vue";
 import DeMainCompo from "@/components/Detective/DeMainCompo.vue";
 import DeMiddleCompo from "@/components/Detective/DeMiddleCompo.vue";
-import DeNotificationCompo from "@/components/Detective/DeNotificationCompo.vue";
 import DeEstimateListCompo from "@/components/Detective/DeEstimateListCompo.vue";
 import DeReceivedListCompo from "@/components/Detective/DeReceivedListCompo.vue";
 import DeMypageCompo from "@/components/Detective/DeMypageCompo.vue";
 import DeMyInfoCompo from "@/components/Detective/DeMyInfoCompo.vue";
-import DePaymentCompo from "@/components/Detective/DePaymentCompo.vue";
-import DePaymentListCompo from "@/components/Detective/DePaymentListCompo.vue";
-import DePaymentResultCompo from "@/components/Detective/DePaymentResultCompo.vue";
 import DeChatCompo from "@/components/Detective/DeChatCompo.vue";
 import ChatRoomCompo from "@/components/User/ChatRoomCompo.vue";
 import DetailReceiveCompo from "@/components/User/DetailReceiveCompo.vue";
 import DeChatRoomCompo from "@/components/Detective/DeChatRoomCompo.vue";
 import DeReceivedDetailCompo from "@/components/Detective/DeReceivedDetailCompo.vue";
-import DeCreateEstimateCompo from "@/components/Detective/DeCreateEstimateCompo.vue";
+import DeEstimateCreateCompo from "@/components/Detective/DeEstimateCreateCompo.vue";
 import DetailRequestCompo from "@/components/User/DetailRequestCompo.vue";
 import DetectiveListCompo from "@/components/User/DetectiveListCompo.vue";
 import DeRegisterCompo from "@/components/Detective/DeRegisterCompo.vue";
@@ -36,9 +32,10 @@ import TestCompo from "@/components/Admin/TestCompo.vue";
 import ReviewListCompo from "@/components/User/ReviewListCompo.vue";
 import PointHistoryCompo from "@/components/User/PointHistoryCompo.vue";
 import InqueryCompo from "@/components/User/InqueryCompo.vue";
-import DeleteAccount from "@/components/User/DeleteAccount.vue";
+import DeleteAccountCompo from "@/components/User/DeleteAccountCompo.vue";
 import PrivacyPolicyCompo from "@/components/User/PrivacyPolicyCompo.vue";
 import MypageCompo from "@/components/User/MypageCompo.vue";
+import DeEstimateCompo from "@/components/Detective/DeEstimateCompo.vue";
 
 const routes = [
   {
@@ -52,7 +49,7 @@ const routes = [
       },
       {
         path: "notification",
-        component: DeNotificationCompo,
+        component: NotificationCompo,
       },
       {
         path: "chat",
@@ -72,7 +69,12 @@ const routes = [
       },
       {
         path: "estimate/:requestId",
-        component: DeCreateEstimateCompo,
+        component: DeEstimateCreateCompo,
+        props: true,
+      },
+      {
+        path: "view/estimate/:requestId",
+        component: DeEstimateCompo,
         props: true,
       },
       {
@@ -88,40 +90,53 @@ const routes = [
       {
         path: "mypage",
         component: DeMypageCompo,
-        children: [
-          {
-            path: "myinfo",
-            component: DeMyInfoCompo,
-            alias: [""],
-          },
-          {
-            path: "payment",
-            component: DePaymentCompo,
-          },
-          {
-            path: "paymentlist",
-            component: DePaymentListCompo,
-          },
-          {
-            path: "deregister",
-            component: DeRegisterCompo,
-          },
-          {
-            path: "test",
-            component: TestCompo,
-          },
-          {
-            path: "paymentResult",
-            name: "dePaymentResult",
-            component: DePaymentResultCompo,
-            props: (route) => ({
-              merchantUid: route.query.merchantUid,
-              paymentDetails: route.query.paymentDetails,
-              paymentAt: route.query.paymentAt,
-              price: route.query.price,
-            }),
-          },
-        ],
+      },
+      {
+        path: "register",
+        component: DeRegisterCompo,
+      },
+      {
+        path: "myinfo",
+        component: DeMyInfoCompo,
+      },
+      {
+        path: "point",
+        component: PointHistoryCompo, // 포인트 사용내역
+      },
+      {
+        path: "payment",
+        component: PaymentCompo,
+      },
+      {
+        path: "paymentlist",
+        component: PaymentListCompo,
+      },
+      {
+        path: "test",
+        component: TestCompo,
+      },
+      {
+        path: "paymentResult",
+        name: "paymentResult",
+        component: PaymentResultCompo,
+        props: (route) => ({
+          merchantUid: route.query.merchantUid,
+          paymentDetails: route.query.paymentDetails,
+          paymentAt: route.query.paymentAt,
+          price: route.query.price,
+        }),
+      },
+      {
+        path: "inquery",
+        component: InqueryCompo, // 문의하기
+      },
+      {
+        path: "deleteaccount",
+        component: DeleteAccountCompo, // 회원탈퇴
+      },
+      {
+        path: "privacypolicy",
+        component: PrivacyPolicyCompo, // 개인정보처리방침
       },
     ],
   },
@@ -222,7 +237,7 @@ const routes = [
       },
       {
         path: "deleteaccount",
-        component: DeleteAccount, // 회원탈퇴
+        component: DeleteAccountCompo, // 회원탈퇴
       },
       {
         path: "privacypolicy",

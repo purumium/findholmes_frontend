@@ -27,10 +27,13 @@
           <label for="category">문의 유형</label>
           <select id="category" v-model="category" required>
             <option disabled value="">카테고리 선택</option>
-            <option value="일반 문의">일반 문의</option>
-            <option value="결제 문제">결제 문제</option>
-            <option value="탐정 신고">탐정 신고</option>
-            <option value="기타">기타</option>
+            <option
+              v-for="(option, index) in filteredCategories"
+              :key="index"
+              :value="option"
+            >
+              {{ option }}
+            </option>
           </select>
         </div>
 
@@ -62,11 +65,32 @@ export default {
       email: "",
       category: "",
       message: "",
+      userCategories: ["일반 문의", "결제 문제", "탐정 신고 관련", "기타"],
+      detectiveCategories: [
+        "일반 문의",
+        "결제 문제",
+        "사용자 신고 관련",
+        "기타",
+      ],
     };
+  },
+  computed: {
+    roles() {
+      return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
+    },
+    filteredCategories() {
+      return this.roles === "ROLE_DETECTIVE"
+        ? this.detectiveCategories
+        : this.userCategories;
+    },
   },
   methods: {
     goBack() {
-      this.$router.push("/mypage");
+      if (this.roles === "ROLE_DETECTIVE") {
+        this.$router.push("/detective/mypage");
+      } else {
+        this.$router.push("/mypage");
+      }
     },
     handleSubmit() {
       alert("문의가 성공적으로 제출되었습니다.");
