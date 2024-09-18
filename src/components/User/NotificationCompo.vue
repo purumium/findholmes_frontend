@@ -11,7 +11,23 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    roles() {
+      return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
+    },
+  },
+  methods: {
+    goBack() {
+      if (this.$route.path.startsWith("/detective")) {
+        // 현재 경로가 '/detective'로 시작하면 브라우저 히스토리에서 뒤로 가기
+        this.$router.go(-1);
+      } else {
+        this.$router.push("/mypage");
+      }
+    },
+  },
+};
 </script>
 
 <style scoped>

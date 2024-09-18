@@ -38,16 +38,6 @@
 
         <div v-else class="icon-container">
           <!-- 로그인 후: 채팅, 알림, 로그아웃 버튼 -->
-          <div
-            class="icon-wrapper"
-            @mouseover="tooltipText = '채팅'"
-            @mouseleave="tooltipText = ''"
-          >
-            <router-link to="/detective/chat" active-class="active">
-              <font-awesome-icon :icon="['fas', 'comment-dots']" class="icon" />
-            </router-link>
-            <span v-if="tooltipText === '채팅'" class="tooltip">채팅</span>
-          </div>
 
           <div
             class="icon-wrapper"

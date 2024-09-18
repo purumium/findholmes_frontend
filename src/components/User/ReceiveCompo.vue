@@ -123,6 +123,28 @@ h2 {
   margin: 25px 20px;
 }
 
+.services {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.service-card {
+  background-color: #c4c2ba17;
+  padding: 15px 0;
+}
+
+.service-card img {
+  /* margin-bottom: 10px; */
+  height: 110px;
+  width: 130px;
+}
+
+.service-card div {
+  font-size: 13px;
+  color: #190404;
+  margin: 5px 0;
+}
+
 .estimate {
   border: 1px solid #80808052;
   padding: 12px 0px 12px 15px;
@@ -184,28 +206,6 @@ button {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-}
-
-.services {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.service-card {
-  background-color: #c4c2ba17;
-  padding: 15px 0;
-}
-
-.service-card img {
-  /* margin-bottom: 10px; */
-  height: 110px;
-  width: 130px;
-}
-
-.service-card div {
-  font-size: 13px;
-  color: #190404;
-  margin: 5px 0;
 }
 
 @media (max-width: 768px) {

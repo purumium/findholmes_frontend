@@ -149,25 +149,6 @@ export default {
         { name: "아동경호", imgSrc: "/images/speciality.png", id: 9 },
         { name: "사람찾기", imgSrc: "/images/speciality.png", id: 10 },
       ],
-      ads: [
-        {
-          image: "/images/ad1.jpg",
-          title: "딱 24시간 동안 담아보세요",
-          description: "월간이구홈 테이블웨어 단독 ~61+12%",
-        },
-        {
-          image: "/images/ad2.jpg",
-          title: "추석선물 10%쿠폰",
-          description: "지금 바로 적용 가능!",
-        },
-        {
-          image: "/images/ad3.jpg",
-          title: "봄 세일 시작!",
-          description: "최대 50% 할인",
-        },
-      ],
-      currentSlide: 0,
-      slideInterval: null, // 슬라이드 자동 전환을 위한 변수
     };
   },
   methods: {
@@ -197,30 +178,6 @@ export default {
         query: { location: "", specialityId: index + 1 },
       });
     },
-    onRegionChange() {
-      console.log("Selected Region: ", this.selectedRegion);
-    },
-    onCategoryChange() {
-      console.log("Selected Category: ", this.selectedCategory);
-    },
-    onSearch() {
-      console.log("Searching with", this.selectedRegion, this.selectedCategory);
-      // 검색 로직 추가
-    },
-    startSlideShow() {
-      this.slideInterval = setInterval(() => {
-        this.currentSlide = (this.currentSlide + 1) % this.ads.length;
-      }, 3000); // 3초마다 슬라이드 전환
-    },
-    stopSlideShow() {
-      clearInterval(this.slideInterval);
-    },
-  },
-  mounted() {
-    this.startSlideShow(); // 컴포넌트가 로드되면 슬라이드 쇼 시작
-  },
-  beforeUnmount() {
-    this.stopSlideShow(); // 컴포넌트가 파괴되기 전에 슬라이드 쇼 정지
   },
 };
 </script>
@@ -260,6 +217,28 @@ h2 {
 
 .find-contain {
   margin: 25px 20px;
+}
+
+.services {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.service-card {
+  background-color: #c4c2ba17;
+  padding: 15px 0;
+}
+
+.service-card img {
+  /* margin-bottom: 10px; */
+  height: 110px;
+  width: 130px;
+}
+
+.service-card div {
+  font-size: 13px;
+  color: #190404;
+  margin: 5px 0;
 }
 
 .search-bar {
@@ -332,27 +311,5 @@ select {
 .speciality-item p {
   font-size: 10px;
   margin-top: 5px;
-}
-
-.services {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.service-card {
-  background-color: #c4c2ba17;
-  padding: 15px 0;
-}
-
-.service-card img {
-  /* margin-bottom: 10px; */
-  height: 110px;
-  width: 130px;
-}
-
-.service-card div {
-  font-size: 13px;
-  color: #190404;
-  margin: 5px 0;
 }
 </style>

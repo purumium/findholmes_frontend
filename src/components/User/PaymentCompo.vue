@@ -4,50 +4,19 @@
       <button class="back-button">&lt;</button>
       <h2>포인트 결제하기</h2>
     </header>
+
     <div class="payment-contain">
-      <div class="payment-option" @click="handlePayment(100)">
+      <div
+        class="payment-option"
+        v-for="(option, index) in filteredPaymentOptions"
+        :key="index"
+        @click="handlePayment(option.amount)"
+      >
         <div>
-          <div class="payment-cash">100 캐시</div>
-          <div class="payment-bonus">보너스 캐시</div>
-          <div class="payment-discount">적립</div>
+          <div class="payment-cash">{{ option.cash }} 포인트</div>
+          <div class="payment-discount">{{ option.discount }}</div>
         </div>
-        <div class="price">100원</div>
-      </div>
-
-      <div class="payment-option" @click="handlePayment(1000)">
-        <div>
-          <div class="payment-cash">1,000 캐시</div>
-          <div class="payment-bonus">보너스 캐시</div>
-          <div class="payment-discount">적립</div>
-        </div>
-        <div class="price">1,000원</div>
-      </div>
-
-      <div class="payment-option" @click="handlePayment(5000)">
-        <div>
-          <div class="payment-cash">5,000캐시</div>
-          <div class="payment-bonus">보너스 캐시</div>
-          <div class="payment-discount">적립</div>
-        </div>
-        <div class="price">5,000원</div>
-      </div>
-
-      <div class="payment-option" @click="handlePayment(10000)">
-        <div>
-          <div class="payment-cash">10,000 캐시</div>
-          <div class="payment-bonus">보너스 캐시</div>
-          <div class="payment-discount">적립</div>
-        </div>
-        <div class="price">10,000원</div>
-      </div>
-
-      <div class="payment-option" @click="handlePayment(50000)">
-        <div>
-          <div class="payment-cash">50,000 캐시</div>
-          <div class="payment-bonus">보너스 캐시</div>
-          <div class="payment-discount">적립</div>
-        </div>
-        <div class="price">50,000원</div>
+        <div class="price">{{ option.price }}원</div>
       </div>
     </div>
   </div>
@@ -64,14 +33,82 @@ export default {
       email: null,
       phonenumber: null,
       token: null, // 로컬스토리지에서 토큰을 저장할 변수
+      userPaymentOptions: [
+        {
+          cash: 100,
+          discount: "적립",
+          price: 100,
+        },
+        {
+          cash: 5000,
+          discount: "적립",
+          price: "5,000",
+        },
+        {
+          cash: 10000,
+          discount: "적립",
+          price: "10,000",
+        },
+        {
+          cash: 30000,
+          discount: "적립",
+          price: "30,000",
+        },
+        {
+          cash: 50000,
+          discount: "적립",
+          price: "50,000",
+        },
+      ],
+      detectivePaymentOptions: [
+        {
+          cash: 100,
+          discount: "적립",
+          price: 100,
+        },
+        {
+          cash: 5000,
+          discount: "적립",
+          price: "5,000",
+        },
+        {
+          cash: 10000,
+          discount: "적립",
+          price: "10,000",
+        },
+        {
+          cash: 50000,
+          discount: "적립",
+          price: "50,000",
+        },
+        {
+          cash: 100000,
+          discount: "적립",
+          price: "100,000",
+        },
+      ],
     };
   },
   mounted() {
     this.fetchUserInfo(); // 컴포넌트 마운트 시 유저 정보 가져오기
   },
+  computed: {
+    roles() {
+      return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
+    },
+    filteredPaymentOptions() {
+      return this.roles === "ROLE_DETECTIVE"
+        ? this.detectivePaymentOptions
+        : this.userPaymentOptions;
+    },
+  },
   methods: {
     goBack() {
-      this.$router.push("/mypage");
+      if (this.roles === "ROLE_DETECTIVE") {
+        this.$router.push("/detective/mypage");
+      } else {
+        this.$router.push("/mypage");
+      }
     },
     // 유저 정보 가져오는 함수
     fetchUserInfo() {

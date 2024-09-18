@@ -11,7 +11,7 @@
         <div class="reason-list">
           <div
             class="reason-item"
-            v-for="(reason, index) in reasons"
+            v-for="(reason, index) in filteredReasons"
             :key="index"
             @click="selectReason(reason)"
             :class="{ selected: selectedReason === reason }"
@@ -48,8 +48,8 @@
 export default {
   data() {
     return {
-      userName: "선선해",
-      reasons: [
+      userName: "선선해", // 사용자 이름 예시
+      userReasons: [
         "쓰지 않는 앱이에요",
         "홈즈 추천 기능이 유용하지 않아요",
         "오류가 생겨서 쓸 수 없어요",
@@ -57,12 +57,35 @@ export default {
         "앱 사용법을 모르겠어요",
         "기타",
       ],
+      detectiveReasons: [
+        "의뢰가 충분히 들어오지 않아요",
+        "탐정 활동에 제약이 많아요",
+        "수수료가 너무 높아요",
+        "지원이 부족하다고 느껴요",
+        "앱 사용이 불편해요",
+        "기타",
+      ],
       selectedReason: null,
     };
   },
+  computed: {
+    roles() {
+      return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
+    },
+    filteredReasons() {
+      console.log("roles : " + this.roles);
+      return this.roles === "ROLE_DETECTIVE"
+        ? this.detectiveReasons
+        : this.userReasons;
+    },
+  },
   methods: {
     goBack() {
-      this.$router.push("/mypage");
+      if (this.roles === "ROLE_DETECTIVE") {
+        this.$router.push("/detective/mypage");
+      } else {
+        this.$router.push("/mypage");
+      }
     },
     selectReason(reason) {
       this.selectedReason = reason;
