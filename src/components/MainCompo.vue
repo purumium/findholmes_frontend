@@ -104,7 +104,6 @@ export default {
 
 .header-section img {
   width: 100%;
-  margin-top: 10px;
 }
 
 .services {

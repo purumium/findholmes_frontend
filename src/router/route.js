@@ -35,9 +35,10 @@ import DeRegisterCompo from "@/components/Detective/DeRegisterCompo.vue";
 import TestCompo from "@/components/Admin/TestCompo.vue";
 import ReviewListCompo from "@/components/User/ReviewListCompo.vue";
 import PointHistoryCompo from "@/components/User/PointHistoryCompo.vue";
-import ContactUsCompo from "@/components/User/ContactUsCompo.vue";
+import InqueryCompo from "@/components/User/InqueryCompo.vue";
 import DeleteAccount from "@/components/User/DeleteAccount.vue";
 import PrivacyPolicyCompo from "@/components/User/PrivacyPolicyCompo.vue";
+import MypageCompo from "@/components/User/MypageCompo.vue";
 
 const routes = [
   {
@@ -181,6 +182,10 @@ const routes = [
         props: true,
       },
       {
+        path: "mypage",
+        component: MypageCompo, // 나의페이지
+      },
+      {
         path: "myinfo",
         component: MyinfoCompo, // 프로필 편집
       },
@@ -212,8 +217,8 @@ const routes = [
         }),
       },
       {
-        path: "contactus",
-        component: ContactUsCompo, // 문의하기
+        path: "inquery",
+        component: InqueryCompo, // 문의하기
       },
       {
         path: "deleteaccount",

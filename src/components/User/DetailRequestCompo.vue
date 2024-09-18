@@ -1,8 +1,12 @@
 <template>
-  <div class="request-form-table">
-    <h2>의뢰서</h2>
-    <p>홈즈에게 보낸 의뢰서</p>
-    <div class="request">
+  <div class="request-container">
+    <header class="request-header" @click="goBack">
+      <button class="back-button">&lt;</button>
+      <h2>의뢰서</h2>
+      <span class="header-span">홈즈에게 보낸 의뢰서</span>
+    </header>
+
+    <div class="request-contain">
       <table class="request-table">
         <tr>
           <td class="label">의뢰 제목</td>
@@ -88,25 +92,40 @@ export default {
 </script>
 
 <style scoped>
-.request-form-table {
+.request-container {
+  font-family: Arial, sans-serif;
+}
+
+.request-header {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 30px 30px;
+  align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 h2 {
-  text-align: center;
-  margin-bottom: -10px;
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-p {
-  text-align: center;
+.header-span {
   color: #666;
-  font-size: 13px;
-  margin-bottom: 30px;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
+}
+
+.request-contain {
+  margin: 25px 20px;
 }
 
 .request-table {
@@ -116,7 +135,7 @@ p {
 
 .request-table td {
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: x;
 }
 
 .label {
