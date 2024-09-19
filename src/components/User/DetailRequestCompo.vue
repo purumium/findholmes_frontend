@@ -20,8 +20,6 @@
 
           <tr>
             <td class="label">탐정 성별</td>
-          </tr>
-          <tr>
             <td class="value">
               {{ request.gender }}
             </td>
