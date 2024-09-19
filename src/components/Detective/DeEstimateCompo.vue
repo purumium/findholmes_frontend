@@ -26,9 +26,11 @@
             <div class="request-content">
               <div class="request">
                 <div class="request-date">
-                  <div>✔️ 의뢰 제목 : {{ requests.title }}</div>
-                  <div>✔️ 의뢰 일자 : {{ timeconvert(requests.createAt) }}</div>
-                  <div>✔️ 의뢰 분야 : {{ requests.speciality }}</div>
+                  <div>✔️ 의뢰 제목 : {{ estimate.requestTitle }}</div>
+                  <div>
+                    ✔️ 의뢰 일자 : {{ timeconvert(estimate.requestCreateAt) }}
+                  </div>
+                  <div>✔️ 의뢰 분야 : {{ estimate.speciality }}</div>
                 </div>
               </div>
             </div>
@@ -39,22 +41,22 @@
           <div class="estimate">
             <div class="form-group">
               <label>답변서 제목</label>
-              <p>{{ estimates.title }}</p>
+              <p>{{ estimate.estimateTitle }}</p>
             </div>
 
             <div class="form-group">
               <label>답변 날짜</label>
-              <p>{{ timeconvert(estimates.createAt) }}</p>
+              <p>{{ timeconvert(estimate.estimateCreateAt) }}</p>
             </div>
 
             <div class="form-group">
               <label>예상 금액</label>
-              <p>{{ estimates.price }}원</p>
+              <p>{{ estimate.price }}원</p>
             </div>
 
             <div class="form-group">
               <label>답변 내용</label>
-              <p class="reply-content">{{ estimates.description }}</p>
+              <p class="reply-content">{{ estimate.description }}</p>
             </div>
           </div>
         </div>
@@ -65,42 +67,36 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   props: ["requestId"],
   data() {
     return {
-      estimates: [],
-      requests: [],
+      estimate: [],
     };
   },
-  mounted() {
+  created() {
     this.getEstimates();
-    this.getRequestDetail();
+  },
+  computed: {
+    ...mapGetters(["getRoles", "getId"]),
   },
   methods: {
     goBack() {
       this.$router.go(-1);
     },
-    async getRequestDetail() {
-      try {
-        const response = await axios.get("/api/receive/detail", {
-          params: { requestId: this.requestId },
-        });
-        this.requests = response.data;
-        console.log(this.requests);
-      } catch (error) {
-        this.requests = [];
-      }
-    },
     async getEstimates() {
       console.log(this.requestId);
       try {
-        const response = await axios.get("/api/reply/detail", {
-          params: { requestId: this.requestId },
+        const response = await axios.get("/api/estimate/list", {
+          params: {
+            userId: this.getId,
+            requestId: this.requestId,
+          },
         });
-        this.estimates = response.data[0];
-        console.log(this.estimates);
+        this.estimate = response.data[0];
+        console.log("상세답변서:", this.estimate);
       } catch (error) {
         return;
       }
