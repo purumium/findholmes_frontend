@@ -8,7 +8,7 @@
       <form @submit.prevent="handleProfileSubmit">
         <div class="form-group">
           <label>이메일</label>
-          <input v-model="email" type="email" id="email" required readonly />
+          <input v-model="email" type="email" id="email" required readonly/>
         </div>
         <div class="form-group">
           <label>이름</label>
@@ -46,9 +46,12 @@
               required
             />
           </div>
+          <p v-if="passwordMessage" :class="{ error: !isPasswordValid, success: isPasswordValid }">
+            {{ passwordMessage }}
+          </p>
         </div>
         <div class="button-group">
-          <button type="submit" class="btn-profile">프로필 수정</button>
+          <button type="submit" class="btn-profile" :disabled="!isPasswordValid">프로필 수정</button>
         </div>
       </form>
 
@@ -60,6 +63,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -71,13 +76,82 @@ export default {
       confirmPassword: "",
       message: "",
       isPasswordValid: false,
+      passwordMessage: "",
       isSuccess: false,
     };
+  },
+  watch: {
+    newPassword(value) {
+      console.log(value)
+      this.checkPasswordMatch();
+    },
+    confirmPassword(value) {
+      console.log(value)
+      this.checkPasswordMatch();
+    }
+  },
+  mounted() {
+    this.getUser();
   },
   methods: {
     goBack() {
       this.$router.push("/mypage");
     },
+    async getUser(){
+      const token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      try {
+        const response = await axios.get("/api/member/userinfo");
+        this.username = response.data.userName;
+        this.email = response.data.email;
+        this.phonenumber = response.data.phoneNumber;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    checkPasswordMatch() {
+      if (this.newPassword === this.confirmPassword) {
+        this.isPasswordValid = true;
+        this.passwordMessage = "비밀번호가 일치합니다.";
+      } else {
+        this.isPasswordValid = false;
+        this.passwordMessage = "비밀번호가 일치하지 않습니다.";
+      }
+    },
+    async handleProfileSubmit(){
+      if (!this.isPasswordValid) {
+        this.message = "비밀번호가 일치하지 않습니다.";
+        this.isSuccess = false;
+        return;
+      }
+      // 프로필 수정 로직 추가
+      const token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      try {
+        const response = await axios.get("/api/member/pwCheck", {
+          params: { password: this.currentPassword }
+        });
+        if(response.data){
+          try{
+            const response2 = await axios.post("/api/member/update", {
+              password : this.confirmPassword,
+              userName: this.username,
+              phoneNumber : this.phonenumber
+              
+            });
+            console.log(response2.data)
+          }catch(error){
+            console.log(error)
+          }
+          alert("회원정보 수정 완료")
+        }else{
+          alert("현재비밀번호가 다릅니다")
+        }
+        
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
 };
 </script>

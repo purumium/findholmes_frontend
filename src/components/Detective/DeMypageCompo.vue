@@ -1,5 +1,5 @@
 <template>
-  <div class="mypage-container">
+  <div v-if="loaded" class="mypage-container">
     <header class="mypage-header" @click="goBack">
       <button class="back-button">&lt;</button>
       <h2>홈즈페이지</h2>
@@ -31,7 +31,7 @@
     <div class="mypage-contain">
       <div class="menu">
         <ul>
-          <li @click="reviewlist">
+          <li @click="editMyinfo">
             <p>프로필 편집</p>
             <span>&gt;</span>
           </li>
@@ -63,15 +63,22 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
-      profileImage: "/images/mypage/user.png", // 기본 프로필 이미지
-      userName: "선선선선해",
-      email: "one@gmail.com",
+      
+      profileImage: "@/assets/detective.png", // 기본 프로필 이미지
+      userName: "",
+      email: "",
       points: 1000, // 포인트 기본값
       approvalStatus: "대기중",
+      loaded : false
     };
+  },
+  mounted() {
+    this.getUser();
   },
   methods: {
     goBack() {
@@ -100,6 +107,31 @@ export default {
     },
     privacyPolicy() {
       this.$router.push("/detective/privacypolicy");
+    },
+    async getUser(){
+      const token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      try {
+        const response = await axios.get("/api/detective/getDetectiveDetail");
+        this.userName = response.data.userName
+        this.email = response.data.email
+        
+        
+        console.log(response.data)
+        if(response.data.profilePicture === null){
+          this.profileImage = require('@/assets/detective.png'); // 기본 이미지 경로
+        }
+        else{
+          this.profileImage = this.getImageUrl(response.data.profilePicture);
+        }
+        
+        this.loaded = true
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    getImageUrl(path){
+      return `http://localhost:8080/${path}`;
     },
   },
 };

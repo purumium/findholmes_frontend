@@ -29,8 +29,23 @@
                 @change="handleFileChange('profilePictureFile', $event)" 
                 type="file" 
                 id="profile_picture" 
-                required
             />
+          </div>
+          <div class="form-group">
+            <label for="additional_certification">additional certification:</label>
+            <input
+                @change="handleFileChange('additionalCertification', $event)" 
+                type="file" 
+                id="additional_certification" 
+                
+            />
+          </div>
+          <div class="form-group">
+            <textarea 
+                v-model="description" 
+                id="description" 
+                >
+            </textarea>
           </div>
           <div class="form-group">
             <textarea 
@@ -114,7 +129,9 @@ import axios from "axios";
 const businessRegistrationFile = ref(null);
 const detectiveLicenseFile = ref(null);
 const profilePictureFile = ref(null);
+const additionalCertification = ref(null);
 const introduction = ref('');
+const description = ref('');
 const location = ref('');
 const detectiveGender = ref('');
 const resolvedCases = ref(0);
@@ -138,6 +155,7 @@ const handleFileChange = (fileType, event) => {
   if (fileType === 'businessRegistrationFile') businessRegistrationFile.value = file;
   if (fileType === 'detectiveLicenseFile') detectiveLicenseFile.value = file;
   if (fileType === 'profilePictureFile') profilePictureFile.value = file;
+  if (fileType === 'additionalCertification') additionalCertification.value = file;
 };
 
 const handleSubmit = async () => {
@@ -148,6 +166,7 @@ const handleSubmit = async () => {
     formData.append('businessRegistration', businessRegistrationFile.value);
     formData.append('detectiveLicense', detectiveLicenseFile.value);
     formData.append('profilePicture', profilePictureFile.value);
+    formData.append('additionalCertification', additionalCertification.value);
     
     const fileUploadResponse = await axios.post('/api/detective/files', formData, {
       headers: {
@@ -155,7 +174,7 @@ const handleSubmit = async () => {
       },
     });
 
-    const { businessRegistrationPath, detectiveLicensePath, profilePicturePath } = fileUploadResponse.data;
+    const { businessRegistrationPath, detectiveLicensePath, profilePicturePath, additionalCertificationPath } = fileUploadResponse.data;
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     // 2. 다른 탐정 정보를 서버에 전송
@@ -163,11 +182,13 @@ const handleSubmit = async () => {
       businessRegistration: businessRegistrationPath,
       detectiveLicense: detectiveLicensePath,
       profilePicture: profilePicturePath,
+      additionalCertification: additionalCertificationPath,
       introduction: introduction.value,
       location: location.value,
       detectiveGender: detectiveGender.value,
       resolvedCases: resolvedCases.value,
       specialties: specialtyIds,
+      description: description
     });
     console.log(response)
 
