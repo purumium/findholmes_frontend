@@ -62,14 +62,19 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
       profileImage: "/images/mypage/user.png", // 기본 프로필 이미지
-      userName: "선선선선해",
-      email: "one@gmail.com",
+      userName: "",
+      email: "",
       points: 1000, // 포인트 기본값
     };
+  },
+  mounted() {
+    this.getUser();
   },
   methods: {
     goBack() {
@@ -99,7 +104,19 @@ export default {
     privacyPolicy() {
       this.$router.push("/privacypolicy");
     },
-  },
+    async getUser(){
+      const token = localStorage.getItem('token');
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      try {
+        const response = await axios.get("/api/member/userinfo");
+        this.userName = response.data.userName
+        this.email = response.data.email
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  }
 };
 </script>
 
