@@ -12,26 +12,25 @@
         :key="'estimate-' + index"
       >
         <!-- Request Card (matching the estimate) -->
-        <div v-if="assignedRequests[index]" class="estimate-card">
+        <div class="estimate-card">
           <div class="estimate-image">
             <img src="/images/request.png" alt="Placeholder Image" />
           </div>
           <div class="estimate-content">
             <div
               class="estimate"
-              @click="moveToRequestDetail(assignedRequests[index].requestId)"
+              @click="moveToRequestDetail(estimate.requestId)"
             >
-              <h4>{{ assignedRequests[index].title }}</h4>
+              <h4>{{ estimate.requestTitle }}</h4>
               <div class="estimate-date">
                 <div>
                   ✔️ 의뢰 일자 :
-                  {{ timeconvert(assignedRequests[index].createAt) }}
+                  {{ timeconvert(estimate.requestCreateAt) }}
                 </div>
                 <div>
                   ✔️ 의뢰 분야 :
-                  {{ assignedRequests[index].speciality.specialityName }}
+                  {{ estimate.speciality }}
                 </div>
-                <div>{{ estimate.requestId }}</div>
               </div>
             </div>
           </div>
@@ -47,11 +46,12 @@
               class="estimate"
               @click="moveToEstimateDetail(estimate.requestId)"
             >
-              <h4>{{ estimate.title }}</h4>
+              <h4>{{ estimate.estimateTitle }}</h4>
               <div class="estimate-date">
-                <div>✔️ 답변 일자 : {{ timeconvert(estimate.createAt) }}</div>
+                <div>
+                  ✔️ 답변 일자 : {{ timeconvert(estimate.estimateCreateAt) }}
+                </div>
                 <div>✔️ 답변 분야 : {{ estimate.speciality }}</div>
-                <div>{{ estimate.requestId }}</div>
               </div>
             </div>
           </div>
@@ -73,28 +73,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getUser", "isAuthenticated"]),
+    ...mapGetters(["getId", "isAuthenticated"]),
   },
   created() {
     this.getEstimateList();
-    this.getAssignedRequests();
   },
   methods: {
-    async getAssignedRequests() {
-      try {
-        const response = await axios.get("/api/receive", {
-          params: { email: this.getUser },
-        });
-        this.assignedRequests = response.data;
-        console.log("assigned : ", this.assignedRequests);
-      } catch (error) {
-        this.assignedRequests = [];
-      }
-    },
     async getEstimateList() {
       try {
-        const response = await axios.get("/api/reply/estimate", {
-          params: { email: this.getUser },
+        const response = await axios.get("/api/estimate/list", {
+          params: { userId: this.getId },
         });
         this.estimates = response.data;
         console.log("estimate : ", this.estimates);

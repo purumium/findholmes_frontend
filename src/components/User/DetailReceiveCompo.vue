@@ -69,6 +69,7 @@
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   props: ["requestId"],
@@ -79,6 +80,9 @@ export default {
       selectedDetective: null,
     };
   },
+  computed: {
+    ...mapGetters(["getRoles", "getId"]),
+  },
   created() {
     this.getEstimates();
   },
@@ -86,8 +90,11 @@ export default {
     async getEstimates() {
       console.log(this.requestId);
       try {
-        const response = await axios.get("/api/reply/detail", {
-          params: { requestId: this.requestId },
+        const response = await axios.get("/api/estimate/details", {
+          params: {
+            requestId: this.requestId,
+            userId: this.getRoles === "ROLE_DETECTIVE" ? this.getId : null,
+          },
         });
         this.estimates = response.data;
         this.selectedDetective = this.estimates[0];

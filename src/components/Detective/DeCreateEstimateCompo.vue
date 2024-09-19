@@ -84,7 +84,7 @@ export default {
   methods: {
     async getRequestDetail() {
       try {
-        const response = await axios.get("/api/receive/detail", {
+        const response = await axios.get("/api/request/detail", {
           params: { requestId: this.requestId },
         });
         this.requests = response.data;
@@ -96,7 +96,7 @@ export default {
     },
     async replyRequest() {
       try {
-        await axios.post("/api/reply", {
+        await axios.post("/api/estimate", {
           requestId: this.requestId,
           title: this.title,
           price: parseInt(this.price, 10),
