@@ -1,12 +1,13 @@
 <template>
-  <div class="notification-container">
-    <header class="notification-header" @click="goBack">
+  <div class="point-container">
+    <header class="point-header" @click="goBack">
       <button class="back-button">&lt;</button>
-      <h2>알림</h2>
-      <span class="header-span"></span>
+      <h2>포인트 사용내역</h2>
     </header>
 
-    <div class="notification-contain">알림</div>
+    <div class="point-contain">
+      <div>포인트 사용내역</div>
+    </div>
   </div>
 </template>
 
@@ -19,9 +20,8 @@ export default {
   },
   methods: {
     goBack() {
-      if (this.$route.path.startsWith("/detective")) {
-        // 현재 경로가 '/detective'로 시작하면 브라우저 히스토리에서 뒤로 가기
-        this.$router.go(-1);
+      if (this.roles === "ROLE_DETECTIVE") {
+        this.$router.push("/detective/mypage");
       } else {
         this.$router.push("/mypage");
       }
@@ -31,11 +31,11 @@ export default {
 </script>
 
 <style scoped>
-.notification-container {
+.point-container {
   font-family: Arial, sans-serif;
 }
 
-.notification-header {
+.point-header {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -57,7 +57,7 @@ h2 {
   font-weight: bold;
 }
 
-.notification-contain {
+.point-contain {
   margin: 25px 20px;
 }
 </style>

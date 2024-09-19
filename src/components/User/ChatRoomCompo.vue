@@ -1,8 +1,6 @@
 <template>
   <div class="chat-room">
-    <div class="chat-header">
-      <!-- <h2>{{ chat.title }}</h2> -->
-    </div>
+    <div class="chat-header"></div>
     <div class="chat-messages">
       <div v-for="(item, idx) in recvList" :key="idx" class="message-item">
         <div class="message-text">{{ item.message }}</div>

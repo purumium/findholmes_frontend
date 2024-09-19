@@ -1,8 +1,20 @@
 <template>
   <div class="receive-container">
-    <h2>의뢰서와 답변서</h2>
-    <p>홈즈에게 전송한 의뢰서와 받은 답변서</p>
-    <div class="receive-list">
+    <header class="receive-header" @click="goBack">
+      <button class="back-button">&lt;</button>
+      <h2>의뢰서와 답변서</h2>
+      <span class="receive-span"></span>
+    </header>
+
+    <section class="services">
+      <div class="service-card">
+        <img src="@/assets/main/service1.png" />
+        <div>내가 작성한 의뢰서와</div>
+        <div>홈즈에게 받은 답변서를 확인해보세요</div>
+      </div>
+    </section>
+
+    <div class="receive-contain">
       <div
         v-for="(request, index) in requests"
         :key="index"
@@ -52,6 +64,9 @@ export default {
     this.getRequestList();
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     async getRequestList() {
       try {
         const response = await axios.get("api/request/list", {
@@ -78,22 +93,62 @@ export default {
 
 <style scoped>
 .receive-container {
-  width: 100%;
   max-width: 800px;
-  margin: 0 auto;
-  padding: 30px 0;
+  font-family: Arial, sans-serif;
+}
+
+.receive-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 h2 {
-  text-align: center;
-  margin-bottom: -10px;
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-p {
-  text-align: center;
+.receive-span {
   color: #666;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
+}
+
+.receive-contain {
+  margin: 25px 20px;
+}
+
+.services {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.service-card {
+  background-color: #c4c2ba17;
+  padding: 15px 0;
+}
+
+.service-card img {
+  /* margin-bottom: 10px; */
+  height: 110px;
+  width: 130px;
+}
+
+.service-card div {
   font-size: 13px;
-  margin-bottom: 30px;
+  color: #190404;
+  margin: 5px 0;
 }
 
 .request {
@@ -115,9 +170,9 @@ p {
 .request-card {
   display: flex;
   align-items: center;
-  background-color: #bbb4b41a;
   padding: 20px;
   margin-bottom: 20px;
+  border-bottom: 1px solid #80808021;
 }
 
 .request-image img {

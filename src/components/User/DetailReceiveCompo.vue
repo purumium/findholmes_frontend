@@ -1,10 +1,12 @@
 <template>
-  <div class="estimate-detail-container">
-    <div>
+  <div class="estimate-container">
+    <header class="estimate-header" @click="goBack">
+      <button class="back-button">&lt;</button>
       <h2>답변서</h2>
-      <p>홈즈가 보낸 답변서를 비교하기</p>
-    </div>
-    <div class="estimate-detail">
+      <span class="header-span">홈즈가 보낸 답변서를 비교하기</span>
+    </header>
+
+    <div class="request-contain">
       <div class="sidebar">
         <ul>
           <li
@@ -51,12 +53,10 @@
             </div>
           </div>
 
-          <!-- 견적 내용 -->
           <div class="estimate-body">
             <p>{{ selectedDetective.description }}</p>
           </div>
 
-          <!-- 하단 버튼 -->
           <div class="actions">
             <button @click="goChat">채팅하기</button>
             <button @click="acceptEstimate">홈즈선택</button>
@@ -76,7 +76,6 @@ export default {
   data() {
     return {
       estimates: [],
-
       selectedDetective: null,
     };
   },
@@ -123,38 +122,53 @@ export default {
 </script>
 
 <style scoped>
-.estimate-detail-container {
+.estimate-container {
+  font-family: Arial, sans-serif;
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
-  padding-top: 20px;
   box-sizing: border-box;
 }
 
+.estimate-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 h2 {
-  text-align: center;
-  margin-bottom: -10px;
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-p {
-  text-align: center;
+.header-span {
   color: #666;
-  font-size: 13px;
-  margin-bottom: 30px;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
 }
 
-.estimate-detail {
+.request-contain {
   display: flex;
   justify-content: center;
-  height: 86%;
-  min-height: 620px;
+  height: 94%;
+  border-top: 1px solid #8080802e;
+  border-bottom: 1px solid #808080;
 }
 
 .sidebar {
   width: 30%;
-  border-top: 1px solid #8080801c;
-  border-bottom: 1px solid #8080801c;
-  background-color: #f5f5f5;
+  background-color: #f5f5f5f2;
   padding: 0px;
 }
 
@@ -174,6 +188,7 @@ p {
 .sidebar li:hover {
   background-color: #e0e0e0;
 }
+
 .sidebar li.active {
   background-color: white; /* 선택된 항목의 배경색 */
   font-weight: bold; /* 선택된 항목의 텍스트 강조 */
@@ -196,12 +211,12 @@ p {
   width: 100%;
   max-width: 800px;
   background-color: #fff;
-  border: 1px solid #cccccc99;
+  border-left: 1px solid #cccccc54;
   padding: 30px 25px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .detective-info-container {

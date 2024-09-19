@@ -1,11 +1,20 @@
 <template>
-  <div class="receive-container">
-    <div>
-      <h2>답변서 목록</h2>
-      <p>탐정이 사용자에게 보낸 답변서 리스트</p>
-    </div>
+  <div class="estimate-container">
+    <header class="estimate-header" @click="goBack">
+      <button class="back-button">&lt;</button>
+      <h2>보낸 답변서</h2>
+      <span class="header-span"></span>
+    </header>
 
-    <div class="receive-list">
+    <section class="services">
+      <div class="service-card">
+        <img src="@/assets/main/service1.png" />
+        <div>홈즈가 작성한 답변서 목록입니다.</div>
+        <div>의뢰서와 답변서를 함께 확인해보세요.</div>
+      </div>
+    </section>
+
+    <div class="estimate-contain">
       <div
         class="estimate-row"
         v-for="(estimate, index) in estimates"
@@ -36,7 +45,6 @@
           </div>
         </div>
 
-        <!-- Estimate Card -->
         <div class="estimate-card">
           <div class="estimate-image">
             <img src="/images/estimate.png" alt="Placeholder Image" />
@@ -79,6 +87,10 @@ export default {
     this.getEstimateList();
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
+
     async getEstimateList() {
       try {
         const response = await axios.get("/api/estimate/list", {
@@ -91,7 +103,7 @@ export default {
       }
     },
     moveToEstimateDetail(requestId) {
-      this.$router.push(`/estimate/${requestId}`);
+      this.$router.push(`/detective/view/estimate/${requestId}`);
     },
     moveToRequestDetail(requestId) {
       this.$router.push(`/detailrequest/${requestId}`);
@@ -110,29 +122,65 @@ export default {
 </script>
 
 <style scoped>
-.receive-container {
-  width: 100%;
+.estimate-container {
   max-width: 800px;
-  margin: 0 auto;
-  padding: 30px 20px;
+  font-family: Arial, sans-serif;
+}
+
+.estimate-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 h2 {
-  text-align: center;
-  margin-bottom: -10px;
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-p {
-  text-align: center;
+.header-span {
   color: #666;
-  font-size: 13px;
-  margin-bottom: 30px;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
 }
 
-.receive-list {
+.services {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.service-card {
+  background-color: #c4c2ba17;
+  padding: 15px 0;
+}
+
+.service-card img {
+  height: 110px;
+  width: 130px;
+}
+
+.service-card div {
+  font-size: 13px;
+  color: #190404;
+  margin: 5px 0;
+}
+
+.estimate-contain {
+  margin: 30px 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .estimate-row {
