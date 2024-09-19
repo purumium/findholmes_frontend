@@ -82,7 +82,7 @@ export default {
     async getRequestDetail() {
       console.log("실행시도", this.requestId);
       try {
-        const response = await axios.get("/api/receive/detail", {
+        const response = await axios.get("/api/request/detail", {
           params: { requestId: this.requestId },
         });
         this.request = response.data;

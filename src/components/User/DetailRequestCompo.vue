@@ -19,6 +19,15 @@
           </tr>
 
           <tr>
+            <td class="label">탐정 성별</td>
+          </tr>
+          <tr>
+            <td class="value">
+              {{ request.gender }}
+            </td>
+          </tr>
+
+          <tr>
             <td class="label" colspan="1">의뢰 날짜</td>
             <td class="value" colspan="3">
               {{ timeconvert(request.createAt) }}
@@ -78,11 +87,17 @@ export default {
     async getRequestDetail() {
       console.log("실행시도", this.requestId);
       try {
-        const response = await axios.get("/api/receive/detail", {
+        const response = await axios.get("/api/request/detail", {
           params: { requestId: this.requestId },
         });
         this.request = response.data;
-        console.log(this.request);
+        console.log("response data : ", response.data);
+        this.request.gender =
+          this.request.gender === "ANY"
+            ? "전체"
+            : this.request.gender === "MALE"
+            ? "남자"
+            : "여자";
       } catch (error) {
         this.assignedRequests = [];
       }
