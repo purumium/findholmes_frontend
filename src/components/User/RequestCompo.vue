@@ -154,6 +154,7 @@ export default {
           description: this.description,
         });
         alert("의뢰요청에 성공했습니다.");
+        this.$router.push("/receive");
       } catch (error) {
         alert("의뢰요청에 실패했습니다.");
       }
