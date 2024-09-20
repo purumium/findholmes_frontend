@@ -6,7 +6,9 @@
           <div class="navbar-left-logo">
             <img src="/images/logoforhome.png" width="40px" />
             <span class="title">
-              {{ isAdmin ? "HOLMES'S ADMIN PAGE" : "FINDMYHOLMES" }}</span
+              {{
+                isRole === "ROLE_ADMIN" ? "HOLMES'S ADMIN PAGE" : "FINDMYHOLMES"
+              }}</span
             >
           </div>
         </router-link>
@@ -54,7 +56,7 @@
         </div>
 
         <!-- 로그인 후 user -->
-        <div v-dlse-if="isRole === 'ROLE_USER'" class="icon-container">
+        <div v-else-if="isRole === 'ROLE_USER'" class="icon-container">
           <div
             class="icon-wrapper"
             @mouseover="tooltipText = '채팅'"
