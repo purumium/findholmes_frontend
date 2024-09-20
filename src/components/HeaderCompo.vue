@@ -2,7 +2,7 @@
   <header>
     <nav class="header-nav">
       <div class="navbar-left">
-        <router-link :to="isAdmin ? '/admin' : '/'">
+        <router-link :to="isRole === 'ROLE_ADMIN' ? '/admin' : '/'">
           <div class="navbar-left-logo">
             <img src="/images/logoforhome.png" width="40px" />
             <span class="title">
@@ -39,7 +39,7 @@
         </div>
 
         <!-- 로그인 후 admin -->
-        <div v-else-if="isAdmin" class="icon-container">
+        <div v-else-if="isRole === 'ROLE_ADMIN'" class="icon-container">
           <div
             class="icon-wrapper"
             @click="handleLogout"
@@ -54,7 +54,7 @@
         </div>
 
         <!-- 로그인 후 user -->
-        <div v-else class="icon-container">
+        <div v-dlse-if="isRole === 'ROLE_USER'" class="icon-container">
           <div
             class="icon-wrapper"
             @mouseover="tooltipText = '채팅'"
@@ -109,7 +109,7 @@ export default {
     // Vuex에서 로그인 상태를 가져오기
     const isAuthenticated = computed(() => store.getters.isAuthenticated);
 
-    const isAdmin = computed(() => store.getters.getRoles);
+    const isRole = computed(() => store.getters.getRoles);
 
     // 로그아웃 처리 함수
     const handleLogout = async () => {
@@ -122,7 +122,7 @@ export default {
       isAuthenticated,
       tooltipText,
       handleLogout,
-      isAdmin,
+      isRole,
     };
   },
 };
