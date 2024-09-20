@@ -19,13 +19,6 @@
           </tr>
 
           <tr>
-            <td class="label">탐정 성별</td>
-            <td class="value">
-              {{ request.gender }}
-            </td>
-          </tr>
-
-          <tr>
             <td class="label" colspan="1">의뢰 날짜</td>
             <td class="value" colspan="3">
               {{ timeconvert(request.createAt) }}
@@ -33,12 +26,13 @@
           </tr>
 
           <tr>
-            <td class="label" colspan="1">의뢰 분야</td>
-            <td class="value" colspan="3">{{ request.speciality }}</td>
+            <td class="label" colspan="1">의뢰 지역</td>
+            <td class="value" colspan="3">{{ request.location }}</td>
           </tr>
+
           <tr>
             <td class="label" colspan="1">의뢰 분야</td>
-            <td class="value" colspan="3">{{ request.location }}</td>
+            <td class="value" colspan="3">{{ request.speciality }}</td>
           </tr>
 
           <tr>
