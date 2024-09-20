@@ -10,7 +10,7 @@
         class="payment-option"
         v-for="(option, index) in filteredPaymentOptions"
         :key="index"
-        @click="handlePayment(option.amount)"
+        @click="handlePayment(option.price)"
       >
         <div>
           <div class="payment-cash">{{ option.cash }} 포인트</div>
@@ -164,6 +164,11 @@ export default {
                 buyer_email: this.email,
                 buyer_name: this.username,
                 buyer_tel: this.phonenumber,
+                popup: true, // 결제창을 iframe으로 열기
+                display: {
+                  width: "100%",
+                  height: "100px",
+                },
               },
               (response) => {
                 if (response.success) {
@@ -186,7 +191,8 @@ export default {
                     )
                     .then((res) => {
                       console.log(
-                        `결제 데이터 : ${res.data.merchantUid},  ${res.data.paymentDetails},  ${res.data.paymentAt},  ${res.data.price} `
+                        `결제 데이터 : ${res.data.merchantUid},  ${res.data.paymentDetails}, 
+                         ${res.data.paymentAt},  ${res.data.price} `
                       );
 
                       alert("결제 및 저장 완료!");
@@ -250,7 +256,6 @@ h2 {
 
 .payment-contain {
   margin: 45px auto;
-  max-width: 500px;
 }
 
 .payment-option {
