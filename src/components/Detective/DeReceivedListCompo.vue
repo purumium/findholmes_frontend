@@ -270,8 +270,11 @@ button {
   cursor: pointer;
 }
 
-/* 작은 화면에서는 1열로 표시되도록 Media Query */
 @media (max-width: 768px) {
+  h2 {
+    font-size: 16px;
+  }
+
   .receive-contain {
     grid-template-columns: 1fr; /* 작은 화면에서는 한 행에 1개의 카드 */
   }

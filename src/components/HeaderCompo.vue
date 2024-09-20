@@ -2,10 +2,14 @@
   <header>
     <nav class="header-nav">
       <div class="navbar-left">
-        <router-link to="/">
+        <router-link :to="isRole === 'ROLE_ADMIN' ? '/admin' : '/'">
           <div class="navbar-left-logo">
             <img src="/images/logoforhome.png" width="40px" />
-            <span class="title">FINDMYHOLMES</span>
+            <span class="title">
+              {{
+                isRole === "ROLE_ADMIN" ? "HOLMES'S ADMIN PAGE" : "FINDMYHOLMES"
+              }}</span
+            >
           </div>
         </router-link>
       </div>
@@ -36,8 +40,23 @@
           </div>
         </div>
 
-        <div v-else class="icon-container">
-          <!-- 로그인 후: 채팅, 알림, 로그아웃 버튼 -->
+        <!-- 로그인 후 admin -->
+        <div v-else-if="isRole === 'ROLE_ADMIN'" class="icon-container">
+          <div
+            class="icon-wrapper"
+            @click="handleLogout"
+            @mouseover="tooltipText = '로그아웃'"
+            @mouseleave="tooltipText = ''"
+          >
+            <font-awesome-icon :icon="['fas', 'sign-out-alt']" class="icon" />
+            <span v-if="tooltipText === '로그아웃'" class="tooltip"
+              >로그아웃</span
+            >
+          </div>
+        </div>
+
+        <!-- 로그인 후 user -->
+        <div v-else-if="isRole === 'ROLE_USER'" class="icon-container">
           <div
             class="icon-wrapper"
             @mouseover="tooltipText = '채팅'"
@@ -92,6 +111,8 @@ export default {
     // Vuex에서 로그인 상태를 가져오기
     const isAuthenticated = computed(() => store.getters.isAuthenticated);
 
+    const isRole = computed(() => store.getters.getRoles);
+
     // 로그아웃 처리 함수
     const handleLogout = async () => {
       await store.dispatch("logout"); // Vuex의 logout 액션 호출
@@ -103,6 +124,7 @@ export default {
       isAuthenticated,
       tooltipText,
       handleLogout,
+      isRole,
     };
   },
 };
