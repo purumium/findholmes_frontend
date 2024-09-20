@@ -42,7 +42,7 @@
               <option value="경상남도(부산,울산)">경상남도(부산, 울산)</option>
               <option value="제주특별자치도">제주특별자치도</option>
             </select>
-          </div>
+          </div> 
           <div class="form-group">
             <label for="introduction">자기소개</label>
             <textarea v-model="introduction" id="introduction" required>
@@ -218,7 +218,7 @@ const handleSubmit = async () => {
     const token = localStorage.getItem("token");
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-    // 2. 다른 탐정 정보를 서버에 전송
+    // 2. 탐정 정보를 서버에 전송
     const response = await axios.post("/api/detective/register", {
       businessRegistration: businessRegistrationPath,
       detectiveLicense: detectiveLicensePath,
