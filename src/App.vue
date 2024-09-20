@@ -58,11 +58,13 @@ export default {
     ...mapGetters(["getRoles"]), // Vuex의 getRoles 가져오기
 
     isDetective() {
-      this.getRoles === "ROLE_DETECTIVE";
       return this.getRoles === "ROLE_DETECTIVE";
     },
     isUser() {
       return this.getRoles === "ROLE_USER";
+    },
+    isAdmin() {
+      return this.getRoles === "ROLE_ADMIN";
     },
   },
 };

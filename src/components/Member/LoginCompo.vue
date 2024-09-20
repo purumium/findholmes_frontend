@@ -76,9 +76,13 @@ export default {
         // 로컬 스토리지에 토큰 저장 (필요한 경우)
         localStorage.setItem("token", token);
 
-        // 화면이 이동(탐정화면, 의뢰인 화면)
+        // 화면이 이동(탐정화면, 의뢰인 화면, 관리자)
         if (decoded.roles.includes("ROLE_DETECTIVE")) {
           router.push("/detective");
+        } else if (decoded.roles.includes("ROLE_USER")) {
+          router.push("/");
+        } else if (decoded.roles.includes("ROLE_ADMIN")) {
+          router.push("/admin");
         } else {
           router.push("/");
         }
