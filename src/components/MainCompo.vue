@@ -33,6 +33,17 @@
           대표전화: 02-2188-6900 | 정회원 전용 상담센터: 1833-2546 | 사업자번호:
           214-82-04799
         </p>
+        <div>
+          <button @click="test">{{ value || "버튼" }}</button>
+          <button @click="test2">
+            {{ value || "토큰보내서 유저 가져오기" }}
+          </button>
+          <div>
+            <h4>스토어 출력</h4>
+            <p>{{ user || "로그인 정보 없음" }}</p>
+            <p>{{ isAuthenticated ? "인증됨" : "인증되지 않음" }}</p>
+          </div>
+        </div>
         <p>ⓒ2024 Korea Software Industry Association. All rights reserved.</p>
       </div>
     </footer>
@@ -40,7 +51,48 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+import { ref, computed } from "vue";
+import { useStore } from "vuex"; // Vuex 스토어 사용
+
+export default {
+  setup() {
+    const token = localStorage.getItem("token");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    const store = useStore(); // Vuex 스토어 인스턴스 가져오기
+    const value = ref(""); // 버튼 클릭 시 서버 응답 데이터를 저장할 변수
+    const user = computed(() => store.state); // Vuex 스토어에서 user 데이터 가져오기
+    const isAuthenticated = computed(() => store.getters.isAuthenticated); // 인증 상태 가져오기
+
+    const test = async () => {
+      try {
+        const response = await axios.get("/api/test/test2");
+        value.value = response.data;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        value.value = "오류 발생";
+      }
+    };
+
+    const test2 = async () => {
+      try {
+        const response = await axios.get("/api/test/getdetail");
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        value.value = "오류 발생";
+      }
+    };
+
+    return {
+      value,
+      test,
+      user,
+      isAuthenticated,
+      test2,
+    };
+  },
+};
 </script>
 
 <style scoped>

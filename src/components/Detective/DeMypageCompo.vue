@@ -76,13 +76,12 @@ import axios from "axios";
 export default {
   data() {
     return {
-      
       profileImage: "",
       userName: "",
       email: "",
-      points: 1000, 
+      points: 1000,
       approvalStatus: "",
-      loaded : false
+      loaded: false,
     };
   },
   mounted() {
@@ -145,29 +144,28 @@ export default {
         .catch((error) => {
           console.error("사용자 정보 가지고 오는 중 에러 발생 ", error);
         });
-    async getUser(){
-      const token = localStorage.getItem('token');
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    },
+    async getUser() {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
         const response = await axios.get("/api/detective/getDetectiveDetail");
-        this.userName = response.data.userName
-        this.email = response.data.email
-        
-        
-        console.log(response.data)
-        if(response.data.profilePicture === null){
-          this.profileImage = require('@/assets/detective.png'); // 기본 이미지 경로
-        }
-        else{
+        this.userName = response.data.userName;
+        this.email = response.data.email;
+
+        console.log(response.data);
+        if (response.data.profilePicture === null) {
+          this.profileImage = require("@/assets/detective.png"); // 기본 이미지 경로
+        } else {
           this.profileImage = this.getImageUrl(response.data.profilePicture);
         }
-        
-        this.loaded = true
+
+        this.loaded = true;
       } catch (error) {
         console.error(error);
       }
     },
-    getImageUrl(path){
+    getImageUrl(path) {
       return `http://localhost:8080/${path}`;
     },
   },

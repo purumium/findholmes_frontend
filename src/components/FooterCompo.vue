@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <nav class="footer-nav" v-if="isAdmin">
+    <nav class="footer-nav" v-if="isRole === 'ROLE_ADMIN'">
       <ul>
         <li>
           <router-link to="/admin" class="footer-item" active-class="active">
@@ -79,11 +79,11 @@ export default {
     const isAuthenticated = computed(() => store.getters.isAuthenticated);
 
     // Vuex에서 역할 가져오기
-    const isAdmin = computed(() => store.getters.getRoles);
+    const isRole = computed(() => store.getters.getRoles);
 
     return {
       isAuthenticated,
-      isAdmin,
+      isRole,
     };
   },
 };
