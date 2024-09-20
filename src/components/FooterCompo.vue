@@ -1,6 +1,36 @@
 <template>
   <footer>
-    <nav class="footer-nav">
+    <nav class="footer-nav" v-if="isAdmin">
+      <ul>
+        <li>
+          <router-link to="/admin" class="footer-item" active-class="active">
+            <font-awesome-icon class="icon" :icon="['fas', 'home']" />
+            <span class="text">홈</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/admin/approval"
+            class="footer-item"
+            active-class="active"
+          >
+            <font-awesome-icon class="icon" :icon="['fas', 'pencil-alt']" />
+            <span class="text">홈즈승인</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/admin/inquery"
+            class="footer-item"
+            active-class="active"
+          >
+            <font-awesome-icon class="icon" :icon="['fas', 'search']" />
+            <span class="text">신고관리</span>
+          </router-link>
+        </li>
+      </ul>
+    </nav>
+    <nav class="footer-nav" v-else>
       <ul>
         <li>
           <router-link to="/request" class="footer-item" active-class="active">
@@ -38,7 +68,25 @@
 </template>
 
 <script>
-export default {};
+import { useStore } from "vuex";
+import { computed } from "vue";
+
+export default {
+  setup() {
+    const store = useStore();
+
+    // Vuex에서 로그인 상태를 가져오기
+    const isAuthenticated = computed(() => store.getters.isAuthenticated);
+
+    // Vuex에서 역할 가져오기
+    const isAdmin = computed(() => store.getters.getRoles);
+
+    return {
+      isAuthenticated,
+      isAdmin,
+    };
+  },
+};
 </script>
 
 <style scoped>

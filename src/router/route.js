@@ -28,7 +28,6 @@ import DeEstimateCreateCompo from "@/components/Detective/DeEstimateCreateCompo.
 import DetailRequestCompo from "@/components/User/DetailRequestCompo.vue";
 import DetectiveListCompo from "@/components/User/DetectiveListCompo.vue";
 import DeRegisterCompo from "@/components/Detective/DeRegisterCompo.vue";
-import TestCompo from "@/components/Admin/TestCompo.vue";
 import ReviewListCompo from "@/components/User/ReviewListCompo.vue";
 import PointHistoryCompo from "@/components/User/PointHistoryCompo.vue";
 import InqueryCompo from "@/components/User/InqueryCompo.vue";
@@ -36,8 +35,30 @@ import DeleteAccountCompo from "@/components/User/DeleteAccountCompo.vue";
 import PrivacyPolicyCompo from "@/components/User/PrivacyPolicyCompo.vue";
 import MypageCompo from "@/components/User/MypageCompo.vue";
 import DeEstimateCompo from "@/components/Detective/DeEstimateCompo.vue";
+import AdMainCompo from "@/components/Admin/AdMainCompo.vue";
+import AdApprovalCompo from "@/components/Admin/AdApprovalCompo.vue";
+import AdInqueryCompo from "@/components/Admin/AdInqueryCompo.vue";
 
 const routes = [
+  {
+    path: "/admin",
+    component: MiddleCompo,
+    children: [
+      {
+        path: "main",
+        component: AdMainCompo,
+        alias: [""],
+      },
+      {
+        path: "approval",
+        component: AdApprovalCompo,
+      },
+      {
+        path: "inquery",
+        component: AdInqueryCompo,
+      },
+    ],
+  },
   {
     path: "/detective",
     component: DeMiddleCompo,
@@ -110,10 +131,6 @@ const routes = [
       {
         path: "paymentlist",
         component: PaymentListCompo,
-      },
-      {
-        path: "test",
-        component: TestCompo,
       },
       {
         path: "paymentResult",

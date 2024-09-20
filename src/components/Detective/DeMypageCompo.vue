@@ -18,10 +18,18 @@
 
         <div class="btn">
           <button class="edit-profile-button" @click="doRegister">
-            <span>탐정 등록</span>
-            <span class="approval-status">{{ approvalStatus }}</span>
+            <div>탐정 등록</div>
+            <div v-if="approvalStatus === '1'" id="1" class="approval-status">
+              <span>등록 필요</span>
+            </div>
+            <div v-if="approvalStatus === '2'" id="2" class="approval-status">
+              <span>승인 대기중</span>
+            </div>
+            <div v-if="approvalStatus === '3'" id="3" class="approval-status">
+              <span>승인 완료</span>
+            </div>
           </button>
-          <button class="edit-profile-button" @click="pointUsageHistory">
+          <button class="point-button" @click="pointUsageHistory">
             <span>💰 {{ points }}</span>
           </button>
         </div>
@@ -63,6 +71,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -70,15 +80,24 @@ export default {
       userName: "선선선선해",
       email: "one@gmail.com",
       points: 1000, // 포인트 기본값
-      approvalStatus: "대기중",
+      approvalStatus: "",
     };
+  },
+  mounted() {
+    this.checkDeRegister();
   },
   methods: {
     goBack() {
       this.$router.go(-1);
     },
     doRegister() {
-      this.$router.push("/detective/register");
+      if (this.approvalStatus === "2") {
+        alert("탐정 등록 승인 대기중입니다.");
+      } else if (this.approvalStatus === "3") {
+        alert("탐정 등록 승인 완료 되었습니다.");
+      } else {
+        this.$router.push("/detective/register");
+      }
     },
     editMyinfo() {
       this.$router.push("/detective/myinfo");
@@ -100,6 +119,28 @@ export default {
     },
     privacyPolicy() {
       this.$router.push("/detective/privacypolicy");
+    },
+    checkDeRegister() {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      axios
+        .get("/api/detective/checkregister")
+        .then((response) => {
+          console.log(response.data);
+          if (response.data === "PENDING") {
+            this.approvalStatus = "2";
+          } else if (response.data === "REJECTED") {
+            this.approvalStatus = "1";
+          } else if (response.data === "APPROVED") {
+            this.approvalStatus = "3";
+          } else if (response.data === "NO") {
+            this.approvalStatus = "1";
+          }
+        })
+        .catch((error) => {
+          console.error("사용자 정보 가지고 오는 중 에러 발생 ", error);
+        });
     },
   },
 };
@@ -174,17 +215,6 @@ h5 {
   border-radius: 50%;
 }
 
-.approval-status {
-  border: 1px solid #80808000;
-  padding: 3px 10px;
-  color: #000000;
-  letter-spacing: 1px;
-  font-size: 9px;
-  background-color: #96c608c7;
-  margin-left: 5px;
-  border-radius: 20px;
-}
-
 .point-contain {
   display: flex;
   gap: 20px;
@@ -203,13 +233,39 @@ h5 {
 }
 
 .edit-profile-button {
-  display: block;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 12px 10px;
   background-color: #ffdf3e9c;
   border: none;
   border-radius: 5px;
   font-size: 14px;
+  font-weight: 600;
+}
+
+.approval-status {
+  border: 1px solid #80808000;
+  padding: 4px 10px;
+  color: #000000;
+  letter-spacing: -1px;
+  font-size: 10px;
+  margin-left: 6px;
+  background-color: #ecb900ad;
+  border-radius: 20px;
+}
+
+.point-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 10px;
+  background-color: #ffdf3e9c;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -232,5 +288,100 @@ h5 {
 .menu li:hover {
   color: #ecb9009c;
   font-weight: 600;
+}
+
+/* 태블릿 화면 (max-width: 768px) */
+@media screen and (max-width: 768px) {
+  .mypage-container {
+    max-width: 100%;
+  }
+
+  .profile-container {
+    margin: 20px;
+    padding: 10px;
+  }
+
+  .profile-contain {
+    padding: 15px 20px;
+  }
+
+  .profile-picture {
+    width: 80px;
+    height: 80px;
+  }
+
+  h4 {
+    font-size: 14px;
+  }
+
+  h5 {
+    font-size: 13px;
+  }
+
+  .edit-profile-button,
+  .point-button {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .btn {
+    flex-direction: row;
+  }
+
+  .menu li {
+    font-size: 14px;
+    padding: 5px 8px;
+  }
+}
+
+/* 모바일 화면 (max-width: 420px) */
+@media screen and (max-width: 420px) {
+  .mypage-container {
+    max-width: 100%;
+  }
+
+  .profile-container {
+    margin: 16px;
+    padding: 5px;
+  }
+
+  .profile-contain {
+    padding: 10px 15px;
+  }
+
+  .profile-picture {
+    width: 60px;
+    height: 60px;
+  }
+
+  h4 {
+    font-size: 14px;
+  }
+
+  h5 {
+    margin-top: -13px;
+    font-size: 13px;
+  }
+
+  .edit-profile-button,
+  .point-button {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .btn {
+    flex-direction: column;
+    display: flex;
+    gap: 8px;
+  }
+  .menu ul {
+    list-style: none;
+    padding: 0px 0;
+  }
+
+  .menu li {
+    font-size: 13px;
+    padding: 4px 6px;
+  }
 }
 </style>
