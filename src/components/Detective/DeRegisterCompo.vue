@@ -45,12 +45,13 @@
           </div>
           <div class="form-group">
             <label for="introduction">자기소개</label>
-            <textarea v-model="introduction" id="introduction" required>
-            </textarea>
+              <textarea v-model="introduction" id="introduction" required>
+              </textarea>
           </div>
           <div class="form-group">
             <label for="company">회사명(사업자명)</label>
             <input v-model="company" id="company" required />
+
           </div>
           <div class="form-group">
             <label for="business_registration">사업자등록증</label>
@@ -80,11 +81,11 @@
             />
           </div>
           <div class="form-group">
-            <label for="additional_certifications"
+            <label for="additional_certification"
               >추가 등록사항(경력 사항 등)</label
             >
             <input
-              @change="handleFileChange('additionalCertificationsFile', $event)"
+              @change="handleFileChange('additionalCertification', $event)"
               type="file"
               id="additional_certifications"
             />
@@ -152,12 +153,14 @@ import { useRouter } from "vue-router";
 const businessRegistrationFile = ref(null);
 const detectiveLicenseFile = ref(null);
 const profilePictureFile = ref(null);
-const additionalCertificationsFile = ref(null);
-const introduction = ref("");
-const location = ref("");
+
+const additionalCertification = ref(null);
+const introduction = ref('');
 const company = ref("");
-const description = ref("");
-const detectiveGender = ref("");
+const location = ref('');
+const description = ref('');
+const detectiveGender = ref('');
+
 const resolvedCases = ref(0);
 const selectedSpecialties = ref([]);
 const selectedSpecialty = ref(null);
@@ -177,12 +180,12 @@ onMounted(() => {
 // 파일이 선택되었을 때 해당 파일 객체를 저장
 const handleFileChange = (fileType, event) => {
   const file = event.target.files[0];
-  if (fileType === "businessRegistrationFile")
-    businessRegistrationFile.value = file;
-  if (fileType === "detectiveLicenseFile") detectiveLicenseFile.value = file;
-  if (fileType === "profilePictureFile") profilePictureFile.value = file;
-  if (fileType === "additionalCertificationsFile")
-    additionalCertificationsFile.value = file;
+
+  if (fileType === 'businessRegistrationFile') businessRegistrationFile.value = file;
+  if (fileType === 'detectiveLicenseFile') detectiveLicenseFile.value = file;
+  if (fileType === 'profilePictureFile') profilePictureFile.value = file;
+  if (fileType === 'additionalCertification') additionalCertification.value = file;
+
 };
 
 const handleSubmit = async () => {
@@ -190,41 +193,29 @@ const handleSubmit = async () => {
   try {
     // 1. 파일을 FormData에 담아 서버에 전송하고, 저장된 파일 경로를 받음
     const formData = new FormData();
-    formData.append("businessRegistration", businessRegistrationFile.value);
-    formData.append("detectiveLicense", detectiveLicenseFile.value);
-    formData.append("profilePicture", profilePictureFile.value);
-    formData.append(
-      "additionalCertifications",
-      additionalCertificationsFile.value
-    );
 
-    const fileUploadResponse = await axios.post(
-      "/api/detective/files",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    formData.append('businessRegistration', businessRegistrationFile.value);
+    formData.append('detectiveLicense', detectiveLicenseFile.value);
+    formData.append('profilePicture', profilePictureFile.value);
+    formData.append('additionalCertification', additionalCertification.value);
+    
+    const fileUploadResponse = await axios.post('/api/detective/files', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
-    const {
-      businessRegistrationPath,
-      detectiveLicensePath,
-      profilePicturePath,
-      additionalCertificationsPath,
-    } = fileUploadResponse.data;
+    const { businessRegistrationPath, detectiveLicensePath, profilePicturePath, additionalCertificationPath } = fileUploadResponse.data;
+    const token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-    console.log("fileUploadResponse.data : " + fileUploadResponse.data);
-
-    const token = localStorage.getItem("token");
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     // 2. 다른 탐정 정보를 서버에 전송
     const response = await axios.post("/api/detective/register", {
       businessRegistration: businessRegistrationPath,
       detectiveLicense: detectiveLicensePath,
       profilePicture: profilePicturePath,
-      additionalCertifications: additionalCertificationsPath,
+      additionalCertification: additionalCertificationPath,
+
       introduction: introduction.value,
       location: location.value,
       description: description.value,
@@ -232,6 +223,7 @@ const handleSubmit = async () => {
       detectiveGender: detectiveGender.value,
       resolvedCases: resolvedCases.value,
       specialties: specialtyIds,
+      description: description
     });
     console.log(response);
 

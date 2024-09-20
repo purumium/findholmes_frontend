@@ -50,6 +50,7 @@
             <div class="estimate-date">
               <div>✔️ 의뢰 일자 : {{ timeconvert(assigned.createAt) }}</div>
               <div>✔️ 의뢰 분야 : {{ assigned.speciality.specialityName }}</div>
+              <div>✔️ 의뢰 장소 : {{ assigned.location }}</div>
             </div>
           </div>
         </div>
@@ -70,7 +71,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["isAuthenticated", "getUser"]),
+    ...mapGetters(["isAuthenticated", "getId"]),
 
     filteredRequests() {
       if (this.filterStatus === "WAITING") {
@@ -96,8 +97,8 @@ export default {
     async getAssignedRequests() {
       console.log("실행시도");
       try {
-        const response = await axios.get("/api/receive", {
-          params: { email: this.getUser },
+        const response = await axios.get("/api/request/receive", {
+          params: { userId: this.getId },
         });
         this.assignedRequests = response.data;
         console.log(this.assignedRequests);

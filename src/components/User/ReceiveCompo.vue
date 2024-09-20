@@ -16,27 +16,30 @@
 
     <div class="receive-contain">
       <div
-        v-for="(estimate, index) in estimates"
+        v-for="(request, index) in requests"
         :key="index"
-        class="estimate-card"
+        class="request-card"
       >
-        <div class="estimate-image">
+        <div class="request-image">
           <img src="/images/estimate.png" alt="Placeholder Image" />
         </div>
-        <div class="estimate-content">
-          <div
-            class="estimate"
-            @click="moveToRequestDetail(estimate.requestId)"
-          >
-            <h4>{{ estimate.title }}</h4>
-            <div class="estimate-date">
-              <div>#{{ estimate.createAt }}</div>
-              <div>#{{ estimate.speciality }}</div>
+        <div class="request-content">
+          <div class="request" @click="moveToRequestDetail(request.requestId)">
+            <h4>{{ request.title }}</h4>
+            <div class="request-date">
+              <div>#{{ request.createAt }}</div>
+              <div>#{{ request.speciality }}</div>
             </div>
           </div>
 
-          <button @click="viewEstimate(estimate.requestId)">
+          <button
+            @click="viewEstimate(request.requestId)"
+            v-if="request.status !== false"
+          >
             홈즈의 답변서
+          </button>
+          <button @click="viewEstimate(request.requestId)" v-else disabled>
+            댭변 대기중
           </button>
         </div>
       </div>
@@ -51,26 +54,29 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      estimates: [],
+      requests: [],
     };
   },
   computed: {
-    ...mapGetters(["getUser"]),
+    ...mapGetters(["getId"]),
   },
   created() {
-    this.getEstimateList();
+    this.getRequestList();
   },
   methods: {
     goBack() {
       this.$router.go(-1);
     },
-    async getEstimateList() {
+    async getRequestList() {
       try {
-        const response = await axios.get("api/receive/estimate", {
-          params: { email: this.getUser },
+        const response = await axios.get("api/request/list", {
+          params: { userId: this.getId },
         });
-        this.estimates = response.data;
-        console.log(this.estimates);
+        this.requests = response.data;
+        this.requests.sort(function (a, b) {
+          return -(new Date(a.createAt) - new Date(b.createAt));
+        });
+        console.log(this.requests);
       } catch (err) {
         return;
       }
@@ -145,7 +151,7 @@ h2 {
   margin: 5px 0;
 }
 
-.estimate {
+.request {
   border: 1px solid #80808052;
   padding: 12px 0px 12px 15px;
   max-width: 400px;
@@ -156,12 +162,12 @@ h2 {
   transition: background-color 0.4s ease;
 }
 
-.estimate:hover {
+.request:hover {
   cursor: pointer;
   background-color: #80808013;
 }
 
-.estimate-card {
+.request-card {
   display: flex;
   align-items: center;
   padding: 20px;
@@ -169,31 +175,31 @@ h2 {
   border-bottom: 1px solid #80808021;
 }
 
-.estimate-image img {
+.request-image img {
   width: 50px;
   height: 50px;
   border-radius: 8px;
   margin: 20px 30px;
 }
 
-.estimate-content {
+.request-content {
   flex: 1;
 }
 
-.estimate-content h4 {
+.request-content h4 {
   color: #2a2929d6;
   margin: 0;
   font-size: 14px;
 }
 
-.estimate-date {
+.request-date {
   display: flex;
   gap: 14px;
   align-items: end;
   margin-top: 4px;
 }
 
-.estimate-date div {
+.request-date div {
   font-size: 12px;
   color: #666;
 }
@@ -213,7 +219,7 @@ button {
     font-size: 20px;
   }
 
-  .estimate {
+  .request {
     border: 1px solid #80808052;
     padding: 10px 25px;
     max-width: 400px;
@@ -222,7 +228,7 @@ button {
     text-align: center;
   }
 
-  .estimate-date {
+  .request-date {
     display: flex;
     gap: 14px;
     align-items: end;
@@ -230,24 +236,24 @@ button {
     margin-top: 4px;
   }
 
-  .estimate-card {
+  .request-card {
     flex-direction: column; /* 화면이 작아지면 세로로 배치 */
     text-align: center;
   }
 
-  .estimate-image img {
+  .request-image img {
     margin: 10px auto; /* 이미지를 가운데 정렬 */
   }
 
-  .estimate-content {
+  .request-content {
     margin-top: 10px;
   }
 
-  .estimate-content h4 {
+  .request-content h4 {
     font-size: 14px;
   }
 
-  .estimate-content div {
+  .request-content div {
     font-size: 12px;
   }
 
