@@ -163,15 +163,13 @@ h2 {
 
 .review-contain {
   max-width: 900px;
-  margin: 20px 10px;
-  padding: 20px;
-  border: 1px solid #80808047;
+  padding: 5px 21px;
   background-color: #f9f9f900;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: "Arial", sans-serif;
   color: #333;
-  line-height: 1.6;
+  line-height: 23px;
 }
 
 h1,
@@ -194,7 +192,18 @@ a {
   text-decoration: none;
 }
 
-a:hover {
-  text-decoration: underline;
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 }
 </style>

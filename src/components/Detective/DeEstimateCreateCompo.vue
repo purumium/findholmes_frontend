@@ -178,9 +178,9 @@ h2 {
 .request-card {
   display: flex;
   align-items: center;
-  /* flex-direction: column; */
   gap: 30px;
-  padding: 25px 30px;
+  padding: 25px 25px;
+  border-radius: 8px;
   border: 1px solid #8080803b;
 }
 
@@ -192,7 +192,7 @@ h2 {
 
 .request-nametag {
   border: 1px solid #8080804d;
-  padding: 3px 10px;
+  padding: 4px 7px;
   font-size: 11px;
   background-color: #f7f284d4;
   border-radius: 20px;
@@ -295,13 +295,32 @@ h2 {
   letter-spacing: 1px;
 }
 
-@media (max-width: 480px) {
-  .response-page-contatiner {
-    padding: 15px;
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
   }
 
-  h2 {
-    font-size: 16px;
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .header-span {
+    color: #666;
+    font-size: 11px;
+    margin: 5px 0 0 5px;
+  }
+
+  .response-contain {
+    margin: 20px 14px;
+  }
+
+  .response-page-contatiner {
+    padding: 15px;
   }
 
   p {
@@ -311,7 +330,7 @@ h2 {
   .submit-div {
     display: flex;
     justify-content: end;
-    gap: 66px;
+    gap: 102px;
     margin-right: 15px;
   }
 
@@ -321,8 +340,8 @@ h2 {
     letter-spacing: 1px;
   }
 
-  .request-card[data-v-64b51341] {
-    padding: 20px;
+  .request-card {
+    padding: 17px;
   }
 
   .request-image img {
@@ -334,8 +353,87 @@ h2 {
     font-size: 13px;
   }
 
-  .request-date {
+  .request-date div {
     font-size: 12px;
+    color: #666;
+  }
+
+  .request-nametag {
+    border: 1px solid #8080804d;
+    padding: 3px 4px;
+    font-size: 10px;
+    background-color: #f7f284d4;
+    border-radius: 20px;
+  }
+
+  .request-card {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 20px;
+    border: 1px solid #8080803b;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    font-size: 11px;
+    padding: 8px;
+  }
+
+  .submit-button {
+    font-size: 11px;
+    padding: 7px 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .response-page-contatiner {
+    padding: 15px;
+  }
+
+  p {
+    font-size: 11px;
+  }
+
+  .submit-div {
+    display: flex;
+    justify-content: end;
+    gap: 80px;
+    margin-right: 15px;
+  }
+
+  .submit-div span:nth-child(2) {
+    color: #ecb900;
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  .request-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px 10px 16px 16px;
+    border-radius: 8px;
+    border: 1px solid #8080803b;
+  }
+
+  .response-main {
+    max-height: 540px;
+    width: 100%;
+  }
+
+  .request-image img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .request-content h4 {
+    font-size: 12px;
+  }
+
+  .request-date div {
+    font-size: 12px;
+    color: #666;
   }
 
   .form-group input,

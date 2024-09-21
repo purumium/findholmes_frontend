@@ -33,12 +33,16 @@
               <h4>{{ estimate.requestTitle }}</h4>
               <div class="estimate-date">
                 <div>
-                  ✔️ 의뢰 일자 :
+                  ✔️ 의뢰일자 :
                   {{ timeconvert(estimate.requestCreateAt) }}
                 </div>
                 <div>
-                  ✔️ 의뢰 분야 :
+                  ✔️ 의뢰분야 :
                   {{ estimate.speciality }}
+                </div>
+                <div>
+                  ✔️ 의뢰지역 :
+                  {{ estimate.location }}
                 </div>
               </div>
             </div>
@@ -57,9 +61,13 @@
               <h4>{{ estimate.estimateTitle }}</h4>
               <div class="estimate-date">
                 <div>
-                  ✔️ 답변 일자 : {{ timeconvert(estimate.estimateCreateAt) }}
+                  ✔️ 답변일자 : {{ timeconvert(estimate.estimateCreateAt) }}
                 </div>
-                <div>✔️ 답변 분야 : {{ estimate.speciality }}</div>
+                <div>✔️ 답변분야 : {{ estimate.speciality }}</div>
+                <div>
+                  ✔️ 가능지역 :
+                  {{ estimate.location }}
+                </div>
               </div>
             </div>
           </div>
@@ -186,41 +194,51 @@ h2 {
 .estimate-row {
   display: flex;
   gap: 8px;
-  border: 1px solid #80808033;
+  border: 1px solid #80808024;
   border-radius: 10px;
+  padding: 5px;
 }
 
 .estimate-card {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  padding: 14px;
+  padding: 6px 0px 3px 5px;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .estimate {
-  border: 1px solid #80808052;
   padding: 10px;
   border-radius: 8px;
   box-sizing: border-box;
 }
 
-.estimate:hover {
+.estimate-card:hover {
   cursor: pointer;
   background-color: #80808013;
 }
 
 .estimate-image {
-  text-align: center;
+  border: 1px solid #80808030;
+  padding: 9px;
+  border-radius: 40px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .estimate-image img {
-  width: 30px;
-  height: 30px;
-  margin: 10px;
+  width: 25px;
+  height: 25px;
 }
 
 .estimate-content {
-  flex: 1;
+  width: 100%;
 }
 
 .estimate-content h4 {
@@ -251,51 +269,99 @@ button {
 }
 
 @media (max-width: 768px) {
+}
+
+@media screen and (max-width: 480px) {
   h2 {
-    font-size: 16px;
-  }
-
-  .estimate {
-    border: 1px solid #80808052;
-    padding: 10px 25px;
-    max-width: 400px;
-    border-radius: 20px;
-    box-sizing: border-box;
-    text-align: center;
-  }
-
-  .estimate-date {
-    display: flex;
-    gap: 14px;
-    align-items: end;
-    justify-content: center;
-    margin-top: 4px;
-  }
-
-  .estimate-card {
-    flex-direction: column; /* 화면이 작아지면 세로로 배치 */
-    text-align: center;
-  }
-
-  .estimate-image img {
-    margin: 10px auto; /* 이미지를 가운데 정렬 */
-  }
-
-  .estimate-content {
-    margin-top: 10px;
-  }
-
-  .estimate-content h4 {
     font-size: 14px;
   }
 
-  .estimate-content div {
-    font-size: 12px;
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 
-  button {
+  .estimate-image img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .estimate-image {
+    border: 1px solid #80808030;
+    padding: 9px;
+    border-radius: 40px;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .estimate {
+    padding: 10px 5px 3px 5px;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .estimate-content h4 {
+    color: #2a2929d6;
+    margin: 0;
+    font-size: 11px;
+  }
+
+  .estimate-date div {
+    font-size: 10.5px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  .estimate-contain {
+    margin: 16px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .estimate {
+    padding: 10px 5px 3px 5px;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .estimate-content h4 {
+    color: #2a2929d6;
+    margin: 0;
+    font-size: 11px;
+  }
+
+  .estimate-date div {
     font-size: 10px;
-    padding: 5px 8px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  .estimate-contain {
+    margin: 16px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
   }
 }
 </style>

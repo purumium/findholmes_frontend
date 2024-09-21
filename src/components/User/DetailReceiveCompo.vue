@@ -304,4 +304,19 @@ h2 {
     width: 100%;
   }
 }
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+}
 </style>

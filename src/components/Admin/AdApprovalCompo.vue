@@ -13,7 +13,6 @@
             v-model="statusFilter"
             @change="filterByStatus(statusFilter)"
           >
-            <!-- <option value="">전체</option> -->
             <option value="PENDING">승인대기중</option>
             <option value="APPROVED">승인완료</option>
             <option value="REJECTED">승인거부</option>
@@ -57,16 +56,32 @@
               </li>
               <li>
                 <strong>사업자 등록증 : </strong>
-                <img :src="`${item.detectiveDetails.businessRegistration}`" />
+                <img
+                  :src="getImageUrl(item.detectiveDetails.businessRegistration)"
+                  @click="
+                    showImgModal(item.detectiveDetails.businessRegistration)
+                  "
+                  class="thumbnail"
+                />
               </li>
               <li>
-                <strong>탐정 등록증 : </strong>
-                <img :src="`/${item.detectiveDetails.detectiveLicense}`" />
+                <strong>탐정의 등록증 : </strong>
+                <img
+                  :src="getImageUrl(item.detectiveDetails.detectiveLicense)"
+                  @click="showImgModal(item.detectiveDetails.detectiveLicense)"
+                  class="thumbnail detective-image"
+                />
               </li>
               <li v-if="item.detectiveDetails.additionalCertifications != null">
                 <strong>기타 자격사항 : </strong>
                 <img
-                  :src="`/${item.detectiveDetails.additionalCertifications}`"
+                  :src="
+                    getImageUrl(item.detectiveDetails.additionalCertifications)
+                  "
+                  @click="
+                    showImgModal(item.detectiveDetails.additionalCertifications)
+                  "
+                  class="thumbnail detective-image"
                 />
               </li>
 
@@ -101,24 +116,32 @@
               </button>
             </div>
           </div>
+        </div>
 
-          <!-- 모달 -->
-          <div v-if="showRejectModal" class="modal-overlay">
-            <div class="modal">
-              <h4>거절 사유</h4>
-              <textarea
-                v-model="rejReason"
-                placeholder="거절 사유를 입력하세요"
-                rows="4"
-                cols="50"
-              ></textarea>
-              <div class="btn">
-                <button @click="confirmReject" class="rej-button">확인</button>
-                <button @click="closeRejectModal" class="rej-button">
-                  취소
-                </button>
-              </div>
+        <!-- 거절 모달 -->
+        <div v-if="showRejectModal" class="rej-modal-overlay">
+          <div class="rej-modal">
+            <h4>거절 사유</h4>
+            <textarea
+              v-model="rejReason"
+              placeholder="거절 사유를 입력하세요"
+              rows="4"
+              cols="50"
+            ></textarea>
+            <div class="btn">
+              <button @click="confirmReject" class="rej-button">확인</button>
+              <button @click="closeRejectModal" class="rej-button">취소</button>
             </div>
+          </div>
+        </div>
+
+        <!-- 이미지 모달-->
+        <div v-if="isModalVisible" class="modal" @click="closeImgModal">
+          <div class="modal-content" @click.stop>
+            <img
+              :src="`http://localhost:8080/${selectedImagePath}`"
+              alt="Full Size Image"
+            />
           </div>
         </div>
       </div>
@@ -134,9 +157,15 @@ export default {
   setup() {
     const test = ref([]);
     const statusFilter = ref(""); // 현재 필터 상태
+
+    // 거절 모달
     const showRejectModal = ref(false);
     const selectedItem = ref(null);
     const rejReason = ref(""); // 모달 내 거절 사유
+
+    // 모달 관련
+    const isModalVisible = ref(false);
+    const selectedImagePath = ref("");
 
     // onMounted 훅을 사용하여 컴포넌트가 마운트되었을 때 데이터 가져오기
     onMounted(() => {
@@ -219,13 +248,13 @@ export default {
       }
     };
 
-    // 모달 열기
+    // 거절 모달 열기
     const openRejectModal = (item) => {
       selectedItem.value = item;
       showRejectModal.value = true;
     };
 
-    // 모달 닫기
+    // 거절 모달 닫기
     const closeRejectModal = () => {
       showRejectModal.value = false;
       selectedItem.value = null;
@@ -247,6 +276,28 @@ export default {
       statusFilter.value = status;
     };
 
+    // 이미지 URL 반환 함수
+    const getImageUrl = (path) => {
+      console.log("get image = " + path);
+      return `http://localhost:8080/${path}`;
+    };
+
+    // 이미지 모달 열기 함수
+    const showImgModal = (imagePathKey) => {
+      selectedImagePath.value = imagePathKey;
+
+      console.log(
+        "이미지 모달 클릭 " + imagePathKey + ", " + selectedImagePath.value
+      );
+      isModalVisible.value = true;
+      console.log("열렸나? " + isModalVisible.value);
+    };
+
+    // 이미지 모달 닫기 함수
+    const closeImgModal = () => {
+      isModalVisible.value = false;
+    };
+
     const formatDate = (dateString) => {
       const date = new Date(dateString);
       return date.toLocaleString();
@@ -265,6 +316,9 @@ export default {
       rejReason,
       statusFilter,
       formatDate,
+      getImageUrl,
+      showImgModal,
+      closeImgModal,
     };
   },
 };
@@ -343,7 +397,7 @@ h2 {
 }
 
 /* 모달 스타일 */
-.modal-overlay {
+.rej-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -356,13 +410,57 @@ h2 {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.modal {
+.rej-modal {
   background: white;
   padding: 20px;
   border-radius: 10px;
   max-width: 300px;
   width: 100%;
   border: solid 1px black;
+}
+
+/* 모달 스타일 */
+.modal {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+  z-index: 10000;
+}
+
+.modal-content {
+  max-width: 80%;
+  max-height: 80%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* 모달 닫기 방지 (모달 내용 클릭 시 모달 닫히는 문제 방지) */
+.modal-content {
+  position: relative;
+}
+
+/* 이미지 스타일 */
+.thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  cursor: pointer;
 }
 
 textarea {
