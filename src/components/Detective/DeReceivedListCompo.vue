@@ -293,9 +293,6 @@ button {
     margin: 10px auto; /* 이미지를 가운데 정렬 */
   }
 
-  .estimate-content {
-  }
-
   .estimate-content h4 {
     font-size: 14px;
   }

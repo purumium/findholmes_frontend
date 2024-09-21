@@ -230,7 +230,6 @@ h2 {
 }
 
 .service-card img {
-  /* margin-bottom: 10px; */
   height: 110px;
   width: 130px;
 }
