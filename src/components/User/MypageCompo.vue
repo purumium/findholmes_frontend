@@ -9,7 +9,14 @@
     <section class="profile-container">
       <div class="profile-contain">
         <div class="profile-header">
-          <img class="profile-picture" :src="profileImage" alt="프로필 사진" />
+          <div class="header-picture">
+            <img
+              class="profile-picture"
+              :src="profileImage"
+              alt="프로필 사진"
+            />
+            <span class="name">사용자</span>
+          </div>
           <div class="profile-info">
             <h4>{{ userName }}</h4>
             <h5>{{ email }}</h5>
@@ -67,7 +74,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      profileImage: "/images/mypage/user.png", // 기본 프로필 이미지
+      profileImage: "/images/logoforuser_register.png", // 기본 프로필 이미지
       userName: "",
       email: "",
       points: 1000, // 포인트 기본값
@@ -172,12 +179,12 @@ h2 {
 }
 
 h4 {
-  margin-top: 10px;
+  margin-top: -8px;
   font-size: 20px;
 }
 
 h5 {
-  margin-top: -23px;
+  margin-top: -26px;
   color: #808080d9;
   font-weight: 400;
   font-size: 15px;
@@ -185,7 +192,7 @@ h5 {
 
 .profile-picture {
   width: 100px;
-  height: 100px;
+  height: 110px;
   border-radius: 50%;
 }
 
@@ -199,6 +206,20 @@ h5 {
   margin-top: 20px;
   font-size: 18px;
   font-weight: bold;
+}
+
+.name {
+  border: 1px solid #ffdf3e99;
+  padding: 5px 7px 4px 7px;
+  border-radius: 20px;
+  color: #534c4c;
+  background-color: #ffdf3e99;
+  font-size: 12px;
+  /* margin-right: 3px; */
+  font-weight: 600;
+  position: relative;
+  left: 3px;
+  top: -21px;
 }
 
 .btn {
@@ -257,6 +278,7 @@ h5 {
   .profile-contain {
     padding: 17px 15px;
   }
+
   .btn {
     margin-top: -8px;
     display: flex;
@@ -271,13 +293,24 @@ h5 {
   }
 
   h4 {
-    margin-top: 5px;
+    margin-top: -3px;
     font-size: 17px;
   }
 
   h5 {
-    margin-top: -25px;
-    font-size: 15px;
+    margin-top: -22px;
+    font-size: 13px;
+  }
+
+  .name {
+    border: 1px solid #ffdf3e99;
+    padding: 3px 5px 3px 5px;
+    border-radius: 20px;
+    color: #534c4c;
+    background-color: #ffdf3e99;
+    font-size: 10.5px;
+    margin-right: 3px;
+    font-weight: 600;
   }
 
   .edit-profile-button {
