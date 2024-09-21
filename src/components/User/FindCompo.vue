@@ -278,7 +278,7 @@ select {
 
 .city-title,
 .speciality-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   font-family: math;
   margin: 25px 0;
@@ -304,6 +304,11 @@ select {
   padding: 7px;
   border-radius: 50%;
   border: 1px solid lightgray;
+}
+
+p {
+  font-size: 13px;
+  margin-top: 4px;
 }
 
 @media screen and (max-width: 768px) {

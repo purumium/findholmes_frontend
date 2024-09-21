@@ -5,6 +5,14 @@
       <h2>프로필 편집</h2>
     </header>
     <div class="profile-contain">
+      <div class="profile-header">
+        <img
+          class="profile-picture"
+          src="/images/logoforuser_register.png"
+          alt="프로필 사진"
+        />
+        <span class="name">사용자</span>
+      </div>
       <form @submit.prevent="handleProfileSubmit">
         <div class="form-group">
           <label>이메일</label>
@@ -197,8 +205,28 @@ h2 {
   margin: 5px 0 0 5px;
 }
 
+.profile-picture {
+  width: 100px;
+  height: 110px;
+  border-radius: 50%;
+}
+
+.name {
+  border: 1px solid #ffdf3e99;
+  padding: 5px 7px 4px 7px;
+  border-radius: 20px;
+  color: #534c4c;
+  background-color: #ffdf3e99;
+  font-size: 12px;
+  /* margin-right: 3px; */
+  font-weight: 600;
+  position: relative;
+  left: 3px;
+  top: -21px;
+}
+
 .profile-contain {
-  padding: 35px 20px;
+  margin: 20px 80px;
   text-align: center;
 }
 
@@ -220,7 +248,7 @@ label {
 }
 
 .form-group {
-  margin-bottom: 18px;
+  margin-bottom: 13px;
 }
 
 .form-group input {
@@ -233,7 +261,7 @@ label {
 }
 
 .button-group {
-  margin-top: 5px;
+  margin-top: 0px;
 }
 
 .btn-profile,
@@ -267,6 +295,11 @@ label {
     padding: 30px;
   }
 
+  .profile-contain {
+    margin: 20px 70px;
+    text-align: center;
+  }
+
   .form-group input {
     font-size: 14px;
     padding: 10px 0 10px 15px;
@@ -291,6 +324,11 @@ label {
     background: none;
     border: none;
     cursor: pointer;
+  }
+
+  .profile-contain {
+    margin: 30px 60px;
+    text-align: center;
   }
 
   .profile-form {
