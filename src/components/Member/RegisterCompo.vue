@@ -18,7 +18,12 @@
               :class="{ active: role === 'ROLE_USER' }"
               class="role-label"
             >
-              <img src="@/assets/user.png" width="70px" alt="사용자" />
+              <img
+                src="/images/logoforuser_register.png"
+                width="65px"
+                height="70x"
+                alt="사용자"
+              />
               사용자
             </label>
           </div>
@@ -35,8 +40,13 @@
               :class="{ active: role === 'ROLE_DETECTIVE' }"
               class="role-label"
             >
-              <img src="@/assets/detective.png" width="70px" alt="탐정" />
-              탐정
+              <img
+                src="/images/logofordetective_register.png"
+                width="80px"
+                height="70px"
+                alt="탐정"
+              />
+              <div><span class="name">탐정</span><span>홈즈</span></div>
             </label>
           </div>
         </div>
@@ -47,7 +57,7 @@
             v-model="email"
             type="email"
             id="email"
-            placeholder="Email"
+            placeholder="이메일"
             required
             @blur="checkEmail"
           />
@@ -63,7 +73,7 @@
             v-model="username"
             type="text"
             id="username"
-            placeholder="Username"
+            placeholder="이름"
             required
           />
         </div>
@@ -72,7 +82,7 @@
             v-model="password"
             type="password"
             id="password"
-            placeholder="Password"
+            placeholder="패스워드"
             required
           />
         </div>
@@ -81,7 +91,7 @@
             v-model="phonenumber"
             type="text"
             id="phonenumber"
-            placeholder="Phone Number"
+            placeholder="전화번호"
             required
           />
         </div>
@@ -185,11 +195,11 @@ const handleSubmit = async () => {
 
 .form-group input {
   width: 90%;
-  padding: 12px 0 12px 20px;
+  padding: 16px 0 13px 20px;
   border: 1px solid #80808045;
   border-radius: 20px;
   background-color: #fff;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 /* 역할 선택 섹션 스타일 */
@@ -205,7 +215,7 @@ const handleSubmit = async () => {
 
 .role-label {
   display: flex;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   gap: 12px;
   flex-direction: column;
@@ -222,6 +232,16 @@ const handleSubmit = async () => {
 
 .role-option input[type="radio"] {
   display: none; /* 라디오 버튼 숨기기 */
+}
+
+.name {
+  border: 1px solid #ffdf3e99;
+  padding: 3px 5px;
+  border-radius: 20px;
+  color: #534c4c;
+  background-color: #ffdf3e99;
+  font-size: 11px;
+  margin-right: 3px;
 }
 
 .button-group {
@@ -252,8 +272,6 @@ const handleSubmit = async () => {
 }
 
 /* 반응형 스타일 */
-
-/* 태블릿 화면 (768px 이하) */
 @media (max-width: 768px) {
   .register-form {
     width: 90%;
@@ -261,34 +279,66 @@ const handleSubmit = async () => {
   }
 
   .form-group input {
-    font-size: 14px;
-    padding: 10px 0 10px 15px;
+    width: 86%;
   }
 
   .role-label {
-    padding: 10px 30px;
+    padding: 17px 60px;
   }
 
   .btn-register {
     font-size: 13px;
-    padding: 8px;
+    padding: 10px;
+    width: 90%;
   }
 }
 
-/* 모바일 화면 (480px 이하) */
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  .role-label {
+    padding: 15px 46px;
+  }
+}
+
+@media (max-width: 500px) {
+  .role-selection {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
   .register-form {
     width: 100%;
-    padding: 20px;
+    padding: 25px;
   }
 
   .form-group input {
-    font-size: 13px;
-    padding: 8px 0 8px 10px;
+    font-size: 12px;
+    padding: 15px 0 13px 15px;
   }
 
   .role-label {
-    padding: 8px 20px;
+    padding: 15px 45px;
+  }
+
+  .btn-register {
+    font-size: 12px;
+    padding: 7px;
+  }
+}
+
+@media (max-width: 420px) {
+  .register-form {
+    width: 100%;
+    padding: 30px;
+  }
+
+  .form-group input {
+    font-size: 12px;
+    padding: 15px 0 13px 15px;
+  }
+
+  .role-label {
+    padding: 13px 26px;
   }
 
   .btn-register {

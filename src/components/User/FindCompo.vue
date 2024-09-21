@@ -306,9 +306,59 @@ select {
   border: 1px solid lightgray;
 }
 
-.item p,
-.speciality-item p {
-  font-size: 10px;
-  margin-top: 5px;
+@media screen and (max-width: 768px) {
+  p {
+    font-size: 11px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  p {
+    font-size: 10.5px;
+    letter-spacing: -1px;
+  }
+
+  .search-bar {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #8080803d;
+    border-radius: 8px;
+    padding: 5px 15px 5px 2px;
+    margin-top: 20px;
+  }
+
+  .city,
+  .spaciality {
+    margin-top: 30px;
+  }
+
+  city-title,
+  .speciality-title {
+    font-size: 14px;
+    font-weight: 600;
+    font-family: math;
+    margin: 25px 0 20px 0;
+  }
+
+  select {
+    padding: 5px 14px;
+    border: 1px solid #cccccc00;
+    border-radius: 5px;
+    width: 40%;
+    font-size: 12px;
+  }
 }
 </style>

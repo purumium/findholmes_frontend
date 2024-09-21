@@ -215,10 +215,6 @@ button {
 }
 
 @media (max-width: 768px) {
-  h2 {
-    font-size: 20px;
-  }
-
   .request {
     border: 1px solid #80808052;
     padding: 10px 25px;
@@ -260,6 +256,21 @@ button {
   button {
     font-size: 10px;
     padding: 5px 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 }
 </style>

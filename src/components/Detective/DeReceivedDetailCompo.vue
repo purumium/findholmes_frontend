@@ -12,28 +12,28 @@
 
         <table class="request-table">
           <tr>
-            <td class="label" colspan="1">의뢰 제목</td>
+            <td class="label" colspan="1">의뢰제목</td>
             <td class="value" colspan="3">{{ request.title }}</td>
           </tr>
 
           <tr>
-            <td class="label" colspan="1">의뢰 날짜</td>
+            <td class="label" colspan="1">의뢰일자</td>
             <td class="value" colspan="3">
               {{ timeconvert(request.createAt) }}
             </td>
           </tr>
 
           <tr>
-            <td class="label" colspan="1">의뢰 분야</td>
+            <td class="label" colspan="1">의뢰분야</td>
             <td class="value" colspan="3">{{ request.speciality }}</td>
           </tr>
           <tr>
-            <td class="label" colspan="1">의뢰 분야</td>
+            <td class="label" colspan="1">의뢰지역</td>
             <td class="value" colspan="3">{{ request.location }}</td>
           </tr>
 
           <tr>
-            <td class="label" colspan="1">탐정 성별</td>
+            <td class="label" colspan="1">탐정성별</td>
             <td class="value" colspan="3">
               {{ convertGender(request.detectiveGender) }}
             </td>
@@ -166,7 +166,7 @@ h3 {
   flex-direction: column;
   max-width: 800px;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 20px 15px;
 }
 
 .request {
@@ -182,7 +182,7 @@ h3 {
 .request-table td {
   padding: 15px;
   border-top: 1px solid #8080803b;
-  width: 130px;
+  width: 100px;
 }
 
 .label {
@@ -222,10 +222,6 @@ h3 {
     padding: 20px 10px;
   }
 
-  h2 {
-    font-size: 18px;
-  }
-
   .p {
     font-size: 12px;
   }
@@ -250,7 +246,54 @@ h3 {
   .description {
     min-height: 150px;
     height: 150px;
-    padding: 10px 15px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .header-span {
+    color: #666;
+    font-size: 10px;
+    margin: 5px 0 0 5px;
+  }
+
+  .request-contain {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px 10px;
+  }
+
+  h3 {
+    margin: 10px;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 5px;
+  }
+
+  .description {
+    min-height: 150px;
+    height: 150px;
+  }
+
+  .request-table td {
+    font-size: 12px;
+    padding: 15px;
+    border-top: 1px solid #8080803b;
+    width: 75px;
   }
 }
 </style>

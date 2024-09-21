@@ -154,11 +154,6 @@ header {
   align-items: end;
 }
 
-.navbar-left-logo img {
-  /* border: 1px solid #8080807a;
-  border-radius: 40px; */
-}
-
 .title {
   margin-left: 6px;
   font-size: 16px;
@@ -179,7 +174,7 @@ header {
 .icon {
   font-size: 25px;
   cursor: pointer;
-  color: rgb(0 0 0 / 41%);
+  color: rgb(0 0 0 / 32%);
 }
 
 .icon:hover {
@@ -221,11 +216,11 @@ header {
   }
 
   .icon {
-    font-size: 30px; /* 아이콘 크기 줄이기 */
+    font-size: 25px; /* 아이콘 크기 줄이기 */
   }
 
   .icon-container {
-    gap: 19px;
+    gap: 22px;
   }
 
   .tooltip {
@@ -241,11 +236,11 @@ header {
   }
 
   .icon {
-    font-size: 18px; /* 모바일에 맞게 아이콘 크기 조정 */
+    font-size: 22px; /* 모바일에 맞게 아이콘 크기 조정 */
   }
 
   .icon-container {
-    gap: 19px;
+    gap: 20px;
   }
 
   .tooltip {

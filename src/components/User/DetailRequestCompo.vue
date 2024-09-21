@@ -3,7 +3,7 @@
     <header class="request-header" @click="goBack">
       <button class="back-button">&lt;</button>
       <h2>의뢰서</h2>
-      <span class="header-span"></span>
+      <span class="header-span">의뢰서를 확인하세요</span>
     </header>
 
     <div class="request-contain">
@@ -14,29 +14,29 @@
 
         <table class="request-table">
           <tr>
-            <td class="label" colspan="1">의뢰 제목</td>
+            <td class="label" colspan="1">의뢰제목</td>
             <td class="value" colspan="3">{{ request.title }}</td>
           </tr>
 
           <tr>
-            <td class="label" colspan="1">의뢰 날짜</td>
+            <td class="label" colspan="1">의뢰일자</td>
             <td class="value" colspan="3">
               {{ timeconvert(request.createAt) }}
             </td>
           </tr>
 
           <tr>
-            <td class="label" colspan="1">의뢰 지역</td>
+            <td class="label" colspan="1">의뢰지역</td>
             <td class="value" colspan="3">{{ request.location }}</td>
           </tr>
 
           <tr>
-            <td class="label" colspan="1">의뢰 분야</td>
+            <td class="label" colspan="1">의뢰분야</td>
             <td class="value" colspan="3">{{ request.speciality }}</td>
           </tr>
 
           <tr>
-            <td class="label" colspan="1">탐정 성별</td>
+            <td class="label" colspan="1">탐정성별</td>
             <td class="value" colspan="3">
               {{ convertGender(request.detectiveGender) }}
             </td>
@@ -123,7 +123,7 @@ export default {
 </script>
 
 <style scoped>
-.request-container {
+<style scoped > .request-container {
   font-family: Arial, sans-serif;
 }
 
@@ -166,7 +166,7 @@ h3 {
   flex-direction: column;
   max-width: 800px;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 20px 15px;
 }
 
 .request {
@@ -182,7 +182,7 @@ h3 {
 .request-table td {
   padding: 15px;
   border-top: 1px solid #8080803b;
-  width: 130px;
+  width: 100px;
 }
 
 .label {
@@ -205,13 +205,21 @@ h3 {
   line-height: 20px;
 }
 
+.response-btn {
+  width: 100%;
+  background-color: #ffdf3e9c;
+  border: 1px solid #d3cb3a5e;
+  padding: 8px 0;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
 @media screen and (max-width: 768px) {
   .request-form-table {
     padding: 20px 10px;
-  }
-
-  h2 {
-    font-size: 18px;
   }
 
   .p {
@@ -228,18 +236,64 @@ h3 {
   .value {
     text-align: left;
     padding: 5px 8px !important;
-    font-family: emoji !important;
   }
 
   .request-table td {
     padding: 8px;
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .description {
     min-height: 150px;
     height: 150px;
-    padding: 10px 15px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .header-span {
+    color: #666;
+    font-size: 10px;
+    margin: 5px 0 0 5px;
+  }
+
+  .request-contain {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px 10px;
+  }
+
+  h3 {
+    margin: 10px;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 5px;
+  }
+
+  .description {
+    min-height: 150px;
+    height: 150px;
+  }
+
+  .request-table td {
+    font-size: 11px;
+    padding: 15px;
+    border-top: 1px solid #8080803b;
+    width: 75px;
   }
 }
 </style>
