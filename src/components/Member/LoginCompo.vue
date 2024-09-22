@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-box">
       <div class="login-logo">
-        <img src="/images/detective_img/logoforlogin.png" />
+        <img src="/images/logoforlogin.png" />
       </div>
       <form @submit.prevent="handleLogin">
         <div class="form-group">

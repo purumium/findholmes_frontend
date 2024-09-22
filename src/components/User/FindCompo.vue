@@ -307,7 +307,7 @@ select {
 }
 
 p {
-  font-size: 13px;
+  font-size: 12px;
   margin-top: 4px;
 }
 
