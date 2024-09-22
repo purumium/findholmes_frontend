@@ -28,6 +28,20 @@
 
     <footer class="footer-container">
       <div class="footer-content">
+        <div class="footer-title">
+          <p>찾아줘홈즈 이용 안내</p>
+          찾아줘홈즈는 대한민국 탐정시장의 정보비대칭을 해소하여 투명하고 공정한
+          탐정시장을 만들기 위해 중개 서비스를 제공합니다. 찾아줘홈즈는 회원의
+          상담내용 및 상담여부, 사건내용 및 진행여부 등에 대해 일절 관여하지
+          않으며, 관련 법규를 준수합니다. 찾아줘홈즈는 탐정(사업자회원)과
+          의뢰인(일반회원) 간의 중개 시스템만을 제공하며, 사업자회원이 제공하는
+          서비스의 내용과 질에 대해 법적 책임을 부담하지 않습니다. 모든 상담 및
+          사건 처리는 사업자회원이 독립적으로 수행하며, 각 사무소에서 개별적으로
+          업무를 진행합니다. 찾아줘홈즈에 가입한 사업자회원들 간에는 어떠한
+          조직적인 관계도 없습니다. 찾아줘홈즈에 표시된 사업자회원의 정보는 해당
+          사업자가 직접 제공한 것이며, 무단 복제, 편집, 전시, 전송, 배포, 판매,
+          방송, 공연 등으로 이용할 수 없습니다.
+        </div>
         <p>(05717) 서울특별시 송파구 중대로 135, 서관 12층</p>
         <p>
           대표전화: 02-2188-6900 | 정회원 전용 상담센터: 1833-2546 | 사업자번호:
@@ -63,7 +77,7 @@ export default {};
 
 .services {
   text-align: center;
-  padding: 40px 0;
+  padding: 30px 0 50px 0;
   width: 100%;
 }
 
@@ -91,12 +105,11 @@ export default {};
 }
 
 .service-card div {
-  font-size: 12px;
+  font-size: 13px;
+  letter-spacing: -0.5px;
   color: #190404;
-  /* font-weight: 600; */
   margin: 5px 0;
 }
-
 .footer-container {
   background-color: #f0f0f596;
   min-height: 200px;
@@ -109,6 +122,12 @@ export default {};
   width: 100%;
 }
 
+.footer-title {
+  color: #847878;
+  line-height: 20px;
+  margin-bottom: 50px;
+}
+
 .footer-content p {
   margin: 9px 0;
   color: #847878;
@@ -119,7 +138,7 @@ export default {};
 }
 
 .footer-content p:last-child {
-  margin-top: 100px;
+  margin-top: 20px;
   font-size: 12px;
   color: #999999c9;
 }
@@ -128,6 +147,12 @@ export default {};
 @media screen and (max-width: 768px) {
   .header-section h1 {
     font-size: 1.5rem; /* 제목 크기를 줄임 */
+  }
+
+  .services {
+    text-align: center;
+    padding: 20px 0;
+    width: 100%;
   }
 
   .service-cards {
