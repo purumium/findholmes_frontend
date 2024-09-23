@@ -158,6 +158,9 @@ export default {
         alert("의뢰요청에 실패했습니다.");
       }
     },
+    click() {
+      console.log(this.getUser);
+    },
   },
 };
 </script>
