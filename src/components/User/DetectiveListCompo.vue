@@ -31,7 +31,10 @@
                 class="profile-image"
               />
               <div class="btn">
-                <button class="request-btn go-profile-btn" @click="goProfile">
+                <button
+                  class="request-btn go-profile-btn"
+                  @click="goProfile(detective.userId)"
+                >
                   프로필 보기
                 </button>
                 <button class="request-btn" @click="createRequest">
@@ -117,6 +120,7 @@ export default {
       });
 
       this.detectives = response.data;
+
       console.log(this.detectives);
     } catch (error) {
       console.log("에러:", error);
@@ -125,6 +129,9 @@ export default {
   methods: {
     goBack() {
       this.$router.go(-1);
+    },
+    goProfile(detectiveId) {
+      this.$router.push({ name: "Profile", params: { detectiveId } });
     },
   },
 };
