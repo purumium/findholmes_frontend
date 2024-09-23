@@ -150,4 +150,21 @@ footer {
 .text {
   font-size: 11px; /* 텍스트 크기 설정 */
 }
+
+@media screen and (max-width: 600px) {
+  .text {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .icon {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .text {
+    font-size: 9px;
+  }
+}
 </style>

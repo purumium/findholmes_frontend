@@ -18,19 +18,28 @@
 
         <div class="btn">
           <button class="edit-profile-button" @click="doRegister">
-            <div>탐정 등록</div>
-            <div v-if="approvalStatus === '1'" id="1" class="approval-status">
-              <span>등록 필요</span>
+            <div>
+              <div v-if="approvalStatus === '1'" id="1" class="approval-status">
+                <span>등록 필요</span>
+              </div>
+              <div v-if="approvalStatus === '2'" id="2" class="approval-status">
+                <span>승인 대기중</span>
+              </div>
+              <div v-if="approvalStatus === '3'" id="3" class="approval-status">
+                <span>승인 완료</span>
+              </div>
+              <div
+                v-if="approvalStatus === '4'"
+                id="1"
+                class="approval-status reject"
+              >
+                <span>😢 승인 거절</span>
+              </div>
             </div>
-            <div v-if="approvalStatus === '2'" id="2" class="approval-status">
-              <span>승인 대기중</span>
-            </div>
-            <div v-if="approvalStatus === '3'" id="3" class="approval-status">
-              <span>승인 완료</span>
-            </div>
+            <div>탐정 등록하기</div>
           </button>
           <button class="point-button" @click="pointUsageHistory">
-            <span>💰 {{ points }}</span>
+            <span>💰 {{ points }} 포인트</span>
           </button>
         </div>
       </div>
@@ -67,6 +76,19 @@
         </ul>
       </div>
     </div>
+    <div
+      v-if="isRejectionModalVisible"
+      class="modal-overlay"
+      @click="closeRejectionModal"
+    >
+      <div class="modal-content" @click.stop>
+        <h3>탐정 등록 거부 사유</h3>
+        <div class="reject-reason">
+          {{ rejectionReason }}
+        </div>
+        <button @click="closeRejectionModal" class="close-button">닫기</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -81,7 +103,9 @@ export default {
       email: "",
       points: 1000,
       approvalStatus: "",
+      rejectionReason: "",
       loaded: false,
+      isRejectionModalVisible: "",
     };
   },
   mounted() {
@@ -97,6 +121,9 @@ export default {
         alert("탐정 등록 승인 대기중입니다.");
       } else if (this.approvalStatus === "3") {
         alert("탐정 등록 승인 완료 되었습니다.");
+      } else if (this.approvalStatus === "4") {
+        this.isRejectionModalVisible = true; // 모달 열기
+        // this.$router.push("/detective/register");
       } else {
         this.$router.push("/detective/register");
       }
@@ -122,7 +149,6 @@ export default {
     privacyPolicy() {
       this.$router.push("/detective/privacypolicy");
     },
-
     checkDeRegister() {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -133,13 +159,28 @@ export default {
           console.log(response.data);
           if (response.data === "PENDING") {
             this.approvalStatus = "2";
-          } else if (response.data === "REJECTED") {
-            this.approvalStatus = "1";
           } else if (response.data === "APPROVED") {
             this.approvalStatus = "3";
+          } else if (response.data === "REJECTED") {
+            this.getRejectReason();
+            this.approvalStatus = "4";
           } else if (response.data === "NO") {
             this.approvalStatus = "1";
           }
+        })
+        .catch((error) => {
+          console.error("사용자 정보 가지고 오는 중 에러 발생 ", error);
+        });
+    },
+    getRejectReason() {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      axios
+        .get("/api/detective/checkreject")
+        .then((response) => {
+          this.rejectionReason = response.data.rejReason;
+          console.log("reject reason : " + this.rejReason);
         })
         .catch((error) => {
           console.error("사용자 정보 가지고 오는 중 에러 발생 ", error);
@@ -153,9 +194,8 @@ export default {
         this.userName = response.data.userName;
         this.email = response.data.email;
 
-        console.log(response.data);
         if (response.data.profilePicture === null) {
-          this.profileImage = require("@/assets/detective.png"); // 기본 이미지 경로
+          this.profileImage = "/images/logofordetective_register.png"; // 기본 이미지 경로
         } else {
           this.profileImage = this.getImageUrl(response.data.profilePicture);
         }
@@ -167,6 +207,9 @@ export default {
     },
     getImageUrl(path) {
       return `http://localhost:8080/${path}`;
+    },
+    closeRejectionModal() {
+      this.isRejectionModalVisible = false;
     },
   },
 };
@@ -214,36 +257,42 @@ h2 {
   text-align: center;
   margin-top: 20px;
   margin: 20px;
-  background-color: #f7f2840d;
+  background-color: #d4d4d430;
   border-radius: 10px;
   border: 1px solid #8080802e;
 }
 
 .profile-contain {
-  padding: 22px 40px;
+  padding: 20px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 
 h4 {
-  margin-top: 10px;
-  font-size: 16px;
+  margin-top: 4px;
+  font-size: 17px;
 }
 
 h5 {
-  margin-top: -19px;
+  margin-top: -20px;
+  margin-bottom: 0px;
   color: #808080d9;
   font-weight: 400;
   font-size: 15px;
 }
 
 .profile-picture {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
+  border: 1px solid #80808030;
+  padding: 0px;
 }
 
 .point-contain {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   justify-content: space-around;
 }
 
@@ -255,7 +304,9 @@ h5 {
 
 .btn {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: -10px;
 }
 
 .edit-profile-button {
@@ -263,7 +314,8 @@ h5 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px 10px;
+  gap: 5px;
+  padding: 15px 50px;
   background-color: #ffdf3e9c;
   border: none;
   border-radius: 5px;
@@ -273,13 +325,18 @@ h5 {
 
 .approval-status {
   border: 1px solid #80808000;
-  padding: 4px 10px;
+  padding: 2px 10px;
   color: #000000;
   letter-spacing: -1px;
-  font-size: 10px;
-  margin-left: 6px;
+  font-size: 11px;
   background-color: #ecb900ad;
   border-radius: 20px;
+}
+
+.reject {
+  background-color: #297b09ad !important;
+  color: white !important;
+  letter-spacing: 0px;
 }
 
 .point-button {
@@ -287,11 +344,11 @@ h5 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 12px 10px;
+  padding: 15px 40px;
   background-color: #ffdf3e9c;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -314,6 +371,53 @@ h5 {
 .menu li:hover {
   color: #ecb9009c;
   font-weight: 600;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 300px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reject-reason {
+  border: 1px solid #80808029;
+  padding: 10px 20px;
+  text-align: justify;
+  min-width: 235px;
+  min-height: 100px;
+  border-radius: 10px;
+}
+
+h3 {
+  margin-top: 5px;
+}
+
+.close-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ffdf3e9c;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  width: 100%;
 }
 
 /* 태블릿 화면 (max-width: 768px) */
@@ -346,12 +450,8 @@ h5 {
 
   .edit-profile-button,
   .point-button {
-    padding: 10px;
+    padding: 10px 40px;
     font-size: 13px;
-  }
-
-  .btn {
-    flex-direction: row;
   }
 
   .menu li {
@@ -360,8 +460,20 @@ h5 {
   }
 }
 
-/* 모바일 화면 (max-width: 420px) */
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
   .mypage-container {
     max-width: 100%;
   }
@@ -389,10 +501,19 @@ h5 {
     font-size: 13px;
   }
 
+  .approval-status {
+    border: 1px solid #80808000;
+    padding: 2px 10px;
+    color: #000000;
+    letter-spacing: -1px;
+    font-size: 10px;
+    background-color: #ecb900ad;
+  }
+
   .edit-profile-button,
   .point-button {
-    padding: 8px;
-    font-size: 12px;
+    padding: 10px;
+    font-size: 11px;
   }
 
   .btn {

@@ -48,9 +48,9 @@
           <div class="estimate">
             <h4>{{ assigned.title }}</h4>
             <div class="estimate-date">
-              <div>✔️ 의뢰 일자 : {{ timeconvert(assigned.createAt) }}</div>
-              <div>✔️ 의뢰 분야 : {{ assigned.speciality.specialityName }}</div>
-              <div>✔️ 의뢰 장소 : {{ assigned.location }}</div>
+              <div>✔️ 의뢰일자 : {{ timeconvert(assigned.createAt) }}</div>
+              <div>✔️ 의뢰분야 : {{ assigned.speciality.specialityName }}</div>
+              <div>✔️ 의뢰지역 : {{ assigned.location }}</div>
             </div>
           </div>
         </div>
@@ -264,29 +264,11 @@ button {
 }
 
 @media (max-width: 768px) {
-  h2 {
-    font-size: 16px;
-  }
-
-  .receive-contain {
-    grid-template-columns: 1fr; /* 작은 화면에서는 한 행에 1개의 카드 */
-  }
-
-  .estimate {
-    padding: 2px 10px;
-    box-sizing: border-box;
-  }
-
   .estimate-card {
-    flex-direction: column; /* 화면이 작아지면 세로로 배치 */
-    text-align: center;
-  }
-
-  .estimate-image img {
-    margin: 10px auto; /* 이미지를 가운데 정렬 */
-  }
-
-  .estimate-content {
+    align-items: center;
+    border: 1px solid #80808038;
+    padding: 10px 0px;
+    border-radius: 8px;
   }
 
   .estimate-content h4 {
@@ -300,6 +282,100 @@ button {
   button {
     font-size: 10px;
     padding: 5px 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .estimate-content h4 {
+    font-size: 12px;
+  }
+
+  .estimate-content div {
+    font-size: 11px;
+  }
+
+  h3 {
+    font-size: 14px;
+  }
+
+  #status-filter {
+    padding: 5px 11px;
+    font-size: 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+  }
+
+  .receive-contain {
+    margin: 0 auto;
+    padding: 10px 10px 25px 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .estimate-image img {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .estimate-content h4 {
+    font-size: 11px;
+  }
+
+  .estimate-content div {
+    font-size: 11px;
+    letter-spacing: -0.4px;
+  }
+
+  .filter-container {
+    margin: 5px 10px -5px -8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  h3 {
+    font-size: 13px;
+  }
+
+  .estimate-image img {
+    width: 30px;
+    height: 30px;
+  }
+
+  #status-filter {
+    padding: 5px 11px;
+    font-size: 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
   }
 }
 </style>

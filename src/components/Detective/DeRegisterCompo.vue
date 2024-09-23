@@ -42,7 +42,7 @@
               <option value="경상남도(부산,울산)">경상남도(부산, 울산)</option>
               <option value="제주특별자치도">제주특별자치도</option>
             </select>
-          </div> 
+          </div>
           <div class="form-group">
             <label for="introduction">자기소개</label>
             <textarea v-model="introduction" id="introduction" required>
@@ -516,10 +516,6 @@ li button:hover {
     padding: 15px;
   }
 
-  h2 {
-    font-size: 20px;
-  }
-
   .form-group input,
   .form-group textarea,
   .form-group select {
@@ -528,6 +524,21 @@ li button:hover {
 
   .btn-register {
     font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 }
 </style>

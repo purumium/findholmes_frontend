@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-box">
       <div class="login-logo">
-        <img src="@/assets/findholmes_logo.png" />
+        <img src="/images/logoforlogin.png" />
       </div>
       <form @submit.prevent="handleLogin">
         <div class="form-group">
@@ -126,13 +126,12 @@ export default {
 }
 
 .login-logo {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .login-logo img {
-  width: 150px;
+  width: 160px;
   border-radius: 100px;
-  border: 1px solid #2f4f4f2e;
 }
 
 .form-group {

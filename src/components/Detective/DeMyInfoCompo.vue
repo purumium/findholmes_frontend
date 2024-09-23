@@ -8,7 +8,10 @@
       <div class="register-form" id="1">
         <div class="register-logo">
           <form @submit.prevent="handleProfileSubmit">
-            <div v-if="imagePaths.businessRegistrationPath" @click="showModal('businessRegistrationPath')">
+            <div
+              v-if="imagePaths.businessRegistrationPath"
+              @click="showModal('businessRegistrationPath')"
+            >
               <h1>Business Registration</h1>
               <img
                 :src="getImageUrl(imagePaths.businessRegistrationPath)"
@@ -16,7 +19,10 @@
                 class="thumbnail"
               />
             </div>
-            <div v-if="imagePaths.detectiveLicensePath" @click="showModal('detectiveLicensePath')">
+            <div
+              v-if="imagePaths.detectiveLicensePath"
+              @click="showModal('detectiveLicensePath')"
+            >
               <h1>Detective License</h1>
               <img
                 :src="getImageUrl(imagePaths.detectiveLicensePath)"
@@ -24,47 +30,63 @@
                 class="thumbnail"
               />
             </div>
-            <div v-if="imagePaths.profilePicturePath" @click="showModal('profilePicturePath')">
+            <div
+              v-if="imagePaths.profilePicturePath"
+              @click="showModal('profilePicturePath')"
+            >
               <h1>Profile Picture</h1>
               <img
                 :src="getImageUrl(imagePaths.profilePicturePath)"
                 alt="Profile Picture"
                 class="thumbnail"
               />
-              
             </div>
-            <button v-if="imagePaths.profilePicturePath" @click="deleteProfilePicture()">프로필 사진 삭제</button>
-            
+            <button
+              v-if="imagePaths.profilePicturePath"
+              @click="deleteProfilePicture()"
+            >
+              프로필 사진 삭제
+            </button>
+
             <div v-if="!imagePaths.profilePicturePath">
               <h3>프로필사진 추가</h3>
               <div class="form-group">
                 <label for="profile_picture">Profile Picture:</label>
                 <input
-                    @change="handleFileChange('profilePictureFile', $event)" 
-                    type="file" 
-                    id="profile_picture" 
+                  @change="handleFileChange('profilePictureFile', $event)"
+                  type="file"
+                  id="profile_picture"
                 />
               </div>
             </div>
 
-            <div v-if="imagePaths.additionalCertificationPath" @click="showModal('additionalCertification')">
+            <div
+              v-if="imagePaths.additionalCertificationPath"
+              @click="showModal('additionalCertification')"
+            >
               <h1>추가 정보</h1>
               <img
                 :src="getImageUrl(imagePaths.additionalCertificationPath)"
                 alt="additional certification"
                 class="thumbnail"
               />
-              
             </div>
-            <button v-if="imagePaths.additionalCertificationPath" @click="deleteAdditionalCertification()">추가 정보 삭제</button>
+            <button
+              v-if="imagePaths.additionalCertificationPath"
+              @click="deleteAdditionalCertification()"
+            >
+              추가 정보 삭제
+            </button>
             <div v-if="!imagePaths.additionalCertificationPath">
               <h3>추가정보 추가</h3>
               <div class="form-group">
-                <label for="additional_certification">Additional Certification:</label>
+                <label for="additional_certification"
+                  >Additional Certification:</label
+                >
                 <input
-                    @change="handleFileChange('additionalCertification', $event)" 
-                    type="file" 
-                    id="additional_certification" 
+                  @change="handleFileChange('additionalCertification', $event)"
+                  type="file"
+                  id="additional_certification"
                 />
               </div>
             </div>
@@ -73,27 +95,37 @@
               <label for="description">추가 설명</label>
               <textarea v-model="description" id="description"> </textarea>
             </div>
-            
+
             <div class="form-group">
-            <label for="location">활동지역</label>
-            <select v-model="location" id="location" required>
-              <option value="" disabled>활동지역을 선택해주세요</option>
-              <option value="서울특별시">서울특별시</option>
-              <option value="인천광역시">인천광역시</option>
-              <option value="강원도">강원도</option>
-              <option value="충청북도">충청북도</option>
-              <option value="충청남도(대전,세종)">충청남도(대전, 세종)</option>
-              <option value="전라북도">전라북도</option>
-              <option value="전라남도(광주)">전라남도(광주)</option>
-              <option value="경상북도(대구)">경상북도(대구)</option>
-              <option value="경상남도(부산,울산)">경상남도(부산, 울산)</option>
-              <option value="제주특별자치도">제주특별자치도</option>
-            </select>
-          </div> 
-            
+              <label for="location">활동지역</label>
+              <select v-model="location" id="location" required>
+                <option value="" disabled>활동지역을 선택해주세요</option>
+                <option value="서울특별시">서울특별시</option>
+                <option value="인천광역시">인천광역시</option>
+                <option value="강원도">강원도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도(대전,세종)">
+                  충청남도(대전, 세종)
+                </option>
+                <option value="전라북도">전라북도</option>
+                <option value="전라남도(광주)">전라남도(광주)</option>
+                <option value="경상북도(대구)">경상북도(대구)</option>
+                <option value="경상남도(부산,울산)">
+                  경상남도(부산, 울산)
+                </option>
+                <option value="제주특별자치도">제주특별자치도</option>
+              </select>
+            </div>
+
             <div class="form-group">
               <label>이메일</label>
-              <input v-model="email" type="email" id="email" required readonly/>
+              <input
+                v-model="email"
+                type="email"
+                id="email"
+                required
+                readonly
+              />
             </div>
             <div class="form-group">
               <label>이름</label>
@@ -101,9 +133,13 @@
             </div>
             <div class="form-group">
               <label>휴대폰</label>
-              <input v-model="phoneNumber" type="text" id="phonenumber" required @input="validatePhoneNumber"/>
+              <input
+                v-model="phoneNumber"
+                type="text"
+                id="phonenumber"
+                required
+              />
             </div>
-            <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
             <div class="form-group">
               <label for="introduction">자기소개</label>
               <textarea v-model="introduction" id="introduction" required>
@@ -170,12 +206,21 @@
                   required
                 />
               </div>
-              <p v-if="passwordMessage" :class="{ error: !isPasswordValid, success: isPasswordValid }">
+              <p
+                v-if="passwordMessage"
+                :class="{ error: !isPasswordValid, success: isPasswordValid }"
+              >
                 {{ passwordMessage }}
               </p>
             </div>
             <div class="button-group">
-              <button type="submit" class="btn-register" :disabled="!isPasswordValid || !isPhoneNumberValid">프로필 수정</button>
+              <button
+                type="submit"
+                class="btn-register"
+                :disabled="!isPasswordValid"
+              >
+                프로필 수정
+              </button>
             </div>
           </form>
         </div>
@@ -187,16 +232,19 @@
     </div>
     <div v-if="isModalVisible" class="modal" @click="closeModal">
       <div class="modal-content" @click.stop>
-        <img :src="getImageUrl(imagePaths[selectedImagePath])" alt="Full Size Image" />
+        <img
+          :src="getImageUrl(imagePaths[selectedImagePath])"
+          alt="Full Size Image"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, watch  } from "vue";
+import { onMounted, ref, watch } from "vue";
 import axios from "axios";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 // 상태 변수
 const profilePictureFile = ref(null);
@@ -215,7 +263,7 @@ const imagePaths = ref({
   businessRegistrationPath: null,
   detectiveLicensePath: null,
   profilePicturePath: null,
-  additionalCertificationPath:null
+  additionalCertificationPath: null,
 });
 const deleteProfile = ref("");
 const deleteadditionalCertification = ref("");
@@ -231,10 +279,6 @@ const isProfileDelete = ref(false);
 const isadditionalCertificationDelete = ref(false);
 const specialtiesName = ref([]);
 
-
-const phoneError = ref("")
-const isPhoneNumberValid = ref(false)
-
 const selectedSpecialties = ref([]);
 const selectedSpecialty = ref(null);
 const specialties = ref([]);
@@ -243,35 +287,22 @@ const specialties = ref([]);
 const isModalVisible = ref(false);
 const selectedImagePath = ref("");
 
-const validatePhoneNumber = () => {
-    const phonePattern = /^\d{3}-\d{3,4}-\d{4}$/; // 예: 010-1234-5678 형식
-    if (!phoneNumber.value.match(phonePattern)) {
-      isPhoneNumberValid.value=false
-      phoneError.value = '핸드폰 번호 형식이 올바르지 않습니다. (예: 010-1234-5678)';
-    } else {
-      phoneError.value = '';
-      isPhoneNumberValid.value=true
-    }
-  }
-
 const fetchSpecialties = async () => {
   try {
     const response = await axios.get("/api/detective/specialties");
     specialties.value = response.data;
 
-    for(let j=0;j<specialtiesName.value.length;j++){
-    for(let i =0;i<specialties.value.length;i++){
-      if(specialtiesName.value[j]===(specialties.value[i].specialityName)){
-        console.log("aaaaa")
-        selectedSpecialties.value.push(specialties.value[i]);
+    for (let j = 0; j < specialtiesName.value.length; j++) {
+      for (let i = 0; i < specialties.value.length; i++) {
+        if (specialtiesName.value[j] === specialties.value[i].specialityName) {
+          console.log("aaaaa");
+          selectedSpecialties.value.push(specialties.value[i]);
+        }
       }
     }
-  }
   } catch (error) {
     message.value = "Failed to load specialties.";
   }
-  
-  
 };
 
 const addSpecialty = () => {
@@ -294,16 +325,15 @@ const removeSpecialty = (specialtyId) => {
 
 const handleFileChange = (fileType, event) => {
   const file = event.target.files[0];
-  if (fileType === 'profilePictureFile') profilePictureFile.value = file;
-  if (fileType === 'additionalCertification') additionalCertification.value = file;
+  if (fileType === "profilePictureFile") profilePictureFile.value = file;
+  if (fileType === "additionalCertification")
+    additionalCertification.value = file;
 };
 
 onMounted(async () => {
   await getUser(); // 데이터 가져오기를 완료한 후
   await fetchSpecialties(); // 그 다음에 specialties 가져오기
 });
-
-
 
 const deleteProfilePicture = () => {
   isProfileDelete.value = true;
@@ -314,7 +344,8 @@ const deleteProfilePicture = () => {
 
 const deleteAdditionalCertification = () => {
   isadditionalCertificationDelete.value = true;
-  deleteadditionalCertification.value = imagePaths.value.additionalCertificationPath;
+  deleteadditionalCertification.value =
+    imagePaths.value.additionalCertificationPath;
   imagePaths.value.additionalCertificationPath = "";
   additionalCertification.value = null;
 };
@@ -326,7 +357,7 @@ const getUser = async () => {
   try {
     const response = await axios.get("/api/detective/getDetectiveDetail");
     const data = response.data;
-    console.log(response.data)
+    console.log(response.data);
     createdAt.value = data.createdAt;
     currentPoints.value = data.currentPoints;
     gender.value = data.detectiveGender;
@@ -335,34 +366,35 @@ const getUser = async () => {
     location.value = data.location;
     description.value = data.description;
     phoneNumber.value = data.phoneNumber;
-    additionalCertification.value = data.additionalCertifications
+    additionalCertification.value = data.additionalCertifications;
     resolvedCases.value = data.resolvedCases;
     userName.value = data.userName;
     specialtiesName.value = data.specialtiesName;
-    console.log(specialtiesName.value)
+    console.log(specialtiesName.value);
     imagePaths.value.businessRegistrationPath = data.businessRegistration;
     imagePaths.value.detectiveLicensePath = data.detectiveLicense;
     imagePaths.value.profilePicturePath = data.profilePicture;
-    imagePaths.value.additionalCertificationPath = data.additionalCertifications;
+    imagePaths.value.additionalCertificationPath =
+      data.additionalCertifications;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 };
-const checkPasswordMatch = ()=> {
-      if (newPassword.value === confirmPassword.value) {
-        isPasswordValid.value = true;
-        passwordMessage.value = "비밀번호가 일치합니다.";
-      } else {
-        isPasswordValid.value = false;
-        passwordMessage.value = "비밀번호가 일치하지 않습니다.";
-      }
-    };
+const checkPasswordMatch = () => {
+  if (newPassword.value === confirmPassword.value) {
+    isPasswordValid.value = true;
+    passwordMessage.value = "비밀번호가 일치합니다.";
+  } else {
+    isPasswordValid.value = false;
+    passwordMessage.value = "비밀번호가 일치하지 않습니다.";
+  }
+};
 watch(newPassword, checkPasswordMatch);
 watch(confirmPassword, checkPasswordMatch);
 
-const goBack = ()=>{
+const goBack = () => {
   router.push("/detective/mypage");
-}
+};
 
 const handleProfileSubmit = async () => {
   if (!isPasswordValid.value) {
@@ -370,32 +402,33 @@ const handleProfileSubmit = async () => {
     isSuccess.value = false;
     return;
   }
-  console.log(selectedSpecialties.value.length)
-  if(selectedSpecialties.value.length===0){
-    message.value = "전문 분야를 선택해 주세요"
+  console.log(selectedSpecialties.value.length);
+  if (selectedSpecialties.value.length === 0) {
+    message.value = "전문 분야를 선택해 주세요";
     isSuccess.value = false;
     return;
   }
 
-  const token = localStorage.getItem('token');
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   try {
     const response = await axios.get("/api/detective/pwCheck", {
-      params: { password: currentPassword.value }
+      params: { password: currentPassword.value },
     });
 
     if (response.data) {
-      if(isProfileDelete.value){
+      if (isProfileDelete.value) {
         // 파일 삭제
         await deleteFile(deleteProfile.value);
       }
-      if(isadditionalCertificationDelete.value){
+      if (isadditionalCertificationDelete.value) {
         // 파일 삭제
         await deleteFile(deleteadditionalCertification.value);
       }
       // 파일 업로드 및 프로필 수정
-      const { profilePicturePath, additionalCertificationPath } = await uploadFiles();
+      const { profilePicturePath, additionalCertificationPath } =
+        await uploadFiles();
       const specialtyIds = selectedSpecialties.value.map((s) => s.specialityId);
       await updateProfile({
         profilePicture: profilePicturePath,
@@ -409,7 +442,7 @@ const handleProfileSubmit = async () => {
         specialties: specialtyIds,
       });
       message.value = "탐정 등록이 완료되었습니다.";
-      alert("탐정 정보 수정이 완료되었습니다.")
+      alert("탐정 정보 수정이 완료되었습니다.");
       router.push("/detective/mypage");
     } else {
       alert("현재 비밀번호가 다릅니다");
@@ -429,7 +462,10 @@ const deleteFile = async (filePath) => {
     const response = await axios.post("/api/detective/updateFile", formData);
     console.log("File deletion successful:", response.data);
   } catch (error) {
-    console.error("Error deleting file:", error.response ? error.response.data : error.message);
+    console.error(
+      "Error deleting file:",
+      error.response ? error.response.data : error.message
+    );
     alert("파일 삭제 중 오류가 발생했습니다.");
   }
 };
@@ -440,17 +476,25 @@ const uploadFiles = async () => {
   formData.append("additionalCertification", additionalCertification.value);
 
   try {
-    const fileUploadResponse = await axios.post("/api/detective/files", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const fileUploadResponse = await axios.post(
+      "/api/detective/files",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     return {
       profilePicturePath: fileUploadResponse.data.profilePicturePath,
-      additionalCertificationPath: fileUploadResponse.data.additionalCertificationPath,
+      additionalCertificationPath:
+        fileUploadResponse.data.additionalCertificationPath,
     };
   } catch (error) {
-    console.error("Error uploading files:", error.response ? error.response.data : error.message);
+    console.error(
+      "Error uploading files:",
+      error.response ? error.response.data : error.message
+    );
     alert("파일 업로드 중 오류가 발생했습니다.");
     throw error; // 에러를 다시 던져서 상위 함수에서 처리
   }
@@ -460,12 +504,14 @@ const updateProfile = async (data) => {
   try {
     await axios.post("/api/detective/update", data);
   } catch (error) {
-    console.error("Error updating profile:", error.response ? error.response.data : error.message);
+    console.error(
+      "Error updating profile:",
+      error.response ? error.response.data : error.message
+    );
     alert("프로필 업데이트 중 오류가 발생했습니다.");
     throw error; // 에러를 다시 던져서 상위 함수에서 처리
   }
 };
-
 
 // 이미지 URL 반환 함수
 const getImageUrl = (path) => {
@@ -683,41 +729,6 @@ li button:hover {
   margin-top: 10px;
 }
 
-/* 반응형 스타일 */
-@media (max-width: 768px) {
-  .register-form {
-    width: 100%;
-  }
-
-  .register-container {
-    padding: 20px 20px 30px 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgb(0 0 0 / 3%);
-    border-radius: 10px;
-    border: 1px solid #80808030;
-    margin: 12px;
-  }
-
-  .service-card {
-    padding: 15px;
-  }
-
-  h2 {
-    font-size: 20px;
-  }
-
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    font-size: 12px;
-  }
-
-  .btn-register {
-    font-size: 14px;
-  }
-}
-
-
 /* 이미지 스타일 */
 .thumbnail {
   width: 200px;
@@ -760,5 +771,50 @@ li button:hover {
 /* 모달 닫기 방지 (모달 내용 클릭 시 모달 닫히는 문제 방지) */
 .modal-content {
   position: relative;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .register-form {
+    width: 100%;
+  }
+
+  .register-container {
+    padding: 20px 20px 30px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 3%);
+    border-radius: 10px;
+    border: 1px solid #80808030;
+    margin: 12px;
+  }
+
+  .service-card {
+    padding: 15px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    font-size: 12px;
+  }
+
+  .btn-register {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
 }
 </style>
