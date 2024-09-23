@@ -1,48 +1,53 @@
 <template>
   <div class="chat-list">
     <div
-      v-for="chat in chats"
-      :key="chat.id"
+      v-for="chatRoom in chatRoomList"
+      :key="chatRoom.id"
       class="chat-item"
-      @click="goToChatRoom(chat.id)"
+      @click="goToChatRoom(chatRoom.chatRoomId)"
     >
-      <div class="chat-title">{{ chat.title }}</div>
-      <div class="chat-preview">{{ chat.lastMessage }}</div>
-      <div class="chat-preview">{{ chat.lastTime }}</div>
+      <div class="chat-title">{{ chatRoom }}</div>
+      <div class="chat-preview">{{ chatRoom.participants[0].userName }}</div>
+      <!-- <div class="chat-preview">{{ chat.lastTime }}</div> -->
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return {
-      chats: [
-        {
-          id: 1,
-          title: "Danggeun Pay",
-          lastMessage: "You need to confirm the payment",
-          lastTime: "8:13 PM",
-        },
-        {
-          id: 2,
-          title: "Danggeun Alba",
-          lastMessage: "Check the job offers on the home page",
-          lastTime: "8:15 PM",
-        },
-        {
-          id: 3,
-          title: "Seoyeon Dad",
-          lastMessage: "I will be there on Saturday!",
-          lastTime: "9:15 PM",
-        },
-        // Add more chat data as per your need
-      ],
+      chatRoomList: [],
     };
   },
+
+  mounted() {
+    this.fetchMessages();
+  },
   methods: {
-    goToChatRoom(chatId) {
-      this.$router.push({ name: "ChatRoom", params: { chatId } });
+    async fetchMessages() {
+      this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
+
+      if (this.token) {
+        // 토큰이 존재하는 경우, Axios의 Authorization 헤더에 토큰을 추가
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+
+      try {
+        const response = await axios.get(`/api/chatroom/chatList`);
+        this.chatRoomList = response.data;
+        console.log("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ", this.chatRoomList);
+      } catch (error) {
+        console.error("채팅방 목록 불러오기 실패", error);
+      }
+    },
+
+    goToChatRoom(chatRoomId) {
+      this.$router.push({ name: "ChatRoom", params: { chatRoomId } });
     },
   },
 };
