@@ -13,7 +13,7 @@
       >
         <div class="profile-content">
           <img
-            :src="`http://localhost:8080/${detective.profilePicture}`"
+            :src="detective.profilePicture"
             alt="Profile Image"
             class="profile-image"
           />
@@ -58,56 +58,6 @@ export default {
       location:null,
       specialityId: null,
       detectives:[],
-      detectives2: [
-        {
-          id: 1,
-          name: "김민수",
-          company: "탐정사무소 민수",
-          description:
-            "실종 사건 및 의뢰자 맞춤형 상담을 제공합니다. 신속하고 정확한 조사.",
-          category: "사람찾기",
-          location: "서울",
-          rate: 4.5,
-          reviews: 200,
-          imageUrl: "/images/detective_img/detective1.png",
-        },
-        {
-          id: 2,
-          name: "이정호",
-          company: "탐정사무소 정호",
-          description:
-            "개인 사생활 조사 및 법률 관련 상담을 제공합니다. 정확한 사실 확인이 가능합니다.",
-          category: "법률자문",
-          location: "부산",
-          rate: 4.5,
-          reviews: 200,
-          imageUrl: "/images/detective_img/detective1.png",
-        },
-        {
-          id: 3,
-          name: "박수진",
-          company: "탐정사무소 수진",
-          description:
-            "기업 및 개인을 위한 신용 조사 서비스. 전문적이고 신뢰할 수 있는 정보 제공.",
-          category: "기업조사",
-          location: "대전",
-          rate: 4.5,
-          reviews: 200,
-          imageUrl: "/images/detective_img/detective1.png",
-        },
-        {
-          id: 4,
-          name: "박수진",
-          company: "탐정사무소 수진",
-          description:
-            "기업 및 개인을 위한 신용 조사 서비스. 전문적이고 신뢰할 수 있는 정보 제공.",
-          category: "기업조사",
-          location: "대전",
-          rate: 4.5,
-          reviews: 200,
-          imageUrl: "/images/detective_img/detective1.png",
-        },
-      ],
     };
   },
   mounted: async function() {
@@ -130,6 +80,14 @@ export default {
       });
 
       this.detectives = response.data;
+      console.log(this.detectives)
+      for(let i =0;i<this.detectives.length;i++){
+        if (this.detectives[i].profilePicture === null) {
+          this.detectives[i].profilePicture = require("@/assets/detective.png"); // 기본 이미지 경로
+        }else{
+          this.detectives[i].profilePicture = `http://localhost:8080/${this.detectives[i].profilePicture}`
+        }
+      }
       console.log(this.detectives);
 
     } catch (error) {

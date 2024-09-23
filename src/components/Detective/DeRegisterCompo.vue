@@ -171,9 +171,9 @@ const checkReg = ref("");
 const router = useRouter();
 
 // 페이지가 마운트된 후, 선택된 div 설정 및 전문 분야 가져오기
-onMounted(() => {
-  checkDeRegister();
-  fetchSpecialties();
+onMounted( async () => {
+  await checkDeRegister();
+  await fetchSpecialties();
 });
 
 // 파일이 선택되었을 때 해당 파일 객체를 저장
@@ -247,6 +247,8 @@ const handleSubmit = async () => {
 };
 
 const checkDeRegister = async () => {
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get("/api/detective/checkregister");
     checkReg.value = 1;
@@ -266,8 +268,11 @@ const checkDeRegister = async () => {
 };
 
 const fetchSpecialties = async () => {
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get("/api/detective/specialties");
+    console.log(response.data)
     specialties.value = response.data;
   } catch (error) {
     message.value = "Failed to load specialties.";

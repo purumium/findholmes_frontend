@@ -78,15 +78,29 @@
         </div>
         <div class="form-group">
           <input
+            v-model="confirmPassword"
+            type="confirmPassword"
+            id="confirmPassword"
+            placeholder="confirmPassword"
+            required
+          />
+        </div>
+        <p v-if="passwordMessage" :class="{ error: !isPasswordValid, success: isPasswordValid }">
+          {{ passwordMessage }}
+        </p>
+        <div class="form-group">
+          <input
             v-model="phonenumber"
             type="text"
             id="phonenumber"
             placeholder="Phone Number"
             required
+            @input="validatePhoneNumber"
           />
+        <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
         </div>
         <div class="button-group">
-          <button type="submit" class="btn-register" :disabled="!isEmailValid">
+          <button type="submit" class="btn-register" :disabled="!isEmailValid || !isPasswordValid || !isPhoneNumberValid">
             가입하기
           </button>
         </div>
@@ -99,7 +113,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
@@ -107,12 +121,40 @@ const router = useRouter();
 const username = ref("");
 const email = ref("");
 const phonenumber = ref("");
+const confirmPassword = ref("");
 const password = ref("");
 const role = ref("ROLE_USER");
 const message = ref("");
 const emailStatus = ref("");
 const isEmailValid = ref(false);
 const isSuccess = ref(false);
+const isPasswordValid = ref(false);
+const isPhoneNumberValid = ref(false);
+const passwordMessage = ref("")
+const phoneError = ref("");
+
+const validatePhoneNumber = () => {
+    const phonePattern = /^\d{3}-\d{3,4}-\d{4}$/; // 예: 010-1234-5678 형식
+    if (!phonenumber.value.match(phonePattern)) {
+      isPhoneNumberValid.value=false
+      phoneError.value = '핸드폰 번호 형식이 올바르지 않습니다. (예: 010-1234-5678)';
+    } else {
+      phoneError.value = '';
+      isPhoneNumberValid.value=true
+    }
+  }
+
+const checkPasswordMatch = ()=> {
+      if (password.value === confirmPassword.value) {
+        isPasswordValid.value = true;
+        passwordMessage.value = "비밀번호가 일치합니다.";
+      } else {
+        isPasswordValid.value = false;
+        passwordMessage.value = "비밀번호가 일치하지 않습니다.";
+      }
+    };
+watch(password, checkPasswordMatch);
+watch(confirmPassword, checkPasswordMatch);
 
 // 이메일 중복 체크 함수
 const checkEmail = async () => {

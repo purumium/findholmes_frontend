@@ -16,8 +16,9 @@
         </div>
         <div class="form-group">
           <label>휴대폰</label>
-          <input v-model="phonenumber" type="text" id="phonenumber" required />
+          <input v-model="phonenumber" type="text" id="phonenumber" required @input="validatePhoneNumber"/>
         </div>
+        <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
         <div>
           <div class="form-group">
             <label>현재 비밀번호</label>
@@ -51,7 +52,7 @@
           </p>
         </div>
         <div class="button-group">
-          <button type="submit" class="btn-profile" :disabled="!isPasswordValid">프로필 수정</button>
+          <button type="submit" class="btn-profile" :disabled="!isPasswordValid || !isPhoneNumberValid">프로필 수정</button>
         </div>
       </form>
 
@@ -78,6 +79,8 @@ export default {
       isPasswordValid: false,
       passwordMessage: "",
       isSuccess: false,
+      isPhoneNumberValid :false,
+      phoneError:""
     };
   },
   watch: {
@@ -93,7 +96,19 @@ export default {
   mounted() {
     this.getUser();
   },
+
   methods: {
+    validatePhoneNumber(){
+      console.log(this.phonenumber)
+      const phonePattern = /^\d{3}-\d{3,4}-\d{4}$/; // 예: 010-1234-5678 형식
+      if (!this.phonenumber.match(phonePattern)) {
+        this.isPhoneNumberValid=false
+        this.phoneError = '핸드폰 번호 형식이 올바르지 않습니다. (예: 010-1234-5678)';
+      } else {
+        this.isPhoneNumberValid=true
+        this.phoneError = '';
+      }
+    },
     goBack() {
       this.$router.push("/mypage");
     },

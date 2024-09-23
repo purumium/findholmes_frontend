@@ -101,8 +101,9 @@
             </div>
             <div class="form-group">
               <label>휴대폰</label>
-              <input v-model="phoneNumber" type="text" id="phonenumber" required />
+              <input v-model="phoneNumber" type="text" id="phonenumber" required @input="validatePhoneNumber"/>
             </div>
+            <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
             <div class="form-group">
               <label for="introduction">자기소개</label>
               <textarea v-model="introduction" id="introduction" required>
@@ -174,7 +175,7 @@
               </p>
             </div>
             <div class="button-group">
-              <button type="submit" class="btn-register" :disabled="!isPasswordValid">프로필 수정</button>
+              <button type="submit" class="btn-register" :disabled="!isPasswordValid || !isPhoneNumberValid">프로필 수정</button>
             </div>
           </form>
         </div>
@@ -230,6 +231,10 @@ const isProfileDelete = ref(false);
 const isadditionalCertificationDelete = ref(false);
 const specialtiesName = ref([]);
 
+
+const phoneError = ref("")
+const isPhoneNumberValid = ref(false)
+
 const selectedSpecialties = ref([]);
 const selectedSpecialty = ref(null);
 const specialties = ref([]);
@@ -237,6 +242,17 @@ const specialties = ref([]);
 // 모달 관련 상태
 const isModalVisible = ref(false);
 const selectedImagePath = ref("");
+
+const validatePhoneNumber = () => {
+    const phonePattern = /^\d{3}-\d{3,4}-\d{4}$/; // 예: 010-1234-5678 형식
+    if (!phoneNumber.value.match(phonePattern)) {
+      isPhoneNumberValid.value=false
+      phoneError.value = '핸드폰 번호 형식이 올바르지 않습니다. (예: 010-1234-5678)';
+    } else {
+      phoneError.value = '';
+      isPhoneNumberValid.value=true
+    }
+  }
 
 const fetchSpecialties = async () => {
   try {
@@ -341,8 +357,8 @@ const checkPasswordMatch = ()=> {
         passwordMessage.value = "비밀번호가 일치하지 않습니다.";
       }
     };
-    watch(newPassword, checkPasswordMatch);
-    watch(confirmPassword, checkPasswordMatch);
+watch(newPassword, checkPasswordMatch);
+watch(confirmPassword, checkPasswordMatch);
 
 const goBack = ()=>{
   router.push("/detective/mypage");

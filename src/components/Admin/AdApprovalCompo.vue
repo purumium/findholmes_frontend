@@ -57,16 +57,16 @@
               </li>
               <li>
                 <strong>사업자 등록증 : </strong>
-                <img :src="`${item.detectiveDetails.businessRegistration}`" />
+                <img :src="`http://localhost:8080/${item.detectiveDetails.businessRegistration}`" class="image-size"/>
               </li>
               <li>
                 <strong>탐정 등록증 : </strong>
-                <img :src="`/${item.detectiveDetails.detectiveLicense}`" />
+                <img :src="`http://localhost:8080/${item.detectiveDetails.detectiveLicense}`" class="image-size"/>
               </li>
               <li v-if="item.detectiveDetails.additionalCertifications != null">
                 <strong>기타 자격사항 : </strong>
                 <img
-                  :src="`/${item.detectiveDetails.additionalCertifications}`"
+                  :src="`http://localhost:8080/${item.detectiveDetails.additionalCertifications}`" class="image-size"
                 />
               </li>
 
@@ -94,7 +94,13 @@
               </li>
             </ul>
 
-            <div v-if="statusFilter === 'PENDING'" class="btn-div">
+            <!-- <div v-if="statusFilter === 'PENDING'" class="btn-div">
+              <button @click="acceptbtn(item)" class="rej-button">수락</button>
+              <button @click="openRejectModal(item)" class="rej-button">
+                거절
+              </button>
+            </div> -->
+            <div class="btn-div">
               <button @click="acceptbtn(item)" class="rej-button">수락</button>
               <button @click="openRejectModal(item)" class="rej-button">
                 거절
@@ -419,5 +425,13 @@ h4 {
 
 .rej-button:hover {
   background-color: #ffdf3ec5;
+}
+
+.image-size {
+  width: 150px; /* 너비 조절 */
+  height: auto; /* 높이는 자동으로 조절하여 이미지 비율 유지 */
+  border: 1px solid #ccc; /* 이미지 테두리 (선택 사항) */
+  border-radius: 5px; /* 모서리를 둥글게 (선택 사항) */
+  margin: 10px 0; /* 이미지 위아래 간격 (선택 사항) */
 }
 </style>
