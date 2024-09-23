@@ -25,7 +25,14 @@
             </div>
             <div class="request-content">
               <div class="request">
-                <div class="request-date">
+                <div
+                  class="request-date"
+                  @click="
+                    this.$router.push(
+                      `/detective/received/${estimate.requestId}`
+                    )
+                  "
+                >
                   <div>✔️ 의뢰 제목 : {{ estimate.requestTitle }}</div>
                   <div>
                     ✔️ 의뢰 일자 : {{ timeconvert(estimate.requestCreateAt) }}

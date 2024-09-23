@@ -23,8 +23,8 @@
             <label for="detective_gender">성별</label>
             <select v-model="detectiveGender" id="detective_gender" required>
               <option value="" disabled>홈즈의 성별을 선택해주세요</option>
-              <option value="Male">남자</option>
-              <option value="Female">여자</option>
+              <option value="MALE">남자</option>
+              <option value="FEMALE">여자</option>
             </select>
           </div>
           <div class="form-group">
@@ -42,7 +42,7 @@
               <option value="경상남도(부산,울산)">경상남도(부산, 울산)</option>
               <option value="제주특별자치도">제주특별자치도</option>
             </select>
-          </div> 
+          </div>
           <div class="form-group">
             <label for="introduction">자기소개</label>
             <textarea v-model="introduction" id="introduction" required>
