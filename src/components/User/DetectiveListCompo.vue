@@ -328,21 +328,16 @@ h2 {
 /* 태블릿 화면 (최대 너비 768px) */
 @media screen and (max-width: 768px) {
   .profile-content {
-    /* flex-direction: column; */
     align-items: center;
   }
 
   .profile-details {
-    width: 100%;
+    width: 75%;
   }
 
   .profile-image {
     height: 80px;
     width: 80px;
-  }
-
-  .find-container {
-    margin: 15px 0;
   }
 
   .find-header h2 {
@@ -354,7 +349,7 @@ h2 {
     margin-bottom: 15px;
     display: flex;
     gap: 10px;
-    flex-direction: row;
+    flex-direction: column;
   }
 
   .request-btn {
@@ -376,6 +371,19 @@ h2 {
 
 /* 작은 모바일 화면 (최대 너비 480px) */
 @media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
   .profile-image {
     height: 60px;
     width: 60px;
@@ -419,12 +427,12 @@ h2 {
     font-size: 10px;
   }
 
-  .find-container {
-    margin: 10px 5px;
+  .find-contain {
+    margin: 25px 7px;
   }
 
   .profile-card {
-    padding: 10px 3px;
+    padding: 15px 3px 5px 3px;
   }
 }
 </style>

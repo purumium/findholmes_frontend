@@ -9,7 +9,14 @@
     <section class="profile-container">
       <div class="profile-contain">
         <div class="profile-header">
-          <img class="profile-picture" :src="profileImage" alt="프로필 사진" />
+          <div class="header-picture">
+            <img
+              class="profile-picture"
+              :src="profileImage"
+              alt="프로필 사진"
+            />
+            <span class="name">사용자</span>
+          </div>
           <div class="profile-info">
             <h4>{{ userName }}</h4>
             <h5>{{ email }}</h5>
@@ -21,7 +28,7 @@
             <span>프로필 편집</span>
           </button>
           <button class="edit-profile-button" @click="pointUsageHistory">
-            <span>💰 {{ points }}</span>
+            <span>💰 {{ points }} 포인트</span>
           </button>
         </div>
       </div>
@@ -62,12 +69,12 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   data() {
     return {
-      profileImage: "/images/mypage/user.png", // 기본 프로필 이미지
+      profileImage: "/images/logoforuser_register.png", // 기본 프로필 이미지
       userName: "",
       email: "",
       points: 1000, // 포인트 기본값
@@ -104,19 +111,19 @@ export default {
     privacyPolicy() {
       this.$router.push("/privacypolicy");
     },
-    async getUser(){
-      const token = localStorage.getItem('token');
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    async getUser() {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
         const response = await axios.get("/api/member/userinfo");
-        this.userName = response.data.userName
-        this.email = response.data.email
-        console.log(response.data)
+        this.userName = response.data.userName;
+        this.email = response.data.email;
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     },
-  }
+  },
 };
 </script>
 
@@ -162,22 +169,22 @@ h2 {
   text-align: center;
   margin-top: 20px;
   margin: 20px;
-  background-color: #f7f2840d;
+  background-color: #d4d4d430;
   border-radius: 10px;
   border: 1px solid #8080802e;
 }
 
 .profile-contain {
-  padding: 22px 40px;
+  padding: 22px 25px;
 }
 
 h4 {
-  margin-top: 10px;
-  font-size: 16px;
+  margin-top: -8px;
+  font-size: 20px;
 }
 
 h5 {
-  margin-top: -19px;
+  margin-top: -26px;
   color: #808080d9;
   font-weight: 400;
   font-size: 15px;
@@ -185,7 +192,7 @@ h5 {
 
 .profile-picture {
   width: 100px;
-  height: 100px;
+  height: 110px;
   border-radius: 50%;
 }
 
@@ -201,9 +208,24 @@ h5 {
   font-weight: bold;
 }
 
+.name {
+  border: 1px solid #ffdf3e99;
+  padding: 5px 7px 4px 7px;
+  border-radius: 20px;
+  color: #534c4c;
+  background-color: #ffdf3e99;
+  font-size: 12px;
+  /* margin-right: 3px; */
+  font-weight: 600;
+  position: relative;
+  left: 3px;
+  top: -21px;
+}
+
 .btn {
   display: flex;
-  gap: 20px;
+  gap: 15px;
+  margin-top: -10px;
 }
 
 .edit-profile-button {
@@ -236,5 +258,70 @@ h5 {
 .menu li:hover {
   color: #ecb9009c;
   font-weight: 600;
+}
+
+/* 모바일 화면 (480px 이하) */
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .profile-contain {
+    padding: 17px 15px;
+  }
+
+  .btn {
+    margin-top: -8px;
+    display: flex;
+    gap: 20px;
+  }
+  .menu ul {
+    list-style: none;
+    padding: 0px 0;
+  }
+  .mypage-contain {
+    margin: 10px 20px 30px 20px;
+  }
+
+  h4 {
+    margin-top: -3px;
+    font-size: 17px;
+  }
+
+  h5 {
+    margin-top: -22px;
+    font-size: 13px;
+  }
+
+  .name {
+    border: 1px solid #ffdf3e99;
+    padding: 3px 5px 3px 5px;
+    border-radius: 20px;
+    color: #534c4c;
+    background-color: #ffdf3e99;
+    font-size: 10.5px;
+    margin-right: 3px;
+    font-weight: 600;
+  }
+
+  .edit-profile-button {
+    display: block;
+    width: 100%;
+    padding: 12px 10px;
+    background-color: #ffdf3e9c;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 600;
+  }
 }
 </style>

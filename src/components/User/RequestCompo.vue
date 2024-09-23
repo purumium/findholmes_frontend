@@ -159,6 +159,9 @@ export default {
         alert("의뢰요청에 실패했습니다.");
       }
     },
+    click() {
+      console.log(this.getUser);
+    },
   },
 };
 </script>
@@ -223,7 +226,7 @@ label div:nth-of-type(1) {
 label div:nth-child(2) {
   color: rgb(107, 101, 101);
   margin-top: 5px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 select {
@@ -262,7 +265,7 @@ textarea {
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
   padding: 8px 0px;
-  border-radius: 20px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -294,14 +297,8 @@ textarea {
   margin: 5px 0;
 }
 
-/* 반응형 스타일 */
-
 /* 태블릿 화면 (768px 이하) */
 @media (max-width: 768px) {
-  h2 {
-    font-size: 18px;
-  }
-
   p {
     font-size: 11px;
   }
@@ -324,13 +321,26 @@ textarea {
 }
 
 /* 모바일 화면 (480px 이하) */
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
   h2 {
-    font-size: 16px;
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 
   p {
     font-size: 10px;
+  }
+
+  .request-contain {
+    margin: 20px 15px;
   }
 
   .form-group label {

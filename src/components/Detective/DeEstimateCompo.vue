@@ -8,9 +8,6 @@
 
     <div class="estimate-main">
       <div class="estimate-card">
-        <!-- <div class="estimate-image">
-          <img src="/images/estimate.png" alt="Placeholder Image" />
-        </div> -->
         <h1>답변서</h1>
         <div class="request-card">
           <div class="request-contain">
@@ -127,7 +124,7 @@ export default {
 }
 
 .estimate-main {
-  padding: 20px 25px;
+  padding: 20px 18px;
 }
 
 .estimate-header {
@@ -203,7 +200,7 @@ h2 {
   align-items: center;
   margin-bottom: 20px;
   border: 1px solid #cccccc99;
-  padding: 20px;
+  padding: 20px 15px;
   border-radius: 8px;
 }
 
@@ -243,7 +240,7 @@ h2 {
 }
 
 .form-group p {
-  font-size: 16px;
+  font-size: 14px;
   color: #444;
   margin-top: 8px;
   padding: 14px;
@@ -259,5 +256,96 @@ h2 {
   border-radius: 8px;
   background-color: #f9f9f9;
   min-height: 150px;
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 5px;
+    margin: 7px 0 12px 0;
+  }
+
+  .estimate-card {
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc99;
+    padding: 20px 20px 5px 20px;
+    border-radius: 8px;
+  }
+
+  .estimate-main {
+    padding: 15px 11px;
+  }
+
+  .estimate {
+    margin-top: 19px;
+  }
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .form-group p {
+    font-size: 12px;
+    color: #444;
+    margin-top: 8px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+
+  .request-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .request-nametag {
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .request-date {
+    font-size: 11.5px;
+    display: grid;
+    gap: 5px;
+  }
+
+  .request-contain {
+    border: 1px solid #8080802b;
+    border-radius: 10px;
+    padding: 13px 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .request-date {
+    font-size: 11.5px;
+    display: grid;
+    gap: 5px;
+    letter-spacing: -0.5px;
+  }
 }
 </style>
