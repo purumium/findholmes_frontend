@@ -1,6 +1,36 @@
 <template>
   <footer>
-    <nav class="footer-nav">
+    <nav class="footer-nav" v-if="isRole === 'ROLE_ADMIN'">
+      <ul>
+        <li>
+          <router-link to="/admin" class="footer-item" active-class="active">
+            <font-awesome-icon class="icon" :icon="['fas', 'home']" />
+            <span class="text">홈</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/admin/approval"
+            class="footer-item"
+            active-class="active"
+          >
+            <font-awesome-icon class="icon" :icon="['fas', 'pencil-alt']" />
+            <span class="text">홈즈승인</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/admin/inquery"
+            class="footer-item"
+            active-class="active"
+          >
+            <font-awesome-icon class="icon" :icon="['fas', 'search']" />
+            <span class="text">신고관리</span>
+          </router-link>
+        </li>
+      </ul>
+    </nav>
+    <nav class="footer-nav" v-else>
       <ul>
         <li>
           <router-link to="/request" class="footer-item" active-class="active">
@@ -38,7 +68,25 @@
 </template>
 
 <script>
-export default {};
+import { useStore } from "vuex";
+import { computed } from "vue";
+
+export default {
+  setup() {
+    const store = useStore();
+
+    // Vuex에서 로그인 상태를 가져오기
+    const isAuthenticated = computed(() => store.getters.isAuthenticated);
+
+    // Vuex에서 역할 가져오기
+    const isRole = computed(() => store.getters.getRoles);
+
+    return {
+      isAuthenticated,
+      isRole,
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -101,5 +149,22 @@ footer {
 
 .text {
   font-size: 11px; /* 텍스트 크기 설정 */
+}
+
+@media screen and (max-width: 600px) {
+  .text {
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .icon {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+
+  .text {
+    font-size: 9px;
+  }
 }
 </style>

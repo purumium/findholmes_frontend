@@ -2,7 +2,7 @@
   <div class="login-container">
     <div class="login-box">
       <div class="login-logo">
-        <img src="@/assets/findholmes_logo.png" />
+        <img src="/images/logoforlogin.png" />
       </div>
       <form @submit.prevent="handleLogin">
         <div class="form-group">
@@ -76,9 +76,13 @@ export default {
         // 로컬 스토리지에 토큰 저장 (필요한 경우)
         localStorage.setItem("token", token);
 
-        // 화면이 이동(탐정화면, 의뢰인 화면)
+        // 화면이 이동(탐정화면, 의뢰인 화면, 관리자)
         if (decoded.roles.includes("ROLE_DETECTIVE")) {
           router.push("/detective");
+        } else if (decoded.roles.includes("ROLE_USER")) {
+          router.push("/");
+        } else if (decoded.roles.includes("ROLE_ADMIN")) {
+          router.push("/admin");
         } else {
           router.push("/");
         }
@@ -122,13 +126,12 @@ export default {
 }
 
 .login-logo {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .login-logo img {
-  width: 150px;
+  width: 160px;
   border-radius: 100px;
-  border: 1px solid #2f4f4f2e;
 }
 
 .form-group {
@@ -152,7 +155,7 @@ export default {
   background-color: #ffdf3e9c;
   color: #46444a;
   cursor: pointer;
-  font-size: 1３px;
+  font-size: 14px;
   font-weight: bold;
   margin: 7px;
 }

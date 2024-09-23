@@ -31,6 +31,7 @@ import DeHeaderCompo from "./components/Detective/DeHeaderCompo.vue";
 import DeMiddleCompo from "./components/Detective/DeMiddleCompo.vue";
 import DeFooterCompo from "./components/Detective/DeFooterCompo.vue";
 import { mapGetters } from "vuex";
+import { jwtDecode } from "jwt-decode"; // jwtDecode는 이렇게 임포트해야 합니다.
 
 export default {
   name: "App",
@@ -42,15 +43,28 @@ export default {
     DeMiddleCompo,
     DeFooterCompo,
   },
+  created() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = jwtDecode(token);
+      this.$store.dispatch("login", {
+        token,
+        user: decoded.sub,
+        roles: decoded.roles, // 역할 저장 (roles 배열일 수 있음)
+      });
+    }
+  },
   computed: {
     ...mapGetters(["getRoles"]), // Vuex의 getRoles 가져오기
 
     isDetective() {
-      this.getRoles === "ROLE_DETECTIVE";
       return this.getRoles === "ROLE_DETECTIVE";
     },
     isUser() {
       return this.getRoles === "ROLE_USER";
+    },
+    isAdmin() {
+      return this.getRoles === "ROLE_ADMIN";
     },
   },
 };
@@ -87,14 +101,12 @@ body {
   width: 100%;
   height: 80px;
   z-index: 10;
-  border-bottom: 5px solid #c5c4c43b;
 }
 
 .middle {
   flex: 1;
   overflow-y: auto; /* 세로 스크롤만 허용 */
   overflow-x: hidden; /* 가로 스크롤 없애기 */
-  /* padding: 10px; */
   background-color: #fff;
   font-size: 1rem; /* 기본 폰트 크기 */
   width: 100%;
@@ -107,7 +119,6 @@ body {
   height: 90px; /* footer의 높이 설정 */
   z-index: 10;
   background-color: #f9f9f9;
-  /* border-top: 1px solid #ccc; */
 }
 
 /* 반응형 스타일 */
@@ -124,7 +135,7 @@ body {
 @media screen and (max-width: 768px) {
   .container {
     width: 100%; /* 모바일에서는 100% */
-    padding: 10px;
+    padding: 0px;
   }
 
   .middle {
@@ -135,7 +146,7 @@ body {
 @media screen and (max-width: 480px) {
   .container {
     width: 100%; /* 작은 모바일에서도 100% */
-    padding: 5px;
+    padding: 0px;
   }
 
   .middle {

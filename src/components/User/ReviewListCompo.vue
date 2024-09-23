@@ -1,41 +1,32 @@
 <template>
-  <div class="notification-container">
-    <header class="notification-header" @click="goBack">
+  <div class="review-container">
+    <header class="review-header" @click="goBack">
       <button class="back-button">&lt;</button>
-      <h2>알림</h2>
-      <span class="header-span"></span>
+      <h2>나의 리뷰 보기</h2>
     </header>
 
-    <div class="notification-contain">알림</div>
+    <div class="review-contain">
+      <div>리뷰 보기</div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  computed: {
-    roles() {
-      return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
-    },
-  },
   methods: {
     goBack() {
-      if (this.$route.path.startsWith("/detective")) {
-        // 현재 경로가 '/detective'로 시작하면 브라우저 히스토리에서 뒤로 가기
-        this.$router.go(-1);
-      } else {
-        this.$router.push("/mypage");
-      }
+      this.$router.push("/mypage");
     },
   },
 };
 </script>
 
 <style scoped>
-.notification-container {
+.review-container {
   font-family: Arial, sans-serif;
 }
 
-.notification-header {
+.review-header {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -57,7 +48,7 @@ h2 {
   font-weight: bold;
 }
 
-.notification-contain {
+.review-contain {
   margin: 25px 20px;
 }
 

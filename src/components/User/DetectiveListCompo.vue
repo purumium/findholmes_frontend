@@ -1,48 +1,85 @@
 <template>
-  <div class="middle-component">
-    <div>
-      <h2>홈즈 검색 결과</h2>
-      <p>홈즈의 프로필을 확인하기</p>
-    </div>
+  <!-- <div class="middle-component"> -->
 
-    <div class="profile-grid">
-      <div
-        v-for="(detective, index) in detectives"
-        :key="index"
-        class="profile-card"
-      >
-        <div class="profile-content">
-          <img
-            :src="`http://localhost:8080/${detective.profilePicture}`"
-            alt="Profile Image"
-            class="profile-image"
-          />
-          <div class="profile-details">
-            <div class="profile-title">
-              <div class="title">
-                <div>홈즈</div>
-                <div>{{ detective.userName }}</div>
-              </div>
-              <div class="title-company">{{ detective.company }}</div>
-              <div class="ratings">
-                <div>⭐ {{ detective.rate }}%</div>
-                <div>⭐후기 {{ detective.reviews }}건</div>
+  <div class="find-container">
+    <header class="find-header" @click="goBack">
+      <button class="back-button">&lt;</button>
+      <h2>홈즈 검색 결과</h2>
+      <span class="header-span"></span>
+    </header>
+
+    <section class="services">
+      <div class="service-card">
+        <img src="@/assets/main/service1.png" />
+        <div>홈즈의 프로필을 확인하고</div>
+        <div>마음에 드는 홈즈에게 의뢰서를 요청해보세요</div>
+      </div>
+    </section>
+
+    <div class="find-contain">
+      <div class="profile-grid">
+        <div
+          v-for="(detective, index) in detectives"
+          :key="index"
+          class="profile-card"
+        >
+          <div class="profile-content">
+            <div>
+              <img
+                :src="`http://localhost:8080/${detective.profilePicture}`"
+                alt="Profile Image"
+                class="profile-image"
+              />
+              <div class="btn">
+                <button class="request-btn go-profile-btn" @click="goProfile">
+                  프로필 보기
+                </button>
+                <button class="request-btn" @click="createRequest">
+                  의뢰서 작성
+                </button>
               </div>
             </div>
-            <div class="profile-tags">
-              <div class="tag">활동지역</div>
-              <div class="value">{{ detective.location }}</div>
+            <div class="profile-details">
+              <div class="profile-title">
+                <div class="title">
+                  <div>홈즈</div>
+                  <div>{{ detective.userName }}</div>
+                </div>
+                <div class="ratings">
+                  <div>⭐ {{ detective.rate }} 5.0</div>
+                  <div>⭐ 후기 {{ detective.reviews }}150건</div>
+                </div>
+              </div>
+              <div class="profile-tags">
+                <div class="tag">회사명</div>
+                <div class="value">{{ detective.company }}</div>
 
-              <div class="tag">전문분야</div>
-              <div class="value">{{ detective.specialtiesName }}</div>
+                <div class="tag">활동지역</div>
+                <div class="value">{{ detective.location }}</div>
 
-              <div class="tag">특이사항</div>
-              <div class="value">{{ detective.speciality }}</div>
+                <div class="tag">전문분야</div>
+                <div class="value">
+                  <span
+                    v-for="(speciality, index) in detective.specialtiesName"
+                    :key="index"
+                    class="speciality"
+                  >
+                    {{ speciality }}
+                  </span>
+                </div>
+
+                <div v-if="detective.description != null">
+                  <div class="tag">특이사항</div>
+                  <div class="value">{{ detective.description }}</div>
+                </div>
+
+                <div class="tag">소개</div>
+                <div class="profile-description">
+                  <p>{{ detective.introduction }}</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="profile-description">
-          <p>{{ detective.introduction }}</p>
         </div>
       </div>
     </div>
@@ -50,145 +87,150 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
   data() {
     return {
-      location:null,
+      location: null,
       specialityId: null,
-      detectives:[],
-      detectives2: [
-        {
-          id: 1,
-          name: "김민수",
-          company: "탐정사무소 민수",
-          description:
-            "실종 사건 및 의뢰자 맞춤형 상담을 제공합니다. 신속하고 정확한 조사.",
-          category: "사람찾기",
-          location: "서울",
-          rate: 4.5,
-          reviews: 200,
-          imageUrl: "/images/detective_img/detective1.png",
-        },
-        {
-          id: 2,
-          name: "이정호",
-          company: "탐정사무소 정호",
-          description:
-            "개인 사생활 조사 및 법률 관련 상담을 제공합니다. 정확한 사실 확인이 가능합니다.",
-          category: "법률자문",
-          location: "부산",
-          rate: 4.5,
-          reviews: 200,
-          imageUrl: "/images/detective_img/detective1.png",
-        },
-        {
-          id: 3,
-          name: "박수진",
-          company: "탐정사무소 수진",
-          description:
-            "기업 및 개인을 위한 신용 조사 서비스. 전문적이고 신뢰할 수 있는 정보 제공.",
-          category: "기업조사",
-          location: "대전",
-          rate: 4.5,
-          reviews: 200,
-          imageUrl: "/images/detective_img/detective1.png",
-        },
-        {
-          id: 4,
-          name: "박수진",
-          company: "탐정사무소 수진",
-          description:
-            "기업 및 개인을 위한 신용 조사 서비스. 전문적이고 신뢰할 수 있는 정보 제공.",
-          category: "기업조사",
-          location: "대전",
-          rate: 4.5,
-          reviews: 200,
-          imageUrl: "/images/detective_img/detective1.png",
-        },
-      ],
+      detectives: [],
     };
   },
-  mounted: async function() {
+  mounted: async function () {
     try {
       // 쿼리 파라미터 받기
       this.location = this.$route.query.location;
       this.specialityId = this.$route.query.specialityId;
 
       // 콘솔 로그로 확인
-      console.log('Location:', this.location);
-      console.log('Speciality ID:', this.specialityId);
+      console.log("Location:", this.location);
+      console.log("Speciality ID:", this.specialityId);
 
-      const token = localStorage.getItem('token');
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       // 다른 탐정 정보를 서버에 전송
-      const response = await axios.post('/api/client/finddetectives', {
+      const response = await axios.post("/api/client/finddetectives", {
         location: this.location,
-        specialityId: this.specialityId
+        specialityId: this.specialityId,
       });
 
       this.detectives = response.data;
       console.log(this.detectives);
-
     } catch (error) {
       console.log("에러:", error);
     }
   },
-
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
+  },
 };
 </script>
 
 <style scoped>
-h2 {
-  text-align: center;
-  margin-bottom: -10px;
+.find-container {
+  font-family: Arial, sans-serif;
 }
 
-p {
-  text-align: center;
+.find-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+h2 {
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.header-span {
   color: #666;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
+}
+
+.find-contain {
+  margin: 25px 20px;
+}
+
+.services {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.service-card {
+  background-color: #c4c2ba17;
+  padding: 15px 0;
+}
+
+.service-card img {
+  height: 110px;
+  width: 130px;
+}
+
+.service-card div {
   font-size: 13px;
-  margin-bottom: 30px;
+  color: #190404;
+  margin: 5px 0;
 }
 
 .profile-grid {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 20px;
-  justify-content: center;
 }
 
 .profile-content {
-  /* display: flex; */
-  /* align-items: flex-start; */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
 }
 
 .profile-card {
   border: 1px solid #ddd;
-  padding: 20px;
+  padding: 25px 10px 4px 10px;
   border-radius: 10px;
-  width: 46%; /* 두 개씩 배치되도록 설정 */
   box-sizing: border-box;
   text-align: center;
 }
 
 .profile-image {
-  width: 60px;
-  height: 60px;
+  height: 100px;
+  width: 100px;
   border-radius: 50%;
-  margin-bottom: 15px;
+  border: 1px solid #8080804d;
+}
+
+.profile-details {
+  width: 70%;
 }
 
 .profile-title {
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
   display: flex;
   justify-content: center;
-  gap: 3px;
+  gap: 6px;
   align-items: center;
 }
 
@@ -241,12 +283,156 @@ p {
   padding: 5px 0px;
   margin: 5px;
   font-size: 12px;
-  /* border: 1px solid #ddd; */
+  font-family: none !important;
+}
+
+.speciality {
+  font-size: 10px !important;
+  border-radius: 20px;
+  padding: 4px 10px;
+  background-color: #e9e48d5e;
+  margin-right: 5px;
 }
 
 .profile-description {
-  margin-top: 15px;
-  font-size: 13px;
+  border-bottom: 1px solid #80808047;
+  border-radius: 0px;
+  padding: 0px 10px;
+  font-size: 12px;
   color: #555;
+  line-height: 20px;
+  text-align: left;
+}
+
+.btn {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.request-btn {
+  width: 100%;
+  padding: 5px 10px;
+  background-color: #e9e48d8a;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.go-profile-btn {
+  background-color: #e9e48d8a !important;
+}
+
+/* 태블릿 화면 (최대 너비 768px) */
+@media screen and (max-width: 768px) {
+  .profile-content {
+    align-items: center;
+  }
+
+  .profile-details {
+    width: 75%;
+  }
+
+  .profile-image {
+    height: 80px;
+    width: 80px;
+  }
+
+  .find-header h2 {
+    font-size: 14px;
+  }
+
+  .btn {
+    margin-top: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+  }
+
+  .request-btn {
+    padding: 8px 8px;
+    font-size: 10px;
+  }
+
+  .profile-card {
+    padding: 15px 5px;
+  }
+
+  .profile-description {
+    font-size: 10px;
+    padding: 0px 12px;
+    line-height: 16px;
+    border-bottom: none;
+  }
+}
+
+/* 작은 모바일 화면 (최대 너비 480px) */
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .profile-image {
+    height: 60px;
+    width: 60px;
+  }
+
+  .title div:nth-child(1) {
+    font-size: 10px;
+  }
+
+  .title div:nth-child(2) {
+    font-size: 14px;
+  }
+
+  .ratings {
+    font-size: 10px;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 3px 7px;
+  }
+
+  .value {
+    font-size: 10px;
+  }
+
+  .speciality {
+    font-size: 10px;
+    padding: 2px 5px;
+  }
+
+  .profile-description {
+    font-size: 10px;
+    padding: 0px 12px;
+    line-height: 16px;
+    border-bottom: none;
+  }
+
+  .btn .request-btn {
+    padding: 5px 7px;
+    font-size: 10px;
+  }
+
+  .find-contain {
+    margin: 25px 7px;
+  }
+
+  .profile-card {
+    padding: 15px 3px 5px 3px;
+  }
 }
 </style>

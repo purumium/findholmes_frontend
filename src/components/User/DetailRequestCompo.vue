@@ -1,48 +1,59 @@
 <template>
-  <div class="request-form-table">
-    <h2>의뢰서</h2>
-    <p>홈즈에게 보낸 의뢰서</p>
-    <div class="request">
-      <table class="request-table">
-        <tr>
-          <td class="label">의뢰 제목</td>
-        </tr>
-        <tr>
-          <td class="value">{{ request.title }}</td>
-        </tr>
+  <div class="request-container">
+    <header class="request-header" @click="goBack">
+      <button class="back-button">&lt;</button>
+      <h2>의뢰서</h2>
+      <span class="header-span">의뢰서를 확인하세요</span>
+    </header>
 
-        <tr>
-          <td class="label">의뢰 종류</td>
-        </tr>
-        <tr>
-          <td class="value">{{ request.speciality }}</td>
-        </tr>
+    <div class="request-contain">
+      <div class="request">
+        <div class="title">
+          <h3 colspan="2">의뢰서</h3>
+        </div>
 
-        <tr>
-          <td class="label">의뢰 지역</td>
-        </tr>
-        <tr>
-          <td class="value">{{ request.location }}</td>
-        </tr>
+        <table class="request-table">
+          <tr>
+            <td class="label" colspan="1">의뢰제목</td>
+            <td class="value" colspan="3">{{ request.title }}</td>
+          </tr>
 
-        <tr>
-          <td class="label">탐정 성별</td>
-        </tr>
-        <tr>
-          <td class="value">{{ request.gender }}</td>
-        </tr>
+          <tr>
+            <td class="label" colspan="1">의뢰일자</td>
+            <td class="value" colspan="3">
+              {{ timeconvert(request.createAt) }}
+            </td>
+          </tr>
 
-        <tr>
-          <td class="label">의뢰 내용에 대해 자세한 설명</td>
-        </tr>
-        <tr>
-          <td class="value description">
-            <div class="content">
-              {{ request.description }}
-            </div>
-          </td>
-        </tr>
-      </table>
+          <tr>
+            <td class="label" colspan="1">의뢰지역</td>
+            <td class="value" colspan="3">{{ request.location }}</td>
+          </tr>
+
+          <tr>
+            <td class="label" colspan="1">의뢰분야</td>
+            <td class="value" colspan="3">{{ request.speciality }}</td>
+          </tr>
+
+          <tr>
+            <td class="label" colspan="1">탐정성별</td>
+            <td class="value" colspan="3">
+              {{ convertGender(request.detectiveGender) }}
+            </td>
+          </tr>
+
+          <tr>
+            <td class="label" colspan="4">의뢰에 대한 자세한 내용</td>
+          </tr>
+          <tr>
+            <td class="value" colspan="4">
+              <div class="description">
+                {{ request.description }}
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -61,19 +72,24 @@ export default {
       request: [],
     };
   },
-  created() {
+  mounted() {
     this.getRequestDetail();
   },
   methods: {
     async getRequestDetail() {
       console.log("실행시도", this.requestId);
       try {
-        const response = await axios.get("/receive/detail", {
-          baseURL: "http://localhost:8080/",
+        const response = await axios.get("/api/request/detail", {
           params: { requestId: this.requestId },
         });
         this.request = response.data;
-        console.log(this.request);
+        console.log("response data : ", response.data);
+        this.request.gender =
+          this.request.gender === "ANY"
+            ? "전체"
+            : this.request.gender === "MALE"
+            ? "남자"
+            : "여자";
       } catch (error) {
         this.assignedRequests = [];
       }
@@ -84,30 +100,78 @@ export default {
     moveToReply() {
       this.$router.push(`/detective/reply/${this.request.requestId}`);
     },
+    convertGender(detectiveGender) {
+      if (detectiveGender === "MALE") {
+        return "남자";
+      } else if (detectiveGender === "FEMALE") {
+        return "여자";
+      } else {
+        return "전체";
+      }
+    },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    },
   },
 };
 </script>
 
 <style scoped>
-.request-form-table {
+<style scoped > .request-container {
+  font-family: Arial, sans-serif;
+}
+
+.request-header {
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 30px 30px;
+  align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 h2 {
-  text-align: center;
-  margin-bottom: -10px;
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
-p {
-  text-align: center;
+.header-span {
   color: #666;
-  font-size: 13px;
-  margin-bottom: 30px;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
+}
+
+h3 {
+  text-align: center;
+  font-size: 19px;
+  letter-spacing: 5px;
+}
+
+.request-contain {
+  display: flex;
+  flex-direction: column;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px 15px;
+}
+
+.request {
+  border: 1px solid #8080803b;
+  border-radius: 10px;
 }
 
 .request-table {
@@ -116,8 +180,9 @@ p {
 }
 
 .request-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
+  padding: 15px;
+  border-top: 1px solid #8080803b;
+  width: 100px;
 }
 
 .label {
@@ -125,32 +190,36 @@ p {
   font-weight: bold;
   text-align: left;
   font-size: 13px;
-  padding: 8px 15px !important;
 }
 
 .value {
   text-align: left;
-  padding: 10px 15px !important;
   font-size: 13px;
   font-family: math !important;
 }
 
 .description {
-  padding: 10px 15px !important;
+  margin: 0; /* 외부 마진을 없앰 */
+  min-height: 210px;
+  height: 210px;
+  line-height: 20px;
 }
 
-.content {
-  height: 210px;
-  margin: 10px 0;
+.response-btn {
+  width: 100%;
+  background-color: #ffdf3e9c;
+  border: 1px solid #d3cb3a5e;
+  padding: 8px 0;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
 }
 
 @media screen and (max-width: 768px) {
   .request-form-table {
     padding: 20px 10px;
-  }
-
-  h2 {
-    font-size: 18px;
   }
 
   .p {
@@ -167,18 +236,64 @@ p {
   .value {
     text-align: left;
     padding: 5px 8px !important;
-    font-family: emoji !important;
   }
 
   .request-table td {
     padding: 8px;
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .description {
     min-height: 150px;
     height: 150px;
-    padding: 10px 15px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
+    font-size: 14px;
+  }
+
+  .back-button {
+    font-size: 15px;
+    margin-left: 0px;
+    padding: 8px 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .header-span {
+    color: #666;
+    font-size: 10px;
+    margin: 5px 0 0 5px;
+  }
+
+  .request-contain {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px 10px;
+  }
+
+  h3 {
+    margin: 10px;
+    text-align: center;
+    font-size: 16px;
+    letter-spacing: 5px;
+  }
+
+  .description {
+    min-height: 150px;
+    height: 150px;
+  }
+
+  .request-table td {
+    font-size: 11px;
+    padding: 15px;
+    border-top: 1px solid #8080803b;
+    width: 75px;
   }
 }
 </style>
