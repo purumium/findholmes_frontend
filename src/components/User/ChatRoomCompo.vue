@@ -162,6 +162,7 @@ export default {
       try {
         // 백엔드로 권한 검증 요청
         await axios.get(`/api/chatroom/${this.chatRoomId}/check-access`);
+        console.log(this.chatRoomId)
         this.hasAccess = true; // 권한이 있으면 true로 설정
       } catch (error) {
         if (error.response && error.response.status === 403) {
