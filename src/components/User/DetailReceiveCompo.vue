@@ -188,8 +188,33 @@ export default {
       const minute = String(converttime.getMinutes()).padStart(2, "0");
       return `${year}-${month}-${day} ${hour}:${minute}`;
     },
-    goChat() {
-      this.$router.push("/chatroom");
+    async goChat() {
+      this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
+
+      if (this.token) {
+        // 토큰이 존재하는 경우, Axios의 Authorization 헤더에 토큰을 추가
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+      try {
+        const request = await axios.post(`/api/chatroom/create`, null, {
+          params: {
+            estimateId: this.selectedDetective.estimateId, // 쿼리 파라미터로 estimateId 전달
+          },
+        });
+        // this.messages = response.data;
+        this.chatRoom = request.data;
+        console.log("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ", this.chatRoom);
+      } catch (error) {
+        console.error("채팅방 생성 실패", error);
+      }
+      const chatRoomId = this.chatRoom.id;
+      console.log("chatRoomId", chatRoomId);
+      this.$router.push({
+        name: "ChatRoom",
+        params: { chatRoomId: chatRoomId },
+      });
     },
     goProfile(detectiveId) {
       this.$router.push({ name: "Profile", params: { detectiveId } });
