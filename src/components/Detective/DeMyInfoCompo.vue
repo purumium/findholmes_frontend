@@ -178,6 +178,15 @@
                 </li>
               </ul>
             </div>
+            <div class="button-group">
+              <button
+                type="submit"
+                class="btn-register"
+                :disabled="!isPasswordValid"
+              >
+                프로필 수정
+              </button>
+            </div>
             <div>
               <div class="form-group">
                 <label>현재 비밀번호</label>
@@ -215,11 +224,11 @@
             </div>
             <div class="button-group">
               <button
-                type="submit"
+                @click="changePW"
                 class="btn-register"
                 :disabled="!isPasswordValid"
               >
-                프로필 수정
+                비밀번호 변경
               </button>
             </div>
           </form>
@@ -396,7 +405,12 @@ const goBack = () => {
   router.push("/detective/mypage");
 };
 
+const changePW = async() =>{
+  console.log("비번변결")
+}
+
 const handleProfileSubmit = async () => {
+  console.log("프로필수정")
   if (!isPasswordValid.value) {
     message.value = "비밀번호가 일치하지 않습니다.";
     isSuccess.value = false;
