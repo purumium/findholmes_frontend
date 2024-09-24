@@ -356,6 +356,14 @@ h2 {
   gap: 13px;
 }
 
+.detective-contact {
+  font-size: 12px;
+}
+
+.detective-contact p {
+  margin: 0;
+}
+
 .profile-button {
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
@@ -364,14 +372,6 @@ h2 {
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-}
-
-.detective-contact {
-  font-size: 12px;
-}
-
-.detective-contact p {
-  margin: 0;
 }
 
 .detective-price-large {
