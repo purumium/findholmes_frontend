@@ -51,78 +51,7 @@
 </template>
 
 <script>
-import axios from "axios";
-
-export default {
-  data() {
-    return {
-      email: "",
-      category: "",
-      content: "",
-      userCategories: [
-        { label: "일반 문의", value: "GENERAL" },
-        { label: "결제 문제", value: "PAYMENT" },
-        { label: "탐정 신고 관련", value: "DETECTIVE_ISSUE" },
-        { label: "기타", value: "ETC" },
-      ],
-      detectiveCategories: [
-        { label: "일반 문의", value: "GENERAL" },
-        { label: "결제 문제", value: "PAYMENT" },
-        { label: "사용자 신고 관련", value: "USER_ISSUE" },
-        { label: "기타", value: "ETC" },
-      ],
-    };
-  },
-  computed: {
-    roles() {
-      return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
-    },
-    filteredCategories() {
-      return this.roles === "ROLE_DETECTIVE"
-        ? this.detectiveCategories
-        : this.userCategories;
-    },
-  },
-  methods: {
-    goBack() {
-      if (this.roles === "ROLE_DETECTIVE") {
-        this.$router.push("/detective/mypage");
-      } else {
-        this.$router.push("/mypage");
-      }
-    },
-    async handleSubmit() {
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      try {
-        const inqueryData = {
-          title: this.title,
-          email: this.email,
-          category: this.category,
-          content: this.content,
-        };
-
-        console.log(inqueryData);
-
-        const response = await axios.post("api/inquery/insert", inqueryData);
-
-        if (response.status === 200) {
-          alert("문의가 성공적으로 접수되었습니다");
-          this.resetForm();
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    resetForm() {
-      this.title = "";
-      this.email = "";
-      this.category = "";
-      this.content = "";
-    },
-  },
-};
+export default {};
 </script>
 
 <style scoped>

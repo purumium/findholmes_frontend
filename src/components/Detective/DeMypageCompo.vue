@@ -87,15 +87,21 @@
           {{ rejectionReason }}
         </div>
         <div>
-          <button @click="closeRejectionModal" class="close-button" style="margin-right: 5%">닫기</button>
+          <button
+            @click="closeRejectionModal"
+            class="close-button"
+            style="margin-right: 5%"
+          >
+            닫기
+          </button>
           <button @click="doReRegister" class="close-button">재등록</button>
         </div>
       </div>
     </div>
   </div>
-    <div>
-      <button @click="sendEmail">Login with Google</button>
-    </div>
+  <div>
+    <button @click="sendEmail">Login with Google</button>
+  </div>
 </template>
 
 <script>
@@ -131,13 +137,13 @@ export default {
         this.isRejectionModalVisible = true; // 모달 열기
         // this.$router.push("/detective/register");
       } else {
-        const someValue = 'register';
+        const someValue = "register";
         this.$router.push(`/detective/register?value=${someValue}`);
       }
     },
-    doReRegister(){
-      const someValue = 'reregister';
-        this.$router.push(`/detective/register?value=${someValue}`);
+    doReRegister() {
+      const someValue = "reregister";
+      this.$router.push(`/detective/register?value=${someValue}`);
     },
     editMyinfo() {
       this.$router.push("/detective/myinfo");
@@ -227,8 +233,8 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        const response = await axios.post("/api/member/email/send", {
-          to: "gho0612@gmail.com",
+        const response = await axios.post("/api/email/send", {
+          to: "purumium@gmail.com",
           subject: "테스트",
           body: "테스트입니다",
         });
@@ -237,7 +243,6 @@ export default {
         console.error("Email sending failed:", error);
       }
     },
-
   },
 };
 </script>
