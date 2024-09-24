@@ -2,60 +2,58 @@
   <div class="request-container">
     <header class="request-header" @click="goBack">
       <button class="back-button">&lt;</button>
-      <h2>의뢰서 작성</h2>
+      <h2>선택한 홈즈에게 의뢰서 작성</h2>
       <span class="header-span"></span>
     </header>
 
     <section class="services">
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
-        <div>의뢰하고 싶은 내용을 선택한</div>
-        <div>홈즈에게 바로 요청하세요.</div>
-        <div class="detective-info-container">
-          <div class="detective-img">
-            <img
-              class="detective-avatar-large"
-              :src="`http://localhost:8080/${detectiveInfo.detectiveImg}`"
-              alt="Detective Avatar"
-            />
-          </div>
-          <div class="detective-details-large">
-            <div class="detective-name-container">
-              <div class="detective-name">
-                {{ detectiveInfo.detectiveName }}
-              </div>
-              <button
-                class="profile-button"
-                @click="goProfile(detectiveInfo.detectiveId)"
-              >
-                프로필 보기
-              </button>
-            </div>
-            <div class="detective-contact">
-              <span v-if="detectiveInfo.gender === 'MALE'">
-                👤 남자 &nbsp;
-              </span>
-              <span v-if="detectiveInfo.gender === 'FEMALE'">
-                👤 여자 &nbsp;
-              </span>
-              <span v-if="detectiveInfo.gender === 'ANY'"> 👤 전체 &nbsp;</span>
-              <span>📍 {{ detectiveInfo.location }} &nbsp; </span>
-              <div>
-                📍
-                <span
-                  v-for="(name, index) in detectiveInfo.specialities"
-                  :key="index"
-                >
-                  {{ name.specialityName }} &nbsp;
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div>의뢰하고 싶은 내용을</div>
+        <div>선택한 홈즈(1명)에게 바로 전달해보세요</div>
       </div>
     </section>
 
     <div class="request-contain">
+      <div class="detective-info-container">
+        <div class="detective-img">
+          <img
+            class="detective-avatar-large"
+            :src="`http://localhost:8080/${detectiveInfo.detectiveImg}`"
+            alt="Detective Avatar"
+          />
+        </div>
+        <div class="detective-details-large">
+          <div class="detective-name-container">
+            <div class="detective-name">
+              {{ detectiveInfo.detectiveName }}
+            </div>
+            <button
+              class="detectiva-profile-btn"
+              @click="goProfile(detectiveInfo.detectiveId)"
+            >
+              프로필 보기
+            </button>
+          </div>
+          <div class="detective-contact">
+            <span v-if="detectiveInfo.gender === 'MALE'"> 👤 남자 &nbsp; </span>
+            <span v-if="detectiveInfo.gender === 'FEMALE'">
+              👤 여자 &nbsp;
+            </span>
+            <span v-if="detectiveInfo.gender === 'ANY'"> 👤 전체 &nbsp;</span>
+            <span>📍 {{ detectiveInfo.location }} &nbsp; </span>
+            <div>
+              📍
+              <span
+                v-for="(name, index) in detectiveInfo.specialities"
+                :key="index"
+              >
+                {{ name.specialityName }} &nbsp;
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
       <form @submit.prevent="doRequest">
         <div class="form-group">
           <label for="title">
@@ -307,6 +305,62 @@ textarea {
   font-size: 13px;
   color: #190404;
   margin: 5px 0;
+}
+
+.detective-info-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #80808042;
+  background-color: #dad89b21;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.detectiva-profile-btn {
+  background-color: #ffdf3e9c;
+  border: 1px solid #d3cb3a5e;
+  padding: 6px 17px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.detective-avatar-large {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid #80808059;
+  padding: 10px;
+  margin-right: 15px;
+}
+
+.detective-details-large {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detective-name {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.detective-name-container {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.detective-contact {
+  font-size: 12px;
+}
+
+.detective-contact p {
+  margin: 0;
 }
 
 /* 태블릿 화면 (768px 이하) */
