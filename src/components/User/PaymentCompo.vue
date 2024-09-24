@@ -5,6 +5,20 @@
       <h2>포인트 결제하기</h2>
     </header>
 
+    <section class="services">
+      <div class="service-card" v-if="roles === 'ROLE_USER'">
+        <img src="@/assets/main/service1.png" />
+        <div>홈즈와의 채팅을 위해 포인트를 충전해보세요</div>
+        <div>* 채팅 답장 5건 초과 시 1000포인트 차감</div>
+      </div>
+
+      <div class="service-card" v-if="roles === 'ROLE_DETECTIVE'">
+        <img src="@/assets/main/service1.png" />
+        <div>의뢰에 대한 답변서 작성을 위해 포인트를 충전해주세요</div>
+        <div>* 답변서 1개 전송시 1000포인트 차감</div>
+      </div>
+    </section>
+
     <div class="payment-contain">
       <div
         class="payment-option"
@@ -13,7 +27,7 @@
         @click="handlePayment(option.price)"
       >
         <div>
-          <div class="payment-cash">{{ option.cash }} 포인트</div>
+          <div class="payment-cash">{{ option.cash }} 포인트 충전</div>
           <div class="payment-discount">{{ option.discount }}</div>
         </div>
         <div class="price">{{ option.price }}원</div>
@@ -254,8 +268,29 @@ h2 {
   font-weight: bold;
 }
 
+.services {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.service-card {
+  background-color: #c4c2ba17;
+  padding: 15px 0;
+}
+
+.service-card img {
+  height: 110px;
+  width: 130px;
+}
+
+.service-card div {
+  font-size: 13px;
+  color: #190404;
+  margin: 5px 0;
+}
+
 .payment-contain {
-  margin: 45px auto;
+  margin: 30px 100px;
 }
 
 .payment-option {
@@ -264,7 +299,7 @@ h2 {
   align-items: center;
   background-color: #f5f5f5;
   border-radius: 10px;
-  padding: 20px;
+  padding: 15px;
   margin-bottom: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
@@ -313,6 +348,23 @@ h2 {
   font-size: 12px;
 }
 
+@media screen and (max-width: 768px) {
+  p {
+    font-size: 11px;
+  }
+
+  .payment-cash {
+    font-size: 15px;
+    font-weight: bold;
+    color: #333;
+  }
+  .price {
+    font-size: 17px;
+    font-weight: bold;
+    color: #333;
+  }
+}
+
 @media screen and (max-width: 480px) {
   h2 {
     font-size: 14px;
@@ -325,6 +377,10 @@ h2 {
     background: none;
     border: none;
     cursor: pointer;
+  }
+
+  .payment-contain {
+    margin: 30px 50px;
   }
 }
 </style>

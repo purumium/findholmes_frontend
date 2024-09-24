@@ -38,6 +38,9 @@ import DeEstimateCompo from "@/components/Detective/DeEstimateCompo.vue";
 import AdMainCompo from "@/components/Admin/AdMainCompo.vue";
 import AdApprovalCompo from "@/components/Admin/AdApprovalCompo.vue";
 import AdInqueryCompo from "@/components/Admin/AdInqueryCompo.vue";
+import DetectiveDetailProfileCompo from "@/components/User/DetectiveDetailProfileCompo.vue";
+import InqueryCreateCompo from "@/components/User/InqueryCreateCompo.vue";
+import InqueryListCompo from "@/components/User/InqueryListCompo.vue";
 
 const routes = [
   {
@@ -149,6 +152,16 @@ const routes = [
       {
         path: "inquery",
         component: InqueryCompo, // 문의하기
+        children: [
+          {
+            path: "",
+            component: InqueryCreateCompo,
+          },
+          {
+            path: "list",
+            component: InqueryListCompo,
+          },
+        ],
       },
       {
         path: "deleteaccount",
@@ -197,6 +210,12 @@ const routes = [
       {
         path: "detectivelist",
         component: DetectiveListCompo,
+      },
+      {
+        path: "profile/:detectiveId",
+        component: DetectiveDetailProfileCompo,
+        name: "Profile",
+        props: true,
       },
       {
         path: "request",
@@ -254,6 +273,16 @@ const routes = [
       {
         path: "inquery",
         component: InqueryCompo, // 문의하기
+        children: [
+          {
+            path: "",
+            component: InqueryCreateCompo,
+          },
+          {
+            path: "list",
+            component: InqueryListCompo,
+          },
+        ],
       },
       {
         path: "deleteaccount",
