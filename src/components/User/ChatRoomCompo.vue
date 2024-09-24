@@ -28,14 +28,23 @@
           <div class="message-time">{{ item.sendTime }}</div>
         </div>
       </div>
+      <div v-if="!canSend" class="point-buttons">
+        <button v-if="currentPoints >= 1000" @click="payPoints">
+          포인트 1000 사용
+        </button>
+        <button v-else @click="chargePoints">포인트 충전하러 가기</button>
+      </div>
       <div class="chat-input">
         <input
           v-model="message"
           type="text"
-          placeholder="메세지를 작성하세요."
+          :placeholder="
+            canSend ? '메세지를 작성하세요.' : '채팅 한도 5회를 초과하였습니다.'
+          "
           @keyup.enter="sendMessage"
+          :disabled="!canSend"
         />
-        <button @click="sendMessage">보내기</button>
+        <button @click="sendMessage" :disabled="!canSend">보내기</button>
       </div>
     </div>
   </div>
@@ -49,8 +58,6 @@
 import axios from "axios";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
-import { computed } from "vue";
-import { useStore } from "vuex";
 
 export default {
   name: "App",
@@ -58,22 +65,13 @@ export default {
     return {
       hasAccess: false,
       showAcceptedPrivacyModal: false,
+      canSend: null,
+      currentPoints: 0,
       // userName: "",
       // chatRoomId: null,
       senderId: null,
       message: "",
       recvList: [],
-    };
-  },
-
-  setup() {
-    const store = useStore(); // Vuex store를 사용
-
-    // computed로 store의 getter를 가져오기
-    const idd = computed(() => store.getters.getId);
-    console.log("????????????????????????????????????? idd value:", idd);
-    return {
-      idd,
     };
   },
 
@@ -88,6 +86,8 @@ export default {
     this.fetchChatRoomData();
     console.log("User ID: ", this.userId);
     this.showConsentModal = true;
+    this.checkCanSendMessage();
+    this.getCurrentPoints();
   },
 
   computed: {
@@ -97,9 +97,43 @@ export default {
   },
 
   methods: {
+    async checkCanSendMessage() {
+      this.token = localStorage.getItem("token");
+
+      if (this.token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+
+      const response = await axios.get(
+        `/api/chatroom/${this.chatRoomId}/can-send-message`
+      );
+      this.canSend = response.data; // true or false를 받아서 canSend 상태에 저장
+      console.log("dddddddddddddddddddddddddddddddddd", response.data);
+    },
+
+    async increaseMessageCount() {
+      this.token = localStorage.getItem("token");
+
+      if (this.token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+
+      try {
+        await axios.post(`/api/chatroom/${this.chatRoomId}/increase-count`);
+      } catch (error) {
+        console.error("채팅 수 증가 실패:", error);
+      }
+    },
+
     sendMessage() {
       if (this.message !== "") {
         this.send();
+        this.increaseMessageCount();
+        this.checkCanSendMessage();
         this.message = "";
         this.scrollToBottom();
       }
@@ -111,7 +145,7 @@ export default {
           chatRoomId: this.chatRoomId,
           senderId: this.senderId,
           message: this.message,
-          sendTime: new Date(),
+          sendTime: new Date(new Date().getTime() + 9 * 60 * 60 * 1000),
         };
         this.stompClient.send("/receive", JSON.stringify(msg), {});
       }
@@ -121,8 +155,7 @@ export default {
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
 
-      // 로컬스토리지에서 JWT 토큰을 가져옵니다.
-      const token = localStorage.getItem("token"); // 로컬 스토리지에서 JWT 토큰을 가져옴
+      const token = localStorage.getItem("token");
       console.log("소켓 연결을 시도합니다. 서버 주소: " + serverURL);
 
       this.stompClient.connect(
@@ -150,10 +183,9 @@ export default {
     },
 
     async checkAccess() {
-      this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
+      this.token = localStorage.getItem("token");
 
       if (this.token) {
-        // 토큰이 존재하는 경우, Axios의 Authorization 헤더에 토큰을 추가
         axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
       } else {
         console.error("토큰을 찾을 수 없습니다.");
@@ -162,7 +194,7 @@ export default {
       try {
         // 백엔드로 권한 검증 요청
         await axios.get(`/api/chatroom/${this.chatRoomId}/check-access`);
-        console.log(this.chatRoomId)
+        console.log(this.chatRoomId);
         this.hasAccess = true; // 권한이 있으면 true로 설정
       } catch (error) {
         if (error.response && error.response.status === 403) {
@@ -178,10 +210,9 @@ export default {
 
     // 개인정보 동의 확인
     async checkAcceptedPrivacy() {
-      this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
+      this.token = localStorage.getItem("token");
 
       if (this.token) {
-        // 토큰이 존재하는 경우, Axios의 Authorization 헤더에 토큰을 추가
         axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
       } else {
         console.error("토큰을 찾을 수 없습니다.");
@@ -203,10 +234,9 @@ export default {
 
     // 개인정보 동의 처리
     async acceptPrivacy() {
-      this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
+      this.token = localStorage.getItem("token");
 
       if (this.token) {
-        // 토큰이 존재하는 경우, Axios의 Authorization 헤더에 토큰을 추가
         axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
       } else {
         console.error("토큰을 찾을 수 없습니다.");
@@ -226,11 +256,59 @@ export default {
       this.$router.push("/"); // 동의 거부 시 홈으로 리디렉션
     },
 
+    async payPoints() {
+      this.token = localStorage.getItem("token");
+      if (this.token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+
+      try {
+        const response = await axios.post(
+          `/api/chatroom/${this.chatRoomId}/unlimitedChat`,
+          null,
+          {
+            params: {
+              points: 1000, // 고정된 1000 포인트 차감
+            },
+          }
+        );
+        alert(response.data);
+        this.checkCanSendMessage();
+      } catch (error) {
+        if (error.response) {
+          alert(error.response.data); // 오류 메시지 알림으로 표시
+        } else {
+          alert("서버와의 통신에 문제가 발생했습니다.");
+        }
+      }
+    },
+
+    chargePoints() {
+      this.$router.push("/payment");
+    },
+
+    async getCurrentPoints() {
+      this.token = localStorage.getItem("token");
+      if (this.token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+
+      try {
+        const response = await axios.get(`/api/client/current-point`);
+        this.currentPoints = response.data;
+      } catch (error) {
+        console.error("포인트 정보 가져오기 실패", error);
+      }
+    },
+
     async fetchChatRoomData() {
-      this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
+      this.token = localStorage.getItem("token");
 
       if (this.token) {
-        // 토큰이 존재하는 경우, Axios의 Authorization 헤더에 토큰을 추가
         axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
       } else {
         console.error("토큰을 찾을 수 없습니다.");
@@ -250,10 +328,9 @@ export default {
     },
 
     async fetchMessages() {
-      this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
+      this.token = localStorage.getItem("token");
 
       if (this.token) {
-        // 토큰이 존재하는 경우, Axios의 Authorization 헤더에 토큰을 추가
         axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
       } else {
         console.error("토큰을 찾을 수 없습니다.");

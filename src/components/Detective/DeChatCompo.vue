@@ -7,9 +7,9 @@
       class="chat-item"
       @click="goToChatRoom(chatRoom.chatRoomId)"
     >
-      <div class="chat-title">{{ chatRoom }}</div>
-      <div class="chat-preview">{{ chatRoom.participants[0].userName }}</div>
-      <!-- <div class="chat-preview">{{ chat.lastTime }}</div> -->
+      <div class="chat-title">{{ chatRoom.participants[0].userName }}</div>
+      <div class="chat-preview">{{ chatRoom.lastMessage }}</div>
+      <div class="chat-preview">{{ chatRoom.lastChatTime }}</div>
     </div>
   </div>
 </template>

@@ -107,7 +107,9 @@
 
           <div class="actions">
             <button @click="goChat">채팅하기</button>
-            <button @click="acceptEstimate">리뷰쓰기</button>
+            <button v-if="chatRoomExists" @click="acceptEstimate">
+              리뷰쓰기
+            </button>
           </div>
         </div>
       </div>
@@ -125,6 +127,7 @@ export default {
     return {
       estimates: [],
       selectedDetective: null,
+      chatRoomExists: null,
     };
   },
   computed: {
@@ -148,6 +151,7 @@ export default {
         // 첫 번째 항목을 기본 선택
         if (this.estimates.length > 0) {
           this.selectedDetective = this.estimates[0];
+          this.getChatRoomExists();
         }
       } catch (error) {
         console.log("estimates에러");
@@ -157,6 +161,7 @@ export default {
     // 탐정 선택 시 호출되는 메서드
     selectDetective(index) {
       this.selectedDetective = this.estimates[index]; // 선택한 탐정을 설정
+      this.getChatRoomExists();
     },
 
     timeconvert(time) {
@@ -169,32 +174,49 @@ export default {
       return `${year}-${month}-${day} ${hour}:${minute}`;
     },
     async goChat() {
-      this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
+      this.token = localStorage.getItem("token");
 
       if (this.token) {
-        // 토큰이 존재하는 경우, Axios의 Authorization 헤더에 토큰을 추가
         axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
       } else {
         console.error("토큰을 찾을 수 없습니다.");
       }
       try {
-        const request = await axios.post(`/api/chatroom/create`, null, {
+        const response = await axios.post(`/api/chatroom/create`, null, {
           params: {
-            estimateId: this.selectedDetective.estimateId, // 쿼리 파라미터로 estimateId 전달
+            estimateId: this.selectedDetective.estimateId,
           },
         });
         // this.messages = response.data;
-        this.chatRoom = request.data;
-        console.log("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ", this.chatRoom);
+        this.chatRoom = response.data;
+        const chatRoomId = this.chatRoom.id;
+        console.log("chatRoomId", chatRoomId);
+        this.$router.push({
+          name: "ChatRoom",
+          params: { chatRoomId: chatRoomId },
+        });
       } catch (error) {
         console.error("채팅방 생성 실패", error);
       }
-      const chatRoomId = this.chatRoom.id;
-      console.log("chatRoomId", chatRoomId);
-      this.$router.push({
-        name: "ChatRoom",
-        params: { chatRoomId: chatRoomId },
-      });
+    },
+    async getChatRoomExists() {
+      this.token = localStorage.getItem("token");
+
+      if (this.token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+      try {
+        const response = await axios.get(`/api/chatroom/chat-exist`, {
+          params: {
+            estimateId: this.selectedDetective.estimateId,
+          },
+        });
+        this.chatRoomExists = response.data;
+      } catch (error) {
+        console.error("채팅방 유무 가져오기 실패", error);
+      }
     },
     goProfile(detectiveId) {
       this.$router.push({ name: "Profile", params: { detectiveId } });
