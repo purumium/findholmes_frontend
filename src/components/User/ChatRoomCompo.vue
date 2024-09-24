@@ -30,7 +30,7 @@
       </div>
       <div class="chat-input">
         <div v-if="!canSend" class="point-buttons">
-          <button @click="PayPoints">포인트 1000 사용</button>
+          <button @click="payPoints">포인트 1000 사용</button>
           <!-- <button @click="chargePoints">포인트 100 충전</button> -->
         </div>
         <input
@@ -270,7 +270,36 @@ export default {
       this.$router.push("/"); // 동의 거부 시 홈으로 리디렉션
     },
 
-    async PayPoints() {},
+    async payPoints() {
+      this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
+
+      if (this.token) {
+        // 토큰이 존재하는 경우, Axios의 Authorization 헤더에 토큰을 추가
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+
+      try {
+        const response = await axios.post(
+          `/api/chatroom/${this.chatRoomId}/unlimitedChat`,
+          null,
+          {
+            params: {
+              points: 1000, // 고정된 1000 포인트 차감
+            },
+          }
+        );
+        alert(response.data);
+        this.checkCanSendMessage();
+      } catch (error) {
+        if (error.response) {
+          alert(error.response.data); // 오류 메시지 알림으로 표시
+        } else {
+          alert("서버와의 통신에 문제가 발생했습니다.");
+        }
+      }
+    },
 
     async fetchChatRoomData() {
       this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
