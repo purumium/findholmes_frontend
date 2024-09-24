@@ -10,7 +10,7 @@
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
         <div>의뢰하고 싶은 내용을 작성하고</div>
-        <div>5개의 홈즈 답변서를 받아보세요</div>
+        <div>선택한 홈즈에게 바로 요청하세요.</div>
       </div>
     </section>
 
@@ -43,46 +43,6 @@
             >
               {{ speciality.specialityName }}
             </option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="locationCategory">
-            <div>지역</div>
-            <div>홈즈가 활동할 지역을 선택해주세요</div>
-          </label>
-          <select
-            id="locationCategory"
-            @change="locationconsole"
-            v-model="selectedLocation"
-            required
-          >
-            <option value="" disabled selected>location</option>
-            <option
-              v-for="location in locations"
-              :key="location.locationId"
-              :value="location.locationName"
-            >
-              {{ location.locationName }}
-            </option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="genderCategory">
-            <div>탐정 성별</div>
-            <div>의뢰하고 싶은 홈즈의 성별을 선택해주세요</div>
-          </label>
-          <select
-            id="genderCategory"
-            @change="console.log(selectedGender)"
-            v-model="selectedGender"
-            required
-          >
-            <option value="" disabled selected>gender</option>
-            <option value="ANY">전체</option>
-            <option value="MALE">남성</option>
-            <option value="FEMALE">여성</option>
           </select>
         </div>
 

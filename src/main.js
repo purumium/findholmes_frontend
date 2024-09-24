@@ -7,6 +7,8 @@ import store from "./store/index";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
+
+
 // 사용할 Solid 아이콘 임포트
 import {
   faHome,
@@ -45,6 +47,8 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 // Vue 애플리케이션에 라우터 추가
 app.use(router);
 app.use(store);
+
+
 
 // 애플리케이션을 DOM 요소에 마운트
 app.mount("#app");

@@ -12,7 +12,7 @@
           <li
             v-for="(estimate, index) in estimates"
             :key="index"
-            @click="selectDetective(estimate)"
+            @click="selectDetective(index)"
             :class="{ active: selectedDetective === estimate }"
           >
             <div class="detective-info">
@@ -32,7 +32,7 @@
               <div class="detective-img">
                 <img
                   class="detective-avatar-large"
-                  :src="`http://localhost:8080/${selectedDetective.profilePicture}`"
+                  :src="`http://localhost:8080/${selectedDetective.profileImg}`"
                   alt="Detective Avatar"
                 />
               </div>
@@ -49,20 +49,20 @@
                   </button>
                 </div>
                 <div class="detective-contact">
-                  <span v-if="selectedDetective.detectiveGender === 'Male'">
+                  <span v-if="selectedDetective.gender === 'MALE'">
                     👤 남자 &nbsp;
                   </span>
-                  <span v-if="selectedDetective.detectiveGender === 'Female'">
+                  <span v-if="selectedDetective.gender === 'FEMALE'">
                     👤 여자 &nbsp;
                   </span>
-                  <span v-if="selectedDetective.detectiveGender === 'Any'">
+                  <span v-if="selectedDetective.gender === 'ANY'">
                     👤 전체 &nbsp;</span
                   >
                   <span>📍 {{ selectedDetective.location }} &nbsp; </span>
                   <div>
                     📍
                     <span
-                      v-for="(name, index) in selectedDetective.specialtiesName"
+                      v-for="(name, index) in selectedDetective.speciality"
                       :key="index"
                     >
                       {{ name }} &nbsp;
@@ -137,48 +137,28 @@ export default {
     async getEstimates() {
       console.log(this.requestId);
       try {
-        const response = await axios.get("/api/estimate/details", {
+        const response = await axios.get("/api/estimate/receivelist", {
           params: {
             requestId: this.requestId,
-            userId: this.getRoles === "ROLE_DETECTIVE" ? this.getId : null,
           },
         });
         this.estimates = response.data;
+        console.log("estimates", this.estimates);
 
         // 첫 번째 항목을 기본 선택
         if (this.estimates.length > 0) {
           this.selectedDetective = this.estimates[0];
-          this.selectHolmesDetail(this.selectedDetective.detectiveId);
         }
       } catch (error) {
+        console.log("estimates에러");
         return;
       }
     },
     // 탐정 선택 시 호출되는 메서드
-    selectDetective(detective) {
-      this.selectedDetective = detective; // 선택한 탐정을 설정
-      this.selectHolmesDetail(this.selectedDetective.detectiveId);
+    selectDetective(index) {
+      this.selectedDetective = this.estimates[index]; // 선택한 탐정을 설정
     },
 
-    // 선택한 탐정의 세부 정보를 가져오는 메서드
-    selectHolmesDetail(detectiveId) {
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      axios
-        .get(`/api/detective/${detectiveId}`)
-        .then((response) => {
-          // 기존 selectedDetective에 탐정의 세부 정보를 병합
-          this.selectedDetective = {
-            ...this.selectedDetective, // 기존 selectedDetective 데이터 유지
-            ...response.data, // 탐정의 세부 정보 추가
-          };
-          console.log(this.selectedDetective); // 새로운 selectedDetective 값 확인
-        })
-        .catch((error) => {
-          console.log("에러:", error);
-        });
-    },
     timeconvert(time) {
       const converttime = new Date(time);
       const year = converttime.getFullYear();

@@ -23,8 +23,8 @@
             <label for="detective_gender">성별</label>
             <select v-model="detectiveGender" id="detective_gender" required>
               <option value="" disabled>홈즈의 성별을 선택해주세요</option>
-              <option value="Male">남자</option>
-              <option value="Female">여자</option>
+              <option value="MALE">남자</option>
+              <option value="FEMALE">여자</option>
             </select>
           </div>
           <div class="form-group">
@@ -147,7 +147,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const businessRegistrationFile = ref(null);
 const detectiveLicenseFile = ref(null);
@@ -169,11 +169,15 @@ const isSuccess = ref(false);
 const selectedDiv = ref("");
 const checkReg = ref("");
 const router = useRouter();
+const route = useRoute();
+const value = ref("")
 
 // 페이지가 마운트된 후, 선택된 div 설정 및 전문 분야 가져오기
-onMounted(() => {
-  checkDeRegister();
-  fetchSpecialties();
+onMounted( async () => {
+  await checkDeRegister();
+  await fetchSpecialties();
+  value.value = route.query.value;  // 쿼리 파라미터 읽기
+  console.log(value.value);  // 출력: exampleValue
 });
 
 // 파일이 선택되었을 때 해당 파일 객체를 저장
@@ -217,22 +221,40 @@ const handleSubmit = async () => {
     } = fileUploadResponse.data;
     const token = localStorage.getItem("token");
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
+    let response;
     // 2. 탐정 정보를 서버에 전송
-    const response = await axios.post("/api/detective/register", {
-      businessRegistration: businessRegistrationPath,
-      detectiveLicense: detectiveLicensePath,
-      profilePicture: profilePicturePath,
-      additionalCertification: additionalCertificationPath,
+    if(value.value==='register'){
+      response = await axios.post("/api/detective/register", {
+        businessRegistration: businessRegistrationPath,
+        detectiveLicense: detectiveLicensePath,
+        profilePicture: profilePicturePath,
+        additionalCertification: additionalCertificationPath,
 
-      introduction: introduction.value,
-      location: location.value,
-      description: description.value,
-      company: company.value,
-      detectiveGender: detectiveGender.value,
-      resolvedCases: resolvedCases.value,
-      specialties: specialtyIds,
-    });
+        introduction: introduction.value,
+        location: location.value,
+        description: description.value,
+        company: company.value,
+        detectiveGender: detectiveGender.value,
+        resolvedCases: resolvedCases.value,
+        specialties: specialtyIds,
+      });
+    }else{
+      response = await axios.post("/api/detective/reregister", {
+        businessRegistration: businessRegistrationPath,
+        detectiveLicense: detectiveLicensePath,
+        profilePicture: profilePicturePath,
+        additionalCertification: additionalCertificationPath,
+
+        introduction: introduction.value,
+        location: location.value,
+        description: description.value,
+        company: company.value,
+        detectiveGender: detectiveGender.value,
+        resolvedCases: resolvedCases.value,
+        specialties: specialtyIds,
+      });
+    }
+    
     console.log(response);
 
     message.value = "탐정 등록이 완료되었습니다.";
@@ -247,6 +269,8 @@ const handleSubmit = async () => {
 };
 
 const checkDeRegister = async () => {
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get("/api/detective/checkregister");
     checkReg.value = 1;
@@ -266,8 +290,11 @@ const checkDeRegister = async () => {
 };
 
 const fetchSpecialties = async () => {
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get("/api/detective/specialties");
+    console.log(response.data)
     specialties.value = response.data;
   } catch (error) {
     message.value = "Failed to load specialties.";
