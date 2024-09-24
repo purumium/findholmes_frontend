@@ -110,7 +110,8 @@
               </li>
             </ul>
 
-            <div v-if="statusFilter === 'PENDING'" class="btn-div">
+            <!-- <div v-if="statusFilter === 'PENDING'" class="btn-div"> -->
+              <div class="btn-div">
               <button @click="acceptbtn(item)" class="rej-button">수락</button>
               <button @click="openRejectModal(item)" class="rej-button">
                 거절
@@ -268,6 +269,11 @@ export default {
       return date.toLocaleString();
     };
 
+    // 이미지 URL 반환 함수
+    const getImageUrl = (path) => {
+      return `http://localhost:8080/${path}`;
+    };
+
     return {
       test4,
       test,
@@ -281,6 +287,7 @@ export default {
       rejReason,
       statusFilter,
       formatDate,
+      getImageUrl
     };
   },
 };

@@ -96,6 +96,8 @@ export default {
       router.push("/register"); // 회원가입 화면 이동
     };
 
+    
+
     return {
       username,
       password,
