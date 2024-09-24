@@ -14,32 +14,35 @@
       </div>
     </section>
 
-    <div class="receive-contain">
+    <div class="request-list">
       <div
         v-for="(request, index) in requests"
         :key="index"
         class="request-card"
       >
-        <div class="request-image">
-          <img src="/images/estimate.png" alt="Placeholder Image" />
-        </div>
-        <div class="request-content">
-          <div class="request" @click="moveToRequestDetail(request.requestId)">
-            <h4>{{ request.title }}</h4>
-            <div class="request-date">
-              <div>#{{ request.createAt }}</div>
-              <div>#{{ request.speciality }}</div>
-            </div>
+        <div class="card-left" @click="moveToRequestDetail(request.requestId)">
+          <div class="request-form">
+            <img class="request-icon" src="/images/estimate.png" alt="의뢰서" />
+            <span class="name-tag">의뢰서</span>
           </div>
-
+          <!-- <img class="request-icon" src="/images/estimate.png" alt="의뢰서" /> -->
+          <div class="request-details">
+            <div class="request-title">
+              <span>{{ request.title }}</span>
+              <!-- <span class="name-tag">의뢰서</span> -->
+            </div>
+            <p>✔️ 의뢰일자 : {{ timeconvert(request.createAt) }}</p>
+            <p>✔️ 의뢰분야 : {{ request.speciality }}</p>
+          </div>
+        </div>
+        <div class="card-right">
+          <img class="response-icon" src="/images/request.png" alt="답변서" />
           <button
             @click="viewEstimate(request.requestId)"
-            v-if="request.status !== false"
+            :disabled="request.status === false"
+            class="response-button"
           >
-            홈즈의 답변서
-          </button>
-          <button @click="viewEstimate(request.requestId)" v-else disabled>
-            댭변 대기중
+            {{ request.status === false ? "답변 대기중" : "홈즈의 답변서" }}
           </button>
         </div>
       </div>
@@ -86,6 +89,15 @@ export default {
     },
     moveToRequestDetail(requestId) {
       this.$router.push(`/detailrequest/${requestId}`);
+    },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
     },
   },
 };
@@ -140,7 +152,6 @@ h2 {
 }
 
 .service-card img {
-  /* margin-bottom: 10px; */
   height: 110px;
   width: 130px;
 }
@@ -151,67 +162,98 @@ h2 {
   margin: 5px 0;
 }
 
-.request {
-  border: 1px solid #80808052;
-  padding: 12px 0px 12px 15px;
-  max-width: 400px;
-  width: 400px;
-  border-radius: 8px;
-  box-sizing: border-box;
-  margin-bottom: 11px;
-  transition: background-color 0.4s ease;
+.name-tag {
+  border: 1px solid #8080804d;
+  padding: 2px 6px;
+  font-size: 9px;
+  background-color: #f3cb0024;
+  border-radius: 20px;
 }
 
-.request:hover {
-  cursor: pointer;
-  background-color: #80808013;
+.request-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.request-details p {
+  margin: 2px 0;
+}
+
+.request-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 25px 15px;
 }
 
 .request-card {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  background-color: #fff;
+  border: 1px solid #dddddda4;
+  border-radius: 10px;
   padding: 20px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #80808021;
+  align-items: center;
 }
 
-.request-image img {
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
-  margin: 20px 30px;
+.card-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 20px;
+  min-width: 340px;
+  background-color: #8080800f;
+  cursor: pointer;
 }
 
-.request-content {
-  flex: 1;
+.card-left:hover {
+  background-color: rgba(128, 128, 128, 0.123);
 }
 
-.request-content h4 {
-  color: #2a2929d6;
-  margin: 0;
+.request-icon {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+}
+
+.request-details {
   font-size: 14px;
 }
 
-.request-date {
+.request-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.card-right {
   display: flex;
-  gap: 14px;
-  align-items: end;
-  margin-top: 4px;
+  align-items: center;
+  flex-direction: column;
+  gap: 17px;
 }
 
-.request-date div {
-  font-size: 12px;
-  color: #666;
+.response-icon {
+  width: 40px;
+  height: 40px;
 }
 
-button {
-  background-color: #efe7945e;
+.response-button {
+  background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 6px 15px;
+  padding: 6px 17px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.response-button:disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+  color: #aaa;
 }
 
 @media (max-width: 768px) {
@@ -233,8 +275,9 @@ button {
   }
 
   .request-card {
-    flex-direction: column; /* 화면이 작아지면 세로로 배치 */
-    text-align: center;
+    flex-direction: column;
+    /* text-align: center; */
+    gap: 30px;
   }
 
   .request-image img {

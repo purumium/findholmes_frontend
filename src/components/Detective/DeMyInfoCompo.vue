@@ -8,228 +8,233 @@
       <div class="register-form" id="1">
         <div class="register-logo">
           <form @submit.prevent="handleProfileSubmit">
-            <div
-              v-if="imagePaths.businessRegistrationPath"
-              @click="showModal('businessRegistrationPath')"
-            >
-              <h1>Business Registration</h1>
-              <img
-                :src="getImageUrl(imagePaths.businessRegistrationPath)"
-                alt="Business Registration"
-                class="thumbnail"
-              />
-            </div>
-            <div
-              v-if="imagePaths.detectiveLicensePath"
-              @click="showModal('detectiveLicensePath')"
-            >
-              <h1>Detective License</h1>
-              <img
-                :src="getImageUrl(imagePaths.detectiveLicensePath)"
-                alt="Detective License"
-                class="thumbnail"
-              />
-            </div>
-            <div
-              v-if="imagePaths.profilePicturePath"
-              @click="showModal('profilePicturePath')"
-            >
-              <h1>Profile Picture</h1>
-              <img
-                :src="getImageUrl(imagePaths.profilePicturePath)"
-                alt="Profile Picture"
-                class="thumbnail"
-              />
-            </div>
-            <button
-              v-if="imagePaths.profilePicturePath"
-              @click="deleteProfilePicture()"
-            >
-              프로필 사진 삭제
-            </button>
+            <div class="profile-change">
+              <h1>프로필 변경</h1>
 
-            <div v-if="!imagePaths.profilePicturePath">
-              <h3>프로필사진 추가</h3>
-              <div class="form-group">
-                <label for="profile_picture">Profile Picture:</label>
-                <input
-                  @change="handleFileChange('profilePictureFile', $event)"
-                  type="file"
-                  id="profile_picture"
+              <div v-if="imagePaths.profilePicturePath" class="profile-contain">
+                <img
+                  :src="getImageUrl(imagePaths.profilePicturePath)"
+                  alt="Profile Picture"
+                  @click="showModal('profilePicturePath')"
+                  class="thumbnail"
                 />
-              </div>
-            </div>
-
-            <div
-              v-if="imagePaths.additionalCertificationPath"
-              @click="showModal('additionalCertification')"
-            >
-              <h1>추가 정보</h1>
-              <img
-                :src="getImageUrl(imagePaths.additionalCertificationPath)"
-                alt="additional certification"
-                class="thumbnail"
-              />
-            </div>
-            <button
-              v-if="imagePaths.additionalCertificationPath"
-              @click="deleteAdditionalCertification()"
-            >
-              추가 정보 삭제
-            </button>
-            <div v-if="!imagePaths.additionalCertificationPath">
-              <h3>추가정보 추가</h3>
-              <div class="form-group">
-                <label for="additional_certification"
-                  >Additional Certification:</label
+                <button
+                  v-if="imagePaths.profilePicturePath"
+                  @click="deleteProfilePicture()"
+                  class="delete-btn"
                 >
+                  프로필 사진 삭제
+                </button>
+              </div>
+
+              <div class="form-group">
+                <label>이름</label>
+                <input v-model="userName" type="text" id="username" required />
+              </div>
+
+              <div class="form-group">
+                <label>휴대폰</label>
                 <input
-                  @change="handleFileChange('additionalCertification', $event)"
-                  type="file"
-                  id="additional_certification"
+                  v-model="phoneNumber"
+                  type="text"
+                  id="phonenumber"
+                  required
                 />
               </div>
-            </div>
 
-            <div class="form-group">
-              <label for="description">추가 설명</label>
-              <textarea v-model="description" id="description"> </textarea>
-            </div>
+              <div class="form-group">
+                <label>이메일</label>
+                <input
+                  v-model="email"
+                  type="email"
+                  id="email"
+                  required
+                  readonly
+                />
+              </div>
 
-            <div class="form-group">
-              <label for="location">활동지역</label>
-              <select v-model="location" id="location" required>
-                <option value="" disabled>활동지역을 선택해주세요</option>
-                <option value="서울특별시">서울특별시</option>
-                <option value="인천광역시">인천광역시</option>
-                <option value="강원도">강원도</option>
-                <option value="충청북도">충청북도</option>
-                <option value="충청남도(대전,세종)">
-                  충청남도(대전, 세종)
-                </option>
-                <option value="전라북도">전라북도</option>
-                <option value="전라남도(광주)">전라남도(광주)</option>
-                <option value="경상북도(대구)">경상북도(대구)</option>
-                <option value="경상남도(부산,울산)">
-                  경상남도(부산, 울산)
-                </option>
-                <option value="제주특별자치도">제주특별자치도</option>
-              </select>
-            </div>
+              <div v-if="!imagePaths.profilePicturePath">
+                <div class="form-group">
+                  <label for="profile_picture">프로필사진 추가</label>
+                  <input
+                    @change="handleFileChange('profilePictureFile', $event)"
+                    type="file"
+                    id="profile_picture"
+                  />
+                </div>
+              </div>
 
-            <div class="form-group">
-              <label>이메일</label>
-              <input
-                v-model="email"
-                type="email"
-                id="email"
-                required
-                readonly
-              />
-            </div>
-            <div class="form-group">
-              <label>이름</label>
-              <input v-model="userName" type="text" id="username" required />
-            </div>
-            <div class="form-group">
-              <label>휴대폰</label>
-              <input
-                v-model="phoneNumber"
-                type="text"
-                id="phonenumber"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="introduction">자기소개</label>
-              <textarea v-model="introduction" id="introduction" required>
-              </textarea>
-            </div>
-            <div class="form-group">
-              <label for="specialties">전문분야(여러 개 선택 가능)</label>
-              <div class="specialty-container">
-                <select v-model="selectedSpecialty" id="specialties">
-                  <option value="" disabled>전문분야를 선택해주세요</option>
-                  <option
-                    v-for="specialty in specialties"
+              <div class="form-group">
+                <label for="introduction">자기소개</label>
+                <textarea v-model="introduction" id="introduction" required>
+                </textarea>
+              </div>
+
+              <div
+                v-if="imagePaths.additionalCertificationPath"
+                @click="showModal('additionalCertification')"
+              >
+                <label for="additional_certification"
+                  >추가파일(경력사항 등)</label
+                >
+                <img
+                  :src="getImageUrl(imagePaths.additionalCertificationPath)"
+                  alt="additional certification"
+                  class="thumbnail"
+                />
+                <button
+                  v-if="imagePaths.additionalCertificationPath"
+                  @click="deleteAdditionalCertification()"
+                >
+                  추가파일 삭제
+                </button>
+              </div>
+
+              <div v-if="!imagePaths.additionalCertificationPath">
+                <div class="form-group">
+                  <label for="additional_certification"
+                    >추가파일(경력사항 등)</label
+                  >
+                  <input
+                    @change="
+                      handleFileChange('additionalCertification', $event)
+                    "
+                    type="file"
+                    id="additional_certification"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="description">추가사항(경력사항 등)</label>
+                <textarea v-model="description" id="description"> </textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="location">활동지역</label>
+                <select v-model="location" id="location" required>
+                  <option value="" disabled>활동지역을 선택해주세요</option>
+                  <option value="서울특별시">서울특별시</option>
+                  <option value="인천광역시">인천광역시</option>
+                  <option value="강원도">강원도</option>
+                  <option value="충청북도">충청북도</option>
+                  <option value="충청남도(대전,세종)">
+                    충청남도(대전, 세종)
+                  </option>
+                  <option value="전라북도">전라북도</option>
+                  <option value="전라남도(광주)">전라남도(광주)</option>
+                  <option value="경상북도(대구)">경상북도(대구)</option>
+                  <option value="경상남도(부산,울산)">
+                    경상남도(부산, 울산)
+                  </option>
+                  <option value="제주특별자치도">제주특별자치도</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>이메일</label>
+                <input
+                  v-model="email"
+                  type="email"
+                  id="email"
+                  required
+                  readonly
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="specialties">전문분야(여러 개 선택 가능)</label>
+                <div class="specialty-container">
+                  <select v-model="selectedSpecialty" id="specialties">
+                    <option value="" disabled>전문분야를 선택해주세요</option>
+                    <option
+                      v-for="specialty in specialties"
+                      :key="specialty.specialityId"
+                      :value="specialty"
+                    >
+                      {{ specialty.specialityName }}
+                    </option>
+                  </select>
+                  <button type="button" @click="addSpecialty">추가</button>
+                </div>
+              </div>
+              <div
+                v-if="selectedSpecialties.length"
+                class="selectedSpecialities"
+              >
+                <h5>선택된 전문분야</h5>
+                <ul>
+                  <li
+                    v-for="specialty in selectedSpecialties"
                     :key="specialty.specialityId"
-                    :value="specialty"
                   >
                     {{ specialty.specialityName }}
-                  </option>
-                </select>
-                <button type="button" @click="addSpecialty">추가</button>
+                    <button
+                      type="button"
+                      @click="removeSpecialty(specialty.specialityId)"
+                    >
+                      삭제
+                    </button>
+                  </li>
+                </ul>
               </div>
-            </div>
-            <div v-if="selectedSpecialties.length" class="selectedSpecialities">
-              <h5>선택된 전문분야</h5>
-              <ul>
-                <li
-                  v-for="specialty in selectedSpecialties"
-                  :key="specialty.specialityId"
+              <div class="button-group">
+                <button
+                  type="submit"
+                  class="btn-register"
+                  :disabled="!isPasswordValid"
                 >
-                  {{ specialty.specialityName }}
-                  <button
-                    type="button"
-                    @click="removeSpecialty(specialty.specialityId)"
-                  >
-                    삭제
-                  </button>
-                </li>
-              </ul>
-            </div>
-            <div class="button-group">
-              <button
-                type="submit"
-                class="btn-register"
-                :disabled="!isPasswordValid"
-              >
-                프로필 수정
-              </button>
-            </div>
-            <div>
-              <div class="form-group">
-                <label>현재 비밀번호</label>
-                <input
-                  v-model="currentPassword"
-                  type="password"
-                  id="currentPassword"
-                  required
-                />
+                  프로필 수정
+                </button>
               </div>
-              <div class="form-group">
-                <label>새 비밀번호</label>
-                <input
-                  v-model="newPassword"
-                  type="password"
-                  id="newPassword"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label>비밀번호 확인</label>
-                <input
-                  v-model="confirmPassword"
-                  type="password"
-                  id="confirmPassword"
-                  required
-                />
-              </div>
-              <p
-                v-if="passwordMessage"
-                :class="{ error: !isPasswordValid, success: isPasswordValid }"
-              >
-                {{ passwordMessage }}
-              </p>
             </div>
-            <div class="button-group">
-              <button
-                @click="changePW"
-                class="btn-register"
-                :disabled="!isPasswordValid"
-              >
-                비밀번호 변경
-              </button>
+
+            <div class="pw-change">
+              <h1>비밀번호 변경</h1>
+              <div>
+                <div class="form-group">
+                  <label>현재 비밀번호</label>
+                  <input
+                    v-model="currentPassword"
+                    type="password"
+                    id="currentPassword"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>새 비밀번호</label>
+                  <input
+                    v-model="newPassword"
+                    type="password"
+                    id="newPassword"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>비밀번호 확인</label>
+                  <input
+                    v-model="confirmPassword"
+                    type="password"
+                    id="confirmPassword"
+                    required
+                  />
+                </div>
+                <p
+                  v-if="passwordMessage"
+                  :class="{ error: !isPasswordValid, success: isPasswordValid }"
+                >
+                  {{ passwordMessage }}
+                </p>
+              </div>
+              <div class="button-group">
+                <button
+                  @click="changePW"
+                  class="btn-register"
+                  :disabled="!isPasswordValid"
+                >
+                  비밀번호 변경
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -405,12 +410,12 @@ const goBack = () => {
   router.push("/detective/mypage");
 };
 
-const changePW = async() =>{
-  console.log("비번변결")
-}
+const changePW = async () => {
+  console.log("비번변결");
+};
 
 const handleProfileSubmit = async () => {
-  console.log("프로필수정")
+  console.log("프로필수정");
   if (!isPasswordValid.value) {
     message.value = "비밀번호가 일치하지 않습니다.";
     isSuccess.value = false;
@@ -592,7 +597,6 @@ h2 {
 }
 
 .service-card img {
-  /* margin-bottom: 10px; */
   height: 110px;
   width: 130px;
 }
@@ -604,12 +608,23 @@ h2 {
 }
 
 .register-container {
-  padding: 20px 20px 30px 20px;
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  border: 1px solid #80808054;
   margin: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-size: 18px;
+  background-color: #f5f5f5;
+  padding: 6px 0;
+  margin-bottom: 23px;
+}
+
+.pw-change,
+.profile-change {
+  border: 1px solid #80808054;
+  border-radius: 10px;
+  padding: 20px 20px;
+  margin-bottom: 50px;
 }
 
 .register-form {
@@ -643,11 +658,23 @@ h2 {
 textarea {
   resize: none;
   height: 100px;
+  font-family: none;
+  line-height: 22px;
+}
+
+.delete-btn {
+  padding: 10px;
+  font-size: 12px;
+  background-color: #ffdf3e9c;
+  cursor: pointer;
+  color: black;
+  border: none;
+  font-weight: 600;
+  border-radius: 5px;
 }
 
 .btn-register {
-  display: block;
-  width: 100%;
+  width: 130px;
   padding: 12px 10px;
   background-color: #ffdf3e9c;
   border: none;
@@ -655,6 +682,7 @@ textarea {
   font-size: 14px;
   font-weight: 600;
   color: black;
+  display: inline;
 }
 
 .btn-register:hover {
@@ -663,7 +691,7 @@ textarea {
 
 .button-group {
   text-align: center;
-  margin-top: 35px;
+  margin-top: 24px;
 }
 
 .specialty-container {
@@ -745,10 +773,23 @@ li button:hover {
 
 /* 이미지 스타일 */
 .thumbnail {
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
+  -o-object-fit: cover;
   object-fit: cover;
   cursor: pointer;
+  border: 1px solid #80808061;
+  border-radius: 110px;
+  padding: 15px;
+  text-align: center;
+}
+
+.profile-contain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin: 20px 0;
 }
 
 /* 모달 스타일 */
