@@ -98,7 +98,7 @@ export default {
           chatRoomId: this.chatRoomId,
           senderId: this.senderId,
           message: this.message,
-          sendTime: new Date(),
+          sendTime: new Date(new Date().getTime() + 9 * 60 * 60 * 1000),
         };
         this.stompClient.send("/receive", JSON.stringify(msg), {});
       }

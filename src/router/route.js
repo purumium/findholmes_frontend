@@ -42,6 +42,7 @@ import DetectiveDetailProfileCompo from "@/components/User/DetectiveDetailProfil
 import InqueryCreateCompo from "@/components/User/InqueryCreateCompo.vue";
 import InqueryListCompo from "@/components/User/InqueryListCompo.vue";
 import RequestDirectCompo from "@/components/User/RequestDirectCompo.vue";
+import AdInqueryDetailCompo from "@/components/Admin/AdInqueryDetailCompo.vue";
 
 const routes = [
   {
@@ -60,6 +61,12 @@ const routes = [
       {
         path: "inquery",
         component: AdInqueryCompo,
+      },
+      {
+        path: "inquery/:inqueryid",
+        name: "InqueryDetail",
+        component: AdInqueryDetailCompo,
+        props: true, // props로 route의 파라미터 전달
       },
     ],
   },
