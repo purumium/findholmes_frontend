@@ -1,52 +1,55 @@
 <template>
   <div class="inquiry-container">
-    <header class="inquiry-header" @click="goBack">
-      <button class="back-button">&lt;</button>
-      <h2>문의하기</h2>
-    </header>
+    <div class="inquiry-contain">
+      <form @submit.prevent="handleSubmit">
+        <div class="form-group">
+          <label for="title">문의 제목</label>
+          <input type="title" id="title" v-model="title" required />
+        </div>
 
-    <div class="nav-buttons">
-      <!-- ROLE_USER 버튼 -->
-      <div v-if="roles === 'ROLE_USER'" class="nav-btn-wrapper">
-        <button
-          @click="$router.push('/inquery')"
-          :class="{ 'nav-btn': true, active: $route.path === '/inquery' }"
-        >
-          문의 작성
-        </button>
-        <button
-          @click="$router.push('/inquery/list')"
-          :class="{ 'nav-btn': true, active: $route.path === '/inquery/list' }"
-        >
-          나의 문의 목록
-        </button>
-      </div>
+        <div class="form-group">
+          <label for="email">답변받을 이메일</label>
+          <input
+            type="email"
+            id="email"
+            v-model="email"
+            placeholder="email@example.com"
+            required
+          />
+        </div>
 
-      <!-- ROLE_DETECTIVE 버튼 -->
-      <div v-if="roles === 'ROLE_DETECTIVE'" class="nav-btn-wrapper">
-        <button
-          @click="$router.push('/detective/inquery')"
-          :class="{
-            'nav-btn': true,
-            active: $route.path === '/detective/inquery',
-          }"
-        >
-          문의 작성
-        </button>
-        <button
-          @click="$router.push('/detective/inquery/list')"
-          :class="{
-            'nav-btn': true,
-            active: $route.path === '/detective/inquery/list',
-          }"
-        >
-          나의 문의 목록
-        </button>
-      </div>
+        <div class="form-group">
+          <label for="category">문의 유형</label>
+          <select id="category" v-model="category" required>
+            <option disabled value="">카테고리 선택</option>
+            <option
+              v-for="(option, index) in filteredCategories"
+              :key="index"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="content">문의 내용</label>
+          <textarea
+            id="content"
+            v-model="content"
+            maxlength="1000"
+            placeholder="내용을 입력하세요."
+            @input="updateCharacterCount"
+            required
+          ></textarea>
+          <div class="character-count">{{ content.length }}/1000</div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="submit-button">문의하기</button>
+        </div>
+      </form>
     </div>
-
-    <router-view></router-view>
-    <!-- 자식 컴포넌렌더링 -->
   </div>
 </template>
 
@@ -130,6 +133,14 @@ export default {
   font-family: Arial, sans-serif;
 }
 
+.top-title {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 13px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
 .inquiry-header {
   display: flex;
   align-items: center;
@@ -152,25 +163,64 @@ h2 {
   font-weight: bold;
 }
 
-.nav-btn-wrapper {
-  margin: 15px;
-  text-align: end;
+.inquiry-contain {
+  margin: 25px 50px;
 }
 
-.nav-btn {
-  border: none;
-  margin-right: 10px;
+.form-group {
+  margin-bottom: 30px;
+}
+
+.form-group label {
+  display: block;
   font-size: 14px;
   font-weight: 600;
-  font-family: fantasy;
-  background-color: snow;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  color: #2c2b2b;
+  margin-bottom: 10px;
 }
 
-.active {
-  color: #ecb900;
-  padding-bottom: 3px;
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 13px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* 패딩과 보더를 포함한 크기 설정 */
+}
+
+.form-group select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.form-group textarea {
+  resize: none;
+  height: 165px;
+}
+
+.character-count {
+  text-align: right;
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.button-group {
+  text-align: center;
+}
+
+.submit-button {
+  width: 100%;
+  background-color: #ffdf3e9c;
+  border: 1px solid #d3cb3a5e;
+  padding: 11px 0px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 480px) {

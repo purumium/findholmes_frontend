@@ -1,151 +1,188 @@
 <template>
-  <div>신고 관리 페이지</div>
+  <div class="inquiry-container">
+    <header class="inquiry-header" @click="goBack">
+      <button class="back-button">&lt;</button>
+      <h2>문의 등록 관리</h2>
+      <span class="header-span"></span>
+    </header>
+
+    <div class="inquiry-contain">
+      <div class="inquiry-filters">
+        <button
+          :class="{ 'active-filter': selectedFilter === '답변대기' }"
+          @click="setFilter('답변대기')"
+        >
+          답변대기
+        </button>
+        <button
+          :class="{ 'active-filter': selectedFilter === '답변완료' }"
+          @click="setFilter('답변완료')"
+        >
+          답변완료
+        </button>
+      </div>
+
+      <div class="inquiry-list">
+        <div class="total-info">1 페이지</div>
+        <table class="inquiry-table">
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>분류</th>
+              <th>제목</th>
+              <th>글쓴이</th>
+              <th>상태</th>
+              <th>등록일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(inquiry, index) in filteredInquiries" :key="index">
+              <td>{{ index }}</td>
+              <td>{{ inquiry.category }}</td>
+              <td>{{ inquiry.title }}</td>
+              <td>{{ inquiry.writerId }}</td>
+              <td
+                :class="{
+                  'status-pending': inquiry.responseStatus === '답변대기',
+                  'status-complete': inquiry.responseStatus === '답변완료',
+                }"
+              >
+                {{ inquiry.responseStatus }}
+              </td>
+              <td>{{ inquiry.createAt }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
-import axios from "axios";
+//import axios from "axios";
 
 export default {
-  setup() {
-    const test = ref([]);
-    const statusFilter = ref(""); // 현재 필터 상태
-    const showRejectModal = ref(false);
-    const selectedItem = ref(null);
-    const rejReason = ref(""); // 모달 내 거절 사유
-
-    // onMounted 훅을 사용하여 컴포넌트가 마운트되었을 때 데이터 가져오기
-    onMounted(() => {
-      statusFilter.value = "PENDING";
-      test4();
-    });
-
-    // 데이터 가져오기 함수
-    const test4 = async () => {
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      try {
-        const response = await axios.get("/api/admin/approvals");
-        test.value = response.data; // 응답 데이터를 배열로 추가
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    // 항목 수락 처리 함수
-    const acceptbtn = async (item) => {
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      try {
-        console.log(item);
-        console.log(item.detectiveId);
-        await axios.post("/api/admin/approvals/update", {
-          id: item.id,
-          detectiveId: item.detectiveId,
-          approvalStatus: "accept",
-          rejReason: "",
-        });
-        // statusFilter.value = "APPROVED"
-        test4(); // 데이터 새로고침
-      } catch (error) {
-        console.error("Error accepting item:", error);
-      }
-    };
-
-    // 항목 거절 처리 함수
-    const confirmReject = async () => {
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      console.log(selectedItem.value);
-      console.log(selectedItem.value.id);
-      console.log(rejReason.value);
-      try {
-        await axios.post("/api/admin/approvals/update", {
-          id: selectedItem.value.id,
-          detectiveId: selectedItem.value.id,
-          approvalStatus: "reject",
-          rejReason: rejReason.value,
-        });
-        // statusFilter.value = "REJECTED"
-        test4(); // 데이터 새로고침
-        closeRejectModal(); // 모달 닫기
-      } catch (error) {
-        console.error("Error rejecting item:", error);
-      }
-    };
-
-    // 모달 열기
-    const openRejectModal = (item) => {
-      selectedItem.value = item;
-      showRejectModal.value = true;
-    };
-
-    // 모달 닫기
-    const closeRejectModal = () => {
-      showRejectModal.value = false;
-      selectedItem.value = null;
-      rejReason.value = ""; // 입력 필드 초기화
-    };
-
-    // 필터링된 test 배열을 계산된 속성으로 정의
-    const filteredTest = computed(() => {
-      if (!statusFilter.value) {
-        return test.value;
-      }
-      return test.value.filter(
-        (item) => item.approvalStatus === statusFilter.value
-      );
-    });
-
-    // 필터 상태를 설정하는 함수
-    const filterByStatus = (status) => {
-      statusFilter.value = status;
-    };
-
+  data() {
     return {
-      test4,
-      test,
-      acceptbtn,
-      confirmReject,
-      filteredTest,
-      filterByStatus,
-      closeRejectModal,
-      openRejectModal,
-      showRejectModal,
-      rejReason,
-      statusFilter,
+      selectedFilter: "답변대기중",
+      inquiries: [],
     };
+  },
+  computed: {
+    filteredInquiries() {
+      if (this.selectedFilter === "답변대기중") {
+        return this.inquiries;
+      }
+      return this.inquiries.filter(
+        (inquiry) => inquiry.category === this.selectedFilter
+      );
+    },
+  },
+  methods: {
+    setFilter(filter) {
+      this.selectedFilter = filter;
+    },
   },
 };
 </script>
 
 <style>
-/* 테두리 있는 div 스타일 */
-.bordered-div {
-  border: 1px solid red;
-  padding: 10px;
-  margin: 10px 0;
+.inquiry-container {
+  font-family: Arial, sans-serif;
 }
 
-/* 모달 스타일 */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+.inquiry-header {
   display: flex;
-  justify-content: center;
   align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
 }
 
-.modal {
-  background: white;
-  padding: 20px;
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+h2 {
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.inquiry-contain {
+  margin: 20px 10px;
+}
+
+.register-button {
+  background-color: #333;
+  color: white;
+  padding: 10px 15px;
+  border: none;
   border-radius: 5px;
-  max-width: 600px;
+  cursor: pointer;
+}
+
+.register-button:hover {
+  background-color: #555;
+}
+
+.inquiry-filters {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.inquiry-filters button {
+  padding: 8px 15px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+}
+
+.inquiry-filters .active-filter {
+  background-color: #333;
+  color: white;
+}
+
+.inquiry-list {
+  margin-top: 20px;
+}
+
+.total-info {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.inquiry-table {
   width: 100%;
-  border: solid 1px black;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.inquiry-table th,
+.inquiry-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.inquiry-table th {
+  background-color: #f4f4f4;
+}
+
+.status-pending {
+  color: #ff9800;
+}
+
+.status-complete {
+  color: #4caf50;
+}
+
+.inquiry-table tbody tr:hover {
+  background-color: #f1f1f1;
 }
 </style>
