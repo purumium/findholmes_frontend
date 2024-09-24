@@ -91,7 +91,7 @@ const routes = [
         // path: "chat/:chatRoomId",
         // name: "ChatRoom",
         // component: ChatRoomCompo,
-        path: "chatroom",
+        path: "chat/:chatRoomId",
         name: "DetectiveChatRoom",
         component: DeChatRoomCompo,
         props: (route) => ({
