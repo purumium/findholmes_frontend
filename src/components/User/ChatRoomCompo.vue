@@ -397,11 +397,6 @@ export default {
   flex-direction: column;
 }
 
-/* 스크롤바 숨기기 */
-.chat-messages::-webkit-scrollbar {
-  display: none;
-}
-
 /* 공통 메시지 스타일 */
 .message-item {
   margin-bottom: 10px;
