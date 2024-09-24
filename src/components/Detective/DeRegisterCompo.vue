@@ -23,8 +23,8 @@
             <label for="detective_gender">성별</label>
             <select v-model="detectiveGender" id="detective_gender" required>
               <option value="" disabled>홈즈의 성별을 선택해주세요</option>
-              <option value="Male">남자</option>
-              <option value="Female">여자</option>
+              <option value="MALE">남자</option>
+              <option value="FEMALE">여자</option>
             </select>
           </div>
           <div class="form-group">

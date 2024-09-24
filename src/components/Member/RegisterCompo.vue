@@ -52,7 +52,7 @@
         </div>
 
         <!-- 회원 가입-->
-        <div class="form-group">
+        <!-- <div class="form-group">
           <input
             v-model="email"
             type="email"
@@ -60,6 +60,21 @@
             placeholder="이메일"
             required
             @blur="checkEmail"
+          />
+          <p
+            v-if="emailStatus"
+            :class="{ success: isEmailValid, error: !isEmailValid }"
+          >
+            {{ emailStatus }}
+          </p>
+        </div> -->
+        <div class="form-group">
+          <input
+            v-model="email"
+            type="email"
+            id="email"
+            placeholder="Email"
+            required
           />
           <p
             v-if="emailStatus"
@@ -110,9 +125,11 @@
         <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
         </div>
         <div class="button-group">
+
           <button type="submit" class="btn-register" :disabled="!isEmailValid || !isPasswordValid || !isPhoneNumberValid">
             가입하기
           </button>
+
         </div>
       </form>
       <p v-if="message" :class="{ success: isSuccess, error: !isSuccess }">
@@ -167,23 +184,23 @@ watch(password, checkPasswordMatch);
 watch(confirmPassword, checkPasswordMatch);
 
 // 이메일 중복 체크 함수
-const checkEmail = async () => {
-  try {
-    const response = await axios.get("/api/member/check-email", {
-      params: { email: email.value },
-    });
-    if (response.data) {
-      emailStatus.value = "사용 가능한 이메일입니다.";
-      isEmailValid.value = true;
-    } else {
-      emailStatus.value = "이미 사용 중인 이메일입니다.";
-      isEmailValid.value = false;
-    }
-  } catch (error) {
-    emailStatus.value = "이메일 확인에 실패했습니다.";
-    isEmailValid.value = false;
-  }
-};
+// const checkEmail = async () => {
+//   try {
+//     const response = await axios.get("/api/member/check-email", {
+//       params: { email: email.value },
+//     });
+//     if (response.data) {
+//       emailStatus.value = "사용 가능한 이메일입니다.";
+//       isEmailValid.value = true;
+//     } else {
+//       emailStatus.value = "이미 사용 중인 이메일입니다.";
+//       isEmailValid.value = false;
+//     }
+//   } catch (error) {
+//     emailStatus.value = "이메일 확인에 실패했습니다.";
+//     isEmailValid.value = false;
+//   }
+// };
 
 const handleSubmit = async () => {
   try {

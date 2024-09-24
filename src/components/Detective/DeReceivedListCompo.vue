@@ -42,7 +42,14 @@
         @click="moveToRequestDetail(assigned.requestId)"
       >
         <div class="estimate-image">
-          <img src="/images/request.png" alt="Placeholder Image" />
+          <img
+            :src="
+              assigned.status === 'WAITING'
+                ? '/images/waiting.png'
+                : '/images/request.png'
+            "
+            alt="Placeholder Image"
+          />
         </div>
         <div class="estimate-content">
           <div class="estimate">
