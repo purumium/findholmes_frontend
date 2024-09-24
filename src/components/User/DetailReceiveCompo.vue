@@ -89,10 +89,9 @@ export default {
     async getEstimates() {
       console.log(this.requestId);
       try {
-        const response = await axios.get("/api/estimate/details", {
+        const response = await axios.get("/api/estimate/receivelist", {
           params: {
             requestId: this.requestId,
-            userId: this.getRoles === "ROLE_DETECTIVE" ? this.getId : null,
           },
         });
         this.estimates = response.data;

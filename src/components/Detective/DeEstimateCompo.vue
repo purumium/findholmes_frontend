@@ -93,13 +93,13 @@ export default {
     async getEstimates() {
       console.log(this.requestId);
       try {
-        const response = await axios.get("/api/estimate/list", {
+        const response = await axios.get("/api/estimate/details", {
           params: {
             userId: this.getId,
             requestId: this.requestId,
           },
         });
-        this.estimate = response.data[0];
+        this.estimate = response.data;
         console.log("상세답변서:", this.estimate);
       } catch (error) {
         return;
