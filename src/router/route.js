@@ -88,9 +88,6 @@ const routes = [
         component: DeChatCompo,
       },
       {
-        // path: "chat/:chatRoomId",
-        // name: "ChatRoom",
-        // component: ChatRoomCompo,
         path: "chatroom",
         name: "DetectiveChatRoom",
         component: DeChatRoomCompo,

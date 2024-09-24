@@ -17,7 +17,9 @@
           >
             <div class="detective-info">
               <div class="detective-details">
-                <div class="detective-name">{{ estimate.detectiveName }}</div>
+                <div class="li-detective-name">
+                  {{ estimate.detectiveName }}
+                </div>
                 <div class="detective-price">{{ estimate.price }}원</div>
               </div>
             </div>
@@ -283,7 +285,7 @@ h2 {
 
 .sidebar li {
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 13px 15px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
@@ -294,16 +296,22 @@ h2 {
 }
 
 .sidebar li.active {
-  background-color: #dcdcdc;
+  background-color: #fffcfc;
   font-weight: bold !important;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
   border-top-right-radius: 10px !important;
   border-bottom-right-radius: 10px !important;
 }
 
-.detective-name {
+.li-detective-name {
   display: flex;
-  justify-content: start;
+  justify-content: center;
+  font-size: 14px;
+  min-width: 43px;
+  border: 1px solid #8080802e;
+  border-radius: 20px;
+  background-color: #80808012;
+  padding: 2px 7px;
 }
 
 .detective-price {
