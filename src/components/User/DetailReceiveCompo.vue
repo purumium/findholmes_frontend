@@ -1,6 +1,6 @@
 <template>
   <div class="estimate-container">
-    <header class="estimate-header" @click="goBack">
+    <header class="estimate-top-header" @click="goBack">
       <button class="back-button">&lt;</button>
       <h2>답변서</h2>
       <span class="header-span">홈즈가 보낸 답변서를 비교하기</span>
@@ -32,34 +32,82 @@
               <div class="detective-img">
                 <img
                   class="detective-avatar-large"
-                  src="/images/detective.png"
+                  :src="`http://localhost:8080/${selectedDetective.profilePicture}`"
                   alt="Detective Avatar"
                 />
               </div>
               <div class="detective-details-large">
                 <div class="detective-name-container">
-                  <h3>{{ selectedDetective.detectiveName }}</h3>
-                  <button class="profile-button">홈즈의 프로필</button>
+                  <div class="detective-name">
+                    {{ selectedDetective.detectiveName }}
+                  </div>
+                  <button
+                    class="profile-button"
+                    @click="goProfile(selectedDetective.detectiveId)"
+                  >
+                    프로필 보기
+                  </button>
                 </div>
                 <div class="detective-contact">
-                  <span>🔒 {{ selectedDetective.nickname }}</span>
-                  <span>📞 {{ selectedDetective.phone }}</span>
-                  <span>📍 {{ selectedDetective.location }}</span>
+                  <span v-if="selectedDetective.detectiveGender === 'Male'">
+                    👤 남자 &nbsp;
+                  </span>
+                  <span v-if="selectedDetective.detectiveGender === 'Female'">
+                    👤 여자 &nbsp;
+                  </span>
+                  <span v-if="selectedDetective.detectiveGender === 'Any'">
+                    👤 전체 &nbsp;</span
+                  >
+                  <span>📍 {{ selectedDetective.location }} &nbsp; </span>
+                  <div>
+                    📍
+                    <span
+                      v-for="(name, index) in selectedDetective.specialtiesName"
+                      :key="index"
+                    >
+                      {{ name }} &nbsp;
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="detective-price-large">
-              <h3>{{ selectedDetective.price }}원/협의</h3>
+          </div>
+
+          <div class="estimate-content">
+            <label for="title">
+              <div class="title">제목</div>
+            </label>
+            <div class="estimate-title">
+              {{ selectedDetective.title }}
+            </div>
+
+            <div class="estimate-answer">
+              <div class="estimate-answer-together">
+                <div class="title">답변일자</div>
+                <div class="estimate-title">
+                  {{ timeconvert(selectedDetective.createAt) }}
+                </div>
+              </div>
+              <div class="estimate-answer-together">
+                <div class="title">답변금액</div>
+                <div class="estimate-title">
+                  <span>{{ selectedDetective.price }}원</span>
+                  <span class="estimate-title-span">협의</span>
+                </div>
+              </div>
+            </div>
+
+            <label for="title">
+              <div class="title">답변내용</div>
+            </label>
+            <div class="estimate-body">
+              <p>{{ selectedDetective.description }}</p>
             </div>
           </div>
 
-          <div class="estimate-body">
-            <p>{{ selectedDetective.description }}</p>
-          </div>
-
           <div class="actions">
-            <button @click="goChat()">채팅하기</button>
-            <button @click="acceptEstimate">홈즈선택</button>
+            <button @click="goChat">채팅하기</button>
+            <button @click="acceptEstimate">리뷰쓰기</button>
           </div>
         </div>
       </div>
@@ -96,17 +144,49 @@ export default {
           },
         });
         this.estimates = response.data;
-        this.selectedDetective = this.estimates[0];
-        console.log(this.estimates);
+
+        // 첫 번째 항목을 기본 선택
+        if (this.estimates.length > 0) {
+          this.selectedDetective = this.estimates[0];
+          this.selectHolmesDetail(this.selectedDetective.detectiveId);
+        }
       } catch (error) {
         return;
       }
     },
+    // 탐정 선택 시 호출되는 메서드
     selectDetective(detective) {
-      this.selectedDetective = detective;
+      this.selectedDetective = detective; // 선택한 탐정을 설정
+      this.selectHolmesDetail(this.selectedDetective.detectiveId);
     },
-    acceptEstimate() {
-      alert("견적서를 수락했습니다.");
+
+    // 선택한 탐정의 세부 정보를 가져오는 메서드
+    selectHolmesDetail(detectiveId) {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      axios
+        .get(`/api/detective/${detectiveId}`)
+        .then((response) => {
+          // 기존 selectedDetective에 탐정의 세부 정보를 병합
+          this.selectedDetective = {
+            ...this.selectedDetective, // 기존 selectedDetective 데이터 유지
+            ...response.data, // 탐정의 세부 정보 추가
+          };
+          console.log(this.selectedDetective); // 새로운 selectedDetective 값 확인
+        })
+        .catch((error) => {
+          console.log("에러:", error);
+        });
+    },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
     },
     async goChat() {
       this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
@@ -136,13 +216,10 @@ export default {
         params: { chatRoomId: chatRoomId },
       });
     },
+    goProfile(detectiveId) {
+      this.$router.push({ name: "Profile", params: { detectiveId } });
+    },
   },
-  // mounted() {
-  //   // detectives 배열의 첫 번째 탐정을 자동으로 선택
-  //   if (this.estimates.length > 0) {
-  //     this.selectedDetective = this.estimates[0];
-  //   }
-  // },
 };
 </script>
 
@@ -155,7 +232,7 @@ export default {
   box-sizing: border-box;
 }
 
-.estimate-header {
+.estimate-top-header {
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -215,11 +292,11 @@ h2 {
 }
 
 .sidebar li.active {
-  background-color: white; /* 선택된 항목의 배경색 */
-  font-weight: bold; /* 선택된 항목의 텍스트 강조 */
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* 선택된 항목에 그림자 추가 */
-  border-top-right-radius: 10px; /* 왼쪽 위 */
-  border-bottom-right-radius: 10px; /* 왼쪽 아래 */
+  background-color: #dcdcdc;
+  font-weight: bold !important;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
 }
 
 .detective-name {
@@ -237,7 +314,7 @@ h2 {
   max-width: 800px;
   background-color: #fff;
   border-left: 1px solid #cccccc54;
-  padding: 30px 25px;
+  padding: 0px 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -261,6 +338,14 @@ h2 {
 
 .detective-details-large {
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detective-name {
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .detective-name-container {
@@ -270,7 +355,7 @@ h2 {
 }
 
 .profile-button {
-  background-color: #efe7945e;
+  background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
   padding: 6px 17px;
   border-radius: 20px;
@@ -279,19 +364,69 @@ h2 {
   cursor: pointer;
 }
 
+.detective-contact {
+  font-size: 12px;
+}
+
 .detective-contact p {
   margin: 0;
 }
 
 .detective-price-large {
+  background-color: #f9f9f9;
   text-align: right;
-  margin-right: 10px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 5px 17px;
+  font-size: 18px;
+}
+
+.estimate-answer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.estimate-answer-together {
+  width: 47%;
+}
+
+.title {
+  margin: 17px 0 5px 0;
+  font-weight: 600;
+}
+
+.estimate-title {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 10px 14px;
+}
+
+.estimate-title-span {
+  background-color: #ffdf3e9c;
+  border: 1px solid #d3cb3a5e;
+  padding: 3px 5px;
+  border-radius: 20px;
+  font-size: 11px;
+  margin-left: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.estimate-content {
+  margin: 30px 0;
+}
+
+.estimate-createat {
+  text-align: right;
+  margin: 14px 0;
+  font-size: 13px;
 }
 
 .estimate-body {
-  margin-top: 20px;
-  padding: 20px;
-  height: 300px;
+  padding: 10px 15px;
+  height: 200px;
   background-color: #f9f9f9;
   border-radius: 10px;
   border: 1px solid #ddd;
@@ -313,35 +448,5 @@ h2 {
 
 .actions button:hover {
   background-color: #e0e0e0;
-}
-
-/* 반응형 디자인: 화면 크기가 줄어들 때의 대응 */
-@media screen and (max-width: 768px) {
-  .estimate-detail {
-    flex-direction: column; /* 작은 화면에서는 사이드바와 콘텐츠가 위아래로 배치 */
-  }
-
-  .sidebar {
-    width: 100%;
-  }
-
-  .main-content {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  h2 {
-    font-size: 14px;
-  }
-
-  .back-button {
-    font-size: 15px;
-    margin-left: 0px;
-    padding: 8px 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
 }
 </style>
