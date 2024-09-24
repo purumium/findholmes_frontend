@@ -6,14 +6,6 @@
       <span class="header-span"></span>
     </header>
 
-    <!-- <section class="services">
-      <div class="service-card">
-        <img src="@/assets/main/service1.png" />
-        <div>홈즈의 프로필을 확인하고</div>
-        <div>마음에 드는 홈즈에게 의뢰서를 요청해보세요</div>
-      </div>
-    </section> -->
-
     <div class="find-contain">
       <div v-if="detective" class="detective-profile">
         <div class="profile-info">
