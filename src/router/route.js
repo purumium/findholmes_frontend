@@ -41,6 +41,7 @@ import AdInqueryCompo from "@/components/Admin/AdInqueryCompo.vue";
 import DetectiveDetailProfileCompo from "@/components/User/DetectiveDetailProfileCompo.vue";
 import InqueryCreateCompo from "@/components/User/InqueryCreateCompo.vue";
 import InqueryListCompo from "@/components/User/InqueryListCompo.vue";
+import RequestDirectCompo from "@/components/User/RequestDirectCompo.vue";
 
 const routes = [
   {
@@ -220,6 +221,11 @@ const routes = [
       {
         path: "request",
         component: RequestCompo,
+      },
+      {
+        path: "request/:detectiveId",
+        component: RequestDirectCompo,
+        props: true,
       },
       {
         path: "detailrequest/:requestId",

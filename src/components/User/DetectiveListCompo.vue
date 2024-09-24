@@ -37,7 +37,10 @@
                 >
                   프로필 보기
                 </button>
-                <button class="request-btn" @click="createRequest">
+                <button
+                  class="request-btn"
+                  @click="createRequest(detective.userId)"
+                >
                   의뢰서 작성
                 </button>
               </div>
@@ -132,6 +135,9 @@ export default {
     },
     goProfile(detectiveId) {
       this.$router.push({ name: "Profile", params: { detectiveId } });
+    },
+    createRequest(detectiveId) {
+      this.$router.push(`/request/${detectiveId}`);
     },
   },
 };

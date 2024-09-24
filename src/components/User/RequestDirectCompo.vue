@@ -9,8 +9,49 @@
     <section class="services">
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
-        <div>의뢰하고 싶은 내용을 작성하고</div>
-        <div>선택한 홈즈에게 바로 요청하세요.</div>
+        <div>의뢰하고 싶은 내용을 선택한</div>
+        <div>홈즈에게 바로 요청하세요.</div>
+        <div class="detective-info-container">
+          <div class="detective-img">
+            <img
+              class="detective-avatar-large"
+              :src="`http://localhost:8080/${detectiveInfo.detectiveImg}`"
+              alt="Detective Avatar"
+            />
+          </div>
+          <div class="detective-details-large">
+            <div class="detective-name-container">
+              <div class="detective-name">
+                {{ detectiveInfo.detectiveName }}
+              </div>
+              <button
+                class="profile-button"
+                @click="goProfile(detectiveInfo.detectiveId)"
+              >
+                프로필 보기
+              </button>
+            </div>
+            <div class="detective-contact">
+              <span v-if="detectiveInfo.gender === 'MALE'">
+                👤 남자 &nbsp;
+              </span>
+              <span v-if="detectiveInfo.gender === 'FEMALE'">
+                👤 여자 &nbsp;
+              </span>
+              <span v-if="detectiveInfo.gender === 'ANY'"> 👤 전체 &nbsp;</span>
+              <span>📍 {{ detectiveInfo.location }} &nbsp; </span>
+              <div>
+                📍
+                <span
+                  v-for="(name, index) in detectiveInfo.specialities"
+                  :key="index"
+                >
+                  {{ name.specialityName }} &nbsp;
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -37,7 +78,7 @@
           >
             <option value="" disabled selected>category</option>
             <option
-              v-for="speciality in specialities"
+              v-for="speciality in detectiveInfo.specialities"
               :key="speciality.specialityId"
               :value="speciality.specialityId"
             >
@@ -68,8 +109,10 @@ import { mapGetters } from "vuex";
 import locations from "@/assets/locations.json";
 
 export default {
+  props: ["detectiveId"],
   data() {
     return {
+      detectiveInfo: [],
       locations: locations,
       specialities: [],
       selectedLocation: "",
@@ -83,7 +126,7 @@ export default {
     ...mapGetters(["isAuthenticated", "getUser"]),
   },
   created() {
-    this.getAllSpecialties();
+    this.getDetectiveInfo();
   },
   methods: {
     goBack() {
@@ -95,23 +138,29 @@ export default {
     printUser() {
       console.log(this.$store.getters.getUser);
     },
-    async getAllSpecialties() {
+
+    async getDetectiveInfo() {
       try {
-        const response = await axios.get("api/speciality");
-        this.specialities = response.data;
-      } catch (error) {
-        this.specialities = [];
+        const response = await axios.get("/api/detective/info", {
+          params: { detectiveId: this.detectiveId },
+        });
+        this.detectiveInfo = response.data;
+        this.specialities = response.data.specialities;
+        console.log(this.detectiveInfo);
+      } catch {
+        return;
       }
     },
     async doRequest() {
       try {
-        await axios.post("api/request", {
+        await axios.post("/api/request", {
           email: this.getUser,
-          location: this.selectedLocation,
-          gender: this.selectedGender,
+          location: this.detectiveInfo.location,
+          gender: this.detectiveInfo.gender,
           speciality: this.selectedSpeciality,
           title: this.title,
           description: this.description,
+          detectiveId: this.detectiveId,
         });
         alert("의뢰요청에 성공했습니다.");
         this.$router.push("/receive");
@@ -121,6 +170,9 @@ export default {
     },
     click() {
       console.log(this.getUser);
+    },
+    goProfile(detectiveId) {
+      this.$router.push(`/profile/${detectiveId}`);
     },
   },
 };
