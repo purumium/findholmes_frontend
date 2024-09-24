@@ -96,6 +96,10 @@ export default {
     this.fetchInqueries("전체");
   },
   methods: {
+    goBack() {
+      // 뒤로가기 로직
+      this.$router.back();
+    },
     setFilter(filter) {
       this.selectedFilter = filter; // 답변대기, 답변완료, 전체
       console.log("setFilter : " + filter);
@@ -109,6 +113,9 @@ export default {
       } else if (filter === "답변완료") {
         endpoint = "/api/admin/inquery/complete";
       }
+
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       try {
         const response = await axios.get(endpoint);
@@ -161,7 +168,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .inquiry-container {
   font-family: Arial, sans-serif;
 }
@@ -189,7 +196,7 @@ h2 {
 }
 
 .inquiry-contain {
-  margin: 20px 10px;
+  margin: 20px 20px;
 }
 
 .register-button {
