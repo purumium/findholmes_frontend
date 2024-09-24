@@ -22,7 +22,14 @@
             </div>
             <div class="request-content">
               <div class="request">
-                <div class="request-date">
+                <div
+                  class="request-date"
+                  @click="
+                    this.$router.push(
+                      `/detective/received/${estimate.requestId}`
+                    )
+                  "
+                >
                   <div>✔️ 의뢰 제목 : {{ estimate.requestTitle }}</div>
                   <div>
                     ✔️ 의뢰 일자 : {{ timeconvert(estimate.requestCreateAt) }}
@@ -86,13 +93,13 @@ export default {
     async getEstimates() {
       console.log(this.requestId);
       try {
-        const response = await axios.get("/api/estimate/list", {
+        const response = await axios.get("/api/estimate/details", {
           params: {
             userId: this.getId,
             requestId: this.requestId,
           },
         });
-        this.estimate = response.data[0];
+        this.estimate = response.data;
         console.log("상세답변서:", this.estimate);
       } catch (error) {
         return;

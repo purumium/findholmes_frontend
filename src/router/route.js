@@ -231,7 +231,7 @@ const routes = [
         component: ReceiveCompo,
       },
       {
-        path: "estimate/:requestId",
+        path: "estimatelist/:requestId",
         component: DetailReceiveCompo,
         props: true,
       },

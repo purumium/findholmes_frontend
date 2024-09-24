@@ -82,7 +82,7 @@ export default {
       }
     },
     viewEstimate(requestId) {
-      this.$router.push(`/estimate/${requestId}`);
+      this.$router.push(`/estimatelist/${requestId}`);
     },
     moveToRequestDetail(requestId) {
       this.$router.push(`/detailrequest/${requestId}`);
