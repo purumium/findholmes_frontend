@@ -31,7 +31,9 @@
               <span>✔️ 사업자등록증 인증 &nbsp; </span>
               <span>✔️ 탐정등록증 인증</span>
             </div>
-            <button class="request-button">의뢰 요청하기</button>
+            <button class="request-button" @click="goRequest(detectiveId)">
+              의뢰 요청하기
+            </button>
           </div>
         </div>
 
@@ -124,6 +126,9 @@ export default {
     },
     getImageUrl(path) {
       return `http://localhost:8080/${path}`;
+    },
+    goRequest(detectiveId) {
+      this.$router.push(`/request/${detectiveId}`);
     },
   },
 };
