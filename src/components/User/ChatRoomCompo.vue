@@ -84,7 +84,6 @@ export default {
     this.checkAccess();
     this.checkAcceptedPrivacy();
     this.fetchChatRoomData();
-    console.log("User ID: ", this.userId);
     this.showConsentModal = true;
     this.checkCanSendMessage();
     this.getCurrentPoints();
@@ -381,7 +380,7 @@ export default {
 .chat-room {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 80vh;
 }
 
 .chat-header {
@@ -395,6 +394,10 @@ export default {
   padding: 10px;
   display: flex;
   flex-direction: column;
+}
+
+.chat-messages::-webkit-scrollbar {
+  display: none;
 }
 
 /* 공통 메시지 스타일 */
@@ -442,6 +445,11 @@ export default {
   display: flex;
   padding: 10px;
   background-color: #f5f5f5;
+  /* position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; */
 }
 
 .chat-input input {
