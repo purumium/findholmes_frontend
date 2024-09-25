@@ -13,7 +13,6 @@
             v-model="statusFilter"
             @change="filterByStatus(statusFilter)"
           >
-            <!-- <option value="">전체</option> -->
             <option value="PENDING">승인대기중</option>
             <option value="APPROVED">승인완료</option>
             <option value="REJECTED">승인거부</option>
@@ -55,35 +54,83 @@
                   {{ specialty }}
                 </span>
               </li>
+              <li v-if="item.detectiveDetails.introduction != null">
+                <strong>자기소개 :</strong>
+                <div>
+                  <textarea
+                    v-model="item.detectiveDetails.introduction"
+                    readonly
+                    class="introduction-textarea"
+                  >
+                  </textarea>
+                </div>
+              </li>
+              <li v-if="item.detectiveDetails.description != null">
+                <strong>추가소개(경력 사항 등) : </strong>
+                <div>
+                  <textarea
+                    v-model="item.detectiveDetails.description"
+                    readonly
+                    class="introduction-textarea"
+                  >
+                  </textarea>
+                </div>
+              </li>
+
+              <li>
+                <strong>탐정 프로필: </strong>
+                <div>
+                  <img
+                    :src="getImageUrl(item.detectiveDetails.profilePicture)"
+                    @click="showImgModal(item.detectiveDetails.profilePicture)"
+                    class="thumbnail"
+                  />
+                </div>
+              </li>
+
               <li>
                 <strong>사업자 등록증 : </strong>
-                <img
-                  :src="getImageUrl(item.detectiveDetails.businessRegistration)"
-                  @click="
-                    showImgModal(item.detectiveDetails.businessRegistration)
-                  "
-                  class="thumbnail"
-                />
+                <div>
+                  <img
+                    :src="
+                      getImageUrl(item.detectiveDetails.businessRegistration)
+                    "
+                    @click="
+                      showImgModal(item.detectiveDetails.businessRegistration)
+                    "
+                    class="thumbnail"
+                  />
+                </div>
               </li>
               <li>
                 <strong>탐정의 등록증 : </strong>
-                <img
-                  :src="getImageUrl(item.detectiveDetails.detectiveLicense)"
-                  @click="showImgModal(item.detectiveDetails.detectiveLicense)"
-                  class="thumbnail detective-image"
-                />
+                <div>
+                  <img
+                    :src="getImageUrl(item.detectiveDetails.detectiveLicense)"
+                    @click="
+                      showImgModal(item.detectiveDetails.detectiveLicense)
+                    "
+                    class="thumbnail detective-image"
+                  />
+                </div>
               </li>
               <li v-if="item.detectiveDetails.additionalCertifications != null">
                 <strong>기타 자격사항 : </strong>
-                <img
-                  :src="
-                    getImageUrl(item.detectiveDetails.additionalCertifications)
-                  "
-                  @click="
-                    showImgModal(item.detectiveDetails.additionalCertifications)
-                  "
-                  class="thumbnail detective-image"
-                />
+                <div>
+                  <img
+                    :src="
+                      getImageUrl(
+                        item.detectiveDetails.additionalCertifications
+                      )
+                    "
+                    @click="
+                      showImgModal(
+                        item.detectiveDetails.additionalCertifications
+                      )
+                    "
+                    class="thumbnail detective-image"
+                  />
+                </div>
               </li>
 
               <li>
@@ -111,7 +158,7 @@
             </ul>
 
             <!-- <div v-if="statusFilter === 'PENDING'" class="btn-div"> -->
-              <div class="btn-div">
+            <div class="btn-div">
               <button @click="acceptbtn(item)" class="rej-button">수락</button>
               <button @click="openRejectModal(item)" class="rej-button">
                 거절
@@ -128,6 +175,7 @@
                 placeholder="거절 사유를 입력하세요"
                 rows="4"
                 cols="50"
+                class="modal-textarea"
               ></textarea>
               <div class="btn">
                 <button @click="confirmReject" class="rej-button">확인</button>
@@ -287,7 +335,7 @@ export default {
       rejReason,
       statusFilter,
       formatDate,
-      getImageUrl
+      getImageUrl,
     };
   },
 };
@@ -365,6 +413,23 @@ h2 {
   border-bottom: 1px solid #80808026;
 }
 
+.introduction-textarea {
+  width: 100%;
+  height: 200px;
+  resize: none;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #80808069;
+  line-height: 24px;
+  margin-top: 10px;
+}
+
+.thumbnail {
+  width: 150px;
+  height: 150px;
+  margin-top: 7px;
+}
+
 /* 모달 스타일 */
 .modal-overlay {
   position: fixed;
@@ -388,7 +453,7 @@ h2 {
   border: solid 1px black;
 }
 
-textarea {
+.modal-textarea {
   width: 295px;
   resize: none;
   padding: 10px;

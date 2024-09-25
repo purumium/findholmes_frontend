@@ -9,8 +9,8 @@
     <section class="services">
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
-        <div>의뢰하고 싶은 내용을 작성하고</div>
-        <div>5개의 홈즈 답변서를 받아보세요</div>
+        <div>의뢰하고 싶은 내용을 작성하면</div>
+        <div><strong>조건에 맞는 홈즈가 </strong>답변서을 보내드립니다</div>
       </div>
     </section>
 
@@ -199,6 +199,27 @@ h2 {
   margin: 5px 0 0 5px;
 }
 
+.services {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.service-card {
+  background-color: #c4c2ba17;
+  padding: 15px 0;
+}
+
+.service-card img {
+  height: 110px;
+  width: 130px;
+}
+
+.service-card div {
+  font-size: 14px;
+  color: #190404;
+  margin: 5px 0;
+}
+
 .request-contain {
   margin: 25px 20px;
 }
@@ -256,8 +277,9 @@ textarea {
 }
 
 textarea {
-  height: 100px;
+  height: 200px;
   resize: none;
+  font-family: auto;
 }
 
 .submit-button {
@@ -273,28 +295,6 @@ textarea {
 
 .submit-button:hover {
   background-color: #ffdf3ee0;
-}
-
-.services {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.service-card {
-  background-color: #c4c2ba17;
-  padding: 15px 0;
-}
-
-.service-card img {
-  /* margin-bottom: 10px; */
-  height: 110px;
-  width: 130px;
-}
-
-.service-card div {
-  font-size: 13px;
-  color: #190404;
-  margin: 5px 0;
 }
 
 /* 태블릿 화면 (768px 이하) */

@@ -260,7 +260,7 @@ label {
 
 .form-group input {
   width: 90%;
-  padding: 12px 0 12px 20px;
+  padding: 10px 0 10px 20px;
   border: 1px solid #80808045;
   border-radius: 20px;
   background-color: #fff;
@@ -282,17 +282,19 @@ label {
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
-  margin-top: 15px;
+  margin-top: 4px;
 }
 
 .success {
   color: green;
   margin-top: 10px;
+  font-size: 13px;
 }
 
 .error {
   color: red;
   margin-top: 10px;
+  font-size: 13px;
 }
 
 /* 반응형 스타일 */
