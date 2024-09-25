@@ -8,14 +8,16 @@
     <section class="services">
       <div class="service-card" v-if="roles === 'ROLE_USER'">
         <img src="@/assets/main/service1.png" />
-        <div>홈즈와의 채팅을 위해 포인트를 충전해보세요</div>
-        <div>* 채팅 답장 5건 초과 시 1000포인트 차감</div>
+        <div>홈즈와의 채팅을 위한 포인트를 충전해보세요</div>
+        <div>
+          * 채팅 시에 <strong>답장 건수 6개 이상인 경우</strong> 1000포인트 차감
+        </div>
       </div>
 
       <div class="service-card" v-if="roles === 'ROLE_DETECTIVE'">
         <img src="@/assets/main/service1.png" />
-        <div>의뢰에 대한 답변서 작성을 위해 포인트를 충전해주세요</div>
-        <div>* 답변서 1개 전송시 1000포인트 차감</div>
+        <div>답변서 작성을 위한 포인트를 충전해주세요</div>
+        <div>* <strong>답변서 1개 전송시 </strong>1000포인트 차감</div>
       </div>
     </section>
 
@@ -284,7 +286,7 @@ h2 {
 }
 
 .service-card div {
-  font-size: 13px;
+  font-size: 14px;
   color: #190404;
   margin: 5px 0;
 }

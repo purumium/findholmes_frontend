@@ -10,7 +10,7 @@
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
         <div>사용자가 보낸 의뢰서를 확인하고</div>
-        <div>답변서를 보내보세요</div>
+        <div><strong>답변서를 보내보세요</strong></div>
       </div>
     </section>
 
@@ -179,7 +179,7 @@ h2 {
 }
 
 .service-card div {
-  font-size: 13px;
+  font-size: 14px;
   color: #190404;
   margin: 5px 0;
 }

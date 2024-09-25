@@ -142,7 +142,15 @@ export default {
       this.$router.push(`/detective/register?value=${someValue}`);
     },
     editMyinfo() {
-      this.$router.push("/detective/myinfo");
+      if (
+        this.approvalStatus === "1" ||
+        this.approvalStatus === "2" ||
+        this.approvalStatus === "4"
+      ) {
+        alert("탐정 등록 완료 후 프로필 편집이 가능합니다");
+      } else if (this.approvalStatus === "3") {
+        this.$router.push("/detective/myinfo");
+      }
     },
     pointUsageHistory() {
       this.$router.push("/detective/point");

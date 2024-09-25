@@ -9,8 +9,8 @@
     <section class="services">
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
-        <div>의뢰하고 싶은 내용을</div>
-        <div>선택한 홈즈(1명)에게 바로 전달해보세요</div>
+        <div>의뢰서를 작성하여</div>
+        <div><strong>내가 선택한 홈즈에게 </strong>바로 전달해보세요</div>
       </div>
     </section>
 
@@ -36,21 +36,25 @@
             </button>
           </div>
           <div class="detective-contact">
-            <span v-if="detectiveInfo.gender === 'MALE'"> 👤 남자 &nbsp; </span>
-            <span v-if="detectiveInfo.gender === 'FEMALE'">
+            <span v-if="detectiveInfo.gender === 'MALE' || 'Male'">
+              👤 남자 &nbsp;
+            </span>
+            <span v-else-if="detectiveInfo.gender === 'FEMALE' || 'Female'">
               👤 여자 &nbsp;
             </span>
-            <span v-if="detectiveInfo.gender === 'ANY'"> 👤 전체 &nbsp;</span>
+            <span v-else-if="detectiveInfo.gender === 'ANY' || 'Any'">
+              👤 전체 &nbsp;</span
+            >
             <span>📍 {{ detectiveInfo.location }} &nbsp; </span>
-            <div>
-              📍
+            <span>
+              ✔️
               <span
                 v-for="(name, index) in detectiveInfo.specialities"
                 :key="index"
               >
                 {{ name.specialityName }} &nbsp;
               </span>
-            </div>
+            </span>
           </div>
         </div>
       </div>
@@ -266,8 +270,10 @@ textarea {
 }
 
 textarea {
-  height: 100px;
+  height: 200px;
   resize: none;
+  font-family: auto;
+  line-height: 20px;
 }
 
 .submit-button {
@@ -296,13 +302,12 @@ textarea {
 }
 
 .service-card img {
-  /* margin-bottom: 10px; */
   height: 110px;
   width: 130px;
 }
 
 .service-card div {
-  font-size: 13px;
+  font-size: 14px;
   color: #190404;
   margin: 5px 0;
 }
@@ -356,7 +361,7 @@ textarea {
 }
 
 .detective-contact {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .detective-contact p {

@@ -10,7 +10,7 @@
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
         <div>찾아줘 홈즈를 이용하기 전에</div>
-        <div>홈즈 등록을 먼저 진행해주세요</div>
+        <div><strong>홈즈 등록을 먼저 진행</strong>해주세요</div>
       </div>
     </section>
 
@@ -170,14 +170,14 @@ const selectedDiv = ref("");
 const checkReg = ref("");
 const router = useRouter();
 const route = useRoute();
-const value = ref("")
+const value = ref("");
 
 // 페이지가 마운트된 후, 선택된 div 설정 및 전문 분야 가져오기
-onMounted( async () => {
+onMounted(async () => {
   await checkDeRegister();
   await fetchSpecialties();
-  value.value = route.query.value;  // 쿼리 파라미터 읽기
-  console.log(value.value);  // 출력: exampleValue
+  value.value = route.query.value; // 쿼리 파라미터 읽기
+  console.log(value.value); // 출력: exampleValue
 });
 
 // 파일이 선택되었을 때 해당 파일 객체를 저장
@@ -223,7 +223,7 @@ const handleSubmit = async () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     let response;
     // 2. 탐정 정보를 서버에 전송
-    if(value.value==='register'){
+    if (value.value === "register") {
       response = await axios.post("/api/detective/register", {
         businessRegistration: businessRegistrationPath,
         detectiveLicense: detectiveLicensePath,
@@ -238,7 +238,7 @@ const handleSubmit = async () => {
         resolvedCases: resolvedCases.value,
         specialties: specialtyIds,
       });
-    }else{
+    } else {
       response = await axios.post("/api/detective/reregister", {
         businessRegistration: businessRegistrationPath,
         detectiveLicense: detectiveLicensePath,
@@ -254,7 +254,7 @@ const handleSubmit = async () => {
         specialties: specialtyIds,
       });
     }
-    
+
     console.log(response);
 
     message.value = "탐정 등록이 완료되었습니다.";
@@ -294,7 +294,7 @@ const fetchSpecialties = async () => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get("/api/detective/specialties");
-    console.log(response.data)
+    console.log(response.data);
     specialties.value = response.data;
   } catch (error) {
     message.value = "Failed to load specialties.";
@@ -368,13 +368,12 @@ h2 {
 }
 
 .service-card img {
-  /* margin-bottom: 10px; */
   height: 110px;
   width: 130px;
 }
 
 .service-card div {
-  font-size: 13px;
+  font-size: 14px;
   color: #190404;
   margin: 5px 0;
 }
@@ -418,7 +417,9 @@ h2 {
 
 textarea {
   resize: none;
-  height: 100px;
+  height: 200px;
+  line-height: 23px;
+  font-family: auto;
 }
 
 .btn-register {

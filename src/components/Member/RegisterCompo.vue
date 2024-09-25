@@ -52,38 +52,25 @@
         </div>
 
         <!-- 회원 가입-->
-        <!-- <div class="form-group">
-          <input
-            v-model="email"
-            type="email"
-            id="email"
-            placeholder="이메일"
-            required
-            @blur="checkEmail"
-          />
-          <p
-            v-if="emailStatus"
-            :class="{ success: isEmailValid, error: !isEmailValid }"
-          >
-            {{ emailStatus }}
-          </p>
-        </div> -->
+
         <div class="form-group">
-          <input
-            v-model="email"
-            type="email"
-            id="email"
-            placeholder="Email"
-            required
-          />
-          <p
-            v-if="emailStatus"
-            :class="{ success: isEmailValid, error: !isEmailValid }"
-          >
-            {{ emailStatus }}
-          </p>
-        </div>
-        <div class="form-group">
+          <div class="form-group">
+            <input
+              v-model="email"
+              type="email"
+              id="email"
+              placeholder="이메일"
+              required
+              @blur="checkEmail"
+            />
+            <p
+              v-if="emailStatus"
+              :class="{ success: isEmailValid, error: !isEmailValid }"
+            >
+              {{ emailStatus }}
+            </p>
+          </div>
+
           <input
             v-model="username"
             type="text"
@@ -104,13 +91,16 @@
         <div class="form-group">
           <input
             v-model="confirmPassword"
-            type="confirmPassword"
+            type="password"
             id="confirmPassword"
-            placeholder="confirmPassword"
+            placeholder="비밀번호 재확인"
             required
           />
         </div>
-        <p v-if="passwordMessage" :class="{ error: !isPasswordValid, success: isPasswordValid }">
+        <p
+          v-if="passwordMessage"
+          :class="{ success: isPasswordValid, error: !isPasswordValid }"
+        >
           {{ passwordMessage }}
         </p>
         <div class="form-group">
@@ -122,14 +112,16 @@
             required
             @input="validatePhoneNumber"
           />
-        <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
+          <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
         </div>
         <div class="button-group">
-
-          <button type="submit" class="btn-register" :disabled="!isEmailValid || !isPasswordValid || !isPhoneNumberValid">
+          <button
+            type="submit"
+            class="btn-register"
+            :disabled="!isEmailValid || !isPasswordValid || !isPhoneNumberValid"
+          >
             가입하기
           </button>
-
         </div>
       </form>
       <p v-if="message" :class="{ success: isSuccess, error: !isSuccess }">
@@ -157,50 +149,50 @@ const isEmailValid = ref(false);
 const isSuccess = ref(false);
 const isPasswordValid = ref(false);
 const isPhoneNumberValid = ref(false);
-const passwordMessage = ref("")
+const passwordMessage = ref("");
 const phoneError = ref("");
 
 const validatePhoneNumber = () => {
-    const phonePattern = /^\d{3}-\d{3,4}-\d{4}$/; // 예: 010-1234-5678 형식
-    if (!phonenumber.value.match(phonePattern)) {
-      isPhoneNumberValid.value=false
-      phoneError.value = '핸드폰 번호 형식이 올바르지 않습니다. (예: 010-1234-5678)';
-    } else {
-      phoneError.value = '';
-      isPhoneNumberValid.value=true
-    }
+  const phonePattern = /^\d{3}-\d{3,4}-\d{4}$/; // 예: 010-1234-5678 형식
+  if (!phonenumber.value.match(phonePattern)) {
+    isPhoneNumberValid.value = false;
+    phoneError.value = "형식이 올바르지 않습니다 (예: 010-1234-5678)";
+  } else {
+    phoneError.value = "";
+    isPhoneNumberValid.value = true;
   }
+};
 
-const checkPasswordMatch = ()=> {
-      if (password.value === confirmPassword.value) {
-        isPasswordValid.value = true;
-        passwordMessage.value = "비밀번호가 일치합니다.";
-      } else {
-        isPasswordValid.value = false;
-        passwordMessage.value = "비밀번호가 일치하지 않습니다.";
-      }
-    };
+const checkPasswordMatch = () => {
+  if (password.value === confirmPassword.value) {
+    isPasswordValid.value = true;
+    passwordMessage.value = "비밀번호가 일치합니다.";
+  } else {
+    isPasswordValid.value = false;
+    passwordMessage.value = "비밀번호가 일치하지 않습니다.";
+  }
+};
 watch(password, checkPasswordMatch);
 watch(confirmPassword, checkPasswordMatch);
 
 // 이메일 중복 체크 함수
-// const checkEmail = async () => {
-//   try {
-//     const response = await axios.get("/api/member/check-email", {
-//       params: { email: email.value },
-//     });
-//     if (response.data) {
-//       emailStatus.value = "사용 가능한 이메일입니다.";
-//       isEmailValid.value = true;
-//     } else {
-//       emailStatus.value = "이미 사용 중인 이메일입니다.";
-//       isEmailValid.value = false;
-//     }
-//   } catch (error) {
-//     emailStatus.value = "이메일 확인에 실패했습니다.";
-//     isEmailValid.value = false;
-//   }
-// };
+const checkEmail = async () => {
+  try {
+    const response = await axios.get("/api/member/check-email", {
+      params: { email: email.value },
+    });
+    if (response.data) {
+      emailStatus.value = "사용 가능한 이메일입니다.";
+      isEmailValid.value = true;
+    } else {
+      emailStatus.value = "이미 사용 중인 이메일입니다.";
+      isEmailValid.value = false;
+    }
+  } catch (error) {
+    emailStatus.value = "이메일 확인에 실패했습니다.";
+    isEmailValid.value = false;
+  }
+};
 
 const handleSubmit = async () => {
   try {
@@ -213,6 +205,9 @@ const handleSubmit = async () => {
     });
     message.value = response.data;
     isSuccess.value = true;
+
+    alert("회원가입에 성공하였습니다");
+
     router.push("/login");
   } catch (error) {
     message.value =
@@ -228,12 +223,10 @@ const handleSubmit = async () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  padding: 20px;
 }
 
 .register-form {
-  padding: 40px;
+  padding: 45px 40px;
   text-align: center;
   width: 400px;
 }
@@ -304,7 +297,7 @@ const handleSubmit = async () => {
 }
 
 .button-group {
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
 .btn-register {
@@ -322,12 +315,15 @@ const handleSubmit = async () => {
 
 .success {
   color: green;
-  margin-top: 10px;
+  margin-top: 13px;
+  font-size: 13px;
 }
 
-.error {
+.error,
+.error-message {
   color: red;
-  margin-top: 10px;
+  margin-top: 13px;
+  font-size: 13px;
 }
 
 /* 반응형 스타일 */

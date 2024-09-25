@@ -1,56 +1,76 @@
 <template>
-  <div v-if="hasAccess">
-    <!-- 개인정보 동의 모달 -->
-    <div v-if="showAcceptedPrivacyModal" class="modal">
-      <div class="modal-content">
-        <h3>개인정보 처리 방침 동의</h3>
-        <p>채팅방에 입장하기 전에 개인정보 처리 방침에 동의해주세요.</p>
-        <button @click="acceptPrivacy">동의</button>
-        <button @click="declinePrivacy">취소</button>
-      </div>
-    </div>
-
-    <div class="chat-room">
-      <div class="chat-header">
-        <!-- <h2>{{ chat.title }}</h2> -->
-      </div>
-      <div ref="chatMessages" class="chat-messages">
-        <div
-          v-for="(item, idx) in recvList"
-          :key="idx"
-          :class="{
-            'my-message': item.senderId === this.senderId, // 내 메시지
-            'other-message': item.senderId !== this.senderId, // 상대 메시지
-          }"
-          class="message-item"
-        >
-          <div class="message-text">{{ item.message }}</div>
-          <div class="message-time">{{ item.sendTime }}</div>
+  <div>
+    <div v-if="hasAccess">
+      <!-- 개인정보 동의 모달 -->
+      <div v-if="showAcceptedPrivacyModal" class="modal">
+        <div class="modal-content">
+          <div>
+            <h4>🚨 안내 메시지 🚨</h4>
+            <p>
+              ⭐ 개인정보 보호를 위해
+              <strong>주소, 휴대폰번호, 계좌번호 등의 개인 정보</strong>를 절대
+              주고받지 마세요.
+            </p>
+            <p>
+              ⭐ 개인정보 유출 시 발생하는 문제에 대해
+              <strong>찾아줘홈즈'는 책임을 지지 않습니다</strong>
+            </p>
+            <p>⭐ 안전한 채팅을 위해 협조 부탁드립니다. 감사합니다!</p>
+          </div>
+          <div class="btn-group">
+            <button @click="acceptPrivacy" class="modal-button">동의</button>
+            <button @click="declinePrivacy" class="modal-button">취소</button>
+          </div>
         </div>
       </div>
-      <div v-if="!canSend" class="point-buttons">
-        <button v-if="currentPoints >= 1000" @click="payPoints">
-          포인트 1000 사용
-        </button>
-        <button v-else @click="chargePoints">포인트 충전하러 가기</button>
-      </div>
-      <div class="chat-input">
-        <input
-          v-model="message"
-          type="text"
-          :placeholder="
-            canSend ? '메세지를 작성하세요.' : '채팅 한도 5회를 초과하였습니다.'
-          "
-          @keyup.enter="sendMessage"
-          :disabled="!canSend"
-        />
-        <button @click="sendMessage" :disabled="!canSend">보내기</button>
+
+      <div class="chat-room">
+        <header class="estimate-top-header" @click="goBack">
+          <button class="back-button">&lt;</button>
+          <h2>채팅</h2>
+          <span class="header-span">의뢰인과 채팅하기</span>
+        </header>
+
+        <div ref="chatMessages" class="chat-messages">
+          <div
+            v-for="(item, idx) in recvList"
+            :key="idx"
+            :class="{
+              'my-message': item.senderId === this.senderId, // 내 메시지
+              'other-message': item.senderId !== this.senderId, // 상대 메시지
+            }"
+            class="message-item"
+          >
+            <div class="message-text">{{ item.message }}</div>
+            <div class="message-time">{{ timeconvert(item.sendTime) }}</div>
+          </div>
+        </div>
+        <div v-if="!canSend" class="point-buttons">
+          <button v-if="currentPoints >= 1000" @click="payPoints">
+            계속 채팅을 원하는 경우, 1000 포인트 사용
+          </button>
+          <button v-else @click="chargePoints">포인트 충전하러 가기</button>
+        </div>
+        <div class="chat-input">
+          <input
+            v-model="message"
+            type="text"
+            :placeholder="
+              canSend
+                ? '메세지를 작성하세요.'
+                : '채팅 한도 5회를 초과하였습니다.'
+            "
+            @keyup.enter="sendMessage"
+            :disabled="!canSend"
+          />
+          <button @click="sendMessage" :disabled="!canSend">보내기</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div v-else-if="!hasAccess">
-    <!-- 권한이 없을 때 -->
-    <p>채팅방에 접근할 권한이 없습니다.</p>
+    <div v-else-if="!hasAccess">
+      <!-- 권한이 없을 때 -->
+      <p>채팅방에 접근할 권한이 없습니다.</p>
+    </div>
   </div>
 </template>
 
@@ -97,6 +117,9 @@ export default {
   },
 
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     async checkCanSendMessage() {
       this.token = localStorage.getItem("token");
 
@@ -357,44 +380,131 @@ export default {
         }
       });
     },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    },
   },
 };
 </script>
+
 <style scoped>
+.estimate-top-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+h2 {
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.header-span {
+  color: #666;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
+}
+
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  z-index: 1000;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .modal-content {
   background: white;
   padding: 20px;
   border-radius: 5px;
+  width: 350px;
+  height: 260px;
 }
 
 .chat-room {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 81vh;
 }
 
-.chat-header {
+/* .chat-header {
   padding: 10px;
   background-color: #f5f5f5;
 }
+*/
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+}
+
+h4 {
+  text-align: center;
+  font-size: 15px;
+  padding: 7px 0;
+  background-color: #f7f28457;
+}
+
+p {
+  font-size: 13px;
+  margin: 20px 7px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.point-buttons {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.point-buttons button {
+  padding: 6px 14px;
+  background-color: #ababab7a;
+  border: none;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  position: relative;
+  top: 15px;
+}
+
+.modal-button {
+  padding: 6px 30px;
+  background-color: #ffdf3e9c;
+  border: none;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
 }
 
 /* 공통 메시지 스타일 */
@@ -411,10 +521,11 @@ export default {
 }
 
 .my-message .message-text {
-  background-color: #d1f7c4; /* 내 메시지의 배경색 (연한 녹색) */
+  background-color: #ffdf3e5e;
   color: black;
   padding: 10px;
-  border-radius: 10px 10px 0 10px; /* 왼쪽 위만 둥글지 않게 */
+  font-size: 14px;
+  border-radius: 10px 10px 0 10px;
 }
 
 /* 상대 메시지 (왼쪽 배치) */
@@ -440,7 +551,7 @@ export default {
 
 .chat-input {
   display: flex;
-  padding: 10px;
+  padding: 18px;
   background-color: #f5f5f5;
 }
 
@@ -455,13 +566,14 @@ export default {
 .chat-input button {
   padding: 10px;
   border-radius: 5px;
-  background-color: #4caf50;
-  color: white;
+  font-weight: 600;
+  background-color: #ffdf3ef7;
+  color: #0a0404;
   border: none;
   cursor: pointer;
 }
 
 .chat-input button:hover {
-  background-color: #45a049;
+  background-color: #ffdf3ef7;
 }
 </style>

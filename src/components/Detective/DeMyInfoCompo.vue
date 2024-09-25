@@ -239,10 +239,6 @@
           </form>
         </div>
       </div>
-
-      <p v-if="message" :class="{ success: isSuccess, error: !isSuccess }">
-        {{ message }}
-      </p>
     </div>
     <div v-if="isModalVisible" class="modal" @click="closeModal">
       <div class="modal-content" @click.stop>
@@ -397,10 +393,10 @@ const getUser = async () => {
 const checkPasswordMatch = () => {
   if (newPassword.value === confirmPassword.value) {
     isPasswordValid.value = true;
-    passwordMessage.value = "비밀번호가 일치합니다.";
+    passwordMessage.value = "비밀번호가 일치합니다";
   } else {
     isPasswordValid.value = false;
-    passwordMessage.value = "비밀번호가 일치하지 않습니다.";
+    passwordMessage.value = "비밀번호가 일치하지 않습니다. 확인해주세요";
   }
 };
 watch(newPassword, checkPasswordMatch);
@@ -657,9 +653,9 @@ h1 {
 
 textarea {
   resize: none;
-  height: 100px;
-  font-family: none;
-  line-height: 22px;
+  height: 200px;
+  line-height: 23px;
+  font-family: auto;
 }
 
 .delete-btn {
@@ -763,12 +759,16 @@ li button:hover {
 
 .success {
   color: green;
-  margin-top: 10px;
+  margin-top: 9px;
+  font-size: 13px;
+  text-align: center;
 }
 
 .error {
   color: red;
-  margin-top: 10px;
+  margin-top: 9px;
+  font-size: 13px;
+  text-align: center;
 }
 
 /* 이미지 스타일 */

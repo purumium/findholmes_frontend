@@ -9,8 +9,11 @@
     <section class="services">
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
-        <div>내가 작성한 의뢰서와</div>
-        <div>홈즈에게 받은 답변서를 확인해보세요</div>
+        <div>
+          <strong>내가 작성한 의뢰서</strong>와
+          <strong>홈즈에게 받은 답변서</strong>를 확인하고
+        </div>
+        <div>마음에 드는 홈즈와 이야기를 나누어보세요</div>
       </div>
     </section>
 
@@ -25,11 +28,9 @@
             <img class="request-icon" src="/images/estimate.png" alt="의뢰서" />
             <span class="name-tag">의뢰서</span>
           </div>
-          <!-- <img class="request-icon" src="/images/estimate.png" alt="의뢰서" /> -->
           <div class="request-details">
             <div class="request-title">
               <span>{{ request.title }}</span>
-              <!-- <span class="name-tag">의뢰서</span> -->
             </div>
             <p>✔️ 의뢰일자 : {{ timeconvert(request.createAt) }}</p>
             <p>✔️ 의뢰분야 : {{ request.speciality }}</p>
@@ -157,7 +158,7 @@ h2 {
 }
 
 .service-card div {
-  font-size: 13px;
+  font-size: 14px;
   color: #190404;
   margin: 5px 0;
 }
@@ -178,7 +179,7 @@ h2 {
 }
 
 .request-details p {
-  margin: 2px 0;
+  margin: 4px 0;
 }
 
 .request-list {
@@ -202,7 +203,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 10px 20px;
+  padding: 20px 20px;
   min-width: 340px;
   background-color: #8080800f;
   cursor: pointer;
@@ -219,13 +220,13 @@ h2 {
 }
 
 .request-details {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .request-title {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
-  margin-bottom: 6px;
+  margin-bottom: 7px;
 }
 
 .card-right {
@@ -243,9 +244,9 @@ h2 {
 .response-button {
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 6px 17px;
+  padding: 6px 10px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
 }
