@@ -17,7 +17,9 @@
           >
             <div class="detective-info">
               <div class="detective-details">
-                <div class="detective-name">{{ estimate.detectiveName }}</div>
+                <div class="li-detective-name">
+                  {{ estimate.detectiveName }}
+                </div>
                 <div class="detective-price">{{ estimate.price }}원</div>
               </div>
             </div>
@@ -49,18 +51,33 @@
                   </button>
                 </div>
                 <div class="detective-contact">
-                  <span v-if="selectedDetective.gender === 'MALE'">
+                  <span
+                    v-if="
+                      selectedDetective.gender === 'MALE' ||
+                      selectedDetective.gender === 'Male'
+                    "
+                  >
                     👤 남자 &nbsp;
                   </span>
-                  <span v-if="selectedDetective.gender === 'FEMALE'">
+                  <span
+                    v-else-if="
+                      selectedDetective.gender === 'FEMALE' ||
+                      selectedDetective.gender === 'Female'
+                    "
+                  >
                     👤 여자 &nbsp;
                   </span>
-                  <span v-if="selectedDetective.gender === 'ANY'">
+                  <span
+                    v-else-if="
+                      selectedDetective.gender === 'ANY' ||
+                      selectedDetective.gender === 'Any'
+                    "
+                  >
                     👤 전체 &nbsp;</span
                   >
                   <span>📍 {{ selectedDetective.location }} &nbsp; </span>
-                  <div>
-                    📍
+                  <div class="location">
+                    ✔️
                     <span
                       v-for="(name, index) in selectedDetective.speciality"
                       :key="index"
@@ -101,7 +118,10 @@
               <div class="title">답변내용</div>
             </label>
             <div class="estimate-body">
-              <p>{{ selectedDetective.description }}</p>
+              <textarea
+                v-model="selectedDetective.description"
+                readonly
+              ></textarea>
             </div>
           </div>
 
@@ -283,7 +303,7 @@ h2 {
 
 .sidebar li {
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 13px 15px;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
@@ -294,16 +314,22 @@ h2 {
 }
 
 .sidebar li.active {
-  background-color: #dcdcdc;
+  background-color: #fffcfc;
   font-weight: bold !important;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1) !important;
   border-top-right-radius: 10px !important;
   border-bottom-right-radius: 10px !important;
 }
 
-.detective-name {
+.li-detective-name {
   display: flex;
-  justify-content: start;
+  justify-content: center;
+  font-size: 14px;
+  min-width: 43px;
+  border: 1px solid #8080802e;
+  border-radius: 20px;
+  background-color: #80808012;
+  padding: 2px 7px;
 }
 
 .detective-price {
@@ -393,9 +419,14 @@ h2 {
   width: 47%;
 }
 
+.location {
+  margin-top: 5px;
+}
+
 .title {
-  margin: 17px 0 5px 0;
+  margin: 25px 0 7px 0;
   font-weight: 600;
+  font-size: 14px;
 }
 
 .estimate-title {
@@ -403,6 +434,7 @@ h2 {
   border-radius: 10px;
   border: 1px solid #ddd;
   padding: 10px 14px;
+  font-size: 14px;
 }
 
 .estimate-title-span {
@@ -417,7 +449,7 @@ h2 {
 }
 
 .estimate-content {
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
 .estimate-createat {
@@ -427,11 +459,22 @@ h2 {
 }
 
 .estimate-body {
-  padding: 10px 15px;
-  height: 200px;
+  padding: 10px 10px;
+  height: 230px;
   background-color: #f9f9f9;
   border-radius: 10px;
   border: 1px solid #ddd;
+}
+
+textarea {
+  border: none;
+  resize: none;
+  width: 100%;
+  height: 210px;
+  line-height: 23px;
+  font-family: auto;
+  font-size: 14px;
+  background-color: #80808000;
 }
 
 .actions {

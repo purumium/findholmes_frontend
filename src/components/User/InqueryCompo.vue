@@ -51,9 +51,19 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    roles() {
+      return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
+    },
+    filteredCategories() {
+      return this.roles === "ROLE_DETECTIVE"
+        ? this.detectiveCategories
+        : this.userCategories;
+    },
+  },
+};
 </script>
-
 <style scoped>
 .inquiry-container {
   font-family: Arial, sans-serif;

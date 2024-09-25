@@ -2,15 +2,15 @@
   <div class="estimate-container">
     <header class="estimate-header" @click="goBack">
       <button class="back-button">&lt;</button>
-      <h2>보낸 답변서</h2>
+      <h2>보낸 답변서 보기</h2>
       <span class="header-span"></span>
     </header>
 
     <section class="services">
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
-        <div>홈즈가 작성한 답변서 목록입니다.</div>
-        <div>의뢰서와 답변서를 함께 확인해보세요.</div>
+        <div>홈즈가 작성한 답변서 목록입니다</div>
+        <div><strong>의뢰서와 관련된 답변서를 확인</strong>해보세요</div>
       </div>
     </section>
 
@@ -179,7 +179,7 @@ h2 {
 }
 
 .service-card div {
-  font-size: 13px;
+  font-size: 14px;
   color: #190404;
   margin: 5px 0;
 }

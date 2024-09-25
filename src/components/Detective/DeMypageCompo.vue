@@ -99,9 +99,6 @@
       </div>
     </div>
   </div>
-  <div>
-    <button @click="sendEmail">Login with Google</button>
-  </div>
 </template>
 
 <script>
@@ -113,7 +110,7 @@ export default {
       profileImage: "",
       userName: "",
       email: "",
-      points: 1000,
+      points: 0,
       approvalStatus: "",
       rejectionReason: "",
       loaded: false,
@@ -135,7 +132,6 @@ export default {
         alert("탐정 등록 승인 완료 되었습니다.");
       } else if (this.approvalStatus === "4") {
         this.isRejectionModalVisible = true; // 모달 열기
-        // this.$router.push("/detective/register");
       } else {
         const someValue = "register";
         this.$router.push(`/detective/register?value=${someValue}`);
@@ -146,7 +142,15 @@ export default {
       this.$router.push(`/detective/register?value=${someValue}`);
     },
     editMyinfo() {
-      this.$router.push("/detective/myinfo");
+      if (
+        this.approvalStatus === "1" ||
+        this.approvalStatus === "2" ||
+        this.approvalStatus === "4"
+      ) {
+        alert("탐정 등록 완료 후 프로필 편집이 가능합니다");
+      } else if (this.approvalStatus === "3") {
+        this.$router.push("/detective/myinfo");
+      }
     },
     pointUsageHistory() {
       this.$router.push("/detective/point");
@@ -210,6 +214,7 @@ export default {
         const response = await axios.get("/api/detective/getDetectiveDetail");
         this.userName = response.data.userName;
         this.email = response.data.email;
+        this.points = response.data.currentPoints;
 
         if (response.data.profilePicture === null) {
           this.profileImage = "/images/logofordetective_register.png"; // 기본 이미지 경로
@@ -227,21 +232,6 @@ export default {
     },
     closeRejectionModal() {
       this.isRejectionModalVisible = false;
-    },
-
-    async sendEmail() {
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      try {
-        const response = await axios.post("/api/email/send", {
-          to: "purumium@gmail.com",
-          subject: "테스트",
-          body: "테스트입니다",
-        });
-        console.log(response.data);
-      } catch (error) {
-        console.error("Email sending failed:", error);
-      }
     },
   },
 };

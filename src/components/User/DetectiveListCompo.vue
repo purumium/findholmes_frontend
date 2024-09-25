@@ -12,7 +12,9 @@
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
         <div>홈즈의 프로필을 확인하고</div>
-        <div>마음에 드는 홈즈에게 의뢰서를 요청해보세요</div>
+        <div>
+          마음에 드는 홈즈에게 <strong>직접 의뢰서를 요청</strong>해보세요
+        </div>
       </div>
     </section>
 
@@ -196,7 +198,7 @@ h2 {
 }
 
 .service-card div {
-  font-size: 13px;
+  font-size: 14px;
   color: #190404;
   margin: 5px 0;
 }

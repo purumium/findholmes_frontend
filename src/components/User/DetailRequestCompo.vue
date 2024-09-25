@@ -48,7 +48,7 @@
           <tr>
             <td class="value" colspan="4">
               <div class="description">
-                {{ request.description }}
+                <textarea v-model="request.description" readonly></textarea>
               </div>
             </td>
           </tr>
@@ -101,9 +101,9 @@ export default {
       this.$router.push(`/detective/reply/${this.request.requestId}`);
     },
     convertGender(detectiveGender) {
-      if (detectiveGender === "MALE") {
+      if (detectiveGender === "MALE" || detectiveGender === "Male") {
         return "남자";
-      } else if (detectiveGender === "FEMALE") {
+      } else if (detectiveGender === "FEMALE" || detectiveGender === "Female") {
         return "여자";
       } else {
         return "전체";
@@ -123,7 +123,7 @@ export default {
 </script>
 
 <style scoped>
-<style scoped > .request-container {
+.request-container {
   font-family: Arial, sans-serif;
 }
 
@@ -179,10 +179,15 @@ h3 {
   border-collapse: collapse;
 }
 
-.request-table td {
-  padding: 15px;
+.request-table td:nth-child(1) {
+  padding: 12px 0px;
   border-top: 1px solid #8080803b;
-  width: 100px;
+  text-align: center;
+}
+
+.request-table td:nth-child(2) {
+  border-top: 1px solid #8080803b;
+  padding-left: 10px;
 }
 
 .label {
@@ -198,13 +203,6 @@ h3 {
   font-family: math !important;
 }
 
-.description {
-  margin: 0; /* 외부 마진을 없앰 */
-  min-height: 210px;
-  height: 210px;
-  line-height: 20px;
-}
-
 .response-btn {
   width: 100%;
   background-color: #ffdf3e9c;
@@ -215,6 +213,20 @@ h3 {
   font-weight: 600;
   cursor: pointer;
   margin-top: 16px;
+}
+
+.description {
+  height: 280px;
+}
+
+textarea {
+  border: none;
+  resize: none;
+  width: 100%;
+  height: 266px;
+  line-height: 23px;
+  font-family: math;
+  padding: 4px;
 }
 
 @media screen and (max-width: 768px) {
@@ -230,22 +242,16 @@ h3 {
     background-color: #f5f5f5;
     font-weight: bold;
     text-align: left;
-    padding: 5px 8px !important;
   }
 
   .value {
     text-align: left;
-    padding: 5px 8px !important;
   }
 
   .request-table td {
-    padding: 8px;
-    font-size: 11px;
-  }
-
-  .description {
-    min-height: 150px;
-    height: 150px;
+    padding: 10px 7px;
+    font-size: 13px;
+    width: 90px;
   }
 }
 
@@ -282,18 +288,6 @@ h3 {
     text-align: center;
     font-size: 16px;
     letter-spacing: 5px;
-  }
-
-  .description {
-    min-height: 150px;
-    height: 150px;
-  }
-
-  .request-table td {
-    font-size: 11px;
-    padding: 15px;
-    border-top: 1px solid #8080803b;
-    width: 75px;
   }
 }
 </style>

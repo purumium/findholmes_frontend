@@ -9,8 +9,8 @@
     <section class="services">
       <div class="service-card">
         <img src="@/assets/main/service1.png" />
-        <div>지역별, 전문 분야별 홈즈를 검색하고</div>
-        <div>의뢰서를 직접 요청해보세요</div>
+        <div>지역별, 전문 분야별로 홈즈를 검색하고</div>
+        <div><strong>원하는 홈즈에게 직접 </strong> 의뢰서를 요청해보세요</div>
       </div>
     </section>
 
@@ -235,7 +235,7 @@ h2 {
 }
 
 .service-card div {
-  font-size: 13px;
+  font-size: 14px;
   color: #190404;
   margin: 5px 0;
 }

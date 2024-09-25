@@ -11,12 +11,12 @@
         <div class="service-card">
           <img src="@/assets/main/service1.png" />
           <div>의뢰인의 요청이 오면</div>
-          <div>견적서를 작성합니다</div>
+          <div>홈즈는 답변서를 작성합니다</div>
         </div>
         <div class="service-card">
           <img src="@/assets/main/service2.png" />
-          <div>의뢰인이 견적서를 보고</div>
-          <div>탐정에게 의뢰를 맡깁니다</div>
+          <div>의뢰인은 답변서를 보고</div>
+          <div>홈즈에게 의뢰를 맡깁니다</div>
         </div>
         <div class="service-card">
           <img src="@/assets/main/service3.png" />
@@ -77,7 +77,7 @@ export default {};
 
 .services {
   text-align: center;
-  padding: 30px 0 50px 0;
+  padding: 18px 0 50px 0;
   width: 100%;
 }
 
@@ -106,7 +106,7 @@ export default {};
 
 .service-card div {
   font-size: 13px;
-  letter-spacing: -0.5px;
+  letter-spacing: -1px;
   color: #190404;
   margin: 5px 0;
 }

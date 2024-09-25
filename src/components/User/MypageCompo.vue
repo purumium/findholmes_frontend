@@ -77,7 +77,7 @@ export default {
       profileImage: "/images/logoforuser_register.png", // 기본 프로필 이미지
       userName: "",
       email: "",
-      points: 1000, // 포인트 기본값
+      points: "0", // 포인트 기본값
     };
   },
   mounted() {
@@ -114,10 +114,13 @@ export default {
     async getUser() {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
       try {
-        const response = await axios.get("/api/member/userinfo");
+        const response = await axios.get("/api/member/user/allinfo");
         this.userName = response.data.userName;
         this.email = response.data.email;
+        this.points = response.data.currentPoints;
+
         console.log(response.data);
       } catch (error) {
         console.error(error);

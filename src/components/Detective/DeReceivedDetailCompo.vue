@@ -45,7 +45,7 @@
           <tr>
             <td class="value" colspan="4">
               <div class="description">
-                {{ request.description }}
+                <textarea v-model="request.description" readonly></textarea>
               </div>
             </td>
           </tr>
@@ -179,10 +179,15 @@ h3 {
   border-collapse: collapse;
 }
 
-.request-table td {
-  padding: 15px;
+.request-table td:nth-child(1) {
+  padding: 12px 0px;
   border-top: 1px solid #8080803b;
-  width: 100px;
+  text-align: center;
+}
+
+.request-table td:nth-child(2) {
+  border-top: 1px solid #8080803b;
+  padding-left: 10px;
 }
 
 .label {
@@ -198,13 +203,6 @@ h3 {
   font-family: math !important;
 }
 
-.description {
-  margin: 0; /* 외부 마진을 없앰 */
-  min-height: 210px;
-  height: 210px;
-  line-height: 20px;
-}
-
 .response-btn {
   width: 100%;
   background-color: #ffdf3e9c;
@@ -217,35 +215,49 @@ h3 {
   margin-top: 16px;
 }
 
+.description {
+  height: 260px;
+}
+
+textarea {
+  border: none;
+  resize: none;
+  width: 100%;
+  height: 240px;
+  line-height: 23px;
+  font-family: math;
+  padding: 4px 10px;
+}
+
 @media screen and (max-width: 768px) {
-  .request-form-table {
-    padding: 20px 10px;
-  }
-
-  .p {
-    font-size: 12px;
-  }
-
-  .label {
-    background-color: #f5f5f5;
-    font-weight: bold;
-    text-align: left;
-    padding: 5px 8px !important;
-  }
-
-  .value {
-    text-align: left;
-    padding: 5px 8px !important;
+  /* 768px 이하 화면 - 태블릿 화면 대응 */
+  .request-container {
+    max-width: 90%;
+    padding: 10px;
   }
 
   .request-table td {
-    padding: 8px;
     font-size: 12px;
+    padding: 6px;
+  }
+
+  .request-header {
+    font-size: 14px;
   }
 
   .description {
-    min-height: 150px;
-    height: 150px;
+    min-height: 120px;
+    height: 120px;
+  }
+
+  textarea {
+    width: 320px;
+    height: 120px;
+  }
+
+  .response-btn {
+    font-size: 11px;
+    padding: 5px 0;
   }
 }
 
@@ -269,31 +281,47 @@ h3 {
     margin: 5px 0 0 5px;
   }
 
-  .request-contain {
-    display: flex;
-    flex-direction: column;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 15px 10px;
-  }
-
-  h3 {
-    margin: 10px;
-    text-align: center;
-    font-size: 16px;
-    letter-spacing: 5px;
+  .request-table td {
+    font-size: 10px;
+    padding: 5px;
   }
 
   .description {
-    min-height: 150px;
-    height: 150px;
+    min-height: 100px;
+    height: 100px;
+  }
+
+  textarea {
+    width: 260px;
+    height: 100px;
+  }
+
+  .response-btn {
+    font-size: 10px;
+    padding: 4px 0;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  /* 320px 이하 화면 - 소형 모바일 화면 대응 */
+
+  .header-span {
+    font-size: 8px;
   }
 
   .request-table td {
-    font-size: 12px;
-    padding: 15px;
-    border-top: 1px solid #8080803b;
-    width: 75px;
+    font-size: 9px;
+    padding: 4px;
+  }
+
+  textarea {
+    width: 200px;
+    height: 80px;
+  }
+
+  .response-btn {
+    font-size: 9px;
+    padding: 3px 0;
   }
 }
 </style>

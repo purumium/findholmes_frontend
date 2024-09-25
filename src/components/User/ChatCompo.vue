@@ -1,14 +1,38 @@
 <template>
-  <div class="chat-list">
-    <div
-      v-for="chatRoom in chatRoomList"
-      :key="chatRoom.id"
-      class="chat-item"
-      @click="goToChatRoom(chatRoom.chatRoomId)"
-    >
-      <div class="chat-title">{{ chatRoom.participants[0].userName }}</div>
-      <div class="chat-preview">{{ chatRoom.lastMessage }}</div>
-      <div class="chat-preview">{{ chatRoom.lastChatTime }}</div>
+  <div class="estimate-container">
+    <header class="estimate-top-header" @click="goBack">
+      <button class="back-button">&lt;</button>
+      <h2>채팅</h2>
+      <span class="header-span">홈즈와 채팅하기</span>
+    </header>
+    <div class="chat-list">
+      <div
+        v-for="chatRoom in chatRoomList"
+        :key="chatRoom.id"
+        class="chat-item"
+        @click="goToChatRoom(chatRoom.chatRoomId)"
+      >
+        <div>
+          <div class="chat-title">
+            <span class="name-tag">홈즈</span>
+            <span>{{ chatRoom.participants[0].userName }}</span>
+          </div>
+          <div class="chat-preview">
+            <!-- 마지막 메시지가 있을 경우 -->
+            <span
+              v-if="
+                chatRoom.lastMessage !== null && chatRoom.lastMessage !== ''
+              "
+            >
+              {{ chatRoom.lastMessage }}
+            </span>
+
+            <!-- 마지막 메시지가 없을 경우 -->
+            <span v-else> 대화내용이 없습니다 </span>
+          </div>
+        </div>
+        <div class="chat-preview">{{ timeconvert(chatRoom.lastChatTime) }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -49,28 +73,89 @@ export default {
     goToChatRoom(chatRoomId) {
       this.$router.push({ name: "ChatRoom", params: { chatRoomId } });
     },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
+    },
   },
 };
 </script>
 
 <style scoped>
-.chat-list {
-  padding: 10px;
+.estimate-container {
+  font-family: Arial, sans-serif;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
+
+.estimate-top-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #80808012;
+}
+
+.back-button {
+  font-size: 21px;
+  margin-left: 0px;
+  padding: 8px 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+h2 {
+  margin-left: -5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.header-span {
+  color: #666;
+  font-size: 12px;
+  margin: 5px 0 0 5px;
+}
+
+/* .chat-list {
+  padding: 0 10px;
+} */
 
 .chat-item {
   display: flex;
-  flex-direction: column;
-  padding: 10px;
+  justify-content: space-between;
+  padding: 20px 20px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
 }
 
 .chat-title {
   font-weight: bold;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
 }
 
 .chat-preview {
-  color: gray;
+  color: #808080cc;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.name-tag {
+  border: 1px solid #ffdf3e99;
+  padding: 3px 7px;
+  border-radius: 20px;
+  color: #534c4c;
+  background-color: #ffdf3e99;
+  font-size: 10px;
+  font-weight: 600;
+  margin-right: 5px;
 }
 </style>
