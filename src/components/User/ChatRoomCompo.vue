@@ -28,21 +28,30 @@
         <header class="estimate-top-header" @click="goBack">
           <button class="back-button">&lt;</button>
           <h2>채팅</h2>
-          <span class="header-span">의뢰인과 채팅하기</span>
+          <span class="header-span">홈즈와 채팅하기</span>
         </header>
 
         <div ref="chatMessages" class="chat-messages">
           <div
             v-for="(item, idx) in recvList"
             :key="idx"
-            :class="{
-              'my-message': item.senderId === this.senderId, // 내 메시지
-              'other-message': item.senderId !== this.senderId, // 상대 메시지
-            }"
-            class="message-item"
+            class="message-container"
           >
-            <div class="message-text">{{ item.message }}</div>
-            <div class="message-time">{{ timeconvert(item.sendTime) }}</div>
+            <div v-if="showDateHeader(idx)" class="date-wrapper">
+              <div class="date-header">
+                {{ formatDate(item.sendTime) }}
+              </div>
+            </div>
+            <div
+              :class="{
+                'my-message': item.senderId === this.senderId,
+                'other-message': item.senderId !== this.senderId,
+              }"
+              class="message-item"
+            >
+              <div class="message-text">{{ item.message }}</div>
+              <div class="message-time">{{ timeconvert(item.sendTime) }}</div>
+            </div>
           </div>
         </div>
         <div v-if="!canSend" class="point-buttons">
@@ -80,7 +89,8 @@ import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
 
 export default {
-  name: "App",
+  props: ["chatRoomId"],
+
   data() {
     return {
       hasAccess: false,
@@ -88,7 +98,6 @@ export default {
       canSend: null,
       currentPoints: 0,
       // userName: "",
-      // chatRoomId: null,
       senderId: null,
       message: "",
       recvList: [],
@@ -107,12 +116,6 @@ export default {
     this.showConsentModal = true;
     this.checkCanSendMessage();
     this.getCurrentPoints();
-  },
-
-  computed: {
-    chatRoomId() {
-      return this.$route.params.chatRoomId; // route params에서 chatRoomId 가져옴
-    },
   },
 
   methods: {
@@ -381,12 +384,31 @@ export default {
     },
     timeconvert(time) {
       const converttime = new Date(time);
-      const year = converttime.getFullYear();
-      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
-      const day = String(converttime.getDate()).padStart(2, "0");
+      // const year = converttime.getFullYear();
+      // const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      // const day = String(converttime.getDate()).padStart(2, "0");
       const hour = String(converttime.getHours()).padStart(2, "0");
       const minute = String(converttime.getMinutes()).padStart(2, "0");
-      return `${year}-${month}-${day} ${hour}:${minute}`;
+      // return `${year}-${month}-${day} ${hour}:${minute}`;
+      return `${hour}:${minute}`;
+    },
+    formatDate(datetime) {
+      const date = new Date(datetime);
+      const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "long",
+      };
+      return date.toLocaleDateString("ko-KR", options); // 한국어 형식으로 변환
+    },
+    showDateHeader(idx) {
+      if (idx === 0) return true;
+      const currentDate = new Date(this.recvList[idx].sendTime).toDateString();
+      const previousDate = new Date(
+        this.recvList[idx - 1].sendTime
+      ).toDateString();
+      return currentDate !== previousDate;
     },
   },
 };
@@ -445,7 +467,7 @@ h2 {
 .chat-room {
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 83vh;
 }
 
 /* .chat-header {
@@ -506,46 +528,79 @@ p {
   font-weight: 600;
 }
 
+/* 날짜 중앙 정렬 */
+.date-wrapper {
+  display: flex;
+  justify-content: center; /* 날짜를 수평으로 중앙에 정렬 */
+  margin: 20px 0; /* 위아래 간격 */
+  width: 100%; /* 부모 요소의 전체 너비 차지 */
+}
+
+.date-header {
+  background-color: #e7ebedd7; /* 배경색 */
+  border-radius: 20px; /* 둥근 모서리 */
+  padding: 12px 18px; /* 안쪽 여백 */
+  font-size: 0.8rem;
+  color: #666; /* 텍스트 색상 */
+  font-weight: normal; /* 텍스트 굵기 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+}
+
 /* 공통 메시지 스타일 */
+.message-container {
+  width: 100%; /* 부모 컨테이너의 전체 너비를 차지 */
+  display: block; /* 메시지가 중앙에 정렬되지 않도록 block으로 설정 */
+}
+
 .message-item {
   margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
+  display: inline-block; /* 메시지가 block처럼 보이게 함 */
+  max-width: 60%; /* 메시지 최대 너비 제한 */
+  clear: both; /* 메시지들이 서로 겹치지 않도록 함 */
 }
 
 /* 내 메시지 (오른쪽 배치) */
 .my-message {
-  align-self: flex-end; /* 메시지를 오른쪽으로 정렬 */
-  text-align: right;
+  float: right; /* 메시지를 오른쪽으로 정렬 */
+  text-align: left;
 }
 
 .my-message .message-text {
   background-color: #ffdf3e5e;
   color: black;
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 10px 10px 0 10px;
+  padding: 14px;
+  border-radius: 20px 20px 0 20px;
 }
 
 /* 상대 메시지 (왼쪽 배치) */
 .other-message {
-  align-self: flex-start; /* 메시지를 왼쪽으로 정렬 */
+  float: left; /* 메시지를 왼쪽으로 정렬 */
   text-align: left;
 }
 
 .other-message .message-text {
-  background-color: #f1f0f0; /* 상대 메시지의 배경색 (연한 회색) */
+  background-color: #f1f0f0;
   color: black;
-  padding: 10px;
-  border-radius: 10px 10px 10px 0; /* 오른쪽 위만 둥글지 않게 */
+  padding: 14px;
+  border-radius: 20px 20px 20px 0;
 }
 
-/* 공통 메시지 시간 스타일 */
 .message-time {
-  font-size: 0.8em;
-  color: gray;
-  margin-top: 5px;
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: -15px;
+  margin-left: -40px;
+  text-align: left;
+  display: block;
+}
+
+.other-message .message-time {
+  font-size: 0.85rem;
+  color: #888;
+  margin-top: -20px;
+  margin-right: -40px;
   text-align: right;
+  display: block;
 }
 
 .chat-input {
