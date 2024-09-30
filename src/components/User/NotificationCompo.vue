@@ -6,18 +6,53 @@
       <span class="header-span"></span>
     </header>
 
-    <div class="notification-contain">알림</div>
+    <div class="notification-contain">
+      알림
+      <div v-for="(notification, index) in notificationList" :key="index">
+        <ul>
+          <li>
+            <h3>{{ notification.title }}</h3>
+          </li>
+          <button
+            type="button"
+            @click="this.$router.push(notification.url)"
+          ></button>
+        </ul>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
+  data() {
+    return {
+      notificationList: [],
+    };
+  },
   computed: {
     roles() {
       return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
     },
+    ...mapGetters(["getId"]),
+  },
+  created() {
+    this.loadNotification();
   },
   methods: {
+    async loadNotification() {
+      try {
+        const response = await axios.get("/api/notification/list", {
+          params: { userId: this.getId },
+        });
+        this.notificationList = response.data;
+        console.log(this.notificationList);
+      } catch (error) {
+        return;
+      }
+    },
     goBack() {
       if (this.$route.path.startsWith("/detective")) {
         // 현재 경로가 '/detective'로 시작하면 브라우저 히스토리에서 뒤로 가기

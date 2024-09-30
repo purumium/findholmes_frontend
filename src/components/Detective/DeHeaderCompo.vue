@@ -43,11 +43,13 @@
             class="icon-wrapper"
             @mouseover="tooltipText = '알림'"
             @mouseleave="tooltipText = ''"
+            @click="moveToNotification"
           >
-            <router-link to="/detective/notification" active-class="active">
-              <font-awesome-icon :icon="['fas', 'bell']" class="icon" />
-            </router-link>
+            <font-awesome-icon :icon="['fas', 'bell']" class="icon" />
             <span v-if="tooltipText === '알림'" class="tooltip">알림</span>
+            <span class="notification-num" v-if="events.length > 0">{{
+              events.length
+            }}</span>
           </div>
 
           <div
@@ -68,12 +70,23 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
+import { mapGetters, useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { computed } from "vue";
 import { ref } from "vue";
 
 export default {
+  data() {
+    return {
+      events: ref([]),
+    };
+  },
+  created() {
+    this.setUpEventSource();
+  },
+  computed: {
+    ...mapGetters(["getId"]),
+  },
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -95,6 +108,44 @@ export default {
       tooltipText,
       handleLogout,
     };
+  },
+  methods: {
+    setUpEventSource() {
+      console.log("SSE연결전 : ", this.getId);
+      const eventSource = new EventSource(
+        `http://localhost:8080/notification/subscribe?userId=${this.getId}`
+      );
+      eventSource.onmessage = (event) => this.handleEvent(event);
+
+      eventSource.addEventListener("addMessage", (event) => {
+        console.log("addMessage 이벤트 수신: ", event.data);
+        this.handleEvent(event);
+      });
+
+      eventSource.onerror = this.handleConnectionError;
+      eventSource.onopen = this.handleConnectionOpen;
+      console.log("SSE연결후", eventSource);
+    },
+    handleEvent(event) {
+      console.log("event", this.events);
+      const eventData = JSON.parse(event.data);
+      this.events.push(eventData);
+      this.showNotification(eventData.message);
+    },
+    handleConnectionOpen() {
+      console.log("연결에 성공하였습니다.");
+    },
+    hadleConnectionError(error) {
+      console.error("연결 중 에러가 발생하였습니다.", error);
+    },
+    showNotification(message) {
+      console.log(message);
+    },
+    moveToNotification() {
+      (this.events = ref([])),
+        (this.notificationCount = 0),
+        this.$router.push("/notification");
+    },
   },
 };
 </script>
@@ -174,6 +225,23 @@ header {
   color: rgb(0 0 0 / 41%);
   white-space: nowrap;
   z-index: 10;
+}
+
+.notification-num {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  height: 15px;
+  width: 15px;
+  font-size: 15px;
+  font-weight: ;
+  color: white;
+  line-height: 20px;
+  text-align: center;
+  background-color: red;
+  border-radius: 15px;
+  display: inline-block;
 }
 
 /* 작은 화면 (태블릿 이하) 레이아웃 조정 */
