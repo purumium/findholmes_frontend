@@ -200,7 +200,7 @@ const routes = [
         component: ChatCompo,
       },
       {
-        path: "chatroom", // URL 경로에 chatRoomId를 파라미터로 받음
+        path: "chatroom/:chatRoomId", // URL 경로에 chatRoomId를 파라미터로 받음
         name: "ChatRoom",
         component: ChatRoomCompo, // ChatRoomCompo는 ChatRoom 컴포넌트로 대체
         props: (route) => ({

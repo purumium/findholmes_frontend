@@ -71,6 +71,7 @@ export default {
           token,
           user: decoded.sub,
           roles: decoded.roles, // 역할 저장 (roles 배열일 수 있음)
+          userId: decoded.id,
         });
 
         // 로컬 스토리지에 토큰 저장 (필요한 경우)
@@ -95,8 +96,6 @@ export default {
     const goToRegister = () => {
       router.push("/register"); // 회원가입 화면 이동
     };
-
-    
 
     return {
       username,
