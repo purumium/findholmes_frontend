@@ -21,6 +21,7 @@
     "jwt-decode": "^4.0.0",
     "sequelize": "^6.37.3",
     "sockjs-client": "^1.6.1",
+    "sweetalert2": "^11.14.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.13",
     "vue3-google-login": "^2.0.33",
