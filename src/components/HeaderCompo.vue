@@ -72,11 +72,15 @@
             class="icon-wrapper"
             @mouseover="tooltipText = '알림'"
             @mouseleave="tooltipText = ''"
+            @click="moveToNotification"
           >
-            <router-link to="/notification" active-class="active">
-              <font-awesome-icon :icon="['fas', 'bell']" class="icon" />
-            </router-link>
+            <font-awesome-icon :icon="['fas', 'bell']" class="icon" />
             <span v-if="tooltipText === '알림'" class="tooltip">알림</span>
+            <span
+              class="notification-num"
+              v-if="notificationCount + events.length > 0"
+              >{{ notificationCount + events.length }}</span
+            >
           </div>
 
           <div
@@ -97,12 +101,28 @@
 </template>
 
 <script>
-import { useStore } from "vuex";
+import { mapGetters, useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { computed } from "vue";
 import { ref } from "vue";
+import axios from "axios";
 
 export default {
+  data() {
+    return {
+      events: ref([]),
+      notificationCount: 0,
+    };
+  },
+  created() {
+    this.loadNotificationCount();
+  },
+  mounted() {
+    this.setUpEventSource();
+  },
+  computed: {
+    ...mapGetters(["getId"]),
+  },
   setup() {
     const store = useStore();
     const router = useRouter();
@@ -110,15 +130,20 @@ export default {
 
     // Vuex에서 로그인 상태를 가져오기
     const isAuthenticated = computed(() => store.getters.isAuthenticated);
-
+    const isUser = computed(() => store.getters.getId);
     const isRole = computed(() => store.getters.getRoles);
-
+    console.log(store.getters.getUser);
     // 로그아웃 처리 함수
     const handleLogout = async () => {
       await store.dispatch("logout"); // Vuex의 logout 액션 호출
       console.log(store.state);
       router.push("/login"); // 로그아웃 후 로그인 페이지로 리디렉션 (원하는 페이지로 변경 가능)
     };
+    console.log(
+      "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+      isAuthenticated.value,
+      isUser
+    );
 
     return {
       isAuthenticated,
@@ -126,6 +151,53 @@ export default {
       handleLogout,
       isRole,
     };
+  },
+  methods: {
+    async loadNotificationCount() {
+      try {
+        const response = await axios.get("/api/notification/receive", {
+          params: { userId: this.getId },
+        });
+        this.notificationCount = response.data;
+      } catch (error) {
+        console.log("미확인 알림 에러");
+      }
+    },
+    setUpEventSource() {
+      console.log("SSE연결전 : ", this.getId);
+      const eventSource = new EventSource(
+        `http://localhost:8080/notification/subscribe?userId=${this.getId}`
+      );
+      eventSource.onmessage = (event) => this.handleEvent(event);
+
+      eventSource.addEventListener("addMessage", (event) => {
+        console.log("addMessage 이벤트 수신: ", event.data);
+        this.handleEvent(event);
+      });
+
+      eventSource.onerror = this.handleConnectionError;
+      eventSource.onopen = this.handleConnectionOpen;
+      console.log("SSE연결후", eventSource);
+    },
+    handleEvent(event) {
+      const eventData = JSON.parse(event.data);
+      this.events.push(eventData);
+      this.showNotification(eventData.message);
+    },
+    handleConnectionOpen() {
+      console.log("연결에 성공하였습니다.");
+    },
+    hadleConnectionError(error) {
+      console.error("연결 중 에러가 발생하였습니다.", error);
+    },
+    showNotification(message) {
+      console.log(message);
+    },
+    moveToNotification() {
+      (this.events = ref([])),
+        (this.notificationCount = 0),
+        this.$router.push("/notification");
+    },
   },
 };
 </script>
@@ -227,6 +299,23 @@ header {
     font-size: 9px;
     bottom: -35px;
   }
+}
+
+.notification-num {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  height: 15px;
+  width: 15px;
+  font-size: 15px;
+  font-weight: ;
+  color: white;
+  line-height: 20px;
+  text-align: center;
+  background-color: red;
+  border-radius: 15px;
+  display: inline-block;
 }
 
 /* 더 작은 화면 (모바일) 레이아웃 조정 */
