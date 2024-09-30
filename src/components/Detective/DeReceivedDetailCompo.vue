@@ -222,7 +222,7 @@ h3 {
 textarea {
   border: none;
   resize: none;
-  width: 100%;
+  width: 94%;
   height: 240px;
   line-height: 23px;
   font-family: math;
@@ -230,12 +230,6 @@ textarea {
 }
 
 @media screen and (max-width: 768px) {
-  /* 768px 이하 화면 - 태블릿 화면 대응 */
-  .request-container {
-    max-width: 90%;
-    padding: 10px;
-  }
-
   .request-table td {
     font-size: 12px;
     padding: 6px;
@@ -243,16 +237,6 @@ textarea {
 
   .request-header {
     font-size: 14px;
-  }
-
-  .description {
-    min-height: 120px;
-    height: 120px;
-  }
-
-  textarea {
-    width: 320px;
-    height: 120px;
   }
 
   .response-btn {
@@ -286,42 +270,19 @@ textarea {
     padding: 5px;
   }
 
-  .description {
-    min-height: 100px;
-    height: 100px;
-  }
-
-  textarea {
-    width: 260px;
-    height: 100px;
-  }
-
   .response-btn {
     font-size: 10px;
     padding: 4px 0;
   }
-}
-
-@media screen and (max-width: 320px) {
-  /* 320px 이하 화면 - 소형 모바일 화면 대응 */
-
-  .header-span {
-    font-size: 8px;
-  }
-
-  .request-table td {
-    font-size: 9px;
-    padding: 4px;
-  }
 
   textarea {
-    width: 200px;
-    height: 80px;
-  }
-
-  .response-btn {
-    font-size: 9px;
-    padding: 3px 0;
+    border: none;
+    resize: none;
+    width: 94%;
+    height: 240px;
+    line-height: 23px;
+    font-family: math;
+    padding: 4px 8px;
   }
 }
 </style>
