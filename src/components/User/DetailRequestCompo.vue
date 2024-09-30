@@ -222,7 +222,7 @@ h3 {
 textarea {
   border: none;
   resize: none;
-  width: 100%;
+  width: 95%;
   height: 266px;
   line-height: 23px;
   font-family: math;
