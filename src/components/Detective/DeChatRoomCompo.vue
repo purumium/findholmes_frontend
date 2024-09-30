@@ -50,6 +50,12 @@
               class="message-item"
             >
               <div class="message-text">{{ item.message }}</div>
+              <div
+                class="message-isRead"
+                v-if="item.senderId === this.senderId"
+              >
+                {{ item.readCount === 2 ? "읽음" : "안읽음" }}
+              </div>
               <div class="message-time">{{ timeconvert(item.sendTime) }}</div>
             </div>
           </div>
@@ -76,9 +82,24 @@
 import axios from "axios";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
 
 export default {
   props: ["chatRoomId"],
+
+  setup() {
+    const store = useStore();
+    const userId = computed(() => store.getters.getId);
+
+    onMounted(() => {
+      console.log("Computed testt:", userId.value);
+    });
+    return {
+      userId,
+    };
+  },
+
   data() {
     return {
       hasAccess: false,
@@ -90,16 +111,17 @@ export default {
     };
   },
 
-  created() {
-    this.connect();
-  },
+  // created() {
+  //   this.connect();
+  // },
 
   mounted() {
     console.log("Chat Room ID", this.chatRoomId);
     this.checkAccess();
     this.checkAcceptedPrivacy();
+    this.connect();
     this.fetchChatRoomData();
-    console.log("User ID: ", this.userId);
+    // console.log("User ID: ", this.userId);
     this.showConsentModal = true;
   },
 
@@ -131,32 +153,76 @@ export default {
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
 
-      // 로컬스토리지에서 JWT 토큰을 가져옵니다.
-      const token = localStorage.getItem("token"); // 로컬 스토리지에서 JWT 토큰을 가져옴
-      console.log("소켓 연결을 시도합니다. 서버 주소: " + serverURL);
+      const token = localStorage.getItem("token");
+      console.log("소켓 서버에 연결을 시도합니다: " + serverURL);
 
       this.stompClient.connect(
         { Authorization: `Bearer ${token}` },
         (frame) => {
-          // 소켓 연결 성공
           this.connected = true;
           console.log("소켓 연결 성공", frame);
-          // 서버의 메시지 전송 endpoint를 구독합니다.
-          // 이런형태를 pub sub 구조라고 합니다.
-          this.stompClient.subscribe("/send", (res) => {
-            console.log("구독으로 받은 메시지 입니다.", res.body);
 
-            // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-            this.recvList.push(JSON.parse(res.body));
+          // 채팅방 구독
+          this.stompClient.subscribe(`/send`, (res) => {
+            console.log("구독으로 받은 메시지", res.body);
+            const newMessage = JSON.parse(res.body);
+            this.recvList.push(newMessage);
+
+            // 상대방이 보낸 메시지일 경우 읽음 처리
+            if (newMessage.senderId !== this.senderId) {
+              console.log("상대방이 보낸 메시지입니다. 읽음 처리 중...");
+              this.sendReadReceipt(); // 메시지 읽음 처리
+            }
+
             this.scrollToBottom();
           });
+
+          // 새 코드 부분임
+          // 상대방이 내 메시지를 읽었을 때 알림을 받음
+          this.stompClient.subscribe(
+            `/topic/chat/${this.chatRoomId}`,
+            (res) => {
+              console.log("읽음으로 받은 메시지", res.body);
+              const newMessage = JSON.parse(res.body);
+              // 메시지가 내가 보낸 것이 아닌 경우 처리
+              // if (this.senderId !== newMessage.senderId) {
+              // 메시지가 모두 읽힌 경우 readCount는 2가 됨
+              this.recvList = this.recvList.map((msg) => {
+                return {
+                  ...msg,
+                  readCount: newMessage.readCount, // 새로 받은 readCount로 업데이트
+                };
+              });
+              if (newMessage.readCount === 2) {
+                console.log("상대방이 메시지를 읽었습니다.");
+                // 읽음 표시 관련 UI 업데이트
+              }
+            }
+          );
+          this.sendReadReceipt();
         },
         (error) => {
-          // 소켓 연결 실패
-          console.log("소켓 연결 실패", error);
+          console.log("연결 실패", error);
           this.connected = false;
         }
       );
+    },
+
+    sendReadReceipt() {
+      const readInfo = {
+        chatRoomId: this.chatRoomId,
+        userId: this.userId, // 현재 사용자의 ID를 포함
+      };
+      console.log("~~~~~~~~~~~~~~~~~~~~~", JSON.stringify(readInfo));
+
+      // 서버로 메시지가 읽혔음을 알림
+      this.stompClient.send(
+        `/read/${this.chatRoomId}`,
+        JSON.stringify(readInfo),
+        {} // 단일 객체를 JSON으로 변환해 전송
+      );
+
+      // this.stompClient.send("/receive", JSON.stringify(msg), {});
     },
 
     async checkAccess() {
@@ -252,7 +318,7 @@ export default {
         console.log("chatRoom 정보: ", this.chatRoom);
 
         this.senderId = this.chatRoom.participants[1].userId;
-        console.log("Sender ID: ", this.senderId);
+        console.log("?????????????Sender ID: ", this.senderId);
       } catch (error) {
         console.error("채팅방 정보 가져오는 중 오류 발생", error);
       }
