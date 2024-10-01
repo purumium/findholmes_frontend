@@ -9,15 +9,13 @@
     <div class="notification-contain">
       알림
       <div v-for="(notification, index) in notificationList" :key="index">
-        <ul>
-          <li>
-            <h3>{{ notification.title }}</h3>
-          </li>
-          <button
-            type="button"
-            @click="this.$router.push(notification.url)"
-          ></button>
-        </ul>
+        <div
+          @click="this.$router.push(notification.url)"
+          class="notification-list"
+        >
+          <h4 style="margin: 0px">{{ notification.title }}</h4>
+          ✔️ 알림일자 : {{ timeconvert(notification.notifyAt) }}
+        </div>
       </div>
     </div>
   </div>
@@ -48,6 +46,9 @@ export default {
           params: { userId: this.getId },
         });
         this.notificationList = response.data;
+        this.notificationList.sort(function (a, b) {
+          return -(new Date(a.notifyAt) - new Date(b.notifyAt));
+        });
         console.log(this.notificationList);
       } catch (error) {
         return;
@@ -60,6 +61,15 @@ export default {
       } else {
         this.$router.push("/mypage");
       }
+    },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
     },
   },
 };
@@ -94,6 +104,13 @@ h2 {
 
 .notification-contain {
   margin: 25px 20px;
+}
+
+.notification-list {
+  border: 1px solid #8080804d;
+  border-radius: 20px;
+  margin: 10px;
+  padding: 10px;
 }
 
 @media screen and (max-width: 480px) {
