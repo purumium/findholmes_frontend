@@ -31,6 +31,19 @@
           <span class="header-span">홈즈와 채팅하기</span>
         </header>
 
+        <header class="estimate-info">
+          <div class="icon-area">
+            <div class="icon-placeholder">icon</div>
+            <!-- 아이콘을 넣을 자리 -->
+          </div>
+          <div class="estimate-info-text">
+            <div class="estimate-title">
+              [{{ this.speciality }}] <strong>{{ this.e_title }}</strong>
+            </div>
+            <div class="estimate-price">{{ this.e_price }}원</div>
+          </div>
+        </header>
+
         <div ref="chatMessages" class="chat-messages">
           <div
             v-for="(item, idx) in recvList"
@@ -103,7 +116,7 @@ export default {
     const userId = computed(() => store.getters.getId);
 
     onMounted(() => {
-      console.log("Computed testt:", userId.value);
+      console.log("Computed userId:", userId.value);
     });
     return {
       userId,
@@ -426,6 +439,10 @@ export default {
         console.log("chatRoom 정보: ", this.chatRoom);
 
         this.senderId = this.chatRoom.participants[0].userId;
+        this.client = this.chatRoom.participants[1].userName;
+        this.e_title = this.chatRoom.estimate_title;
+        this.e_price = this.chatRoom.estimate_price;
+        this.speciality = this.chatRoom.requestSpeciality.specialityName;
         console.log("Sender ID: ", this.senderId);
       } catch (error) {
         console.error("채팅방 정보 가져오는 중 오류 발생", error);
@@ -606,6 +623,52 @@ p {
   border-radius: 5px;
   font-size: 11px;
   font-weight: 600;
+}
+
+.estimate-info {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.icon-area {
+  margin-right: 15px;
+}
+
+.icon-placeholder {
+  width: 40px;
+  height: 40px;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #888;
+}
+
+.estimate-info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.estimate-title strong {
+  margin-left: 5px;
+  color: #000;
+}
+
+.estimate-title {
+  color: #000;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.estimate-price {
+  color: #808080;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 /* 날짜 중앙 정렬 */

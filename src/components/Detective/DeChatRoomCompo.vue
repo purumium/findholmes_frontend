@@ -27,8 +27,21 @@
       <div class="chat-room">
         <header class="estimate-top-header" @click="goBack">
           <button class="back-button">&lt;</button>
-          <h2>채팅</h2>
+          <h2>{{ this.client }}</h2>
           <span class="header-span">의뢰인과 채팅하기</span>
+        </header>
+
+        <header class="estimate-info">
+          <div class="icon-area">
+            <div class="icon-placeholder">icon</div>
+            <!-- 아이콘을 넣을 자리 -->
+          </div>
+          <div class="estimate-info-text">
+            <div class="estimate-title">
+              [{{ this.speciality }}] <strong>{{ this.e_title }}</strong>
+            </div>
+            <div class="estimate-price">{{ this.e_price }}원</div>
+          </div>
         </header>
 
         <div ref="chatMessages" class="chat-messages">
@@ -108,6 +121,7 @@ export default {
       senderId: null,
       message: "",
       recvList: [],
+      roomId: null,
     };
   },
 
@@ -117,6 +131,7 @@ export default {
 
   mounted() {
     console.log("Chat Room ID", this.chatRoomId);
+    this.roomId = this.chatRoomId;
     this.checkAccess();
     this.checkAcceptedPrivacy();
     this.connect();
@@ -210,7 +225,7 @@ export default {
 
     sendReadReceipt() {
       const readInfo = {
-        chatRoomId: this.chatRoomId,
+        chatRoomId: this.roomId,
         userId: this.userId, // 현재 사용자의 ID를 포함
       };
       console.log("~~~~~~~~~~~~~~~~~~~~~", JSON.stringify(readInfo));
@@ -318,6 +333,10 @@ export default {
         console.log("chatRoom 정보: ", this.chatRoom);
 
         this.senderId = this.chatRoom.participants[1].userId;
+        this.client = this.chatRoom.participants[0].userName;
+        this.e_title = this.chatRoom.estimate_title;
+        this.e_price = this.chatRoom.estimate_price;
+        this.speciality = this.chatRoom.requestSpeciality.specialityName;
         console.log("?????????????Sender ID: ", this.senderId);
       } catch (error) {
         console.error("채팅방 정보 가져오는 중 오류 발생", error);
@@ -440,7 +459,7 @@ h2 {
 .chat-room {
   display: flex;
   flex-direction: column;
-  height: 81vh;
+  height: 83vh;
 }
 
 /* .chat-header {
@@ -483,6 +502,52 @@ button {
   border-radius: 5px;
   font-size: 11px;
   font-weight: 600;
+}
+
+.estimate-info {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.icon-area {
+  margin-right: 15px;
+}
+
+.icon-placeholder {
+  width: 40px;
+  height: 40px;
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 12px;
+  color: #888;
+}
+
+.estimate-info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.estimate-title strong {
+  margin-left: 5px;
+  color: #000;
+}
+
+.estimate-title {
+  color: #000;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.estimate-price {
+  color: #808080;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 /* 날짜 중앙 정렬 */
