@@ -9,15 +9,9 @@
     <div class="notification-contain">
       알림
       <div v-for="(notification, index) in notificationList" :key="index">
-        <ul>
-          <li>
-            <h3>{{ notification.title }}</h3>
-          </li>
-          <button
-            type="button"
-            @click="this.$router.push(notification.url)"
-          ></button>
-        </ul>
+        <div @click="this.$router.push(notification.url)">
+          <h3>{{ notification.title }}</h3>
+        </div>
       </div>
     </div>
   </div>
