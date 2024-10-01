@@ -33,6 +33,11 @@
           />
         </div>
         <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
+        <div class="button-group">
+          <button type="submit" class="btn-profile" >프로필 수정</button>
+        </div>
+      </form>
+      <form @submit.prevent="handleChangePW">
         <div>
           <div class="form-group">
             <label>현재 비밀번호</label>
@@ -74,7 +79,7 @@
             class="btn-profile"
             :disabled="!isPasswordValid"
           >
-            프로필 수정
+            비밀번호 수정
           </button>
         </div>
       </form>
@@ -88,6 +93,7 @@
 
 <script>
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default {
   data() {
@@ -101,18 +107,19 @@ export default {
       message: "",
       isPasswordValid: false,
       passwordMessage: "",
-      isSuccess: false,
+      isSuccess:false,
+      phoneError:""
     };
   },
   watch: {
     newPassword(value) {
-      console.log(value);
+      console.log(value)
       this.checkPasswordMatch();
     },
     confirmPassword(value) {
-      console.log(value);
+      console.log(value)
       this.checkPasswordMatch();
-    },
+    }
   },
   mounted() {
     this.getUser();
@@ -142,34 +149,55 @@ export default {
         this.passwordMessage = "비밀번호가 일치하지 않습니다.";
       }
     },
-    async handleProfileSubmit() {
+    async handleChangePW(){
+      console.log("비번변결")
       if (!this.isPasswordValid) {
         this.message = "비밀번호가 일치하지 않습니다.";
         this.isSuccess = false;
         return;
       }
-      // 프로필 수정 로직 추가
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
         const response = await axios.get("/api/member/pwCheck", {
           params: { password: this.currentPassword },
         });
-        if (response.data) {
-          try {
-            const response2 = await axios.post("/api/member/update", {
-              password: this.confirmPassword,
+        console.log(response)
+        if(response.data){
+          await this.updatePW({
+            password: this.confirmPassword,
+          });
+          alert("비밀번호 수정이 완료되었습니다.");
+          const router = useRouter();
+          router.push("/member/mypage");
+        }else{
+          alert("현재 비밀번호가 틀립니다");
+        }
+      } catch (error) {
+        console.error(error);
+        alert("오류가 발생했습니다. 다시 시도해 주세요.");
+      }
+    },
+    async updatePW(data){
+      try {
+        await axios.post("/api/member/updatepw", data);
+      } catch (error) {
+        console.error(
+          "Error updating profile:",
+          error.response ? error.response.data : error.message
+        );
+        alert("프로필 업데이트 중 오류가 발생했습니다.");
+        throw error; // 에러를 다시 던져서 상위 함수에서 처리
+      }
+    },
+    async handleProfileSubmit() {
+      // 프로필 수정 로직 추가
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      try {
+        const response2 = await axios.post("/api/member/update", {
               userName: this.username,
               phoneNumber: this.phonenumber,
             });
             console.log(response2.data);
-          } catch (error) {
-            console.log(error);
-          }
-          alert("회원정보 수정 완료");
-        } else {
-          alert("현재비밀번호가 다릅니다");
-        }
       } catch (error) {
         console.error(error);
       }

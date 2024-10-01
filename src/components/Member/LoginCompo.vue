@@ -24,6 +24,9 @@
           />
         </div>
         <div class="button-group">
+          <a href="/api/oauth2/authorization/google">
+            <img src="/images/google.png" alt="googleLogin" style="width: 30px; border: solid 1px black; border-radius: 50%;">
+          </a>
           <button type="submit" class="btn-login">로그인</button>
           <button type="button" class="btn-login" @click="goToRegister">
             회원가입
