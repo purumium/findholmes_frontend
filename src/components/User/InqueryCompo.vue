@@ -62,6 +62,11 @@ export default {
         : this.userCategories;
     },
   },
+  methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
+  },
 };
 </script>
 <style scoped>
