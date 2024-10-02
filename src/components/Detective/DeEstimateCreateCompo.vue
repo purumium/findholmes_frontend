@@ -294,7 +294,7 @@ h2 {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  margin: 3px;
+  margin-top: 4px;
 }
 
 .submit-div {
@@ -306,14 +306,14 @@ h2 {
 
 .charge-button {
   width: 100%;
-  background-color: lightgray;
-  border: 1px solid darkgrey;
+  background-color: #d3d3d34f;
+  border: 1px solid #d3d3d34f;
   padding: 8px 0px;
   border-radius: 9px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  margin: 3px;
+  margin-top: 12px;
 }
 
 .submit-div span:nth-child(2) {

@@ -185,7 +185,7 @@ h2 {
 }
 
 .filter-container {
-  margin: 10px 10px 0 -7px;
+  margin: 10px 10px 0 -4px;
   display: flex;
   justify-content: space-between;
   align-items: center;

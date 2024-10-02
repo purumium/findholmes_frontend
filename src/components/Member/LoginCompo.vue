@@ -24,16 +24,28 @@
           />
         </div>
         <div class="button-group">
-
           <button type="submit" class="btn-login">로그인</button>
           <button type="button" class="btn-login" @click="goToRegister">
             회원가입
           </button>
+          <form action="/api/oauth2/authorization/google" method="get">
+            <button class="google-login">
+              <div>
+                <img
+                  src="/images/google.png"
+                  alt="googleLogin"
+                  style="
+                    width: 20px;
+                    border: 1px solid #0000006e;
+                    border-radius: 50%;
+                  "
+                />
+              </div>
+              <div>구글 로그인</div>
+            </button>
+          </form>
         </div>
       </form>
-      <a href="/api/oauth2/authorization/google">
-        <img src="/images/google.png" alt="googleLogin" style="width: 30px; border: solid 1px black; border-radius: 50%;">
-      </a>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
@@ -150,6 +162,25 @@ export default {
   border-radius: 20px;
   background-color: #fff;
   font-size: 15px;
+}
+
+.google-login {
+  display: flex;
+  justify-content: end;
+  gap: 4px;
+  width: 95%;
+  padding: 7px;
+  border: none;
+  background-color: white;
+  color: #46444a;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 7px;
+}
+
+.google-login a {
+  text-decoration: none;
 }
 
 .btn-login {
