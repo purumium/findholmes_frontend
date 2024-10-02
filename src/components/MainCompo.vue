@@ -51,9 +51,9 @@
       </div>
     </footer>
   </div>
-  <!-- <button @click="write">작성</button>
+  <button @click="write">작성</button>
   <button @click="update">수정</button>
-  <button @click="get">가져오기</button> -->
+  <button @click="get">가져오기</button>
 </template>
 
 <script>
