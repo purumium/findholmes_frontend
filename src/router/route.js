@@ -45,6 +45,7 @@ import RequestDirectCompo from "@/components/User/RequestDirectCompo.vue";
 import AdInqueryDetailCompo from "@/components/Admin/AdInqueryDetailCompo.vue";
 import AdChartCompo from "@/components/Admin/AdChartCompo.vue";
 import InqueryDetailCompo from "@/components/User/InqueryDetailCompo.vue";
+import AdTotalPaymentCompo from "@/components/Admin/AdTotalPaymentCompo.vue";
 
 const routes = [
   {
@@ -73,6 +74,10 @@ const routes = [
       {
         path: "chart",
         component: AdChartCompo,
+      },
+      {
+        path: "paymentchart",
+        component: AdTotalPaymentCompo,
       },
     ],
   },
