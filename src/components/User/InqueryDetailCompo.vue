@@ -1,11 +1,5 @@
 <template>
   <div class="inquiry-container">
-    <header class="inquiry-header" @click="goBack">
-      <button class="back-button">&lt;</button>
-      <h2>문의 상세 보기</h2>
-      <span class="header-span"></span>
-    </header>
-
     <div class="inquiry-contain">
       <div class="inquiry-detail-form">
         <div class="form-group">
@@ -31,22 +25,22 @@
         </div>
 
         <div class="form-group">
-          <label for="title">작성자</label>
+          <label for="email">답변받을 이메일</label>
           <input
-            type="text"
-            id="title"
-            v-model="inquery.writerId"
+            type="email"
+            id="email"
+            v-model="inquery.email"
             readonly
             class="form-control"
           />
         </div>
 
         <div class="form-group">
-          <label for="email">답변받을 이메일</label>
+          <label for="status">답변상태</label>
           <input
-            type="email"
-            id="email"
-            v-model="inquery.email"
+            type="status"
+            id="status"
+            :value="formattedStatus"
             readonly
             class="form-control"
           />
@@ -72,53 +66,6 @@
             class="form-control"
           ></textarea>
         </div>
-
-        <div>
-          <!-- <button @click="sendEmail" class="send-email-btn"> -->
-          <button @click="openModal" class="send-email-btn">
-            이메일로 답변 보내기
-          </button>
-        </div>
-      </div>
-
-      <!-- 모달 창 -->
-      <div v-if="isModalOpen" class="modal">
-        <div class="modal-content">
-          <span class="close" @click="closeModal">&times;</span>
-          <h3>문의 답변 보내기</h3>
-
-          <div class="form-group">
-            <label for="toEmail">받는 사람</label>
-            <input
-              type="email"
-              id="toEmail"
-              v-model="emailContent.to"
-              readonly
-              class="form-control"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="emailSubject">제목</label>
-            <input
-              type="text"
-              id="emailSubject"
-              v-model="emailContent.subject"
-              class="form-control"
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="emailBody">내용</label>
-            <textarea
-              id="emailBody"
-              v-model="emailContent.body"
-              class="form-control"
-            ></textarea>
-          </div>
-
-          <button @click="sendEmail" class="send-email-btn">보내기</button>
-        </div>
       </div>
     </div>
   </div>
@@ -132,77 +79,29 @@ export default {
   data() {
     return {
       inquery: {},
-      isModalOpen: false, // 모달창 열림, 닫힘
-      emailContent: {
-        to: "",
-        subject: "",
-        body: "",
-      },
     };
   },
   mounted() {
     this.fetchInqueryDetail();
   },
-  methods: {
-    goBack() {
-      this.$router.go(-1);
+  computed: {
+    formattedStatus() {
+      return this.inquery.responseStatus === "PENDING"
+        ? "답변대기"
+        : "답변완료";
     },
+  },
+  methods: {
     async fetchInqueryDetail() {
       // 문의글을 불러오는 함수
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       try {
-        const response = await axios.get(
-          `/api/admin/inquery/${this.inqueryid}`
-        );
+        const response = await axios.get(`/api/inquery/${this.inqueryid}`);
         this.inquery = response.data;
       } catch (error) {
         console.error("inquery Detail 데이터 불러오기 중 오류 발생:", error);
-      }
-    },
-    openModal() {
-      // 모달 열 때, 문의글에 있는 이메일로 초기화
-      this.emailContent.to = this.inquery.email;
-      this.isModalOpen = true;
-    },
-    closeModal() {
-      // 모달 닫기
-      this.isModalOpen = false;
-    },
-    async sendEmail() {
-      // 메일 보내기
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      try {
-        await axios.post("/api/email/send", {
-          to: this.emailContent.to,
-          subject: this.emailContent.subject,
-          body: this.emailContent.body,
-        });
-        // 메일 전송 후 문의글의 상태 업데이트
-        await this.updateInqueryStatus();
-
-        // 이메일 전송 후 모달 닫기
-        this.closeModal();
-      } catch (error) {
-        console.error("Email sending failed:", error);
-      }
-    },
-    async updateInqueryStatus() {
-      // 메일 전송 후 문의글의 상태 업데이트
-      const token = localStorage.getItem("token");
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-      try {
-        // 상태 업데이트
-        const response = await axios.get(
-          `/api/admin/inquery/${this.inqueryid}/status`
-        );
-        console.log(response.data);
-      } catch (error) {
-        console.log("문의 상태 업데이트 실패: ", error);
       }
     },
     formatCategory(category) {

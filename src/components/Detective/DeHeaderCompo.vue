@@ -47,9 +47,11 @@
           >
             <font-awesome-icon :icon="['fas', 'bell']" class="icon" />
             <span v-if="tooltipText === '알림'" class="tooltip">알림</span>
-            <span class="notification-num" v-if="events.length > 0">{{
-              events.length
-            }}</span>
+            <span
+              class="notification-num"
+              v-if="notificationCount + events.length > 0"
+              >{{ notificationCount + events.length }}</span
+            >
           </div>
 
           <div
@@ -74,15 +76,19 @@ import { mapGetters, useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { computed } from "vue";
 import { ref } from "vue";
+import axios from "axios";
 
 export default {
   data() {
     return {
       events: ref([]),
+      notificationCount: 0,
+      chatCount: 0,
     };
   },
   created() {
     this.setUpEventSource();
+    this.loadNotificationCount();
   },
   computed: {
     ...mapGetters(["getId"]),
@@ -110,6 +116,16 @@ export default {
     };
   },
   methods: {
+    async loadNotificationCount() {
+      try {
+        const response = await axios.get("/api/notification/receive", {
+          params: { userId: this.getId },
+        });
+        this.notificationCount = response.data;
+      } catch (error) {
+        console.log("미확인 알림 에러");
+      }
+    },
     setUpEventSource() {
       console.log("SSE연결전 : ", this.getId);
       const eventSource = new EventSource(
@@ -228,7 +244,7 @@ header {
 }
 
 .notification-num {
-  position: absolute;
+  /* position: absolute;
   top: 0;
   right: 0;
   z-index: 3;
@@ -241,7 +257,22 @@ header {
   text-align: center;
   background-color: red;
   border-radius: 15px;
-  display: inline-block;
+  display: inline-block; */
+  background-color: rgb(252, 48, 48);
+  width: auto;
+  min-width: 16px;
+  height: auto;
+  min-height: 16px;
+  padding: 5%;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 15px;
+  position: absolute;
+  left: 10px;
+  bottom: 15px;
 }
 
 /* 작은 화면 (태블릿 이하) 레이아웃 조정 */

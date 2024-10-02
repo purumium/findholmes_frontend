@@ -2,6 +2,33 @@
   <div class="inquiry-container">
     <div class="inquiry-contain">
       <div class="top-title">나의 문의 보기</div>
+      <table>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th class="text-title">제목</th>
+            <th>생성 날짜</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(inquiry, index) in inquiries" :key="index">
+            <td>{{ index + 1 }}</td>
+            <td class="text-title" @click="goDetailInquery(inquiry.inqueryId)">
+              {{ inquiry.title }}
+            </td>
+            <td>{{ formatDate(inquiry.createdAt) }}</td>
+            <td
+              :class="{
+                'status-pending': inquiry.responseStatus === '답변대기',
+                'status-complete': inquiry.responseStatus === '답변완료',
+              }"
+            >
+              {{ inquiry.responseStatus }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -12,70 +39,59 @@ import axios from "axios";
 export default {
   data() {
     return {
-      email: "",
-      category: "",
-      content: "",
-      userCategories: [
-        { label: "일반 문의", value: "GENERAL" },
-        { label: "결제 문제", value: "PAYMENT" },
-        { label: "탐정 신고 관련", value: "DETECTIVE_ISSUE" },
-        { label: "기타", value: "ETC" },
-      ],
-      detectiveCategories: [
-        { label: "일반 문의", value: "GENERAL" },
-        { label: "결제 문제", value: "PAYMENT" },
-        { label: "사용자 신고 관련", value: "USER_ISSUE" },
-        { label: "기타", value: "ETC" },
-      ],
+      inquiries: [],
     };
   },
   computed: {
     roles() {
       return this.$store.getters.getRoles; // Vuex에서 getRoles를 가져옴
     },
-    filteredCategories() {
-      return this.roles === "ROLE_DETECTIVE"
-        ? this.detectiveCategories
-        : this.userCategories;
-    },
+  },
+  mounted() {
+    this.fetchInqueries();
   },
   methods: {
     goBack() {
-      if (this.roles === "ROLE_DETECTIVE") {
-        this.$router.push("/detective/mypage");
-      } else {
-        this.$router.push("/mypage");
-      }
+      this.$router.go(-1);
     },
-    async handleSubmit() {
+    async fetchInqueries() {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       try {
-        const inqueryData = {
-          title: this.title,
-          email: this.email,
-          category: this.category,
-          content: this.content,
-        };
+        const response = await axios.get("/api/inquery/listbyuser");
 
-        console.log(inqueryData);
+        this.inquiries = response.data.map((inquery) => ({
+          ...inquery,
+          responseStatus:
+            inquery.responseStatus === "PENDING" ? "답변대기" : "답변완료",
+        }));
 
-        const response = await axios.post("api/inquery/insert", inqueryData);
-
-        if (response.status === 200) {
-          alert("문의가 성공적으로 접수되었습니다");
-          this.resetForm();
-        }
+        console.log(this.inquiries);
       } catch (error) {
         console.log(error);
       }
     },
-    resetForm() {
-      this.title = "";
-      this.email = "";
-      this.category = "";
-      this.content = "";
+    async goDetailInquery(inqueryId) {
+      if (this.roles === "ROLE_DETECTIVE") {
+        this.$router.push({
+          name: "DetectiveInqueryDetail",
+          params: { inqueryid: inqueryId },
+        });
+      } else if (this.roles === "ROLE_USER")
+        this.$router.push({
+          name: "UserInqueryDetail",
+          params: { inqueryid: inqueryId },
+        });
+    },
+    formatDate(dateString) {
+      const converttime = new Date(dateString);
+      const year = String(converttime.getFullYear()).slice(-2); // 두 자리 연도로 변환
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
     },
   },
 };
@@ -89,7 +105,7 @@ export default {
 .top-title {
   text-align: center;
   font-size: 18px;
-  margin-bottom: 13px;
+  margin-bottom: 20px;
   letter-spacing: 1px;
   font-weight: 600;
 }
@@ -117,63 +133,41 @@ h2 {
 }
 
 .inquiry-contain {
-  margin: 25px 50px;
+  margin: 40px 20px;
 }
 
-.form-group {
-  margin-bottom: 30px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #2c2b2b;
-  margin-bottom: 10px;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
+table {
   width: 100%;
-  padding: 13px 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box; /* 패딩과 보더를 포함한 크기 설정 */
-}
-
-.form-group select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-.form-group textarea {
-  resize: none;
-  height: 165px;
-}
-
-.character-count {
-  text-align: right;
-  font-size: 12px;
-  color: #666;
-  margin-top: 5px;
-}
-
-.button-group {
+  border-collapse: collapse;
   text-align: center;
 }
 
-.submit-button {
-  width: 100%;
-  background-color: #ffdf3e9c;
-  border: 1px solid #d3cb3a5e;
-  padding: 11px 0px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
+.text-title {
+  width: 280px;
+}
+
+th,
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+td {
+  font-size: 13px;
+}
+
+.status-pending {
+  color: #ecb900;
+  font-size: 12px;
+}
+
+.status-complete {
+  color: #4caf50;
+  font-size: 12px;
 }
 
 @media screen and (max-width: 480px) {

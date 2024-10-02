@@ -24,7 +24,7 @@
           />
         </div>
         <div class="button-group">
-          
+
           <button type="submit" class="btn-login">로그인</button>
           <button type="button" class="btn-login" @click="goToRegister">
             회원가입
@@ -63,8 +63,6 @@ export default {
         const response = await axios.post("/api/member/login", {
           id: username.value,
           password: password.value,
-        }, {
-          withCredentials: true, // 인증 정보를 포함하도록 설정
         });
         const token = response.data.token;
         const decoded = jwtDecode(token);

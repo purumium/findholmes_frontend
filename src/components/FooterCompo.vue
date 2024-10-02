@@ -5,7 +5,7 @@
         <li>
           <router-link to="/admin" class="footer-item" active-class="active">
             <font-awesome-icon class="icon" :icon="['fas', 'home']" />
-            <span class="text">홈</span>
+            <span class="text">홈 </span>
           </router-link>
         </li>
         <li>
@@ -33,9 +33,13 @@
     <nav class="footer-nav" v-else>
       <ul>
         <li>
-          <router-link to="/request" class="footer-item" active-class="active">
+          <router-link
+            :to="!isAuthenticated ? '/login' : '/request'"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'pencil-alt']" />
-            <span class="text">의뢰서작성</span>
+            <span class="text">의뢰서작성 </span>
           </router-link>
         </li>
         <li>
@@ -51,13 +55,21 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/receive" class="footer-item" active-class="active">
+          <router-link
+            :to="!isAuthenticated ? '/login' : '/receive'"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'envelope']" />
             <span class="text">의뢰&답변</span>
           </router-link>
         </li>
         <li>
-          <router-link to="/mypage" class="footer-item" active-class="active">
+          <router-link
+            :to="!isAuthenticated ? '/login' : '/mypage'"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'user']" />
             <span class="text">마이페이지</span>
           </router-link>
