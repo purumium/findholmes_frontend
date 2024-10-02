@@ -24,15 +24,16 @@
           />
         </div>
         <div class="button-group">
-          <a href="/api/oauth2/authorization/google">
-            <img src="/images/google.png" alt="googleLogin" style="width: 30px; border: solid 1px black; border-radius: 50%;">
-          </a>
+
           <button type="submit" class="btn-login">로그인</button>
           <button type="button" class="btn-login" @click="goToRegister">
             회원가입
           </button>
         </div>
       </form>
+      <a href="/api/oauth2/authorization/google">
+        <img src="/images/google.png" alt="googleLogin" style="width: 30px; border: solid 1px black; border-radius: 50%;">
+      </a>
       <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
@@ -59,16 +60,10 @@ export default {
 
     const handleLogin = async () => {
       try {
-        const response = await axios.post(
-          "/api/member/login",
-          {
-            id: username.value,
-            password: password.value,
-          },
-          {
-            withCredentials: true, // 인증 정보를 포함하도록 설정
-          }
-        );
+        const response = await axios.post("/api/member/login", {
+          id: username.value,
+          password: password.value,
+        });
         const token = response.data.token;
         const decoded = jwtDecode(token);
 
