@@ -69,12 +69,25 @@ export default {
       approvedCount: null,
       pendingCount: null,
       rejectCount: null,
+      userCount: [],
     };
   },
   mounted() {
     this.approvalStatus();
+    this.fetchUserCount();
   },
   methods: {
+    async fetchUserCount() {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      try {
+        const response = await axios.get('/api/admin/count');
+        this.userCount = await response.data;
+        console.log(this.userCount)
+      } catch (error) {
+        console.error('Error fetching user count:', error);
+      }
+    },
     async approvalStatus() {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;

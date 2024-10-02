@@ -43,6 +43,9 @@ import InqueryCreateCompo from "@/components/User/InqueryCreateCompo.vue";
 import InqueryListCompo from "@/components/User/InqueryListCompo.vue";
 import RequestDirectCompo from "@/components/User/RequestDirectCompo.vue";
 import AdInqueryDetailCompo from "@/components/Admin/AdInqueryDetailCompo.vue";
+import AdChartCompo from "@/components/Admin/AdChartCompo.vue";
+import InqueryDetailCompo from "@/components/User/InqueryDetailCompo.vue";
+import AdTotalPaymentCompo from "@/components/Admin/AdTotalPaymentCompo.vue";
 
 const routes = [
   {
@@ -67,6 +70,14 @@ const routes = [
         name: "InqueryDetail",
         component: AdInqueryDetailCompo,
         props: true, // props로 route의 파라미터 전달
+      },
+      {
+        path: "chart",
+        component: AdChartCompo,
+      },
+      {
+        path: "paymentchart",
+        component: AdTotalPaymentCompo,
       },
     ],
   },
@@ -165,6 +176,12 @@ const routes = [
           {
             path: "list",
             component: InqueryListCompo,
+          },
+          {
+            path: "list/:inqueryid",
+            name: "DetectiveInqueryDetail",
+            component: InqueryDetailCompo,
+            props: true, // props로 route의 파라미터 전달
           },
         ],
       },
@@ -294,6 +311,12 @@ const routes = [
           {
             path: "list",
             component: InqueryListCompo,
+          },
+          {
+            path: "list/:inqueryid",
+            name: "UserInqueryDetail",
+            component: InqueryDetailCompo,
+            props: true, // props로 route의 파라미터 전달
           },
         ],
       },
