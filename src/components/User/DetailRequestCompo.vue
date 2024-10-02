@@ -76,6 +76,9 @@ export default {
     this.getRequestDetail();
   },
   methods: {
+    goBack() {
+      this.$router.go(-1);
+    },
     async getRequestDetail() {
       console.log("실행시도", this.requestId);
       try {

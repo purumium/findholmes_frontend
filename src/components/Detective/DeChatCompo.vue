@@ -15,7 +15,7 @@
       >
         <div class="chat-details">
           <div class="chat-title">
-            <span class="name-tag">홈즈</span>
+            <span class="name-tag">의뢰인</span>
             <span>{{ chatRoom.participants[0].userName }}</span>
           </div>
           <div class="chat-preview">

@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <div class="header-container">
     <nav class="header-nav">
       <div class="navbar-left">
         <router-link :to="isRole === 'ROLE_ADMIN' ? '/admin' : '/'">
@@ -100,7 +100,7 @@
         </div>
       </div>
     </nav>
-  </header>
+  </div>
 </template>
 
 <script>
@@ -212,7 +212,7 @@ export default {
 </script>
 
 <style scoped>
-header {
+.header-container {
   display: flex;
   align-items: center;
 }
@@ -222,7 +222,7 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: 0px 25px;
+  margin: 20px 25px;
 }
 
 .navbar-left a {
