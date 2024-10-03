@@ -64,6 +64,14 @@
                 <span>💰 -1000</span>
               </div>
             </button>
+
+            <button
+              @click="this.$router.push('/detective/payment')"
+              class="charge-button"
+              v-if="chargePoint"
+            >
+              포인트 충전하기
+            </button>
           </div>
         </div>
       </form>
@@ -83,6 +91,7 @@ export default {
       description: "",
       price: "",
       requests: this.getRequestDetail(),
+      chargePoint: false,
     };
   },
   computed: {
@@ -109,15 +118,20 @@ export default {
     },
     async replyRequest() {
       try {
-        await axios.post("/api/estimate", {
+        const response = await axios.post("/api/estimate", {
           requestId: this.requestId,
           title: this.title,
           price: parseInt(this.price, 10),
           email: this.getUser,
           description: this.description,
         });
-        alert("답변서를 전송하였습니다.");
-        this.$router.push("/detective/estimatelist");
+        if (response.data) {
+          alert("답변서를 전송하였습니다.");
+          this.$router.push("/detective/estimatelist");
+        } else {
+          alert("포인트가 부족합니다.");
+          this.chargePoint = true;
+        }
       } catch (error) {
         return;
       }
@@ -280,6 +294,7 @@ h2 {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  margin-top: 4px;
 }
 
 .submit-div {
@@ -287,6 +302,18 @@ h2 {
   justify-content: end;
   gap: 150px;
   margin-right: 26px;
+}
+
+.charge-button {
+  width: 100%;
+  background-color: #d3d3d34f;
+  border: 1px solid #d3d3d34f;
+  padding: 8px 0px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
 }
 
 .submit-div span:nth-child(2) {

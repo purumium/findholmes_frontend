@@ -87,13 +87,6 @@ export default {
     },
   },
   methods: {
-    goBack() {
-      if (this.roles === "ROLE_DETECTIVE") {
-        this.$router.push("/detective/mypage");
-      } else {
-        this.$router.push("/mypage");
-      }
-    },
     async handleSubmit() {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -108,7 +101,7 @@ export default {
 
         console.log(inqueryData);
 
-        const response = await axios.post("api/inquery/insert", inqueryData);
+        const response = await axios.post("/api/inquery/insert", inqueryData);
 
         if (response.status === 200) {
           alert("문의가 성공적으로 접수되었습니다");

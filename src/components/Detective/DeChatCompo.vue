@@ -15,7 +15,7 @@
       >
         <div class="chat-details">
           <div class="chat-title">
-            <span class="name-tag">홈즈</span>
+            <span class="name-tag">의뢰인</span>
             <span>{{ chatRoom.participants[0].userName }}</span>
           </div>
           <div class="chat-preview">
@@ -201,7 +201,7 @@ h2 {
 .chat-item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   padding: 15px 20px;
   border-bottom: 1px solid #ddd;
   cursor: pointer;
@@ -233,14 +233,15 @@ h2 {
 
 .chat-preview {
   color: #808080cc;
-  margin-top: 5px;
+  margin-top: 10px;
   font-size: 14px;
 }
 
 .chat-info {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: end;
+  justify-content: space-between;
 }
 
 .chat-time {

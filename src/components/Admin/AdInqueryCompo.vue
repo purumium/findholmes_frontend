@@ -29,7 +29,7 @@
       </div>
 
       <div class="inquiry-list">
-        <div class="total-info">1 페이지</div>
+        <div class="total-info"></div>
         <table class="inquiry-table">
           <thead>
             <tr>
@@ -97,12 +97,10 @@ export default {
   },
   methods: {
     goBack() {
-      // 뒤로가기 로직
-      this.$router.back();
+      this.$router.go(-1);
     },
     setFilter(filter) {
       this.selectedFilter = filter; // 답변대기, 답변완료, 전체
-      console.log("setFilter : " + filter);
       this.fetchInqueries(filter);
     },
     async fetchInqueries(filter) {
@@ -154,15 +152,13 @@ export default {
     },
     formatDate(dateString) {
       // 날짜 형식 변환 함수
-      const date = new Date(dateString);
-
-      const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
-      const year = String(date.getFullYear()).slice(2); // 연도의 마지막 두 자리
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-
-      return `${day}-${month}-${year} ${hours}:${minutes}`; // "24-09-24 11:09" 형식으로 반환
+      const converttime = new Date(dateString);
+      const year = String(converttime.getFullYear()).slice(-2); // 두 자리 연도로 변환
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}-${month}-${day} ${hour}:${minute}`;
     },
   },
 };

@@ -33,14 +33,22 @@
 
         <header class="estimate-info">
           <div class="icon-area">
-            <div class="icon-placeholder">icon</div>
-            <!-- 아이콘을 넣을 자리 -->
+            <div class="icon-placeholder">
+              <img src="/images/estimate.png" width="25px" />
+            </div>
           </div>
           <div class="estimate-info-text">
             <div class="estimate-title">
               [{{ this.speciality }}] <strong>{{ this.e_title }}</strong>
+              <span class="tag">답변서</span>
             </div>
-            <div class="estimate-price">{{ this.e_price }}원</div>
+            <div class="estimate-price">
+              {{
+                this.e_price !== undefined
+                  ? this.e_price.toLocaleString()
+                  : "0"
+              }}원
+            </div>
           </div>
         </header>
 
@@ -628,7 +636,7 @@ p {
 .estimate-info {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 15px 20px;
   border-bottom: 1px solid #ddd;
 }
 
@@ -648,6 +656,17 @@ p {
   color: #888;
 }
 
+.tag {
+  background-color: #ffdf3e9c;
+  border: 1px solid #d3cb3a5e;
+  padding: 3px 5px;
+  border-radius: 20px;
+  font-size: 11px;
+  margin-left: 5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .estimate-info-text {
   display: flex;
   flex-direction: column;
@@ -659,8 +678,8 @@ p {
 }
 
 .estimate-title {
-  color: #000;
-  font-size: 16px;
+  color: #000000b3;
+  font-size: 14px;
   display: flex;
   align-items: center;
 }
