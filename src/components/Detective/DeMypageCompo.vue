@@ -473,7 +473,7 @@ h3 {
   .edit-profile-button,
   .point-button {
     padding: 10px 40px;
-    font-size: 13px;
+    font-size: 1px;
   }
 
   .menu li {

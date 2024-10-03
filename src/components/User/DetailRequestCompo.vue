@@ -197,12 +197,12 @@ h3 {
   background-color: #f5f5f5;
   font-weight: bold;
   text-align: left;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .value {
   text-align: left;
-  font-size: 13px;
+  font-size: 14px;
   font-family: math !important;
 }
 
@@ -210,9 +210,9 @@ h3 {
   width: 100%;
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 8px 0;
+  padding: 10px 0;
   border-radius: 9px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   margin-top: 16px;
@@ -230,6 +230,7 @@ textarea {
   line-height: 23px;
   font-family: math;
   padding: 4px;
+  font-size: 14px;
 }
 
 @media screen and (max-width: 768px) {

@@ -279,7 +279,7 @@ h2 {
   padding: 7px 0px;
   font-size: 13px;
   color: #070505;
-  line-height: 20px;
+  line-height: 22px;
   text-align: left;
 }
 
