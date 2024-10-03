@@ -12,8 +12,8 @@
           @click="this.$router.push(notification.url)"
           class="notification-list"
         >
-          <h4 style="margin: 0px">{{ notification.title }}</h4>
-          ✔️ 알림일자 : {{ timeconvert(notification.notifyAt) }}
+          <div>{{ notification.title }}</div>
+          <div class="time">✔️ {{ timeconvert(notification.notifyAt) }}</div>
         </div>
       </div>
     </div>
@@ -106,10 +106,23 @@ h2 {
 }
 
 .notification-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border: 1px solid #8080804d;
   border-radius: 20px;
-  margin: 10px;
-  padding: 10px;
+  margin: 10px 10px 20px 10px;
+  padding: 18px 15px;
+}
+
+.notification-list:hover {
+  background-color: rgba(128, 128, 128, 0.121);
+  cursor: pointer;
+}
+
+.time {
+  font-size: 13px;
+  color: #808080b5;
 }
 
 @media screen and (max-width: 480px) {
