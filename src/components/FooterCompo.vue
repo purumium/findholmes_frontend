@@ -30,22 +30,22 @@
         </li>
         <li>
           <router-link
-            to="/admin/paymentchart"
-            class="footer-item"
-            active-class="active"
-          >
-            <font-awesome-icon class="icon" :icon="['fas', 'envelope']" />
-            <span class="text">결제통계</span>
-          </router-link>
-        </li>
-        <li>
-          <router-link
             to="/admin/chart"
             class="footer-item"
             active-class="active"
           >
             <font-awesome-icon class="icon" :icon="['fas', 'user']" />
-            <span class="text">사용자통계</span>
+            <span class="text">가입자현황</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/admin/paymentchart"
+            class="footer-item"
+            active-class="active"
+          >
+            <font-awesome-icon class="icon" :icon="['fas', 'envelope']" />
+            <span class="text">결제현황</span>
           </router-link>
         </li>
       </ul>

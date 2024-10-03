@@ -20,7 +20,9 @@
                 <div class="li-detective-name">
                   {{ estimate.detectiveName }}
                 </div>
-                <div class="detective-price">{{ estimate.price }}원</div>
+                <div class="detective-price">
+                  {{ estimate.price.toLocaleString() }}원
+                </div>
               </div>
             </div>
           </li>
@@ -108,7 +110,7 @@
               <div class="estimate-answer-together">
                 <div class="title">답변금액</div>
                 <div class="estimate-title">
-                  <span>{{ selectedDetective.price }}원</span>
+                  <span>{{ selectedDetective.price.toLocaleString() }}원</span>
                   <span class="estimate-title-span">협의</span>
                 </div>
               </div>
@@ -334,7 +336,8 @@ h2 {
 
 .detective-price {
   margin-top: 7px;
-  font-size: 15px;
+  font-size: 14px;
+  color: #2f2424;
 }
 
 .main-content {
@@ -424,7 +427,7 @@ h2 {
 }
 
 .title {
-  margin: 25px 0 7px 0;
+  margin: 10px 0 7px 0;
   font-weight: 600;
   font-size: 14px;
 }
@@ -481,17 +484,20 @@ textarea {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+  gap: 12px;
 }
 
 .actions button {
-  padding: 10px 20px;
+  padding: 7px 50px;
+  width: 100%;
   border: 1px solid #ccc;
   background-color: #fff;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 13px;
 }
 
 .actions button:hover {
-  background-color: #e0e0e0;
+  background-color: #e0e0e086;
 }
 </style>
