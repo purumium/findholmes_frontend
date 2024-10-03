@@ -43,6 +43,7 @@ import InqueryCreateCompo from "@/components/User/InqueryCreateCompo.vue";
 import InqueryListCompo from "@/components/User/InqueryListCompo.vue";
 import RequestDirectCompo from "@/components/User/RequestDirectCompo.vue";
 import AdInqueryDetailCompo from "@/components/Admin/AdInqueryDetailCompo.vue";
+import ReviewWriteCompo from "@/components/User/ReviewWriteCompo.vue";
 
 const routes = [
   {
@@ -309,6 +310,16 @@ const routes = [
       {
         path: "logout",
         component: LogoutCompo,
+      },
+
+      {
+        path: "/review",
+        name: "Review",
+        component: ReviewWriteCompo,
+        props: (route) => ({
+          detectiveId: route.params.detectiveId,
+          estimateId: route.params.estimateId,
+        }),
       },
     ],
   },
