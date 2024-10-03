@@ -128,6 +128,9 @@ export default {
   // created() {
   //   this.connect();
   // },
+  created() {
+    this.receiveChatCount();
+  },
 
   mounted() {
     console.log("Chat Room ID", this.chatRoomId);
@@ -149,6 +152,15 @@ export default {
         this.send();
         this.message = "";
         this.scrollToBottom();
+      }
+    },
+    async receiveChatCount() {
+      try {
+        axios.get("/api/notification/chatCount", {
+          params: { userId: this.userId },
+        });
+      } catch (error) {
+        return;
       }
     },
     send() {

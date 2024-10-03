@@ -73,6 +73,16 @@ export default {
     this.fetchMessages();
     this.connect();
   },
+
+  unmounted() {
+    if (this.stompClient) {
+      this.stompClient.disconnect(() => {
+        console.log("소켓 연결이 종료됨");
+      });
+    }
+    console.log("페이지가 변경되었습니다.");
+  },
+
   methods: {
     async fetchMessages() {
       this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴

@@ -44,7 +44,7 @@
             @mouseover="tooltipText = '채팅'"
             @mouseleave="tooltipText = ''"
           >
-            <router-link to="/chat" active-class="active">
+            <router-link to="/detective/chat" active-class="active">
               <font-awesome-icon :icon="['fas', 'comment-dots']" class="icon" />
             </router-link>
             <span v-if="tooltipText === '채팅'" class="tooltip">채팅</span>
@@ -103,6 +103,7 @@ export default {
   created() {
     this.setUpEventSource();
     this.loadNotificationCount();
+    this.totalChatCount();
   },
   computed: {
     ...mapGetters(["getId"]),
@@ -130,6 +131,16 @@ export default {
     };
   },
   methods: {
+    async totalChatCount() {
+      try {
+        const response = await axios.get("/api/chatConut", {
+          params: { userId: this.getId },
+        });
+        this.chatCount = response.data;
+      } catch (error) {
+        return;
+      }
+    },
     async loadNotificationCount() {
       try {
         const response = await axios.get("/api/notification/receive", {
@@ -154,7 +165,7 @@ export default {
 
       eventSource.addEventListener("ReceiveChat", (event) => {
         console.log("채팅 카운트 알림 실행됨", event);
-        this.chatCount += 1;
+        this.totalChatCount();
       });
 
       eventSource.onerror = this.handleConnectionError;
