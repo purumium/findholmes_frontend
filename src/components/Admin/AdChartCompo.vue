@@ -2,7 +2,7 @@
   <div class="inquiry-container">
     <header class="inquiry-header" @click="goBack">
       <button class="back-button">&lt;</button>
-      <h2>가입 현황</h2>
+      <h2>가입자 현황</h2>
       <span class="header-span"></span>
     </header>
 
@@ -14,11 +14,15 @@
         <div class="service-cards">
           <div class="service-card">
             <div class="total">사용자 가입</div>
-            <div>{{ totalMonthlyUserCount }}명</div>
+            <div>
+              <strong>{{ totalMonthlyUserCount }}명</strong>
+            </div>
           </div>
           <div class="service-card">
             <div class="total">홈즈 가입</div>
-            <div>{{ totalMonthlyDetectiveCount }}명</div>
+            <div>
+              <strong>{{ totalMonthlyDetectiveCount }}명</strong>
+            </div>
           </div>
         </div>
       </div>

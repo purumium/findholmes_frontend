@@ -11,16 +11,20 @@
         <!-- 총합 금액 표시 -->
         <div class="services">
           <h4 style="margin: 14px">
-            {{ selectedYear }}년 {{ selectedMonth }}월 사용자별 결제 금액
+            {{ selectedYear }}년 {{ selectedMonth }}월 총 결제 금액 현황
           </h4>
           <div class="service-cards">
             <div class="service-card">
-              <div class="total">사용자 총합 금액</div>
-              <div>{{ userTotalSum }}원</div>
+              <div class="total">사용자 총 합계</div>
+              <div>
+                <strong>{{ userTotalSum.toLocaleString() }}원</strong>
+              </div>
             </div>
             <div class="service-card">
-              <div class="total">홈즈 총합 금액</div>
-              <div>{{ detectiveTotalSum }}원</div>
+              <div class="total">홈즈 총 합계</div>
+              <div>
+                <strong>{{ detectiveTotalSum.toLocaleString() }}원</strong>
+              </div>
             </div>
           </div>
         </div>
@@ -74,8 +78,8 @@ export default {
       userDailyChart: null, // 사용자 일별 차트 객체
       userCount: [], // 서버로부터 받아온 데이터
       filteredData: [], // 필터링된 데이터
-      selectedYear: "", // 선택된 연도
-      selectedMonth: "", // 선택된 월
+      selectedYear: new Date().getFullYear(), // 현재 연도로 초기값 설정
+      selectedMonth: String(new Date().getMonth() + 1).padStart(2, "0"), // 현재 월로 초기값 설정 (01, 02 형식)
       availableYears: [], // 사용 가능한 연도 리스트
       availableMonths: [
         "01",
@@ -96,7 +100,7 @@ export default {
     };
   },
   mounted() {
-    this.fetchUserCount();
+    this.fetchUserCount(); // 페이지 로딩 시 사용자 결제 데이터를 가져옴
   },
   methods: {
     async fetchUserCount() {
@@ -113,8 +117,9 @@ export default {
       // 서버에서 받은 데이터의 날짜를 기반으로 사용 가능한 연도 리스트 설정
       const years = this.userCount.map((item) => item.date.split("-")[0]);
       this.availableYears = [...new Set(years)]; // 중복 제거하여 연도 리스트 설정
-      this.selectedYear = this.availableYears[0]; // 기본 선택 연도
-      this.selectedMonth = "01"; // 기본 선택 월
+      if (!this.availableYears.includes(this.selectedYear)) {
+        this.selectedYear = this.availableYears[0]; // 기본 선택 연도
+      }
     },
     filterData() {
       // 선택된 연도와 월로 데이터를 필터링
@@ -220,6 +225,7 @@ export default {
           },
         },
       });
+
       // 탐정 일별 그래프 그리기
       if (this.detectiveDailyChart) {
         this.detectiveDailyChart.destroy(); // 이미 차트가 존재하면 먼저 파괴
