@@ -7,7 +7,6 @@
     </header>
 
     <div class="notification-contain">
-      알림
       <div v-for="(notification, index) in notificationList" :key="index">
         <div
           @click="this.$router.push(notification.url)"

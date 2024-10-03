@@ -20,7 +20,9 @@
                 <div class="li-detective-name">
                   {{ estimate.detectiveName }}
                 </div>
-                <div class="detective-price">{{ estimate.price }}원</div>
+                <div class="detective-price">
+                  {{ estimate.price.toLocaleString() }}원
+                </div>
               </div>
             </div>
           </li>
@@ -108,7 +110,7 @@
               <div class="estimate-answer-together">
                 <div class="title">답변금액</div>
                 <div class="estimate-title">
-                  <span>{{ selectedDetective.price }}원</span>
+                  <span>{{ selectedDetective.price.toLocaleString() }}원</span>
                   <span class="estimate-title-span">협의</span>
                 </div>
               </div>
@@ -127,7 +129,15 @@
 
           <div class="actions">
             <button @click="goChat">채팅하기</button>
-            <button v-if="chatRoomExists" @click="acceptEstimate">
+            <button
+              v-if="chatRoomExists && !reviewExists"
+              @click="
+                goReview(
+                  selectedDetective.detectiveId,
+                  selectedDetective.estimateId
+                )
+              "
+            >
               리뷰쓰기
             </button>
           </div>
@@ -148,6 +158,7 @@ export default {
       estimates: [],
       selectedDetective: null,
       chatRoomExists: null,
+      reviewExists: null,
     };
   },
   computed: {
@@ -172,6 +183,7 @@ export default {
         if (this.estimates.length > 0) {
           this.selectedDetective = this.estimates[0];
           this.getChatRoomExists();
+          this.getReviewExist();
         }
       } catch (error) {
         console.log("estimates에러");
@@ -182,6 +194,7 @@ export default {
     selectDetective(index) {
       this.selectedDetective = this.estimates[index]; // 선택한 탐정을 설정
       this.getChatRoomExists();
+      this.getReviewExist();
     },
 
     timeconvert(time) {
@@ -219,6 +232,8 @@ export default {
         console.error("채팅방 생성 실패", error);
       }
     },
+
+    // 채팅방 존재하는지 찾기
     async getChatRoomExists() {
       this.token = localStorage.getItem("token");
 
@@ -233,13 +248,36 @@ export default {
             estimateId: this.selectedDetective.estimateId,
           },
         });
-        this.chatRoomExists = response.data;
+        this.chatRoomExists = response.data.exists;
       } catch (error) {
         console.error("채팅방 유무 가져오기 실패", error);
       }
     },
+    async getReviewExist() {
+      this.token = localStorage.getItem("token");
+      if (this.token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+      try {
+        const response = await axios.get(
+          `/api/review/get/estimate/${this.selectedDetective.estimateId}`
+        );
+        this.reviewExists = response.data;
+        console.log("리뷰 있을까나...", this.reviewExists);
+      } catch (error) {
+        console.error("리뷰 유무 가져오기 실패", error);
+      }
+    },
     goProfile(detectiveId) {
       this.$router.push({ name: "Profile", params: { detectiveId } });
+    },
+    goReview(detectiveId, estimateId) {
+      this.$router.push({
+        name: "Review",
+        params: { detectiveId, estimateId },
+      });
     },
   },
 };
@@ -334,7 +372,8 @@ h2 {
 
 .detective-price {
   margin-top: 7px;
-  font-size: 15px;
+  font-size: 14px;
+  color: #2f2424;
 }
 
 .main-content {
@@ -424,7 +463,7 @@ h2 {
 }
 
 .title {
-  margin: 25px 0 7px 0;
+  margin: 10px 0 7px 0;
   font-weight: 600;
   font-size: 14px;
 }
@@ -481,17 +520,20 @@ textarea {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+  gap: 12px;
 }
 
 .actions button {
-  padding: 10px 20px;
+  padding: 7px 50px;
+  width: 100%;
   border: 1px solid #ccc;
   background-color: #fff;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 13px;
 }
 
 .actions button:hover {
-  background-color: #e0e0e0;
+  background-color: #e0e0e086;
 }
 </style>

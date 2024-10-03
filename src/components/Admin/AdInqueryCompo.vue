@@ -29,7 +29,7 @@
       </div>
 
       <div class="inquiry-list">
-        <div class="total-info">1 페이지</div>
+        <div class="total-info"></div>
         <table class="inquiry-table">
           <thead>
             <tr>

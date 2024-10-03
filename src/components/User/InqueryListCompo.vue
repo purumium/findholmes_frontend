@@ -7,8 +7,8 @@
           <tr>
             <th>번호</th>
             <th class="text-title">제목</th>
-            <th>생성 날짜</th>
-            <th>상태</th>
+            <th>작성일자</th>
+            <th>답변상태</th>
           </tr>
         </thead>
         <tbody>
@@ -150,14 +150,14 @@ th,
 td {
   padding: 12px 10px;
   border-bottom: 1px solid #ccc;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  font-size: 12px;
 }
 
 th {
   background-color: #f4f4f4;
-}
-
-td {
-  font-size: 13px;
 }
 
 .status-pending {
