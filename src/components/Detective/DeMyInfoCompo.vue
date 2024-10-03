@@ -255,6 +255,7 @@
 import { onMounted, ref, watch } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 // 상태 변수
 const profilePictureFile = ref(null);
@@ -457,14 +458,34 @@ const handleProfileSubmit = async () => {
         specialties: specialtyIds,
       });
       message.value = "탐정 등록이 완료되었습니다.";
-      alert("탐정 정보 수정이 완료되었습니다.");
-      router.push("/detective/mypage");
+
+      Swal.fire({
+        title: "홈즈 정보 수정 완료",
+        text: "홈즈의 정보 수정이 완료되었습니다",
+        icon: "success",
+        confirmButtonText: "확인",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push("/detective/mypage");
+        }
+      });
     } else {
-      alert("현재 비밀번호가 다릅니다");
+      Swal.fire({
+        title: "비밀번호 변경 실패",
+        text: "현재 비밀번호를 확인해주세요",
+        icon: "error",
+        confirmButtonText: "확인",
+      });
     }
   } catch (error) {
     console.error(error);
-    alert("오류가 발생했습니다. 다시 시도해 주세요.");
+
+    Swal.fire({
+      title: "오류 발생",
+      text: "오류가 발생하였으니 다시 시도해주세요",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
   }
 };
 
@@ -481,7 +502,12 @@ const deleteFile = async (filePath) => {
       "Error deleting file:",
       error.response ? error.response.data : error.message
     );
-    alert("파일 삭제 중 오류가 발생했습니다.");
+    Swal.fire({
+      title: "파일 삭제 실패",
+      text: "파일 삭제 중 오류가 발생하였습니다",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
   }
 };
 
@@ -510,7 +536,13 @@ const uploadFiles = async () => {
       "Error uploading files:",
       error.response ? error.response.data : error.message
     );
-    alert("파일 업로드 중 오류가 발생했습니다.");
+
+    Swal.fire({
+      title: "파일 업로드 실패",
+      text: "파일 업로드 중 오류가 발생했습니다",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
     throw error; // 에러를 다시 던져서 상위 함수에서 처리
   }
 };
@@ -523,7 +555,12 @@ const updateProfile = async (data) => {
       "Error updating profile:",
       error.response ? error.response.data : error.message
     );
-    alert("프로필 업데이트 중 오류가 발생했습니다.");
+    Swal.fire({
+      title: "프로필 업데이트 실패",
+      text: "프로필 업데이트 중 오류가 발생했습니다",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
     throw error; // 에러를 다시 던져서 상위 함수에서 처리
   }
 };

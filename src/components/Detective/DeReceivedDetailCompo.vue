@@ -207,9 +207,9 @@ h3 {
   width: 100%;
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 8px 0;
+  padding: 10px 0;
   border-radius: 9px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   margin-top: 16px;

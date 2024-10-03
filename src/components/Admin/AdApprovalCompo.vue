@@ -500,7 +500,7 @@ h4 {
   background-color: #ffdf3e9c;
   color: #46444a;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   margin: 7px;
 }

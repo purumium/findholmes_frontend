@@ -46,7 +46,6 @@
           </form>
         </div>
       </form>
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
@@ -57,6 +56,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // jwtDecode는 이렇게 임포트해야 합니다.
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 export default {
   setup() {
@@ -105,7 +105,13 @@ export default {
         }
       } catch (error) {
         console.error(error);
-        errorMessage.value = "Login failed. Please check your credentials.";
+
+        Swal.fire({
+          title: "로그인 실패",
+          text: "아이디 또는 비밀번호를 확인해주세요!",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
       }
     };
 
@@ -185,7 +191,7 @@ export default {
 
 .btn-login {
   width: 95%;
-  padding: 10px;
+  padding: 13px;
   border: 1px solid #eae8c1;
   border-radius: 5px;
   background-color: #ffdf3e9c;

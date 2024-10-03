@@ -96,6 +96,7 @@
 <script>
 import axios from "axios";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -167,11 +168,22 @@ export default {
           await this.updatePW({
             password: this.confirmPassword,
           });
-          alert("비밀번호 수정이 완료되었습니다.");
+          Swal.fire({
+            title: "비밀번호 변경 성공",
+            text: "비밀번호 수정이 완료되었습니다!",
+            icon: "success",
+            confirmButtonText: "확인",
+          });
+
           const router = useRouter();
           router.push("/member/mypage");
         } else {
-          alert("현재 비밀번호가 틀립니다");
+          Swal.fire({
+            title: "비밀번호 변경 실패",
+            text: "현재 비밀번호를 확인해주세요!",
+            icon: "error",
+            confirmButtonText: "확인",
+          });
         }
       } catch (error) {
         console.error(error);
@@ -198,7 +210,12 @@ export default {
           userName: this.username,
           phoneNumber: this.phonenumber,
         });
-        alert("프로플 수정이 완료되었습니다.");
+        Swal.fire({
+          title: "프로필 변경",
+          text: "프로필 수정이 완료되었습니다!",
+          icon: "success",
+          confirmButtonText: "확인",
+        });
         console.log(response2.data);
       } catch (error) {
         console.error(error);
@@ -255,7 +272,6 @@ h2 {
   color: #534c4c;
   background-color: #ffdf3e99;
   font-size: 12px;
-  /* margin-right: 3px; */
   font-weight: 600;
   position: relative;
   left: 3px;
