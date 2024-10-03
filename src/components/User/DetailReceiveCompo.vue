@@ -129,7 +129,15 @@
 
           <div class="actions">
             <button @click="goChat">채팅하기</button>
-            <button v-if="chatRoomExists" @click="acceptEstimate">
+            <button
+              v-if="chatRoomExists && !reviewExists"
+              @click="
+                goReview(
+                  selectedDetective.detectiveId,
+                  selectedDetective.estimateId
+                )
+              "
+            >
               리뷰쓰기
             </button>
           </div>
@@ -150,6 +158,7 @@ export default {
       estimates: [],
       selectedDetective: null,
       chatRoomExists: null,
+      reviewExists: null,
     };
   },
   computed: {
@@ -174,6 +183,7 @@ export default {
         if (this.estimates.length > 0) {
           this.selectedDetective = this.estimates[0];
           this.getChatRoomExists();
+          this.getReviewExist();
         }
       } catch (error) {
         console.log("estimates에러");
@@ -184,6 +194,7 @@ export default {
     selectDetective(index) {
       this.selectedDetective = this.estimates[index]; // 선택한 탐정을 설정
       this.getChatRoomExists();
+      this.getReviewExist();
     },
 
     timeconvert(time) {
@@ -221,6 +232,8 @@ export default {
         console.error("채팅방 생성 실패", error);
       }
     },
+
+    // 채팅방 존재하는지 찾기
     async getChatRoomExists() {
       this.token = localStorage.getItem("token");
 
@@ -235,13 +248,36 @@ export default {
             estimateId: this.selectedDetective.estimateId,
           },
         });
-        this.chatRoomExists = response.data;
+        this.chatRoomExists = response.data.exists;
       } catch (error) {
         console.error("채팅방 유무 가져오기 실패", error);
       }
     },
+    async getReviewExist() {
+      this.token = localStorage.getItem("token");
+      if (this.token) {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+      } else {
+        console.error("토큰을 찾을 수 없습니다.");
+      }
+      try {
+        const response = await axios.get(
+          `/api/review/get/estimate/${this.selectedDetective.estimateId}`
+        );
+        this.reviewExists = response.data;
+        console.log("리뷰 있을까나...", this.reviewExists);
+      } catch (error) {
+        console.error("리뷰 유무 가져오기 실패", error);
+      }
+    },
     goProfile(detectiveId) {
       this.$router.push({ name: "Profile", params: { detectiveId } });
+    },
+    goReview(detectiveId, estimateId) {
+      this.$router.push({
+        name: "Review",
+        params: { detectiveId, estimateId },
+      });
     },
   },
 };

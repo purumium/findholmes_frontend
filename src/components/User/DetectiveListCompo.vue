@@ -54,8 +54,8 @@
                   <div>{{ detective.userName }}</div>
                 </div>
                 <div class="ratings">
-                  <div>⭐ {{ detective.rate }} 5.0</div>
-                  <div>⭐ 후기 {{ detective.reviews }}150건</div>
+                  <div>⭐ {{ detective.averageRating }}</div>
+                  <div>⭐ 후기 {{ detective.reviewCount }}</div>
                 </div>
               </div>
               <div class="profile-tags">

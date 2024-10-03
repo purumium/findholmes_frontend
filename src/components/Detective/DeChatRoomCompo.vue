@@ -75,7 +75,7 @@
                 class="message-isRead"
                 v-if="item.senderId === this.senderId"
               >
-                {{ item.readCount === 2 ? "읽음" : "안읽음" }}
+                {{ item.readCount === 2 ? "" : "1" }}
               </div>
               <div class="message-time">{{ timeconvert(item.sendTime) }}</div>
             </div>
@@ -114,7 +114,7 @@ export default {
     const userId = computed(() => store.getters.getId);
 
     onMounted(() => {
-      console.log("Computed testt:", userId.value);
+      console.log("Computed userId:", userId.value);
     });
     return {
       userId,
@@ -186,7 +186,7 @@ export default {
           console.log("소켓 연결 성공", frame);
 
           // 채팅방 구독
-          this.stompClient.subscribe(`/send`, (res) => {
+          this.stompClient.subscribe(`/send/${this.chatRoomId}`, (res) => {
             console.log("구독으로 받은 메시지", res.body);
             const newMessage = JSON.parse(res.body);
             this.recvList.push(newMessage);
@@ -313,6 +313,7 @@ export default {
       try {
         await axios.post(`/api/chatroom/${this.chatRoomId}/is-accepted`);
         this.showAcceptedPrivacyModal = false; // 모달 닫기
+        this.fetchMessages();
       } catch (error) {
         console.error("개인정보 동의 처리 실패:", error);
       }
@@ -410,6 +411,14 @@ export default {
       ).toDateString();
       return currentDate !== previousDate;
     },
+    beforeDestroy() {
+      // 컴포넌트가 사라지기 전에 WebSocket 연결 해제
+      if (this.stompClient) {
+        this.stompClient.disconnect(() => {
+          console.log("WebSocket disconnected");
+        });
+      }
+    },
   },
 };
 </script>
@@ -467,7 +476,7 @@ h2 {
 .chat-room {
   display: flex;
   flex-direction: column;
-  height: 83vh;
+  height: 81vh;
 }
 
 /* .chat-header {

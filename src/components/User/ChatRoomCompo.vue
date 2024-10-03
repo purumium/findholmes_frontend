@@ -75,7 +75,7 @@
                 class="message-isRead"
                 v-if="item.senderId === this.senderId"
               >
-                {{ item.readCount === 2 ? "읽음" : "안읽음" }}
+                {{ item.readCount === 2 ? "" : "1" }}
               </div>
               <div class="message-time">{{ timeconvert(item.sendTime) }}</div>
             </div>
@@ -238,7 +238,7 @@ export default {
           console.log("소켓 연결 성공", frame);
           // 서버의 메시지 전송 endpoint를 구독합니다.
           // 이런형태를 pub sub 구조라고 합니다.
-          this.stompClient.subscribe("/send", (res) => {
+          this.stompClient.subscribe(`/send/${this.chatRoomId}`, (res) => {
             console.log("구독으로 받은 메시지 입니다.", res.body);
             const newMessage = JSON.parse(res.body);
             // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
