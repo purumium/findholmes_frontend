@@ -25,7 +25,7 @@
                 chatRoom.lastMessage !== null && chatRoom.lastMessage !== ''
               "
             >
-              {{ chatRoom.lastMessage }}
+              {{ truncatedMessage(chatRoom.lastMessage) }}
             </span>
 
             <!-- 마지막 메시지가 없을 경우 -->
@@ -129,7 +129,10 @@ export default {
             `/user/${this.userId.toString()}/notifications`,
             (notification) => {
               const notificationData = JSON.parse(notification.body);
+              console.log("추가~", notificationData);
               const notificationCount = notificationData.notification; // 알림 개수 추출
+              const newSendTime = notificationData.lastSendTime;
+              const newMessage = notificationData.lastMessage;
               console.log("나야 채팅알림 수", notificationCount);
               const chatRoomId = notificationData.chatRoomId; // 해당 채팅방 ID 추출
 
@@ -139,6 +142,8 @@ export default {
                   return {
                     ...chatRoom,
                     notificationCount: notificationCount, // 알림 개수 업데이트
+                    lastChatTime: newSendTime,
+                    lastMessage: newMessage,
                   };
                 }
                 return chatRoom; // 나머지는 그대로 유지
@@ -153,6 +158,20 @@ export default {
         }
       );
     },
+    truncatedMessage(message) {
+      if (message.length > 40) {
+        return message.slice(0, 40) + "...";
+      }
+      return message;
+    },
+  },
+  beforeUnmount() {
+    // 컴포넌트가 사라지기 전에 WebSocket 연결 해제
+    if (this.stompClient) {
+      this.stompClient.disconnect(() => {
+        console.log("WebSocket disconnected");
+      });
+    }
   },
 };
 </script>

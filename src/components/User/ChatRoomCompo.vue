@@ -91,17 +91,18 @@
           <button v-else @click="chargePoints">포인트 충전하러 가기</button>
         </div>
         <div class="chat-input">
-          <input
+          <textarea
             v-model="message"
-            type="text"
             :placeholder="
               canSend
                 ? '메세지를 작성하세요.'
                 : '채팅 한도 5회를 초과하였습니다.'
             "
+            @input="autoResize"
             @keyup.enter="sendMessage"
             :disabled="!canSend"
-          />
+            rows="1"
+          ></textarea>
           <button @click="sendMessage" :disabled="!canSend">보내기</button>
         </div>
       </div>
@@ -122,6 +123,8 @@ import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 
 export default {
+  props: ["chatRoomId"],
+
   setup() {
     const store = useStore();
     const userId = computed(() => store.getters.getId);
@@ -146,14 +149,10 @@ export default {
     };
   },
 
-  computed: {
-    chatRoomId() {
-      return this.$route.params.chatRoomId; // route params에서 chatRoomId 가져옴
-    },
-  },
-
-  // created() {
-  //   this.connect();
+  // computed: {
+  //   chatRoomId() {
+  //     return this.$route.params.chatRoomId; // route params에서 chatRoomId 가져옴
+  //   },
   // },
 
   mounted() {
@@ -209,6 +208,10 @@ export default {
         this.increaseMessageCount();
         this.checkCanSendMessage();
         this.message = "";
+        this.$nextTick(() => {
+          const textarea = this.$el.querySelector("textarea");
+          textarea.style.height = "40px"; // 초기 높이로 재설정
+        });
         this.scrollToBottom();
       }
     },
@@ -518,6 +521,22 @@ export default {
       ).toDateString();
       return currentDate !== previousDate;
     },
+    autoResize(event) {
+      const textarea = event.target;
+      const padding =
+        parseInt(window.getComputedStyle(textarea).paddingTop) +
+        parseInt(window.getComputedStyle(textarea).paddingBottom);
+      textarea.style.height = "auto"; // 높이 초기화
+      textarea.style.height = textarea.scrollHeight - padding + "px"; // 패딩을 제외한 높이 설정
+    },
+  },
+  beforeUnmount() {
+    // 컴포넌트가 사라지기 전에 WebSocket 연결 해제
+    if (this.stompClient) {
+      this.stompClient.disconnect(() => {
+        console.log("WebSocket disconnected");
+      });
+    }
   },
 };
 </script>
@@ -785,12 +804,16 @@ p {
   background-color: #f5f5f5;
 }
 
-.chat-input input {
+.chat-input textarea {
   flex: 1;
   padding: 10px;
   margin-right: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  resize: none;
+  overflow-y: auto;
+  max-height: 150px;
+  min-height: 40px;
 }
 
 .chat-input button {
@@ -801,6 +824,8 @@ p {
   color: #0a0404;
   border: none;
   cursor: pointer;
+  height: 40px;
+  align-self: flex-end;
 }
 
 .chat-input button:hover {
