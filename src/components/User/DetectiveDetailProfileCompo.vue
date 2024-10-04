@@ -68,18 +68,24 @@
           <div class="reviews">
             <h4>의뢰인후기</h4>
             <div class="review-list">
-              <p>
-                후기 {{ detective.reviewCount }} 개 | 평점:
-                {{ detective.rate }} / 5.0
+              <p class="review-summary">
+                후기 {{ detective.reviewCount }} 개 | ⭐
+                {{ detective.averageRating }} / 5.0
               </p>
               <!-- Review list example -->
               <div
                 class="review-item"
-                v-for="review in detective.reviews"
+                v-for="review in reviews"
                 :key="review.id"
               >
-                <p>{{ review.comment }}</p>
-                <p>평점: {{ review.rating }} / 5</p>
+                <div class="review-header">
+                  <div class="header-top">
+                    <span class="review-username">익명{{ review.id }}</span>
+                    <span class="star-rating">⭐ {{ review.rating }}</span>
+                  </div>
+                  <p class="review-date">{{ timeconvert(review.updatedAt) }}</p>
+                </div>
+                <p class="review-content">{{ review.content }}</p>
               </div>
             </div>
           </div>
@@ -101,10 +107,12 @@ export default {
   data() {
     return {
       detective: {},
+      reviews: {},
     };
   },
   mounted() {
     this.getDetectiveProfile();
+    this.getReviewList();
   },
   methods: {
     goBack() {
@@ -124,11 +132,34 @@ export default {
           console.log("에러:", error);
         });
     },
+    getReviewList() {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      axios
+        .get(`/api/review/get/detective/${this.detectiveId}`)
+        .then((response) => {
+          this.reviews = response.data;
+          console.log("리뷰리스트", this.reviews);
+        })
+        .catch((error) => {
+          console.log("에러:", error);
+        });
+    },
     getImageUrl(path) {
       return `http://localhost:8080/${path}`;
     },
     goRequest(detectiveId) {
       this.$router.push(`/request/${detectiveId}`);
+    },
+    timeconvert(time) {
+      const converttime = new Date(time);
+      const year = converttime.getFullYear();
+      const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
+      const day = String(converttime.getDate()).padStart(2, "0");
+      const hour = String(converttime.getHours()).padStart(2, "0");
+      const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}년 ${month}월 ${day}일 ${hour}:${minute}`;
     },
   },
 };
@@ -248,7 +279,7 @@ h2 {
   padding: 7px 0px;
   font-size: 13px;
   color: #070505;
-  line-height: 20px;
+  line-height: 22px;
   text-align: left;
 }
 
@@ -310,17 +341,64 @@ h2 {
 }
 
 .review-list {
-  background-color: #f0f0f0;
-  padding: 20px;
-  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.review-summary {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #333;
 }
 
 .review-item {
-  margin-bottom: 15px;
+  padding: 20px;
+  border-bottom: 1px solid #eaeaea;
 }
 
-.review-item p {
-  margin: 5px 0;
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-header {
+  display: flex;
+  flex-direction: column; /* 상단과 하단을 구분 */
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px; /* 날짜와의 간격 */
+}
+
+.review-username {
+  font-weight: bold;
+  font-size: 14px;
+  color: #000;
+  margin-right: 10px; /* 별점과의 간격 */
+}
+
+.star-rating {
+  color: #ffd700; /* 골드 색상 */
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #777;
+  margin-top: -2px;
+}
+
+.review-content {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin: -2px;
+}
+
+.review-item:last-child .review-content {
+  margin-bottom: 0;
 }
 
 @media screen and (max-width: 768px) {

@@ -82,6 +82,7 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
+import Swal from "sweetalert2";
 
 export default {
   props: ["requestId"],
@@ -126,11 +127,27 @@ export default {
           description: this.description,
         });
         if (response.data) {
-          alert("답변서를 전송하였습니다.");
-          this.$router.push("/detective/estimatelist");
+          Swal.fire({
+            title: "답변서 전송 완료",
+            text: "의뢰인에게 답변서를 전송하였습니다",
+            icon: "success",
+            confirmButtonText: "확인",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.$router.push("/detective/estimatelist");
+            }
+          });
         } else {
-          alert("포인트가 부족합니다.");
-          this.chargePoint = true;
+          Swal.fire({
+            title: "답변서 전송 실패",
+            text: "포인트가 부족합니다",
+            icon: "error",
+            confirmButtonText: "확인",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.chargePoint = true;
+            }
+          });
         }
       } catch (error) {
         return;
@@ -289,12 +306,11 @@ h2 {
   width: 100%;
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 8px 0px;
-  border-radius: 9px;
-  font-size: 13px;
+  padding: 10px 0px;
+  border-radius: 8px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  margin: 3px;
 }
 
 .submit-div {
@@ -306,14 +322,14 @@ h2 {
 
 .charge-button {
   width: 100%;
-  background-color: lightgray;
-  border: 1px solid darkgrey;
-  padding: 8px 0px;
+  background-color: #d3d3d34f;
+  border: 1px solid #d3d3d34f;
+  padding: 10px 0px;
   border-radius: 9px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  margin: 3px;
+  margin-top: 12px;
 }
 
 .submit-div span:nth-child(2) {
