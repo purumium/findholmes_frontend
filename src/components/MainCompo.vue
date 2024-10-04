@@ -50,6 +50,10 @@
         <p>ⓒ2024 Korea Software Industry Association. All rights reserved.</p>
       </div>
     </footer>
+
+    <form @submit.prevent="registerRandom">
+      <button type="submit"><h1>가입클릭</h1></button>
+    </form>
   </div>
 </template>
 
@@ -70,6 +74,9 @@ export default {
     this.handleOAuth2LoginSuccess();
   },
   methods: {
+    async registerRandom() {
+      await axios.post("/api/plz/detective");
+    },
     handleOAuth2LoginSuccess() {
       // URL에서 쿼리 파라미터로 전달된 토큰 추출
       const urlParams = new URLSearchParams(window.location.search);

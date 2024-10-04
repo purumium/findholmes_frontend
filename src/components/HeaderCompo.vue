@@ -79,10 +79,8 @@
           >
             <font-awesome-icon :icon="['fas', 'bell']" class="icon" />
             <span v-if="tooltipText === '알림'" class="tooltip">알림</span>
-            <span
-              class="notification-num"
-              v-if="notificationCount + events.length > 0"
-              >{{ notificationCount + events.length }}
+            <span class="notification-num" v-if="notificationCount > 0"
+              >{{ notificationCount }}
             </span>
           </div>
 
@@ -113,7 +111,6 @@ import axios from "axios";
 export default {
   data() {
     return {
-      events: ref([]),
       notificationCount: 0,
       chatCount: 0,
     };
@@ -179,22 +176,19 @@ export default {
       );
       eventSource.onmessage = (event) => this.handleEvent(event);
 
-      eventSource.addEventListener("addMessage", (event) => {
-        this.handleEvent(event);
+      eventSource.addEventListener("addMessage", () => {
+        this.handleEvent();
       });
 
-      eventSource.addEventListener("ReceiveChat", (event) => {
-        console.log("채팅 카운트 알림 실행됨", event);
+      eventSource.addEventListener("ReceiveChat", () => {
         this.totalChatCount();
       });
 
       eventSource.onerror = this.handleConnectionError;
       eventSource.onopen = this.handleConnectionOpen;
     },
-    handleEvent(event) {
-      const eventData = JSON.parse(event.data);
-      this.events.push(eventData);
-      this.showNotification(eventData.message);
+    handleEvent() {
+      this.loadNotificationCount();
     },
     handleConnectionOpen() {
       console.log("연결에 성공하였습니다.");
