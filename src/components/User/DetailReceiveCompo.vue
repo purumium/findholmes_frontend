@@ -246,7 +246,8 @@ export default {
             estimateId: this.selectedDetective.estimateId,
           },
         });
-        this.chatRoomExists = response.data.exists;
+        this.chatRoomExists = response.data;
+        console.log("채팅전적", this.chatRoomExists);
       } catch (error) {
         console.error("채팅방 유무 가져오기 실패", error);
       }
@@ -263,7 +264,7 @@ export default {
           `/api/review/get/estimate/${this.selectedDetective.estimateId}`
         );
         this.reviewExists = response.data;
-        console.log("리뷰 있을까나...", this.reviewExists);
+        console.log("리뷰 전적", this.reviewExists);
       } catch (error) {
         console.error("리뷰 유무 가져오기 실패", error);
       }
