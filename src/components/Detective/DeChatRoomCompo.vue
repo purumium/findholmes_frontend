@@ -137,6 +137,10 @@ export default {
     };
   },
 
+  created() {
+    this.receiveChatCount();
+  },
+
   mounted() {
     console.log("Chat Room ID", this.chatRoomId);
     this.roomId = this.chatRoomId;
@@ -159,6 +163,15 @@ export default {
           textarea.style.height = "40px"; // 초기 높이로 재설정
         });
         this.scrollToBottom();
+      }
+    },
+    async receiveChatCount() {
+      try {
+        axios.get("/api/notification/chatCount", {
+          params: { userId: this.userId },
+        });
+      } catch (error) {
+        return;
       }
     },
     send() {
