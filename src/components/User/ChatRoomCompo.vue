@@ -166,9 +166,27 @@ export default {
     this.getCurrentPoints();
   },
 
+  unmounted() {
+    console.log("페이지가 변경되었습니다.");
+  },
+  updated() {
+    this.receiveChatCount();
+  },
+  created() {
+    //this.receiveChatCount();
+  },
   methods: {
     goBack() {
       this.$router.go(-1);
+    },
+    async receiveChatCount() {
+      try {
+        axios.get("/api/notification/chatCount", {
+          params: { userId: this.userId },
+        });
+      } catch (error) {
+        return;
+      }
     },
     async checkCanSendMessage() {
       this.token = localStorage.getItem("token");

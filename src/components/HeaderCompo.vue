@@ -120,6 +120,7 @@ export default {
   },
   created() {
     this.loadNotificationCount();
+    this.totalChatCount();
   },
   mounted() {
     this.setUpEventSource();
@@ -134,7 +135,6 @@ export default {
 
     // Vuex에서 로그인 상태를 가져오기
     const isAuthenticated = computed(() => store.getters.isAuthenticated);
-    const isUser = computed(() => store.getters.getId);
     const isRole = computed(() => store.getters.getRoles);
     console.log(store.getters.getUser);
     // 로그아웃 처리 함수
@@ -143,11 +143,6 @@ export default {
       console.log(store.state);
       router.push("/login"); // 로그아웃 후 로그인 페이지로 리디렉션 (원하는 페이지로 변경 가능)
     };
-    console.log(
-      "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-      isAuthenticated.value,
-      isUser
-    );
 
     return {
       isAuthenticated,
@@ -157,6 +152,17 @@ export default {
     };
   },
   methods: {
+    async totalChatCount() {
+      try {
+        const response = await axios.get("/api/chatConut", {
+          params: { userId: this.getId },
+        });
+        console.log(response.data);
+        this.chatCount = response.data;
+      } catch (error) {
+        return;
+      }
+    },
     async loadNotificationCount() {
       try {
         const response = await axios.get("/api/notification/receive", {
@@ -168,25 +174,22 @@ export default {
       }
     },
     setUpEventSource() {
-      console.log("SSE연결전 : ", this.getId);
       const eventSource = new EventSource(
         `http://localhost:8080/notification/subscribe?userId=${this.getId}`
       );
       eventSource.onmessage = (event) => this.handleEvent(event);
 
       eventSource.addEventListener("addMessage", (event) => {
-        console.log("addMessage 이벤트 수신: ", event.data);
         this.handleEvent(event);
       });
 
       eventSource.addEventListener("ReceiveChat", (event) => {
         console.log("채팅 카운트 알림 실행됨", event);
-        this.chatCount += 1;
+        this.totalChatCount();
       });
 
       eventSource.onerror = this.handleConnectionError;
       eventSource.onopen = this.handleConnectionOpen;
-      console.log("SSE연결후", eventSource);
     },
     handleEvent(event) {
       const eventData = JSON.parse(event.data);
@@ -237,9 +240,10 @@ export default {
 
 .title {
   margin-left: 6px;
-  font-size: 16px;
+  font-size: 20px;
   letter-spacing: -1px;
   font-weight: 600;
+  font-family: fangsong;
 }
 
 .icon-container {

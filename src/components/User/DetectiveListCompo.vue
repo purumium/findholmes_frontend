@@ -26,24 +26,26 @@
           class="profile-card"
         >
           <div class="profile-content">
-            <div class="profile-left">
-              <button
-                class="request-btn go-profile-btn"
-                @click="goProfile(detective.userId)"
-              >
-                프로필 보기
-              </button>
+            <div>
               <img
                 :src="`http://localhost:8080/${detective.profilePicture}`"
                 alt="Profile Image"
                 class="profile-image"
               />
-              <button
-                class="request-btn"
-                @click="createRequest(detective.userId)"
-              >
-                의뢰서 작성
-              </button>
+              <div class="btn">
+                <button
+                  class="request-btn go-profile-btn"
+                  @click="goProfile(detective.userId)"
+                >
+                  프로필 보기
+                </button>
+                <button
+                  class="request-btn"
+                  @click="createRequest(detective.userId)"
+                >
+                  의뢰서 작성
+                </button>
+              </div>
             </div>
             <div class="profile-details">
               <div class="profile-title">
@@ -324,6 +326,13 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.btn {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .request-btn {
