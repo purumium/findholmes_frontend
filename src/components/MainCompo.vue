@@ -50,10 +50,6 @@
         <p>ⓒ2024 Korea Software Industry Association. All rights reserved.</p>
       </div>
     </footer>
-
-    <form @submit.prevent="registerRandom">
-      <button type="submit"><h1>가입클릭</h1></button>
-    </form>
   </div>
 </template>
 
