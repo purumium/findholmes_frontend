@@ -55,6 +55,7 @@
 
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -87,13 +88,6 @@ export default {
     },
   },
   methods: {
-    goBack() {
-      if (this.roles === "ROLE_DETECTIVE") {
-        this.$router.push("/detective/mypage");
-      } else {
-        this.$router.push("/mypage");
-      }
-    },
     async handleSubmit() {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -106,15 +100,27 @@ export default {
           content: this.content,
         };
 
-        console.log(inqueryData);
-
-        const response = await axios.post("api/inquery/insert", inqueryData);
+        const response = await axios.post("/api/inquery/insert", inqueryData);
 
         if (response.status === 200) {
-          alert("문의가 성공적으로 접수되었습니다");
-          this.resetForm();
+          Swal.fire({
+            title: "문의 작성 완료",
+            text: "문의가 성공적으로 접수되었습니다",
+            icon: "success",
+            confirmButtonText: "확인",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.resetForm();
+            }
+          });
         }
       } catch (error) {
+        Swal.fire({
+          title: "문의 접수 실패",
+          text: "문의 접수에 오류가 발생하였습니다",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
         console.log(error);
       }
     },
@@ -216,8 +222,8 @@ h2 {
   width: 100%;
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 11px 0px;
-  border-radius: 20px;
+  padding: 10px 0px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;

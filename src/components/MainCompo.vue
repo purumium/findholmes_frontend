@@ -51,17 +51,13 @@
       </div>
     </footer>
   </div>
-  <!-- <button @click="write">작성</button>
-  <button @click="update">수정</button>
-  <button @click="get">가져오기</button> -->
 </template>
 
 <script>
-
 import { jwtDecode } from "jwt-decode";
 import axios from "axios"; // Axios 사용
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   data() {
@@ -72,17 +68,14 @@ export default {
   },
   created() {
     this.handleOAuth2LoginSuccess();
-
   },
   methods: {
-
     handleOAuth2LoginSuccess() {
       // URL에서 쿼리 파라미터로 전달된 토큰 추출
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
       const store = useStore();
       const router = useRouter();
-
 
       if (token) {
         try {
@@ -130,13 +123,12 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        const response = await axios.post("/api/review/write",{
-          detectiveId : 1,
-          rating : 5,
-          content : "리뷰 테스트"
+        const response = await axios.post("/api/review/write", {
+          detectiveId: 1,
+          rating: 5,
+          content: "리뷰 테스트",
         });
-        console.log(response.data)
-
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -145,14 +137,13 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        const response = await axios.post("/api/review/update",{
-          id : 1, //리뷰 아이디
-          detectiveId : 1,
-          rating : 7,
-          content : "리뷰 수정 테스트"
+        const response = await axios.post("/api/review/update", {
+          id: 1, //리뷰 아이디
+          detectiveId: 1,
+          rating: 7,
+          content: "리뷰 수정 테스트",
         });
-        console.log(response.data)
-
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -162,15 +153,14 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const detectiveId = 1;
       try {
-        const response = await axios.get(`/api/review/get/${detectiveId}`)
-        console.log(response.data)
-
+        const response = await axios.get(`/api/review/get/${detectiveId}`);
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

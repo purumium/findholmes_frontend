@@ -1,13 +1,7 @@
 <template>
-  <footer>
+  <div class="footer-container">
     <nav class="footer-nav" v-if="isRole === 'ROLE_ADMIN'">
       <ul>
-        <li>
-          <router-link to="/admin" class="footer-item" active-class="active">
-            <font-awesome-icon class="icon" :icon="['fas', 'home']" />
-            <span class="text">홈</span>
-          </router-link>
-        </li>
         <li>
           <router-link
             to="/admin/approval"
@@ -25,7 +19,33 @@
             active-class="active"
           >
             <font-awesome-icon class="icon" :icon="['fas', 'search']" />
-            <span class="text">신고관리</span>
+            <span class="text">문의관리</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="/admin" class="footer-item" active-class="active">
+            <font-awesome-icon class="icon" :icon="['fas', 'home']" />
+            <span class="text">홈 </span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/admin/chart"
+            class="footer-item"
+            active-class="active"
+          >
+            <font-awesome-icon class="icon" :icon="['fas', 'user']" />
+            <span class="text">가입자현황</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/admin/paymentchart"
+            class="footer-item"
+            active-class="active"
+          >
+            <font-awesome-icon class="icon" :icon="['fas', 'envelope']" />
+            <span class="text">결제현황</span>
           </router-link>
         </li>
       </ul>
@@ -33,9 +53,13 @@
     <nav class="footer-nav" v-else>
       <ul>
         <li>
-          <router-link to="/request" class="footer-item" active-class="active">
+          <router-link
+            :to="!isAuthenticated ? '/login' : '/request'"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'pencil-alt']" />
-            <span class="text">의뢰서작성</span>
+            <span class="text">의뢰서작성 </span>
           </router-link>
         </li>
         <li>
@@ -51,20 +75,28 @@
           </router-link>
         </li>
         <li>
-          <router-link to="/receive" class="footer-item" active-class="active">
+          <router-link
+            :to="!isAuthenticated ? '/login' : '/receive'"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'envelope']" />
             <span class="text">의뢰&답변</span>
           </router-link>
         </li>
         <li>
-          <router-link to="/mypage" class="footer-item" active-class="active">
+          <router-link
+            :to="!isAuthenticated ? '/login' : '/mypage'"
+            class="footer-item"
+            active-class="active"
+          >
             <font-awesome-icon class="icon" :icon="['fas', 'user']" />
             <span class="text">마이페이지</span>
           </router-link>
         </li>
       </ul>
     </nav>
-  </footer>
+  </div>
 </template>
 
 <script>
@@ -90,7 +122,7 @@ export default {
 </script>
 
 <style scoped>
-footer {
+.footer-container {
   display: flex;
   align-items: center;
 }

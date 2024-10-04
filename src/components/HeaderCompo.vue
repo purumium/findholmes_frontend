@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <div class="header-container">
     <nav class="header-nav">
       <div class="navbar-left">
         <router-link :to="isRole === 'ROLE_ADMIN' ? '/admin' : '/'">
@@ -66,6 +66,9 @@
               <font-awesome-icon :icon="['fas', 'comment-dots']" class="icon" />
             </router-link>
             <span v-if="tooltipText === '채팅'" class="tooltip">채팅</span>
+            <span class="notification-num" v-if="chatCount > 0"
+              >{{ chatCount }}
+            </span>
           </div>
 
           <div
@@ -79,8 +82,8 @@
             <span
               class="notification-num"
               v-if="notificationCount + events.length > 0"
-              >{{ notificationCount + events.length }}</span
-            >
+              >{{ notificationCount + events.length }}
+            </span>
           </div>
 
           <div
@@ -97,7 +100,7 @@
         </div>
       </div>
     </nav>
-  </header>
+  </div>
 </template>
 
 <script>
@@ -112,6 +115,7 @@ export default {
     return {
       events: ref([]),
       notificationCount: 0,
+      chatCount: 0,
     };
   },
   created() {
@@ -175,6 +179,11 @@ export default {
         this.handleEvent(event);
       });
 
+      eventSource.addEventListener("ReceiveChat", (event) => {
+        console.log("채팅 카운트 알림 실행됨", event);
+        this.chatCount += 1;
+      });
+
       eventSource.onerror = this.handleConnectionError;
       eventSource.onopen = this.handleConnectionOpen;
       console.log("SSE연결후", eventSource);
@@ -203,7 +212,7 @@ export default {
 </script>
 
 <style scoped>
-header {
+.header-container {
   display: flex;
   align-items: center;
 }
@@ -213,7 +222,7 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: 0px 25px;
+  margin: 20px 25px;
 }
 
 .navbar-left a {
@@ -302,20 +311,21 @@ header {
 }
 
 .notification-num {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 3;
-  height: 15px;
-  width: 15px;
-  font-size: 15px;
-  font-weight: ;
+  background-color: rgb(252, 48, 48);
+  width: auto;
+  min-width: 16px;
+  height: auto;
+  min-height: 16px;
+  padding: 5%;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
-  line-height: 20px;
-  text-align: center;
-  background-color: red;
-  border-radius: 15px;
-  display: inline-block;
+  font-size: 15px;
+  position: absolute;
+  left: 10px;
+  bottom: 15px;
 }
 
 /* 더 작은 화면 (모바일) 레이아웃 조정 */

@@ -64,6 +64,14 @@
                 <span>💰 -1000</span>
               </div>
             </button>
+
+            <button
+              @click="this.$router.push('/detective/payment')"
+              class="charge-button"
+              v-if="chargePoint"
+            >
+              포인트 충전하기
+            </button>
           </div>
         </div>
       </form>
@@ -74,6 +82,7 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
+import Swal from "sweetalert2";
 
 export default {
   props: ["requestId"],
@@ -83,6 +92,7 @@ export default {
       description: "",
       price: "",
       requests: this.getRequestDetail(),
+      chargePoint: false,
     };
   },
   computed: {
@@ -109,15 +119,36 @@ export default {
     },
     async replyRequest() {
       try {
-        await axios.post("/api/estimate", {
+        const response = await axios.post("/api/estimate", {
           requestId: this.requestId,
           title: this.title,
           price: parseInt(this.price, 10),
           email: this.getUser,
           description: this.description,
         });
-        alert("답변서를 전송하였습니다.");
-        this.$router.push("/detective/estimatelist");
+        if (response.data) {
+          Swal.fire({
+            title: "답변서 전송 완료",
+            text: "의뢰인에게 답변서를 전송하였습니다",
+            icon: "success",
+            confirmButtonText: "확인",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.$router.push("/detective/estimatelist");
+            }
+          });
+        } else {
+          Swal.fire({
+            title: "답변서 전송 실패",
+            text: "포인트가 부족합니다",
+            icon: "error",
+            confirmButtonText: "확인",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.chargePoint = true;
+            }
+          });
+        }
       } catch (error) {
         return;
       }
@@ -275,9 +306,9 @@ h2 {
   width: 100%;
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 8px 0px;
-  border-radius: 9px;
-  font-size: 13px;
+  padding: 10px 0px;
+  border-radius: 8px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -287,6 +318,18 @@ h2 {
   justify-content: end;
   gap: 150px;
   margin-right: 26px;
+}
+
+.charge-button {
+  width: 100%;
+  background-color: #d3d3d34f;
+  border: 1px solid #d3d3d34f;
+  padding: 10px 0px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
 }
 
 .submit-div span:nth-child(2) {

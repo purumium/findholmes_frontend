@@ -20,7 +20,9 @@
                 <div class="li-detective-name">
                   {{ estimate.detectiveName }}
                 </div>
-                <div class="detective-price">{{ estimate.price }}원</div>
+                <div class="detective-price">
+                  {{ estimate.price.toLocaleString() }}원
+                </div>
               </div>
             </div>
           </li>
@@ -108,7 +110,7 @@
               <div class="estimate-answer-together">
                 <div class="title">답변금액</div>
                 <div class="estimate-title">
-                  <span>{{ selectedDetective.price }}원</span>
+                  <span>{{ selectedDetective.price.toLocaleString() }}원</span>
                   <span class="estimate-title-span">협의</span>
                 </div>
               </div>
@@ -321,10 +323,9 @@ h2 {
 
 .request-contain {
   display: flex;
-  justify-content: center;
-  height: 94%;
+  height: 100%;
   border-top: 1px solid #8080802e;
-  border-bottom: 1px solid #808080;
+  border-bottom: 1px solid #8080803b;
 }
 
 .sidebar {
@@ -371,7 +372,8 @@ h2 {
 
 .detective-price {
   margin-top: 7px;
-  font-size: 15px;
+  font-size: 14px;
+  color: #2f2424;
 }
 
 .main-content {
@@ -379,11 +381,11 @@ h2 {
   max-width: 800px;
   background-color: #fff;
   border-left: 1px solid #cccccc54;
-  padding: 0px 20px;
+  padding: 30px 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 }
 
 .detective-info-container {
@@ -393,11 +395,11 @@ h2 {
 }
 
 .detective-avatar-large {
-  width: 70px;
-  height: 70px;
+  height: 80px;
+  width: 80px;
   border-radius: 50%;
   border: 1px solid #80808059;
-  padding: 10px;
+  padding: 2px;
   margin-right: 15px;
 }
 
@@ -461,7 +463,7 @@ h2 {
 }
 
 .title {
-  margin: 25px 0 7px 0;
+  margin: 10px 0 7px 0;
   font-weight: 600;
   font-size: 14px;
 }
@@ -497,7 +499,7 @@ h2 {
 
 .estimate-body {
   padding: 10px 10px;
-  height: 230px;
+  height: 250px;
   background-color: #f9f9f9;
   border-radius: 10px;
   border: 1px solid #ddd;
@@ -507,7 +509,7 @@ textarea {
   border: none;
   resize: none;
   width: 100%;
-  height: 210px;
+  height: 240px;
   line-height: 23px;
   font-family: auto;
   font-size: 14px;
@@ -518,17 +520,20 @@ textarea {
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+  gap: 12px;
 }
 
 .actions button {
-  padding: 10px 20px;
+  padding: 7px 50px;
+  width: 100%;
   border: 1px solid #ccc;
   background-color: #fff;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 13px;
 }
 
 .actions button:hover {
-  background-color: #e0e0e0;
+  background-color: #e0e0e086;
 }
 </style>

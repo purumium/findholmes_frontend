@@ -24,16 +24,28 @@
           />
         </div>
         <div class="button-group">
-          <a href="/api/oauth2/authorization/google">
-            <img src="/images/google.png" alt="googleLogin" style="width: 30px; border: solid 1px black; border-radius: 50%;">
-          </a>
           <button type="submit" class="btn-login">로그인</button>
           <button type="button" class="btn-login" @click="goToRegister">
             회원가입
           </button>
+          <form action="/api/oauth2/authorization/google" method="get">
+            <button class="google-login">
+              <div>
+                <img
+                  src="/images/google.png"
+                  alt="googleLogin"
+                  style="
+                    width: 20px;
+                    border: 1px solid #0000006e;
+                    border-radius: 50%;
+                  "
+                />
+              </div>
+              <div>구글 로그인</div>
+            </button>
+          </form>
         </div>
       </form>
-      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
@@ -44,6 +56,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // jwtDecode는 이렇게 임포트해야 합니다.
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 export default {
   setup() {
@@ -92,7 +105,13 @@ export default {
         }
       } catch (error) {
         console.error(error);
-        errorMessage.value = "Login failed. Please check your credentials.";
+
+        Swal.fire({
+          title: "로그인 실패",
+          text: "아이디 또는 비밀번호를 확인해주세요!",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
       }
     };
 
@@ -151,9 +170,28 @@ export default {
   font-size: 15px;
 }
 
+.google-login {
+  display: flex;
+  justify-content: end;
+  gap: 4px;
+  width: 95%;
+  padding: 7px;
+  border: none;
+  background-color: white;
+  color: #46444a;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 7px;
+}
+
+.google-login a {
+  text-decoration: none;
+}
+
 .btn-login {
   width: 95%;
-  padding: 10px;
+  padding: 13px;
   border: 1px solid #eae8c1;
   border-radius: 5px;
   background-color: #ffdf3e9c;

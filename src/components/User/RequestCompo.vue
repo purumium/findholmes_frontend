@@ -106,6 +106,7 @@
 import axios from "axios";
 import { mapGetters } from "vuex";
 import locations from "@/assets/locations.json";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -153,10 +154,24 @@ export default {
           title: this.title,
           description: this.description,
         });
-        alert("의뢰요청에 성공했습니다.");
-        this.$router.push("/receive");
+
+        Swal.fire({
+          title: "의뢰서 전송 완료",
+          text: "홈즈에게 의뢰서를 전송하였습니다",
+          icon: "success",
+          confirmButtonText: "확인",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.$router.push("/receive");
+          }
+        });
       } catch (error) {
-        alert("의뢰요청에 실패했습니다.");
+        Swal.fire({
+          title: "의뢰서 전송 실패",
+          text: "의뢰서 전송에 실패하였습니다",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
       }
     },
     click() {
@@ -286,7 +301,7 @@ textarea {
   width: 100%;
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 8px 0px;
+  padding: 10px 0px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
@@ -316,7 +331,7 @@ textarea {
 
   .submit-button {
     font-size: 13px;
-    padding: 7px;
+    padding: 9px;
   }
 }
 
