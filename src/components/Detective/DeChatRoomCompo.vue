@@ -137,7 +137,7 @@ export default {
     };
   },
 
-  created() {
+  updated() {
     this.receiveChatCount();
   },
 
@@ -170,6 +170,7 @@ export default {
         axios.get("/api/notification/chatCount", {
           params: { userId: this.userId },
         });
+        console.log("다시 실행됨");
       } catch (error) {
         return;
       }
