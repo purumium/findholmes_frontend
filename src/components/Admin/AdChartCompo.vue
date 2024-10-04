@@ -108,7 +108,7 @@ export default {
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-        const response = await axios("/api/admin/count/users");
+        const response = await axios("/api/admin/count");
         this.userCount = response.data; // JSON 형식으로 응답 파싱
 
         this.calculateMonthlyTotals(); // 월별 총합 계산

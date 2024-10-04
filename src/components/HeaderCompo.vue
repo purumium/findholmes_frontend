@@ -237,9 +237,10 @@ export default {
 
 .title {
   margin-left: 6px;
-  font-size: 16px;
+  font-size: 20px;
   letter-spacing: -1px;
   font-weight: 600;
+  font-family: fangsong;
 }
 
 .icon-container {

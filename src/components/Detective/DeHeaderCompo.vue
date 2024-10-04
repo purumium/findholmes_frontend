@@ -191,16 +191,12 @@ header {
   align-items: end;
 }
 
-.navbar-left-logo img {
-  /* border: 1px solid #8080807a;
-  border-radius: 40px; */
-}
-
 .title {
   margin-left: 6px;
-  font-size: 16px;
+  font-size: 20px;
   letter-spacing: -1px;
   font-weight: 600;
+  font-family: fangsong;
 }
 
 .icon-container {
