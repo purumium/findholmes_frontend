@@ -28,8 +28,8 @@
             </div>
 
             <div div class="profile-confirm">
-              <span>✔️ 사업자등록증 인증 &nbsp; </span>
-              <span>✔️ 탐정등록증 인증</span>
+              <span>🏆 사업자등록증 인증 &nbsp; </span>
+              <span>🏆 탐정등록증 인증</span>
             </div>
             <button class="request-button" @click="goRequest(detectiveId)">
               의뢰 요청하기
@@ -59,17 +59,17 @@
           </div>
 
           <div class="locations" v-if="detective.description != null">
-            <h4>특이사항</h4>
-            <div class="location-tags">
-              <span>{{ detective.description }}</span>
+            <h4>특이사항(경력사항 등)</h4>
+            <div class="special-description">
+              <div>{{ detective.description }}</div>
             </div>
           </div>
 
           <div class="reviews">
-            <h4>의뢰인후기</h4>
+            <h4>사용자 후기</h4>
             <div class="review-list">
               <p class="review-summary">
-                후기 {{ detective.reviewCount }} 개 | ⭐
+                후기 {{ detective.reviewCount }} 개 ⭐
                 {{ detective.averageRating }} / 5.0
               </p>
               <!-- Review list example -->
@@ -140,7 +140,7 @@ export default {
         .get(`/api/review/get/detective/${this.detectiveId}`)
         .then((response) => {
           this.reviews = response.data;
-          console.log("리뷰리스트", this.reviews);
+          console.log("리뷰 리스트", this.reviews);
         })
         .catch((error) => {
           console.log("에러:", error);
@@ -239,10 +239,9 @@ h2 {
   justify-content: space-between;
   align-items: center;
   background-color: #fff;
-  padding: 25px 16px;
+  padding: 30px 16px;
   border-radius: 8px;
   border: 1px solid #80808054;
-  /* box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); */
 }
 
 .profile-img {
@@ -250,7 +249,7 @@ h2 {
 }
 
 .profile-content {
-  width: 65%;
+  width: 75%;
 }
 
 .profile-img img {
@@ -262,7 +261,7 @@ h2 {
 }
 
 .profile-content p {
-  margin-bottom: 4px;
+  margin-bottom: 9px;
   margin-top: 0px;
   font-size: 24px;
   font-weight: 600;
@@ -271,28 +270,33 @@ h2 {
 
 .profile-content-detail {
   font-size: 16px;
-  margin-bottom: 9px;
+  margin-bottom: 8px;
   text-align: center;
 }
 
 .description {
-  padding: 7px 0px;
-  font-size: 13px;
-  color: #070505;
-  line-height: 22px;
+  padding: 18px 0px;
+  font-size: 14px;
+  color: #070505f7;
+  line-height: 29px;
   text-align: left;
+  border-top: 1px solid #80808070;
+  border-bottom: 1px solid #80808070;
+  margin: 20px 0;
 }
 
 .profile-confirm {
+  display: flex;
+  justify-content: space-evenly;
   color: #ecb900;
-  font-size: 14px;
-  text-align: center;
-  font-weight: bold;
+  gap: 9px;
+  font-size: 16px;
+  font-weight: 600;
   letter-spacing: -0.5px;
 }
 
 .request-button {
-  margin-top: 18px;
+  margin-top: 30px;
   width: 100%;
   padding: 12px 10px;
   background-color: #ffdf3e9c;
@@ -305,23 +309,28 @@ h2 {
 
 .request-button:hover {
   background-color: #ffdf3ec7;
+  cursor: pointer;
 }
 
 .detective-details {
-  margin-top: 13px;
+  margin-top: 30px;
 }
 
 .specialties,
-.locations,
+.locations {
+  margin-bottom: 60px;
+}
+
 .reviews {
-  margin-bottom: 30px;
+  margin-top: 90px;
 }
 
 .specialties h4,
 .locations h4,
 .reviews h4 {
-  font-size: 17px;
-  margin-bottom: 15px;
+  font-size: 18px;
+  margin-bottom: 17px;
+  color: #3c3737;
 }
 
 .specialty-tags,
@@ -332,12 +341,20 @@ h2 {
 
 .specialty-tags span,
 .location-tags span {
-  background-color: #eeebebc4;
+  background-color: #f5f5f5;
   padding: 12px 19px;
   margin-right: 12px;
   margin-bottom: 10px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 14px;
+}
+
+.special-description {
+  background-color: #f5f5f5;
+  padding: 25px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  line-height: 28px;
 }
 
 .review-list {
@@ -345,15 +362,18 @@ h2 {
 }
 
 .review-summary {
-  font-size: 16px;
   font-weight: bold;
   margin-bottom: 15px;
   color: #333;
+  font-size: 16px;
+  text-align: end;
 }
 
 .review-item {
-  padding: 20px;
-  border-bottom: 1px solid #eaeaea;
+  padding: 20px 20px;
+  background-color: #8080800d;
+  border-radius: 16px;
+  margin-bottom: 17px;
 }
 
 .review-item:last-child {
@@ -368,33 +388,35 @@ h2 {
 .header-top {
   display: flex;
   align-items: center;
-  margin-bottom: 5px; /* 날짜와의 간격 */
+  margin-bottom: -3px;
 }
 
 .review-username {
   font-weight: bold;
   font-size: 14px;
   color: #000;
-  margin-right: 10px; /* 별점과의 간격 */
+  margin-right: 10px;
 }
 
 .star-rating {
-  color: #ffd700; /* 골드 색상 */
-  font-size: 14px;
-  margin-left: 5px;
+  color: #ffd900;
+  font-size: 13px;
 }
 
 .review-date {
   font-size: 12px;
-  color: #777;
-  margin-top: -2px;
+  color: #77777791;
+  margin-top: 0px;
+  text-align: end;
 }
 
 .review-content {
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 24px;
   color: #333;
-  margin: -2px;
+  margin: 0px;
+  padding: 7px 0;
+  width: 98%;
 }
 
 .review-item:last-child .review-content {

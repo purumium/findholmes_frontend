@@ -12,7 +12,7 @@
           @click="this.$router.push(notification.url)"
           class="notification-list"
         >
-          <div>{{ notification.title }}</div>
+          <div class="title">{{ notification.title }}</div>
           <div class="time">✔️ {{ timeconvert(notification.notifyAt) }}</div>
         </div>
       </div>
@@ -118,6 +118,12 @@ h2 {
 .notification-list:hover {
   background-color: rgba(128, 128, 128, 0.121);
   cursor: pointer;
+}
+
+.title {
+  width: 70%;
+  font-size: 14px;
+  line-height: 25px;
 }
 
 .time {

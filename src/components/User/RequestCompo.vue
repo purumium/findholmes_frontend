@@ -35,7 +35,7 @@
             v-model="selectedSpeciality"
             required
           >
-            <option value="" disabled selected>category</option>
+            <option value="" disabled selected></option>
             <option
               v-for="speciality in specialities"
               :key="speciality.specialityId"
@@ -48,7 +48,7 @@
 
         <div class="form-group">
           <label for="locationCategory">
-            <div>지역</div>
+            <div>활동 지역</div>
             <div>홈즈가 활동할 지역을 선택해주세요</div>
           </label>
           <select
@@ -57,7 +57,7 @@
             v-model="selectedLocation"
             required
           >
-            <option value="" disabled selected>location</option>
+            <option value="" disabled selected></option>
             <option
               v-for="location in locations"
               :key="location.locationId"
@@ -79,7 +79,7 @@
             v-model="selectedGender"
             required
           >
-            <option value="" disabled selected>gender</option>
+            <option value="" disabled selected></option>
             <option value="ANY">전체</option>
             <option value="MALE">남성</option>
             <option value="FEMALE">여성</option>
@@ -251,7 +251,7 @@ label {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   padding: 7px 12px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 label div:nth-of-type(1) {
@@ -261,14 +261,15 @@ label div:nth-of-type(1) {
 
 label div:nth-child(2) {
   color: rgb(107, 101, 101);
-  margin-top: 5px;
-  font-size: 11px;
+  margin-top: 6px;
+  font-size: 12px;
 }
 
 select {
   width: 100%;
   padding: 10px;
   font-size: 14px;
+  color: gray;
   border: none;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -292,7 +293,8 @@ textarea {
 }
 
 textarea {
-  height: 200px;
+  height: 260px;
+  line-height: 27px;
   resize: none;
   font-family: auto;
 }

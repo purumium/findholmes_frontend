@@ -161,6 +161,7 @@ h2 {
 h3 {
   text-align: center;
   font-size: 19px;
+  margin: 13px;
   letter-spacing: 5px;
 }
 
@@ -169,7 +170,7 @@ h3 {
   flex-direction: column;
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px 15px;
+  padding: 20px 20px;
 }
 
 .request {

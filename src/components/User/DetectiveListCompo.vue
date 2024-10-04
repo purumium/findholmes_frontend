@@ -26,26 +26,24 @@
           class="profile-card"
         >
           <div class="profile-content">
-            <div>
+            <div class="profile-left">
+              <button
+                class="request-btn go-profile-btn"
+                @click="goProfile(detective.userId)"
+              >
+                프로필 보기
+              </button>
               <img
                 :src="`http://localhost:8080/${detective.profilePicture}`"
                 alt="Profile Image"
                 class="profile-image"
               />
-              <div class="btn">
-                <button
-                  class="request-btn go-profile-btn"
-                  @click="goProfile(detective.userId)"
-                >
-                  프로필 보기
-                </button>
-                <button
-                  class="request-btn"
-                  @click="createRequest(detective.userId)"
-                >
-                  의뢰서 작성
-                </button>
-              </div>
+              <button
+                class="request-btn"
+                @click="createRequest(detective.userId)"
+              >
+                의뢰서 작성
+              </button>
             </div>
             <div class="profile-details">
               <div class="profile-title">
@@ -78,7 +76,9 @@
 
                 <div v-if="detective.description != null">
                   <div class="tag">특이사항</div>
-                  <div class="value">{{ detective.description }}</div>
+                  <div class="value">
+                    {{ detective.description }}
+                  </div>
                 </div>
 
                 <div class="tag">소개</div>
@@ -179,7 +179,7 @@ h2 {
 }
 
 .find-contain {
-  margin: 25px 20px;
+  margin: 30px 20px;
 }
 
 .services {
@@ -206,7 +206,7 @@ h2 {
 .profile-grid {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 50px;
 }
 
 .profile-content {
@@ -218,7 +218,7 @@ h2 {
 
 .profile-card {
   border: 1px solid #ddd;
-  padding: 25px 10px 4px 10px;
+  padding: 30px 10px 20px 10px;
   border-radius: 10px;
   box-sizing: border-box;
   text-align: center;
@@ -287,57 +287,58 @@ h2 {
   background-color: #f0f0f0;
   border-radius: 5px;
   padding: 5px 10px;
-  margin: 5px;
-  font-size: 12px;
+  margin: 7px;
+  font-size: 14px;
   font-weight: bold;
 }
 
 .value {
   background-color: #fff;
   border-radius: 5px;
-  padding: 5px 0px;
+  padding: 7px 0px;
   margin: 5px;
-  font-size: 12px;
+  font-size: 14px;
   font-family: none !important;
 }
 
 .speciality {
-  font-size: 10px !important;
+  font-size: 12px !important;
   border-radius: 20px;
   padding: 4px 10px;
   background-color: #e9e48d5e;
-  margin-right: 5px;
+  margin-right: 7px;
+  font-weight: 600;
 }
 
 .profile-description {
   border-bottom: 1px solid #80808047;
   border-radius: 0px;
   padding: 0px 10px;
-  font-size: 12px;
+  font-size: 14px;
   color: #555;
-  line-height: 20px;
+  line-height: 23px;
   text-align: left;
 }
 
-.btn {
-  margin-top: 8px;
+.profile-left {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 }
 
 .request-btn {
   width: 100%;
-  padding: 5px 10px;
-  background-color: #e9e48d8a;
+  padding: 10px 10px;
+  background-color: #ffdf3e7d;
   border: none;
   border-radius: 5px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 }
 
-.go-profile-btn {
-  background-color: #e9e48d8a !important;
+.request-btn:hover {
+  cursor: pointer;
+  background-color: #ffdf3eaf;
 }
 
 /* 태블릿 화면 (최대 너비 768px) */

@@ -46,7 +46,7 @@
               👤 전체 &nbsp;</span
             >
             <span>📍 {{ detectiveInfo.location }} &nbsp; </span>
-            <span>
+            <div style="margin-top: 6px">
               ✔️
               <span
                 v-for="(name, index) in detectiveInfo.specialities"
@@ -54,7 +54,7 @@
               >
                 {{ name.specialityName }} &nbsp;
               </span>
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -78,7 +78,7 @@
             v-model="selectedSpeciality"
             required
           >
-            <option value="" disabled selected>category</option>
+            <option value="" disabled selected></option>
             <option
               v-for="speciality in detectiveInfo.specialities"
               :key="speciality.specialityId"
@@ -244,7 +244,7 @@ label {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   padding: 7px 12px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 label div:nth-of-type(1) {
@@ -254,14 +254,15 @@ label div:nth-of-type(1) {
 
 label div:nth-child(2) {
   color: rgb(107, 101, 101);
-  margin-top: 5px;
-  font-size: 11px;
+  margin-top: 6px;
+  font-size: 12px;
 }
 
 select {
   width: 100%;
   padding: 10px;
   font-size: 14px;
+  color: gray;
   border: none;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -285,10 +286,10 @@ textarea {
 }
 
 textarea {
-  height: 200px;
+  height: 260px;
+  line-height: 27px;
   resize: none;
   font-family: auto;
-  line-height: 20px;
 }
 
 .submit-button {
