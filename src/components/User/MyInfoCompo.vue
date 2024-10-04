@@ -13,80 +13,82 @@
         />
         <span class="name">사용자</span>
       </div>
-      <form @submit.prevent="handleProfileSubmit">
-        <div class="form-group">
-          <label>이메일</label>
-          <input v-model="email" type="email" id="email" required readonly />
-        </div>
-        <div class="form-group">
-          <label>이름</label>
-          <input v-model="username" type="text" id="username" required />
-        </div>
-        <div class="form-group">
-          <label>휴대폰</label>
-          <input
-            v-model="phonenumber"
-            type="text"
-            id="phonenumber"
-            required
-            @input="validatePhoneNumber"
-          />
-        </div>
-        <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
-        <div class="button-group">
-          <button type="submit" class="btn-profile" >프로필 수정</button>
-        </div>
-      </form>
-      <form @submit.prevent="handleChangePW">
-        <div>
-          <div class="form-group">
-            <label>현재 비밀번호</label>
-            <input
-              v-model="currentPassword"
-              type="password"
-              id="currentPassword"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label>새 비밀번호</label>
-            <input
-              v-model="newPassword"
-              type="password"
-              id="newPassword"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label>비밀번호 확인</label>
-            <input
-              v-model="confirmPassword"
-              type="password"
-              id="confirmPassword"
-              required
-            />
-          </div>
-          <p
-            v-if="passwordMessage"
-            :class="{ error: !isPasswordValid, success: isPasswordValid }"
-          >
-            {{ passwordMessage }}
-          </p>
-        </div>
-        <div class="button-group">
-          <button
-            type="submit"
-            class="btn-profile"
-            :disabled="!isPasswordValid"
-          >
-            비밀번호 수정
-          </button>
-        </div>
-      </form>
 
-      <p v-if="message" :class="{ success: isSuccess, error: !isSuccess }">
-        {{ message }}
-      </p>
+      <div class="profile-form">
+        <form @submit.prevent="handleProfileSubmit">
+          <div class="form-group">
+            <label>이메일</label>
+            <input v-model="email" type="email" id="email" required readonly />
+          </div>
+          <div class="form-group">
+            <label>이름</label>
+            <input v-model="username" type="text" id="username" required />
+          </div>
+          <div class="form-group">
+            <label>휴대폰</label>
+            <input
+              v-model="phonenumber"
+              type="text"
+              id="phonenumber"
+              required
+              @input="validatePhoneNumber"
+            />
+          </div>
+          <div v-if="phoneError" class="error-message">{{ phoneError }}</div>
+          <div class="button-group">
+            <button type="submit" class="btn-profile">프로필 수정</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="password-form">
+        <form @submit.prevent="handleChangePW">
+          <div>
+            <div class="form-group">
+              <label>현재 비밀번호</label>
+              <input
+                v-model="currentPassword"
+                type="password"
+                id="currentPassword"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>새 비밀번호</label>
+              <input
+                v-model="newPassword"
+                type="password"
+                id="newPassword"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label>비밀번호 확인</label>
+              <input
+                v-model="confirmPassword"
+                type="password"
+                id="confirmPassword"
+                required
+              />
+            </div>
+            <p
+              v-if="passwordMessage"
+              :class="{ error: !isPasswordValid, success: isPasswordValid }"
+            >
+              {{ passwordMessage }}
+            </p>
+          </div>
+          <div class="button-group">
+            <button
+              type="submit"
+              class="btn-profile"
+              :disabled="!isPasswordValid"
+            >
+              비밀번호 수정
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -94,6 +96,7 @@
 <script>
 import axios from "axios";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -107,19 +110,19 @@ export default {
       message: "",
       isPasswordValid: false,
       passwordMessage: "",
-      isSuccess:false,
-      phoneError:""
+      isSuccess: false,
+      phoneError: "",
     };
   },
   watch: {
     newPassword(value) {
-      console.log(value)
+      console.log(value);
       this.checkPasswordMatch();
     },
     confirmPassword(value) {
-      console.log(value)
+      console.log(value);
       this.checkPasswordMatch();
-    }
+    },
   },
   mounted() {
     this.getUser();
@@ -149,8 +152,8 @@ export default {
         this.passwordMessage = "비밀번호가 일치하지 않습니다.";
       }
     },
-    async handleChangePW(){
-      console.log("비번변결")
+    async handleChangePW() {
+      console.log("비번변결");
       if (!this.isPasswordValid) {
         this.message = "비밀번호가 일치하지 않습니다.";
         this.isSuccess = false;
@@ -160,23 +163,33 @@ export default {
         const response = await axios.get("/api/member/pwCheck", {
           params: { password: this.currentPassword },
         });
-        console.log(response)
-        if(response.data){
+        console.log(response);
+        if (response.data) {
           await this.updatePW({
             password: this.confirmPassword,
           });
-          alert("비밀번호 수정이 완료되었습니다.");
+          Swal.fire({
+            title: "비밀번호 변경 성공",
+            text: "비밀번호 수정이 완료되었습니다!",
+            icon: "success",
+            confirmButtonText: "확인",
+          });
+
           const router = useRouter();
           router.push("/member/mypage");
-        }else{
-          alert("현재 비밀번호가 틀립니다");
+        } else {
+          Swal.fire({
+            title: "비밀번호 변경 실패",
+            text: "현재 비밀번호를 확인해주세요!",
+            icon: "error",
+            confirmButtonText: "확인",
+          });
         }
       } catch (error) {
         console.error(error);
-        alert("오류가 발생했습니다. 다시 시도해 주세요.");
       }
     },
-    async updatePW(data){
+    async updatePW(data) {
       try {
         await axios.post("/api/member/updatepw", data);
       } catch (error) {
@@ -194,10 +207,16 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
         const response2 = await axios.post("/api/member/update", {
-              userName: this.username,
-              phoneNumber: this.phonenumber,
-            });
-            console.log(response2.data);
+          userName: this.username,
+          phoneNumber: this.phonenumber,
+        });
+        Swal.fire({
+          title: "프로필 변경",
+          text: "프로필 수정이 완료되었습니다!",
+          icon: "success",
+          confirmButtonText: "확인",
+        });
+        console.log(response2.data);
       } catch (error) {
         console.error(error);
       }
@@ -253,7 +272,6 @@ h2 {
   color: #534c4c;
   background-color: #ffdf3e99;
   font-size: 12px;
-  /* margin-right: 3px; */
   font-weight: 600;
   position: relative;
   left: 3px;
@@ -261,8 +279,22 @@ h2 {
 }
 
 .profile-contain {
-  margin: 20px 80px;
+  margin: 30px 30px;
   text-align: center;
+}
+
+.profile-form {
+  border: 1px solid #80808063;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0 40px 0px;
+}
+
+.password-form {
+  border: 1px solid #80808063;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0 40px 0px;
 }
 
 form {
@@ -283,7 +315,7 @@ label {
 }
 
 .form-group {
-  margin-bottom: 13px;
+  margin-bottom: 20px;
 }
 
 .form-group input {
@@ -326,29 +358,6 @@ label {
 }
 
 /* 반응형 스타일 */
-@media (max-width: 768px) {
-  .profile-form {
-    width: 90%;
-    padding: 30px;
-  }
-
-  .profile-contain {
-    margin: 20px 70px;
-    text-align: center;
-  }
-
-  .form-group input {
-    font-size: 14px;
-    padding: 10px 0 10px 15px;
-  }
-
-  .btn-profile,
-  .btn-password {
-    font-size: 13px;
-    padding: 8px;
-  }
-}
-
 @media screen and (max-width: 480px) {
   h2 {
     font-size: 14px;
@@ -361,27 +370,6 @@ label {
     background: none;
     border: none;
     cursor: pointer;
-  }
-
-  .profile-contain {
-    margin: 30px 60px;
-    text-align: center;
-  }
-
-  .profile-form {
-    width: 100%;
-    padding: 20px;
-  }
-
-  .form-group input {
-    font-size: 13px;
-    padding: 8px 0 8px 10px;
-  }
-
-  .btn-profile,
-  .btn-password {
-    font-size: 12px;
-    padding: 7px;
   }
 }
 </style>

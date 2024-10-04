@@ -6,16 +6,19 @@
     </header>
 
     <div class="review-contain">
-      <div>리뷰 보기</div>
+      <!-- <div>리뷰 보기</div> -->
       <div class="review-item" v-for="review in reviews" :key="review.id">
-        <div class="review-header">
+        <div class="review-top">
           <span class="review-info">
-            [{{ review.detectiveName }}] {{ review.estimateTitle }}
+            ✍️ {{ review.detectiveName }} 's [ {{ review.estimateTitle }} ] 에
+            대한 리뷰입니다.
           </span>
+        </div>
+        <div class="review-middle">
+          <p class="review-rating">⭐ {{ review.rating }}</p>
           <span class="review-date">{{ timeconvert(review.updatedAt) }}</span>
         </div>
-        <div class="review-container">
-          <p class="review-rating">⭐ {{ review.rating }}</p>
+        <div class="review-detail">
           <p class="review-content">{{ review.content }}</p>
         </div>
         <div class="review-actions">
@@ -84,7 +87,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push("/mypage");
+      this.$router.go(-1);
     },
     async getMyReviewList() {
       this.token = localStorage.getItem("token");
@@ -150,6 +153,7 @@ export default {
       } else {
         console.error("토큰을 찾을 수 없습니다.");
       }
+      alert("정말 삭제하시겠습니까?");
       axios
         .delete(`/api/review/delete/${reviewId}`)
         .then((response) => {
@@ -241,26 +245,40 @@ h2 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.review-header {
+.review-top {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 
 .review-info {
-  font-size: 18px;
+  font-size: 12px;
   margin-left: 10px;
   margin-right: 60px;
 }
 
+.review-middle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.review-rating {
+  font-size: 18px;
+  color: #ffd700;
+  margin-right: 5px;
+}
+
 .review-date {
-  font-size: 14px;
+  font-size: 12px;
   color: #777;
 }
 
 .review-content {
   font-size: 16px;
+  margin-left: 10px;
   margin-bottom: 15px;
   line-height: 1.6;
   color: #333;
@@ -272,11 +290,11 @@ h2 {
 }
 
 .review-actions button {
-  padding: 8px 12px;
+  padding: 6px 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 10px;
 }
 
 .openEditModal {

@@ -66,28 +66,32 @@
             <div
               :class="{
                 'my-message': item.senderId === this.senderId,
+                'my-message-item': item.senderId === this.senderId,
                 'other-message': item.senderId !== this.senderId,
+                'other-message-item': item.senderId !== this.senderId,
               }"
-              class="message-item"
             >
-              <div class="message-text">{{ item.message }}</div>
-              <div
-                class="message-isRead"
-                v-if="item.senderId === this.senderId"
-              >
-                {{ item.readCount === 2 ? "" : "1" }}
+              <div class="message-read">
+                <div
+                  class="message-isRead"
+                  v-if="item.senderId === this.senderId"
+                >
+                  {{ item.readCount === 2 ? "" : "1" }}
+                </div>
+                <div class="message-time">{{ timeconvert(item.sendTime) }}</div>
               </div>
-              <div class="message-time">{{ timeconvert(item.sendTime) }}</div>
+              <div class="message-text">{{ item.message }}</div>
             </div>
           </div>
         </div>
         <div class="chat-input">
-          <input
+          <textarea
             v-model="message"
-            type="text"
             placeholder="메세지를 작성하세요."
+            @input="autoResize"
             @keyup.enter="sendMessage"
-          />
+            rows="1"
+          ></textarea>
           <button @click="sendMessage">보내기</button>
         </div>
       </div>
@@ -133,9 +137,6 @@ export default {
     };
   },
 
-  // created() {
-  //   this.connect();
-  // },
   created() {
     this.receiveChatCount();
   },
@@ -143,11 +144,9 @@ export default {
   mounted() {
     console.log("Chat Room ID", this.chatRoomId);
     this.roomId = this.chatRoomId;
+    this.fetchChatRoomData();
     this.checkAccess();
     this.checkAcceptedPrivacy();
-    this.connect();
-    this.fetchChatRoomData();
-    // console.log("User ID: ", this.userId);
     this.showConsentModal = true;
   },
 
@@ -159,6 +158,10 @@ export default {
       if (this.message !== "") {
         this.send();
         this.message = "";
+        this.$nextTick(() => {
+          const textarea = this.$el.querySelector("textarea");
+          textarea.style.height = "40px"; // 초기 높이로 재설정
+        });
         this.scrollToBottom();
       }
     },
@@ -256,10 +259,9 @@ export default {
         JSON.stringify(readInfo),
         {} // 단일 객체를 JSON으로 변환해 전송
       );
-
-      // this.stompClient.send("/receive", JSON.stringify(msg), {});
     },
 
+    // 1번
     async checkAccess() {
       this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
 
@@ -286,6 +288,7 @@ export default {
       }
     },
 
+    // 2번
     // 개인정보 동의 확인
     async checkAcceptedPrivacy() {
       this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
@@ -311,7 +314,7 @@ export default {
       }
     },
 
-    // 개인정보 동의 처리
+    // 모달에서 개인정보 동의 승인한 경우
     async acceptPrivacy() {
       this.token = localStorage.getItem("token"); // 로컬스토리지에서 토큰을 가져옴
 
@@ -380,6 +383,7 @@ export default {
         );
         // this.messages = response.data;
         this.recvList = response.data;
+        this.connect();
         this.scrollToBottom();
         console.log("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ", this.recvList);
       } catch (error) {
@@ -423,14 +427,22 @@ export default {
       ).toDateString();
       return currentDate !== previousDate;
     },
-    beforeDestroy() {
-      // 컴포넌트가 사라지기 전에 WebSocket 연결 해제
-      if (this.stompClient) {
-        this.stompClient.disconnect(() => {
-          console.log("WebSocket disconnected");
-        });
-      }
+    autoResize(event) {
+      const textarea = event.target;
+      const padding =
+        parseInt(window.getComputedStyle(textarea).paddingTop) +
+        parseInt(window.getComputedStyle(textarea).paddingBottom);
+      textarea.style.height = "auto"; // 높이 초기화
+      textarea.style.height = textarea.scrollHeight - padding + "px"; // 패딩을 제외한 높이 설정
     },
+  },
+  beforeUnmount() {
+    // 컴포넌트가 사라지기 전에 WebSocket 연결 해제
+    if (this.stompClient) {
+      this.stompClient.disconnect(() => {
+        console.log("WebSocket disconnected");
+      });
+    }
   },
 };
 </script>
@@ -614,17 +626,27 @@ button {
   display: block; /* 메시지가 중앙에 정렬되지 않도록 block으로 설정 */
 }
 
-.message-item {
-  margin-bottom: 10px;
-  display: inline-block; /* 메시지가 block처럼 보이게 함 */
-  max-width: 60%; /* 메시지 최대 너비 제한 */
-  clear: both; /* 메시지들이 서로 겹치지 않도록 함 */
+/* 내 메시지 (오른쪽 배치) */
+.my-message-item {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  max-width: 60%;
+  clear: both;
 }
 
-/* 내 메시지 (오른쪽 배치) */
 .my-message {
-  float: right; /* 메시지를 오른쪽으로 정렬 */
+  float: right;
   text-align: left;
+}
+
+.my-message .message-read {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 0px;
+  align-items: end;
+  padding-bottom: 11px;
 }
 
 .my-message .message-text {
@@ -632,9 +654,29 @@ button {
   color: black;
   padding: 14px;
   border-radius: 20px 20px 0 20px;
+  margin-block: 10px;
+}
+
+.message-isRead {
+  font-size: 13px;
+}
+
+.message-read .message-time {
+  font-size: 12px;
+  color: #808080b3;
 }
 
 /* 상대 메시지 (왼쪽 배치) */
+.other-message-item {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: end;
+  gap: 6px;
+  max-width: 60%;
+  clear: both;
+}
+
 .other-message {
   float: left; /* 메시지를 왼쪽으로 정렬 */
   text-align: left;
@@ -647,22 +689,9 @@ button {
   border-radius: 20px 20px 20px 0;
 }
 
-.message-time {
-  font-size: 0.85rem;
-  color: #888;
-  margin-top: -15px;
-  margin-left: -40px;
-  text-align: left;
-  display: block;
-}
-
 .other-message .message-time {
-  font-size: 0.85rem;
-  color: #888;
-  margin-top: -20px;
-  margin-right: -40px;
-  text-align: right;
-  display: block;
+  font-size: 12px;
+  color: #808080b3;
 }
 
 .chat-input {
@@ -671,12 +700,16 @@ button {
   background-color: #f5f5f5;
 }
 
-.chat-input input {
+.chat-input textarea {
   flex: 1;
   padding: 10px;
   margin-right: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  resize: none;
+  overflow-y: auto;
+  max-height: 100px;
+  min-height: 40px;
 }
 
 .chat-input button {
@@ -687,6 +720,8 @@ button {
   color: #0a0404;
   border: none;
   cursor: pointer;
+  height: 40px;
+  align-self: flex-end;
 }
 
 .chat-input button:hover {

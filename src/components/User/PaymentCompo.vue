@@ -40,6 +40,7 @@
 
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -50,11 +51,6 @@ export default {
       phonenumber: null,
       token: null, // 로컬스토리지에서 토큰을 저장할 변수
       userPaymentOptions: [
-        {
-          cash: 100,
-          discount: "적립",
-          price: 100,
-        },
         {
           cash: 5000,
           discount: "적립",
@@ -77,11 +73,6 @@ export default {
         },
       ],
       detectivePaymentOptions: [
-        {
-          cash: 100,
-          discount: "적립",
-          price: 100,
-        },
         {
           cash: 5000,
           discount: "적립",
@@ -157,87 +148,107 @@ export default {
     },
     // 결제 처리 함수
     handlePayment(price) {
-      alert(`${price}원 결제를 처리합니다.`);
+      Swal.fire({
+        title: "결제 확인",
+        text: `${price}원을 결제하시겠습니까?`,
+        icon: "info",
+        showCancelButton: true,
+        confirmButtonText: "결제",
+        cancelButtonText: "취소",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // 확인 버튼을 눌렀을 때 실행
+          const jqueryScript = document.createElement("script");
+          jqueryScript.src = "https://code.jquery.com/jquery-3.6.0.min.js";
+          jqueryScript.onload = () => {
+            const iamportScript = document.createElement("script");
+            iamportScript.src =
+              "https://cdn.iamport.kr/js/iamport.payment-1.1.5.js";
+            iamportScript.onload = () => {
+              const imp = window.IMP;
+              if (imp) {
+                imp.init("imp83238481");
 
-      const jqueryScript = document.createElement("script");
-      jqueryScript.src = "https://code.jquery.com/jquery-3.6.0.min.js";
-      jqueryScript.onload = () => {
-        const iamportScript = document.createElement("script");
-        iamportScript.src =
-          "https://cdn.iamport.kr/js/iamport.payment-1.1.5.js";
-        iamportScript.onload = () => {
-          const imp = window.IMP;
-          if (imp) {
-            imp.init("imp83238481");
-
-            imp.request_pay(
-              {
-                pg: "html5_inicis",
-                pay_method: "card",
-                merchant_uid: `merchant_${new Date().getTime()}`,
-                name: `${price}원 포인트 충전`,
-                amount: price, // 사용자가 선택한 금액
-                buyer_email: this.email,
-                buyer_name: this.username,
-                buyer_tel: this.phonenumber,
-                popup: true, // 결제창을 iframe으로 열기
-                display: {
-                  width: "100%",
-                  height: "100px",
-                },
-              },
-              (response) => {
-                if (response.success) {
-                  // 결제 성공 시, 서버에 결제 정보 전송
-                  axios
-                    .post(
-                      "/api/payment/charge",
-                      {
-                        impUid: response.imp_uid,
-                        merchantUid: response.merchant_uid,
-                        price: response.paid_amount,
-                        email: response.buyer_email,
-                        paymentDetail: `${price}원 포인트 충전`,
-                      },
-                      {
-                        headers: {
-                          Authorization: `Bearer ${this.token}`, // 저장한 토큰을 헤더에 포함
-                        },
-                      }
-                    )
-                    .then((res) => {
-                      console.log(
-                        `결제 데이터 : ${res.data.merchantUid},  ${res.data.paymentDetails}, 
+                imp.request_pay(
+                  {
+                    pg: "html5_inicis",
+                    pay_method: "card",
+                    merchant_uid: `merchant_${new Date().getTime()}`,
+                    name: `${price}원 포인트 충전`,
+                    amount: price, // 사용자가 선택한 금액
+                    buyer_email: this.email,
+                    buyer_name: this.username,
+                    buyer_tel: this.phonenumber,
+                    popup: true, // 결제창을 iframe으로 열기
+                    display: {
+                      width: "100%",
+                      height: "100px",
+                    },
+                  },
+                  (response) => {
+                    if (response.success) {
+                      // 결제 성공 시, 서버에 결제 정보 전송
+                      axios
+                        .post(
+                          "/api/payment/charge",
+                          {
+                            impUid: response.imp_uid,
+                            merchantUid: response.merchant_uid,
+                            price: response.paid_amount,
+                            email: response.buyer_email,
+                            paymentDetail: `${price}원 포인트 충전`,
+                          },
+                          {
+                            headers: {
+                              Authorization: `Bearer ${this.token}`, // 저장한 토큰을 헤더에 포함
+                            },
+                          }
+                        )
+                        .then((res) => {
+                          console.log(
+                            `결제 데이터 : ${res.data.merchantUid},  ${res.data.paymentDetails},
                          ${res.data.paymentAt},  ${res.data.price} `
-                      );
+                          );
 
-                      alert("결제 및 저장 완료!");
-
-                      // 결제 후 결과 페이지로 이동
-                      this.$router.push({
-                        name: "paymentResult",
-                        query: {
-                          merchantUid: res.data.merchantUid,
-                          paymentDetails: res.data.paymentDetails,
-                          paymentAt: res.data.paymentAt,
-                          price: res.data.price,
-                        },
+                          Swal.fire({
+                            title: "결제 완료",
+                            text: "결제가 완료되었습니다.",
+                            icon: "success",
+                            confirmButtonText: "확인",
+                          }).then(() => {
+                            // 결제 후 결과 페이지로 이동
+                            this.$router.push({
+                              name: "paymentResult",
+                              query: {
+                                merchantUid: res.data.merchantUid,
+                                paymentDetails: res.data.paymentDetails,
+                                paymentAt: res.data.paymentAt,
+                                price: res.data.price,
+                              },
+                            });
+                          });
+                        })
+                        .catch((error) => {
+                          console.log(error);
+                        });
+                    } else {
+                      // 결제 실패 시 메시지 출력
+                      Swal.fire({
+                        title: "결제 실패",
+                        text: `결제가 실패했습니다`,
+                        icon: "error",
+                        confirmButtonText: "확인",
                       });
-                    })
-                    .catch((error) => {
-                      alert("결제 정보 저장 실패 : " + error);
-                    });
-                } else {
-                  // 결제 실패 시 메시지 출력
-                  alert(`결제 자체의 실패 : ${response.error_msg}`);
-                }
+                    }
+                  }
+                );
               }
-            );
-          }
-        };
-        document.head.appendChild(iamportScript);
-      };
-      document.head.appendChild(jqueryScript);
+            };
+            document.head.appendChild(iamportScript);
+          };
+          document.head.appendChild(jqueryScript);
+        }
+      });
     },
   },
 };
@@ -301,8 +312,8 @@ h2 {
   align-items: center;
   background-color: #f5f5f5;
   border-radius: 10px;
-  padding: 15px;
-  margin-bottom: 10px;
+  padding: 19px;
+  margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }

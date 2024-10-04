@@ -182,15 +182,15 @@ h2 {
 }
 
 h4 {
-  margin-top: -8px;
+  margin-top: -3px;
   font-size: 20px;
 }
 
 h5 {
-  margin-top: -26px;
+  margin-top: -22px;
   color: #808080d9;
   font-weight: 400;
-  font-size: 15px;
+  font-size: 17px;
 }
 
 .profile-picture {

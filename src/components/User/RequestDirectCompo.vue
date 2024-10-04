@@ -46,7 +46,7 @@
               👤 전체 &nbsp;</span
             >
             <span>📍 {{ detectiveInfo.location }} &nbsp; </span>
-            <span>
+            <div style="margin-top: 6px">
               ✔️
               <span
                 v-for="(name, index) in detectiveInfo.specialities"
@@ -54,7 +54,7 @@
               >
                 {{ name.specialityName }} &nbsp;
               </span>
-            </span>
+            </div>
           </div>
         </div>
       </div>
@@ -78,7 +78,7 @@
             v-model="selectedSpeciality"
             required
           >
-            <option value="" disabled selected>category</option>
+            <option value="" disabled selected></option>
             <option
               v-for="speciality in detectiveInfo.specialities"
               :key="speciality.specialityId"
@@ -109,6 +109,7 @@
 import axios from "axios";
 import { mapGetters } from "vuex";
 import locations from "@/assets/locations.json";
+import Swal from "sweetalert2";
 
 export default {
   props: ["detectiveId"],
@@ -164,10 +165,24 @@ export default {
           description: this.description,
           detectiveId: this.detectiveId,
         });
-        alert("의뢰요청에 성공했습니다.");
-        this.$router.push("/receive");
+
+        Swal.fire({
+          title: "의뢰서 전송 완료",
+          text: "홈즈에게 의뢰서를 전송하였습니다",
+          icon: "success",
+          confirmButtonText: "확인",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.$router.push("/receive");
+          }
+        });
       } catch (error) {
-        alert("의뢰요청에 실패했습니다.");
+        Swal.fire({
+          title: "의뢰서 전송 실패",
+          text: "의뢰서 전송에 실패하였습니다",
+          icon: "error",
+          confirmButtonText: "확인",
+        });
       }
     },
     click() {
@@ -229,7 +244,7 @@ label {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   padding: 7px 12px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 label div:nth-of-type(1) {
@@ -239,14 +254,15 @@ label div:nth-of-type(1) {
 
 label div:nth-child(2) {
   color: rgb(107, 101, 101);
-  margin-top: 5px;
-  font-size: 11px;
+  margin-top: 6px;
+  font-size: 12px;
 }
 
 select {
   width: 100%;
   padding: 10px;
   font-size: 14px;
+  color: gray;
   border: none;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -270,17 +286,17 @@ textarea {
 }
 
 textarea {
-  height: 200px;
+  height: 260px;
+  line-height: 27px;
   resize: none;
   font-family: auto;
-  line-height: 20px;
 }
 
 .submit-button {
   width: 100%;
   background-color: #ffdf3e9c;
   border: 1px solid #d3cb3a5e;
-  padding: 8px 0px;
+  padding: 10px 0px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;

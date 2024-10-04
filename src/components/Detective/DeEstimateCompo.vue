@@ -55,7 +55,13 @@
 
             <div class="form-group">
               <label>예상 금액</label>
-              <p>{{ estimate.price }}원</p>
+              <p>
+                {{
+                  estimate.price !== undefined && estimate.price !== null
+                    ? estimate.price.toLocaleString()
+                    : "0"
+                }}원
+              </p>
             </div>
 
             <div class="form-group">

@@ -13,7 +13,7 @@
             class="reason-item"
             v-for="(reason, index) in filteredReasons"
             :key="index"
-            @click="selectReason(reason)"
+            @click="selectReason(reason, index)"
             :class="{ selected: selectedReason === reason }"
           >
             <p>{{ reason }}</p>
@@ -45,6 +45,9 @@
 </template>
 
 <script>
+import axios from "axios";
+// import { useStore } from "vuex";
+
 export default {
   data() {
     return {
@@ -66,6 +69,7 @@ export default {
         "기타",
       ],
       selectedReason: null,
+      index: null,
     };
   },
   computed: {
@@ -87,8 +91,9 @@ export default {
         this.$router.push("/mypage");
       }
     },
-    selectReason(reason) {
+    selectReason(reason,index) {
       this.selectedReason = reason;
+      this.index = index;
     },
     handleButtonClick() {
       const confirmation = window.confirm(
@@ -100,11 +105,23 @@ export default {
         alert("탈퇴가 취소되었습니다.");
       }
     },
-    handleWithdelete() {
+    async handleWithdelete() {
+      // const store = useStore();
+      console.log(this.selectedReason)
+      console.log(this.index)
+
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      // 탈퇴정보를
+      const response = await axios.post(`/api/member/delete?index=${this.index}`);
+
+      console.log(response)
+      // await store.dispatch("logout"); // Vuex의 logout 액션 호출
       alert(`회원 탈퇴가 완료되었습니다.`);
 
       // 탈퇴 후 login 페이지로 이동
-      this.$router.push("/login");
+      // this.$router.push("/login");
     },
   },
 };

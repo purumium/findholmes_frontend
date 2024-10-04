@@ -248,7 +248,8 @@ export default {
             estimateId: this.selectedDetective.estimateId,
           },
         });
-        this.chatRoomExists = response.data.exists;
+        this.chatRoomExists = response.data;
+        console.log("채팅전적", this.chatRoomExists);
       } catch (error) {
         console.error("채팅방 유무 가져오기 실패", error);
       }
@@ -265,7 +266,7 @@ export default {
           `/api/review/get/estimate/${this.selectedDetective.estimateId}`
         );
         this.reviewExists = response.data;
-        console.log("리뷰 있을까나...", this.reviewExists);
+        console.log("리뷰 전적", this.reviewExists);
       } catch (error) {
         console.error("리뷰 유무 가져오기 실패", error);
       }
@@ -322,10 +323,9 @@ h2 {
 
 .request-contain {
   display: flex;
-  justify-content: center;
-  height: 94%;
+  height: 100%;
   border-top: 1px solid #8080802e;
-  border-bottom: 1px solid #808080;
+  border-bottom: 1px solid #8080803b;
 }
 
 .sidebar {
@@ -381,11 +381,11 @@ h2 {
   max-width: 800px;
   background-color: #fff;
   border-left: 1px solid #cccccc54;
-  padding: 0px 20px;
+  padding: 30px 20px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
 }
 
 .detective-info-container {
@@ -395,11 +395,11 @@ h2 {
 }
 
 .detective-avatar-large {
-  width: 70px;
-  height: 70px;
+  height: 80px;
+  width: 80px;
   border-radius: 50%;
   border: 1px solid #80808059;
-  padding: 10px;
+  padding: 2px;
   margin-right: 15px;
 }
 
@@ -499,7 +499,7 @@ h2 {
 
 .estimate-body {
   padding: 10px 10px;
-  height: 230px;
+  height: 250px;
   background-color: #f9f9f9;
   border-radius: 10px;
   border: 1px solid #ddd;
@@ -509,7 +509,7 @@ textarea {
   border: none;
   resize: none;
   width: 100%;
-  height: 210px;
+  height: 240px;
   line-height: 23px;
   font-family: auto;
   font-size: 14px;

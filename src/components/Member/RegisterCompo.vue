@@ -124,9 +124,6 @@
           </button>
         </div>
       </form>
-      <p v-if="message" :class="{ success: isSuccess, error: !isSuccess }">
-        {{ message }}
-      </p>
     </div>
   </div>
 </template>
@@ -135,6 +132,7 @@
 import { ref, watch } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import Swal from "sweetalert2";
 
 const router = useRouter();
 const username = ref("");
@@ -206,10 +204,23 @@ const handleSubmit = async () => {
     message.value = response.data;
     isSuccess.value = true;
 
-    alert("회원가입에 성공하였습니다");
-
-    router.push("/login");
+    Swal.fire({
+      title: "회원가입 완료",
+      text: "찾아줘홈즈에 오신 것을 환영합니다",
+      icon: "success",
+      confirmButtonText: "확인",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.push("/login");
+      }
+    });
   } catch (error) {
+    Swal.fire({
+      title: "회원가입 실패",
+      text: "회원정보를 다시 한번 확인해주세요",
+      icon: "error",
+      confirmButtonText: "확인",
+    });
     message.value =
       "Registration failed: " + (error.response?.data || error.message);
     isSuccess.value = false;
@@ -247,7 +258,7 @@ const handleSubmit = async () => {
 
 .form-group input {
   width: 90%;
-  padding: 16px 0 13px 20px;
+  padding: 14px 0 13px 20px;
   border: 1px solid #80808045;
   border-radius: 20px;
   background-color: #fff;
@@ -302,7 +313,7 @@ const handleSubmit = async () => {
 
 .btn-register {
   width: 95%;
-  padding: 10px;
+  padding: 13px;
   border: 1px solid #eae8c1;
   border-radius: 5px;
   background-color: #ffdf3e9c;
