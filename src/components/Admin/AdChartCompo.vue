@@ -39,7 +39,6 @@
     mounted() {
       this.initializeYears();
       this.fetchUserCount();
-      this.fetchPayCount();
     },
     methods: {
       initializeYears() {
@@ -56,16 +55,6 @@
           console.log(this.userCount);
           this.calculateTotals(); // 총합 계산
           this.filterData(); // 전체 데이터를 가져온 후 필터링합니다.
-        } catch (error) {
-          console.error('Error fetching user count:', error);
-        }
-      },
-      async fetchPayCount() {
-        try {
-          const token = localStorage.getItem("token");
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          const response = await axios('/api/admin/count/payments');
-          console.log(response.data,"돈");
         } catch (error) {
           console.error('Error fetching user count:', error);
         }
