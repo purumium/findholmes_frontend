@@ -167,9 +167,11 @@ export default {
   unmounted() {
     console.log("페이지가 변경되었습니다.");
   },
-
-  created() {
+  updated() {
     this.receiveChatCount();
+  },
+  created() {
+    //this.receiveChatCount();
   },
   methods: {
     goBack() {
