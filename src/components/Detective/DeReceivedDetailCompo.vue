@@ -180,7 +180,7 @@ h3 {
 }
 
 .request-table td:nth-child(1) {
-  padding: 12px 0px;
+  padding: 11px 0px;
   border-top: 1px solid #8080803b;
   text-align: center;
 }
@@ -194,12 +194,12 @@ h3 {
   background-color: #f5f5f5;
   font-weight: bold;
   text-align: left;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .value {
   text-align: left;
-  font-size: 13px;
+  font-size: 14px;
   font-family: math !important;
 }
 
@@ -223,10 +223,11 @@ textarea {
   border: none;
   resize: none;
   width: 94%;
-  height: 240px;
+  height: 250px;
   line-height: 23px;
   font-family: math;
   padding: 4px 10px;
+  font-size: 14px;
 }
 
 @media screen and (max-width: 768px) {

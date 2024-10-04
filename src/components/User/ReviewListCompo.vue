@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push("/mypage");
+      this.$router.go(-1);
     },
     async getMyReviewList() {
       this.token = localStorage.getItem("token");
