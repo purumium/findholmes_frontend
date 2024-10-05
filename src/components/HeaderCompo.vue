@@ -7,7 +7,7 @@
             <img src="/images/logoforhome.png" width="40px" />
             <span class="title">
               {{
-                isRole === "ROLE_ADMIN" ? "HOLMES'S ADMIN PAGE" : "FINDMYHOLMES"
+                isRole === "ROLE_ADMIN" ? "HOLMES'S ADMIN PAGE" : "찾아줘 홈즈"
               }}</span
             >
           </div>
@@ -209,6 +209,7 @@ export default {
 </script>
 
 <style scoped>
+@import "@/assets/styles/fonts.css";
 .header-container {
   display: flex;
   align-items: center;
@@ -233,11 +234,12 @@ export default {
 }
 
 .title {
+  font-family: "ssang", sans-serif;
   margin-left: 6px;
-  font-size: 20px;
+  font-size: 24px;
   letter-spacing: -1px;
-  font-weight: 600;
-  font-family: fangsong;
+  font-weight: 200;
+  /* font-family: fangsong; */
 }
 
 .icon-container {
