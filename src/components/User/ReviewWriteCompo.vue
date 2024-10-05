@@ -154,7 +154,7 @@ h2 {
 
 .review-textarea {
   width: 95%;
-  height: 100px;
+  height: 200px;
   padding: 10px;
   margin-top: 20px;
   border: 1px solid #ddd;

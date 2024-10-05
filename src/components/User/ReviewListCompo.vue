@@ -13,14 +13,20 @@
             ✍️ {{ review.detectiveName }} 's [ {{ review.estimateTitle }} ] 에
             대한 리뷰입니다.
           </span>
+          <p class="review-rating">
+            <star-rating
+              :rating="review.rating"
+              :increment="0.5"
+              :star-size="20"
+              :read-only="true"
+              :show-rating="false"
+              :rounded-corners="true"
+              :max-rating="5"
+            ></star-rating>
+          </p>
         </div>
-        <div class="review-middle">
-          <p class="review-rating">⭐ {{ review.rating }}</p>
-          <span class="review-date">{{ timeconvert(review.updatedAt) }}</span>
-        </div>
-        <div class="review-detail">
-          <p class="review-content">{{ review.content }}</p>
-        </div>
+        <p class="review-date">{{ timeconvert(review.updatedAt) }}</p>
+        <p class="review-content">{{ review.content }}</p>
         <div class="review-actions">
           <button class="openEditModal" @click="openModal(review.id)">
             수정
@@ -259,12 +265,6 @@ h2 {
   margin-right: 60px;
 }
 
-.review-middle {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .review-rating {
   font-size: 18px;
   color: #ffd700;
@@ -277,7 +277,7 @@ h2 {
 }
 
 .review-content {
-  font-size: 16px;
+  font-size: 14px;
   margin-left: 10px;
   margin-bottom: 15px;
   line-height: 1.6;
