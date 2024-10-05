@@ -81,7 +81,17 @@
                 <div class="review-header">
                   <div class="header-top">
                     <span class="review-username">익명{{ review.id }}</span>
-                    <span class="star-rating">⭐ {{ review.rating }}</span>
+                    <span class="star-rating"
+                      ><star-rating
+                        :rating="review.rating"
+                        :increment="0.5"
+                        :star-size="15"
+                        :read-only="true"
+                        :show-rating="false"
+                        :rounded-corners="true"
+                        :max-rating="5"
+                      ></star-rating
+                    ></span>
                   </div>
                   <p class="review-date">{{ timeconvert(review.updatedAt) }}</p>
                 </div>
@@ -101,9 +111,13 @@
 
 <script>
 import axios from "axios";
+import StarRating from "vue-star-rating";
 
 export default {
   props: ["detectiveId"],
+  components: {
+    StarRating,
+  },
   data() {
     return {
       detective: {},
@@ -157,9 +171,9 @@ export default {
       const year = converttime.getFullYear();
       const month = String(converttime.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1
       const day = String(converttime.getDate()).padStart(2, "0");
-      const hour = String(converttime.getHours()).padStart(2, "0");
-      const minute = String(converttime.getMinutes()).padStart(2, "0");
-      return `${year}년 ${month}월 ${day}일 ${hour}:${minute}`;
+      // const hour = String(converttime.getHours()).padStart(2, "0");
+      // const minute = String(converttime.getMinutes()).padStart(2, "0");
+      return `${year}년 ${month}월 ${day}일`;
     },
   },
 };
