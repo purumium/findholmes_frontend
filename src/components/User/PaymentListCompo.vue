@@ -60,7 +60,7 @@ export default {
       ] = `Bearer ${localStorage.getItem("token")}`;
 
       axios
-        .get("/api/payment/history") // 결제 내역을 가지고 옴
+        .get("http://3.35.185.10:8080/payment/history") // 결제 내역을 가지고 옴
         .then((response) => {
           this.paymentHistory = response.data; // 결제 내역 데이터를 배열에 저장
         })

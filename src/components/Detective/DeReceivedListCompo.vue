@@ -104,9 +104,12 @@ export default {
     async getAssignedRequests() {
       console.log("실행시도");
       try {
-        const response = await axios.get("/api/request/receive", {
-          params: { userId: this.getId },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/request/receive",
+          {
+            params: { userId: this.getId },
+          }
+        );
         this.assignedRequests = response.data;
         console.log(this.assignedRequests);
       } catch (error) {

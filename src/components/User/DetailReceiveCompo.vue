@@ -171,11 +171,14 @@ export default {
     async getEstimates() {
       console.log(this.requestId);
       try {
-        const response = await axios.get("/api/estimate/receivelist", {
-          params: {
-            requestId: this.requestId,
-          },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/estimate/receivelist",
+          {
+            params: {
+              requestId: this.requestId,
+            },
+          }
+        );
         this.estimates = response.data;
         console.log("estimates", this.estimates);
 
@@ -215,7 +218,7 @@ export default {
         console.error("토큰을 찾을 수 없습니다.");
       }
       try {
-        const response = await axios.post(`/api/chatroom/create`, null, {
+        const response = await axios.post("http://3.35.185.10:8080/chatroom/create`, null, {
           params: {
             estimateId: this.selectedDetective.estimateId,
           },
@@ -243,7 +246,7 @@ export default {
         console.error("토큰을 찾을 수 없습니다.");
       }
       try {
-        const response = await axios.get(`/api/chatroom/chat-exist`, {
+        const response = await axios.get("http://3.35.185.10:8080/chatroom/chat-exist`, {
           params: {
             estimateId: this.selectedDetective.estimateId,
           },
@@ -263,7 +266,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          `/api/review/get/estimate/${this.selectedDetective.estimateId}`
+          "http://3.35.185.10:8080/review/get/estimate/${this.selectedDetective.estimateId}`
         );
         this.reviewExists = response.data;
         console.log("리뷰 전적", this.reviewExists);

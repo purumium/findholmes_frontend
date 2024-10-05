@@ -105,7 +105,9 @@ export default {
   methods: {
     async fetchUserCount() {
       try {
-        const response = await axios.get("/api/admin/count/payments"); // 서버에서 데이터 가져오기
+        const response = await axios.get(
+          "http://3.35.185.10:8080/admin/count/payments"
+        ); // 서버에서 데이터 가져오기
         this.userCount = response.data; // 데이터 저장
         this.setupYears(); // 연도 리스트 설정
         this.filterData(); // 필터링된 데이터로 차트 그리기

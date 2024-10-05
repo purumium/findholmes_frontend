@@ -28,7 +28,10 @@
           <button type="button" class="btn-login" @click="goToRegister">
             회원가입
           </button>
-          <form action="/api/oauth2/authorization/google" method="get">
+          <form
+            action="http://3.35.185.10:8080/oauth2/authorization/google"
+            method="get"
+          >
             <button class="google-login">
               <div>
                 <img
@@ -72,10 +75,13 @@ export default {
 
     const handleLogin = async () => {
       try {
-        const response = await axios.post("/api/member/login", {
-          id: username.value,
-          password: password.value,
-        });
+        const response = await axios.post(
+          "http://3.35.185.10:8080/member/login",
+          {
+            id: username.value,
+            password: password.value,
+          }
+        );
         const token = response.data.token;
         const decoded = jwtDecode(token);
 

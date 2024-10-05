@@ -130,7 +130,7 @@ export default {
 
       // Axios 요청으로 사용자 정보 가져오기
       axios
-        .get("/api/member/userinfo")
+        .get("http://3.35.185.10:8080/member/userinfo")
         .then((response) => {
           // 서버에서 사용자 정보 받아와서 저장
           this.username = response.data.userName;
@@ -190,7 +190,7 @@ export default {
                       // 결제 성공 시, 서버에 결제 정보 전송
                       axios
                         .post(
-                          "/api/payment/charge",
+                          "http://3.35.185.10:8080/payment/charge",
                           {
                             impUid: response.imp_uid,
                             merchantUid: response.merchant_uid,

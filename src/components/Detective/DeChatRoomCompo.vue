@@ -160,14 +160,14 @@ export default {
         this.message = "";
         this.$nextTick(() => {
           const textarea = this.$el.querySelector("textarea");
-          textarea.style.height = "20px"; // 초기 높이로 재설정
+          textarea.style.height = "40px"; // 초기 높이로 재설정
         });
         this.scrollToBottom();
       }
     },
     async receiveChatCount() {
       try {
-        axios.get("/api/notification/chatCount", {
+        axios.get("http://3.35.185.10:8080/notification/chatCount", {
           params: { userId: this.userId },
         });
         console.log("다시 실행됨");
@@ -188,7 +188,7 @@ export default {
       }
     },
     connect() {
-      const serverURL = "http://localhost:8080/ws";
+      const serverURL = "http://3.35.185.10:8080/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
 
@@ -275,7 +275,7 @@ export default {
 
       try {
         // 백엔드로 권한 검증 요청
-        await axios.get(`/api/chatroom/${this.chatRoomId}/check-access`);
+        await axios.get("http://3.35.185.10:8080/chatroom/${this.chatRoomId}/check-access`);
         this.hasAccess = true; // 권한이 있으면 true로 설정
       } catch (error) {
         if (error.response && error.response.status === 403) {
@@ -303,7 +303,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `/api/chatroom/${this.chatRoomId}/check-isaccepted`
+          "http://3.35.185.10:8080/chatroom/${this.chatRoomId}/check-isaccepted`
         );
         if (response.data) {
           this.fetchMessages(); // 이미 동의했으면 채팅방 접근 검증
@@ -327,7 +327,7 @@ export default {
       }
 
       try {
-        await axios.post(`/api/chatroom/${this.chatRoomId}/is-accepted`);
+        await axios.post("http://3.35.185.10:8080/chatroom/${this.chatRoomId}/is-accepted`);
         this.showAcceptedPrivacyModal = false; // 모달 닫기
         this.fetchMessages();
       } catch (error) {
@@ -352,7 +352,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          `/api/chatroom/detail/${this.chatRoomId}`
+          "http://3.35.185.10:8080/chatroom/detail/${this.chatRoomId}`
         );
         this.chatRoom = response.data;
         console.log("chatRoom 정보: ", this.chatRoom);
@@ -380,7 +380,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `/api/chat/chatroom/${this.chatRoomId}`
+          "http://3.35.185.10:8080/chat/chatroom/${this.chatRoomId}`
         );
         // this.messages = response.data;
         this.recvList = response.data;
@@ -710,7 +710,7 @@ button {
   resize: none;
   overflow-y: auto;
   max-height: 100px;
-  min-height: 20px;
+  min-height: 40px;
 }
 
 .chat-input button {

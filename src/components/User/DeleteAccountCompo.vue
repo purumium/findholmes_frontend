@@ -114,7 +114,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       // 탈퇴정보를
-      const response = await axios.post(`/api/member/delete?index=${this.index}`);
+      const response = await axios.post("http://3.35.185.10:8080/member/delete?index=${this.index}`);
 
       console.log(response)
       // await store.dispatch("logout"); // Vuex의 logout 액션 호출

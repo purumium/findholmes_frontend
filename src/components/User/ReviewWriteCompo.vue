@@ -60,7 +60,7 @@ export default {
         console.error("토큰을 찾을 수 없습니다.");
       }
       try {
-        const response = await axios.get(`/api/review/info/${this.estimateId}`);
+        const response = await axios.get("http://3.35.185.10:8080/review/info/${this.estimateId}`);
         this.info = response.data;
         console.log("답변서 정보: ", this.info);
       } catch (error) {
@@ -78,7 +78,7 @@ export default {
         alert("리뷰 내용을 작성해주세요");
       } else {
         try {
-          const response = await axios.post(`/api/review/write`, {
+          const response = await axios.post("http://3.35.185.10:8080/review/write`, {
             detectiveId: this.detectiveId,
             rating: this.rating,
             content: this.content,

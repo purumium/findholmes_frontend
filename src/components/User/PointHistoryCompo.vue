@@ -8,42 +8,42 @@
     <div class="point-contain">
       <div>포인트 사용내역</div>
       <div class="paymentlist-contain">
-      <div v-if="paymentHistory.length === 0">결제 내역이 없습니다.</div>
-      <div
-        v-for="(payment, index) in paymentHistory"
-        :key="index"
-        class="payment-box"
-      >
-        <div class="payment-details">
-          <!-- <div class="detail-row day">
+        <div v-if="paymentHistory.length === 0">결제 내역이 없습니다.</div>
+        <div
+          v-for="(payment, index) in paymentHistory"
+          :key="index"
+          class="payment-box"
+        >
+          <div class="payment-details">
+            <!-- <div class="detail-row day">
             {{ formatDate(payment.paymentAt) }}
           </div> -->
-          <!-- <div class="detail-row">
+            <!-- <div class="detail-row">
             <span class="label">주문내역</span>
             <span class="value">{{ payment.pointUsingType }}</span>
           </div> -->
-          <div class="detail-row">
-            <span class="label">결제내역</span>
-            <span class="value">{{ payment.pointUsingType }}</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">사용일시</span>
-            <span class="value">{{ payment.createdAt }}</span>
-          </div>
-          <div class="detail-row">
-            <span class="label">결제금액</span>
-            <span class="value">{{ payment.pointChangeAmount }}원</span>
+            <div class="detail-row">
+              <span class="label">결제내역</span>
+              <span class="value">{{ payment.pointUsingType }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">사용일시</span>
+              <span class="value">{{ payment.createdAt }}</span>
+            </div>
+            <div class="detail-row">
+              <span class="label">결제금액</span>
+              <span class="value">{{ payment.pointChangeAmount }}원</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import { jwtDecode } from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 
 export default {
   data() {
@@ -75,7 +75,7 @@ export default {
       if(token!==null){
         decoded = jwtDecode(token);
 
-        axios.get(`/api/payment/points/${decoded.id}`) // 결제 내역을 가지고 옴
+        axios.get("http://3.35.185.10:8080/payment/points/${decoded.id}`) // 결제 내역을 가지고 옴
         .then((response) => {
           this.paymentHistory = response.data; // 결제 내역 데이터를 배열에 저장
           console.log(this.paymentHistory)

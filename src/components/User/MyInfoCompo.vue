@@ -135,7 +135,9 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        const response = await axios.get("/api/member/userinfo");
+        const response = await axios.get(
+          "http://3.35.185.10:8080/member/userinfo"
+        );
         this.username = response.data.userName;
         this.email = response.data.email;
         this.phonenumber = response.data.phoneNumber;
@@ -160,9 +162,12 @@ export default {
         return;
       }
       try {
-        const response = await axios.get("/api/member/pwCheck", {
-          params: { password: this.currentPassword },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/member/pwCheck",
+          {
+            params: { password: this.currentPassword },
+          }
+        );
         console.log(response);
         if (response.data) {
           await this.updatePW({
@@ -191,7 +196,7 @@ export default {
     },
     async updatePW(data) {
       try {
-        await axios.post("/api/member/updatepw", data);
+        await axios.post("http://3.35.185.10:8080/member/updatepw", data);
       } catch (error) {
         console.error(
           "Error updating profile:",
@@ -206,10 +211,13 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        const response2 = await axios.post("/api/member/update", {
-          userName: this.username,
-          phoneNumber: this.phonenumber,
-        });
+        const response2 = await axios.post(
+          "http://3.35.185.10:8080/member/update",
+          {
+            userName: this.username,
+            phoneNumber: this.phonenumber,
+          }
+        );
         Swal.fire({
           title: "프로필 변경",
           text: "프로필 수정이 완료되었습니다!",

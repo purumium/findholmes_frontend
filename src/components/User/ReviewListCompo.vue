@@ -103,7 +103,7 @@ export default {
         console.error("토큰을 찾을 수 없습니다.");
       }
       try {
-        const response = await axios.get(`/api/review/get/myReview`);
+        const response = await axios.get("http://3.35.185.10:8080/review/get/myReview`);
         this.reviews = response.data;
         console.log("~~~~~~~~~~~", this.reviews);
       } catch (error) {
@@ -137,7 +137,7 @@ export default {
       // 서버로 보내기 전에 데이터를 console에 출력
       console.log("서버로 보낼 데이터:", dataToSend);
       try {
-        const response = await axios.post(`/api/review/update`, {
+        const response = await axios.post("http://3.35.185.10:8080/review/update`, {
           id: this.eachReview.id,
           detectiveId: this.eachReview.detectiveId,
           rating: this.rating,
@@ -161,7 +161,7 @@ export default {
       }
       alert("정말 삭제하시겠습니까?");
       axios
-        .delete(`/api/review/delete/${reviewId}`)
+        .delete("http://3.35.185.10:8080/review/delete/${reviewId}`)
         .then((response) => {
           if (response.status === 204) {
             alert("삭제가 성공적으로 완료되었습니다."); // 삭제 성공 메시지
@@ -189,7 +189,7 @@ export default {
         console.error("토큰을 찾을 수 없습니다.");
       }
       await axios
-        .get(`/api/review/get/${reviewId}`)
+        .get("http://3.35.185.10:8080/review/get/${reviewId}`)
         .then((response) => {
           const eachReview = response.data;
           console.log("각 리뷰 값: ", eachReview);

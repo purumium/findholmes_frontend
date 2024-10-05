@@ -116,7 +116,9 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       try {
-        const response = await axios.get("/api/member/user/allinfo");
+        const response = await axios.get(
+          "http://3.35.185.10:8080/member/user/allinfo"
+        );
         this.userName = response.data.userName;
         this.email = response.data.email;
         this.points = response.data.currentPoints;

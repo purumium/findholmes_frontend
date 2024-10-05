@@ -82,9 +82,12 @@ export default {
     async getRequestDetail() {
       console.log("실행시도", this.requestId);
       try {
-        const response = await axios.get("/api/request/detail", {
-          params: { requestId: this.requestId },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/request/detail",
+          {
+            params: { requestId: this.requestId },
+          }
+        );
         this.request = response.data;
         console.log("response data : ", response.data);
         this.request.gender =

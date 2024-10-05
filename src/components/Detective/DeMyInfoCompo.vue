@@ -300,7 +300,9 @@ const selectedImagePath = ref("");
 
 const fetchSpecialties = async () => {
   try {
-    const response = await axios.get("/api/detective/specialties");
+    const response = await axios.get(
+      "http://3.35.185.10:8080/detective/specialties"
+    );
     specialties.value = response.data;
 
     for (let j = 0; j < specialtiesName.value.length; j++) {
@@ -366,7 +368,9 @@ const getUser = async () => {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
-    const response = await axios.get("/api/detective/getDetectiveDetail");
+    const response = await axios.get(
+      "http://3.35.185.10:8080/detective/getDetectiveDetail"
+    );
     const data = response.data;
     console.log(response.data);
     createdAt.value = data.createdAt;
@@ -429,9 +433,12 @@ const handleProfileSubmit = async () => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
   try {
-    const response = await axios.get("/api/detective/pwCheck", {
-      params: { password: currentPassword.value },
-    });
+    const response = await axios.get(
+      "http://3.35.185.10:8080/detective/pwCheck",
+      {
+        params: { password: currentPassword.value },
+      }
+    );
 
     if (response.data) {
       if (isProfileDelete.value) {
@@ -495,7 +502,10 @@ const deleteFile = async (filePath) => {
   formData.append("state", "delete");
 
   try {
-    const response = await axios.post("/api/detective/updateFile", formData);
+    const response = await axios.post(
+      "http://3.35.185.10:8080/detective/updateFile",
+      formData
+    );
     console.log("File deletion successful:", response.data);
   } catch (error) {
     console.error(
@@ -518,7 +528,7 @@ const uploadFiles = async () => {
 
   try {
     const fileUploadResponse = await axios.post(
-      "/api/detective/files",
+      "http://3.35.185.10:8080/detective/files",
       formData,
       {
         headers: {
@@ -549,7 +559,7 @@ const uploadFiles = async () => {
 
 const updateProfile = async (data) => {
   try {
-    await axios.post("/api/detective/update", data);
+    await axios.post("http://3.35.185.10:8080/detective/update", data);
   } catch (error) {
     console.error(
       "Error updating profile:",

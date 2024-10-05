@@ -175,7 +175,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       axios
-        .get("/api/detective/checkregister")
+        .get("http://3.35.185.10:8080/detective/checkregister")
         .then((response) => {
           console.log(response.data);
           if (response.data === "PENDING") {
@@ -198,7 +198,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       axios
-        .get("/api/detective/checkreject")
+        .get("http://3.35.185.10:8080/detective/checkreject")
         .then((response) => {
           this.rejectionReason = response.data.rejReason;
           console.log("reject reason : " + this.rejReason);
@@ -211,7 +211,9 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        const response = await axios.get("/api/detective/getDetectiveDetail");
+        const response = await axios.get(
+          "http://3.35.185.10:8080/detective/getDetectiveDetail"
+        );
         this.userName = response.data.userName;
         this.email = response.data.email;
         this.points = response.data.currentPoints;

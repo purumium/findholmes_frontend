@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     async registerRandom() {
-      await axios.post("/api/plz/detective");
+      await axios.post("http://3.35.185.10:8080/plz/detective");
     },
     handleOAuth2LoginSuccess() {
       // URL에서 쿼리 파라미터로 전달된 토큰 추출
@@ -126,11 +126,14 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        const response = await axios.post("/api/review/write", {
-          detectiveId: 1,
-          rating: 5,
-          content: "리뷰 테스트",
-        });
+        const response = await axios.post(
+          "http://3.35.185.10:8080/review/write",
+          {
+            detectiveId: 1,
+            rating: 5,
+            content: "리뷰 테스트",
+          }
+        );
         console.log(response.data);
       } catch (error) {
         console.error(error);
@@ -140,12 +143,15 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        const response = await axios.post("/api/review/update", {
-          id: 1, //리뷰 아이디
-          detectiveId: 1,
-          rating: 7,
-          content: "리뷰 수정 테스트",
-        });
+        const response = await axios.post(
+          "http://3.35.185.10:8080/review/update",
+          {
+            id: 1, //리뷰 아이디
+            detectiveId: 1,
+            rating: 7,
+            content: "리뷰 수정 테스트",
+          }
+        );
         console.log(response.data);
       } catch (error) {
         console.error(error);
@@ -156,7 +162,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const detectiveId = 1;
       try {
-        const response = await axios.get(`/api/review/get/${detectiveId}`);
+        const response = await axios.get("http://3.35.185.10:8080/review/get/${detectiveId}`);
         console.log(response.data);
       } catch (error) {
         console.error(error);
