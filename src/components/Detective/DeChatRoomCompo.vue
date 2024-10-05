@@ -160,7 +160,7 @@ export default {
         this.message = "";
         this.$nextTick(() => {
           const textarea = this.$el.querySelector("textarea");
-          textarea.style.height = "40px"; // 초기 높이로 재설정
+          textarea.style.height = "20px"; // 초기 높이로 재설정
         });
         this.scrollToBottom();
       }
@@ -709,7 +709,7 @@ button {
   resize: none;
   overflow-y: auto;
   max-height: 100px;
-  min-height: 40px;
+  min-height: 20px;
 }
 
 .chat-input button {
