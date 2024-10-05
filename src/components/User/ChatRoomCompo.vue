@@ -174,6 +174,7 @@ export default {
   },
   created() {
     //this.receiveChatCount();
+    alert(this.chatRoomId);
   },
   methods: {
     goBack() {
@@ -247,7 +248,7 @@ export default {
       }
     },
     connect() {
-      const serverURL = "http://localhost:8080/ws";
+      const serverURL = "/api/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
 
