@@ -70,6 +70,9 @@ export default {
     this.handleOAuth2LoginSuccess();
   },
   methods: {
+    async registerRandom() {
+      await axios.post("/api/plz/detective");
+    },
     handleOAuth2LoginSuccess() {
       // URL에서 쿼리 파라미터로 전달된 토큰 추출
       const urlParams = new URLSearchParams(window.location.search);
