@@ -133,7 +133,7 @@ export default {
   methods: {
     async totalChatCount() {
       try {
-        const response = await axios.get("/api/chatConut", {
+        const response = await axios.get("/api/chatCount", {
           params: { userId: this.getId },
         });
         this.chatCount = response.data;

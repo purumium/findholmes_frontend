@@ -110,7 +110,7 @@ export default {
       return `${year}-${month}-${day} ${hour}:${minute}`;
     },
     connect() {
-      const serverURL = "http://localhost:8080/ws";
+      const serverURL = "/api/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
 
