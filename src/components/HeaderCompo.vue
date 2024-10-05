@@ -4,10 +4,10 @@
       <div class="navbar-left">
         <router-link :to="isRole === 'ROLE_ADMIN' ? '/admin' : '/'">
           <div class="navbar-left-logo">
-            <img src="/images/logoforhome.png" width="40px" />
+            <img src="/images/logoforhome.png" width="32px" />
             <span class="title">
               {{
-                isRole === "ROLE_ADMIN" ? "HOLMES'S ADMIN PAGE" : "찾아줘 홈즈"
+                isRole === "ROLE_ADMIN" ? "찾아줘 홈즈 관리자" : "찾아줘 홈즈"
               }}</span
             >
           </div>
@@ -233,13 +233,18 @@ export default {
   align-items: end;
 }
 
+.navbar-left-logo img {
+  border: 1px solid #fffefea3;
+  /* border-radius: 40px; */
+  /* padding: 5px; */
+}
+
 .title {
   font-family: "ssang", sans-serif;
-  margin-left: 6px;
-  font-size: 24px;
+  margin-left: 8px;
+  font-size: 22px;
   letter-spacing: -1px;
   font-weight: 200;
-  /* font-family: fangsong; */
 }
 
 .icon-container {
