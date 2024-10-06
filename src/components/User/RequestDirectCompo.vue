@@ -145,7 +145,7 @@ export default {
     async getDetectiveInfo() {
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/detective/info",
+          "https://findmyholmes.store/detective/info",
           {
             params: { detectiveId: this.detectiveId },
           }
@@ -159,7 +159,7 @@ export default {
     },
     async doRequest() {
       try {
-        await axios.post("http://3.35.185.10:8080/request", {
+        await axios.post("https://findmyholmes.store/request", {
           email: this.getUser,
           location: this.detectiveInfo.location,
           gender: this.detectiveInfo.gender,

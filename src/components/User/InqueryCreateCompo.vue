@@ -101,7 +101,7 @@ export default {
         };
 
         const response = await axios.post(
-          "http://3.35.185.10:8080/inquery/insert",
+          "https://findmyholmes.store/inquery/insert",
           inqueryData
         );
 

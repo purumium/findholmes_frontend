@@ -151,9 +151,12 @@ export default {
   methods: {
     async totalChatCount() {
       try {
-        const response = await axios.get("http://3.35.185.10:8080/chatCount", {
-          params: { userId: this.getId },
-        });
+        const response = await axios.get(
+          "https://findmyholmes.store/chatCount",
+          {
+            params: { userId: this.getId },
+          }
+        );
         console.log(response.data);
         this.chatCount = response.data;
       } catch (error) {
@@ -163,7 +166,7 @@ export default {
     async loadNotificationCount() {
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/notification/receive",
+          "https://findmyholmes.store/notification/receive",
           {
             params: { userId: this.getId },
           }
@@ -175,7 +178,7 @@ export default {
     },
     setUpEventSource() {
       const eventSource = new EventSource(
-        `http://3.35.185.10:8080/notification/subscribe?userId=${this.getId}`
+        `https://findmyholmes.store/notification/subscribe?userId=${this.getId}`
       );
       eventSource.onmessage = (event) => this.handleEvent(event);
 

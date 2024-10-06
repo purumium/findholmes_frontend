@@ -96,7 +96,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `http://3.35.185.10:8080/chatroom/chatList`
+          `https://findmyholmes.store/chatroom/chatList`
         );
         this.chatRoomList = response.data;
         console.log("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ", this.chatRoomList);
@@ -118,7 +118,7 @@ export default {
       return `${year}-${month}-${day} ${hour}:${minute}`;
     },
     connect() {
-      const serverURL = "http://3.35.185.10:8080/ws";
+      const serverURL = "https://findmyholmes.store/ws";
       let socket = new SockJS(serverURL);
       this.stompClient = Stomp.over(socket);
 

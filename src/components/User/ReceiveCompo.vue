@@ -74,7 +74,7 @@ export default {
     async getRequestList() {
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/request/list",
+          "https://findmyholmes.store/request/list",
           {
             params: { userId: this.getId },
           }

@@ -99,7 +99,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `http://3.35.185.10:8080/inquery/${this.inqueryid}`
+          `https://findmyholmes.store/inquery/${this.inqueryid}`
         );
         this.inquery = response.data;
       } catch (error) {

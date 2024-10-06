@@ -29,7 +29,7 @@
             회원가입
           </button>
           <form
-            action="http://3.35.185.10:8080/oauth2/authorization/google"
+            action="https://findmyholmes.store/oauth2/authorization/google"
             method="get"
           >
             <button class="google-login">

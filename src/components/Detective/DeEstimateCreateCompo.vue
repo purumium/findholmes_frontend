@@ -108,7 +108,7 @@ export default {
     async getRequestDetail() {
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/request/detail",
+          "https://findmyholmes.store/request/detail",
           {
             params: { requestId: this.requestId },
           }
@@ -122,13 +122,16 @@ export default {
     },
     async replyRequest() {
       try {
-        const response = await axios.post("http://3.35.185.10:8080/estimate", {
-          requestId: this.requestId,
-          title: this.title,
-          price: parseInt(this.price, 10),
-          email: this.getUser,
-          description: this.description,
-        });
+        const response = await axios.post(
+          "https://findmyholmes.store/estimate",
+          {
+            requestId: this.requestId,
+            title: this.title,
+            price: parseInt(this.price, 10),
+            email: this.getUser,
+            description: this.description,
+          }
+        );
         if (response.data) {
           Swal.fire({
             title: "답변서 전송 완료",

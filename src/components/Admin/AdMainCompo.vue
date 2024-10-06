@@ -156,7 +156,7 @@ export default {
 
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/admin/approvals"
+          "https://findmyholmes.store/admin/approvals"
         );
         const approvals = response.data; // 배열로 추가
 
@@ -184,7 +184,7 @@ export default {
 
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/admin/inquery/all"
+          "https://findmyholmes.store/admin/inquery/all"
         );
         this.inquiries = response.data;
 
@@ -207,7 +207,7 @@ export default {
       // 포인트 결제 관리 현황
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/admin/count/payments"
+          "https://findmyholmes.store/admin/count/payments"
         );
         this.paymentCount = response.data;
 
@@ -245,7 +245,7 @@ export default {
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-        const response = await axios("http://3.35.185.10:8080/admin/count");
+        const response = await axios("https://findmyholmes.store/admin/count");
         this.userCount = response.data;
 
         this.calculateMonthlyTotals(); // 월별 총합 계산

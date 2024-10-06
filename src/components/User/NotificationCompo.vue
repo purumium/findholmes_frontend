@@ -42,7 +42,7 @@ export default {
     async loadNotification() {
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/notification/list",
+          "https://findmyholmes.store/notification/list",
           {
             params: { userId: this.getId },
           }

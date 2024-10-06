@@ -154,7 +154,7 @@ export default {
 
       try {
         const response = await axios.get(
-          `http://3.35.185.10:8080/admin/inquery/${this.inqueryid}`
+          `https://findmyholmes.store/admin/inquery/${this.inqueryid}`
         );
         this.inquery = response.data;
       } catch (error) {
@@ -176,7 +176,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       try {
-        await axios.post("http://3.35.185.10:8080/email/send", {
+        await axios.post("https://findmyholmes.store/email/send", {
           to: this.emailContent.to,
           subject: this.emailContent.subject,
           body: this.emailContent.body,
@@ -198,7 +198,7 @@ export default {
       try {
         // 상태 업데이트
         const response = await axios.get(
-          `http://3.35.185.10:8080/admin/inquery/${this.inqueryid}/status`
+          `https://findmyholmes.store/admin/inquery/${this.inqueryid}/status`
         );
         console.log(response.data);
       } catch (error) {

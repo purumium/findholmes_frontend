@@ -122,7 +122,7 @@ export default {
 
       // 다른 탐정 정보를 서버에 전송
       const response = await axios.post(
-        "http://3.35.185.10:8080/client/finddetectives",
+        "https://findmyholmes.store/client/finddetectives",
         {
           location: this.location,
           specialityId: this.specialityId,

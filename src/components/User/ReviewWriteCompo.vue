@@ -61,7 +61,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          `http://3.35.185.10:8080/review/info/${this.estimateId}`
+          `https://findmyholmes.store/review/info/${this.estimateId}`
         );
         this.info = response.data;
         console.log("답변서 정보: ", this.info);
@@ -81,7 +81,7 @@ export default {
       } else {
         try {
           const response = await axios.post(
-            `http://3.35.185.10:8080/review/write`,
+            `https://findmyholmes.store/review/write`,
             {
               detectiveId: this.detectiveId,
               rating: this.rating,
