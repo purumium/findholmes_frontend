@@ -76,7 +76,7 @@ export default {
     const handleLogin = async () => {
       try {
         const response = await axios.post(
-          "http://3.35.185.10:8080/member/login",
+          "https://findmyholmes.store/member/login",
           {
             id: username.value,
             password: password.value,
