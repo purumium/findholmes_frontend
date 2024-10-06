@@ -76,7 +76,7 @@ export default {
         decoded = jwtDecode(token);
 
         axios
-          .get(`http://3.35.185.10:8080/payment/points/${decoded.id}`) // 결제 내역을 가지고 옴
+          .get(`https://findmyholmes.store/payment/points/${decoded.id}`) // 결제 내역을 가지고 옴
           .then((response) => {
             this.paymentHistory = response.data; // 결제 내역 데이터를 배열에 저장
             console.log(this.paymentHistory);

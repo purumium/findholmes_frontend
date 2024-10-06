@@ -204,7 +204,7 @@ const handleSubmit = async () => {
     formData.append("additionalCertification", additionalCertification.value);
 
     const fileUploadResponse = await axios.post(
-      "http://3.35.185.10:8080/detective/files",
+      "https://findmyholmes.store/detective/files",
       formData,
       {
         headers: {
@@ -225,7 +225,7 @@ const handleSubmit = async () => {
     // 2. 탐정 정보를 서버에 전송
     if (value.value === "register") {
       response = await axios.post(
-        "http://3.35.185.10:8080/detective/register",
+        "https://findmyholmes.store/detective/register",
         {
           businessRegistration: businessRegistrationPath,
           detectiveLicense: detectiveLicensePath,
@@ -243,7 +243,7 @@ const handleSubmit = async () => {
       );
     } else {
       response = await axios.post(
-        "http://3.35.185.10:8080/detective/reregister",
+        "https://findmyholmes.store/detective/reregister",
         {
           businessRegistration: businessRegistrationPath,
           detectiveLicense: detectiveLicensePath,
@@ -279,7 +279,7 @@ const checkDeRegister = async () => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get(
-      "http://3.35.185.10:8080/detective/checkregister"
+      "https://findmyholmes.store/detective/checkregister"
     );
     checkReg.value = 1;
     console.log(response.data);
@@ -302,7 +302,7 @@ const fetchSpecialties = async () => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get(
-      "http://3.35.185.10:8080/detective/specialties"
+      "https://findmyholmes.store/detective/specialties"
     );
     console.log(response.data);
     specialties.value = response.data;

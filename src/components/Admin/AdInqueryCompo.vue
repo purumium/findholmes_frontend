@@ -104,12 +104,12 @@ export default {
       this.fetchInqueries(filter);
     },
     async fetchInqueries(filter) {
-      let endpoint = "http://3.35.185.10:8080/admin/inquery/all"; // 전체
+      let endpoint = "https://findmyholmes.store/admin/inquery/all"; // 전체
 
       if (filter === "답변대기") {
-        endpoint = "http://3.35.185.10:8080/admin/inquery/pending";
+        endpoint = "https://findmyholmes.store/admin/inquery/pending";
       } else if (filter === "답변완료") {
-        endpoint = "http://3.35.185.10:8080/admin/inquery/complete";
+        endpoint = "https://findmyholmes.store/admin/inquery/complete";
       }
 
       const token = localStorage.getItem("token");

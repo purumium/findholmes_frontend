@@ -136,7 +136,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/member/userinfo"
+          "https://findmyholmes.store/member/userinfo"
         );
         this.username = response.data.userName;
         this.email = response.data.email;
@@ -163,7 +163,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/member/pwCheck",
+          "https://findmyholmes.store/member/pwCheck",
           {
             params: { password: this.currentPassword },
           }
@@ -196,7 +196,7 @@ export default {
     },
     async updatePW(data) {
       try {
-        await axios.post("http://3.35.185.10:8080/member/updatepw", data);
+        await axios.post("https://findmyholmes.store/member/updatepw", data);
       } catch (error) {
         console.error(
           "Error updating profile:",
@@ -212,7 +212,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
         const response2 = await axios.post(
-          "http://3.35.185.10:8080/member/update",
+          "https://findmyholmes.store/member/update",
           {
             userName: this.username,
             phoneNumber: this.phonenumber,

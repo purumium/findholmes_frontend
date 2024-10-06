@@ -100,7 +100,7 @@ export default {
       console.log(this.requestId);
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/estimate/details",
+          "https://findmyholmes.store/estimate/details",
           {
             params: {
               userId: this.getId,

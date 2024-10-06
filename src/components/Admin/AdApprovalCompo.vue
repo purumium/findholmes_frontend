@@ -217,7 +217,7 @@ export default {
       try {
         // 1. 관리자의 승인 요청 데이터를 가져옴
         const response = await axios.get(
-          "http://3.35.185.10:8080/admin/approvals"
+          "https://findmyholmes.store/admin/approvals"
         );
         const approvals = response.data; // 응답 데이터를 배열로 추가
         test.value = []; // 초기화
@@ -228,7 +228,7 @@ export default {
             try {
               // detectiveId로 탐정 정보를 가져옴
               const detectiveResponse = await axios.get(
-                `http://3.35.185.10:8080/detective/${approval.detectiveId}`
+                `https://findmyholmes.store/detective/${approval.detectiveId}`
               );
               return { ...approval, detectiveDetails: detectiveResponse.data }; // 탐정 정보를 병합
             } catch (error) {
@@ -256,7 +256,7 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        await axios.post("http://3.35.185.10:8080/admin/approvals/update", {
+        await axios.post("https://findmyholmes.store/admin/approvals/update", {
           id: item.id,
           detectiveId: item.detectiveId,
           approvalStatus: "accept",
@@ -273,7 +273,7 @@ export default {
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
-        await axios.post("http://3.35.185.10:8080/admin/approvals/update", {
+        await axios.post("https://findmyholmes.store/admin/approvals/update", {
           id: selectedItem.value.id,
           detectiveId: selectedItem.value.detectiveId,
           approvalStatus: "reject",

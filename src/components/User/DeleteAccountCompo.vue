@@ -115,7 +115,7 @@ export default {
 
       // 탈퇴정보를
       const response = await axios.post(
-        `http://3.35.185.10:8080/member/delete?index=${this.index}`
+        `https://findmyholmes.store/member/delete?index=${this.index}`
       );
 
       console.log(response);

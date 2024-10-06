@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     async registerRandom() {
-      await axios.post("http://3.35.185.10:8080/plz/detective");
+      await axios.post("https://findmyholmes.store/plz/detective");
     },
     handleOAuth2LoginSuccess() {
       // URL에서 쿼리 파라미터로 전달된 토큰 추출
@@ -127,7 +127,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
         const response = await axios.post(
-          "http://3.35.185.10:8080/review/write",
+          "https://findmyholmes.store/review/write",
           {
             detectiveId: 1,
             rating: 5,
@@ -144,7 +144,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       try {
         const response = await axios.post(
-          "http://3.35.185.10:8080/review/update",
+          "https://findmyholmes.store/review/update",
           {
             id: 1, //리뷰 아이디
             detectiveId: 1,
@@ -163,7 +163,7 @@ export default {
       const detectiveId = 1;
       try {
         const response = await axios.get(
-          `http://3.35.185.10:8080/${detectiveId}`
+          `https://findmyholmes.store/${detectiveId}`
         );
         console.log(response.data);
       } catch (error) {

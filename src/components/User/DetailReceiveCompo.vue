@@ -172,7 +172,7 @@ export default {
       console.log(this.requestId);
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/estimate/receivelist",
+          "https://findmyholmes.store/estimate/receivelist",
           {
             params: {
               requestId: this.requestId,
@@ -219,7 +219,7 @@ export default {
       }
       try {
         const response = await axios.post(
-          `http://3.35.185.10:8080/chatroom/create`,
+          `https://findmyholmes.store/chatroom/create`,
           null,
           {
             params: {
@@ -251,7 +251,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          `http://3.35.185.10:8080/chatroom/chat-exist`,
+          `https://findmyholmes.store/chatroom/chat-exist`,
           {
             params: {
               estimateId: this.selectedDetective.estimateId,
@@ -273,7 +273,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          `http://3.35.185.10:8080/review/get/estimate/${this.selectedDetective.estimateId}`
+          `https://findmyholmes.store/review/get/estimate/${this.selectedDetective.estimateId}`
         );
         this.reviewExists = response.data;
         console.log("리뷰 전적", this.reviewExists);

@@ -301,7 +301,7 @@ const selectedImagePath = ref("");
 const fetchSpecialties = async () => {
   try {
     const response = await axios.get(
-      "http://3.35.185.10:8080/detective/specialties"
+      "https://findmyholmes.store/detective/specialties"
     );
     specialties.value = response.data;
 
@@ -369,7 +369,7 @@ const getUser = async () => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
     const response = await axios.get(
-      "http://3.35.185.10:8080/detective/getDetectiveDetail"
+      "https://findmyholmes.store/detective/getDetectiveDetail"
     );
     const data = response.data;
     console.log(response.data);
@@ -434,7 +434,7 @@ const handleProfileSubmit = async () => {
 
   try {
     const response = await axios.get(
-      "http://3.35.185.10:8080/detective/pwCheck",
+      "https://findmyholmes.store/detective/pwCheck",
       {
         params: { password: currentPassword.value },
       }
@@ -503,7 +503,7 @@ const deleteFile = async (filePath) => {
 
   try {
     const response = await axios.post(
-      "http://3.35.185.10:8080/detective/updateFile",
+      "https://findmyholmes.store/detective/updateFile",
       formData
     );
     console.log("File deletion successful:", response.data);
@@ -528,7 +528,7 @@ const uploadFiles = async () => {
 
   try {
     const fileUploadResponse = await axios.post(
-      "http://3.35.185.10:8080/detective/files",
+      "https://findmyholmes.store/detective/files",
       formData,
       {
         headers: {
@@ -559,7 +559,7 @@ const uploadFiles = async () => {
 
 const updateProfile = async (data) => {
   try {
-    await axios.post("http://3.35.185.10:8080/detective/update", data);
+    await axios.post("https://findmyholmes.store/detective/update", data);
   } catch (error) {
     console.error(
       "Error updating profile:",

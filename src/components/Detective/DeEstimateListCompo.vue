@@ -102,7 +102,7 @@ export default {
     async getEstimateList() {
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/estimate/list",
+          "https://findmyholmes.store/estimate/list",
           {
             params: { userId: this.getId },
           }

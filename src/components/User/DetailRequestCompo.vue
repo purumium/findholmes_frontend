@@ -83,7 +83,7 @@ export default {
       console.log("실행시도", this.requestId);
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/request/detail",
+          "https://findmyholmes.store/request/detail",
           {
             params: { requestId: this.requestId },
           }

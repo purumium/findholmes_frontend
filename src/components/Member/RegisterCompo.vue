@@ -177,7 +177,7 @@ watch(confirmPassword, checkPasswordMatch);
 const checkEmail = async () => {
   try {
     const response = await axios.get(
-      "http://3.35.185.10:8080/member/check-email",
+      "https://findmyholmes.store/member/check-email",
       {
         params: { email: email.value },
       }
@@ -198,7 +198,7 @@ const checkEmail = async () => {
 const handleSubmit = async () => {
   try {
     const response = await axios.post(
-      "http://3.35.185.10:8080/member/register",
+      "https://findmyholmes.store/member/register",
       {
         userName: username.value,
         email: email.value,

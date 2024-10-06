@@ -60,7 +60,7 @@ export default {
 
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/inquery/listbyuser"
+          "https://findmyholmes.store/inquery/listbyuser"
         );
 
         this.inquiries = response.data.map((inquery) => ({

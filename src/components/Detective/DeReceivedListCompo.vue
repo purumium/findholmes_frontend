@@ -105,7 +105,7 @@ export default {
       console.log("실행시도");
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/request/receive",
+          "https://findmyholmes.store/request/receive",
           {
             params: { userId: this.getId },
           }
