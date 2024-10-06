@@ -107,9 +107,12 @@ export default {
     },
     async getRequestDetail() {
       try {
-        const response = await axios.get("/api/request/detail", {
-          params: { requestId: this.requestId },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/request/detail",
+          {
+            params: { requestId: this.requestId },
+          }
+        );
         this.requests = response.data;
         this.requests.createAt = this.timeconvert(this.requests.createAt);
         console.log(this.requests);
@@ -119,7 +122,7 @@ export default {
     },
     async replyRequest() {
       try {
-        const response = await axios.post("/api/estimate", {
+        const response = await axios.post("http://3.35.185.10:8080/estimate", {
           requestId: this.requestId,
           title: this.title,
           price: parseInt(this.price, 10),

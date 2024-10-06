@@ -104,12 +104,12 @@ export default {
       this.fetchInqueries(filter);
     },
     async fetchInqueries(filter) {
-      let endpoint = "/api/admin/inquery/all"; // 전체
+      let endpoint = "http://3.35.185.10:8080/admin/inquery/all"; // 전체
 
       if (filter === "답변대기") {
-        endpoint = "/api/admin/inquery/pending";
+        endpoint = "http://3.35.185.10:8080/admin/inquery/pending";
       } else if (filter === "답변완료") {
-        endpoint = "/api/admin/inquery/complete";
+        endpoint = "http://3.35.185.10:8080/admin/inquery/complete";
       }
 
       const token = localStorage.getItem("token");

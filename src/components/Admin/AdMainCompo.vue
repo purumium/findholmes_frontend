@@ -155,7 +155,9 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       try {
-        const response = await axios.get("/api/admin/approvals");
+        const response = await axios.get(
+          "http://3.35.185.10:8080/admin/approvals"
+        );
         const approvals = response.data; // 배열로 추가
 
         this.totalArrpovals = approvals.length;
@@ -181,7 +183,9 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       try {
-        const response = await axios.get("/api/admin/inquery/all");
+        const response = await axios.get(
+          "http://3.35.185.10:8080/admin/inquery/all"
+        );
         this.inquiries = response.data;
 
         this.pendingInquiryCount = this.inquiries.filter(
@@ -202,7 +206,9 @@ export default {
     async fetchPaymentData() {
       // 포인트 결제 관리 현황
       try {
-        const response = await axios.get("/api/admin/count/payments");
+        const response = await axios.get(
+          "http://3.35.185.10:8080/admin/count/payments"
+        );
         this.paymentCount = response.data;
 
         this.filterPaymentData();
@@ -239,7 +245,7 @@ export default {
         const token = localStorage.getItem("token");
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
-        const response = await axios("/api/admin/count");
+        const response = await axios("http://3.35.185.10:8080/admin/count");
         this.userCount = response.data;
 
         this.calculateMonthlyTotals(); // 월별 총합 계산

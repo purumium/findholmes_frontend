@@ -100,7 +100,10 @@ export default {
           content: this.content,
         };
 
-        const response = await axios.post("/api/inquery/insert", inqueryData);
+        const response = await axios.post(
+          "http://3.35.185.10:8080/inquery/insert",
+          inqueryData
+        );
 
         if (response.status === 200) {
           Swal.fire({

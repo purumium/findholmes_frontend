@@ -101,9 +101,12 @@ export default {
 
     async getEstimateList() {
       try {
-        const response = await axios.get("/api/estimate/list", {
-          params: { userId: this.getId },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/estimate/list",
+          {
+            params: { userId: this.getId },
+          }
+        );
         this.estimates = response.data;
         console.log("estimate : ", this.estimates);
       } catch (err) {

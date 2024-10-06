@@ -144,9 +144,12 @@ export default {
 
     async getDetectiveInfo() {
       try {
-        const response = await axios.get("/api/detective/info", {
-          params: { detectiveId: this.detectiveId },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/detective/info",
+          {
+            params: { detectiveId: this.detectiveId },
+          }
+        );
         this.detectiveInfo = response.data;
         this.specialities = response.data.specialities;
         console.log(this.detectiveInfo);
@@ -156,7 +159,7 @@ export default {
     },
     async doRequest() {
       try {
-        await axios.post("/api/request", {
+        await axios.post("http://3.35.185.10:8080/request", {
           email: this.getUser,
           location: this.detectiveInfo.location,
           gender: this.detectiveInfo.gender,

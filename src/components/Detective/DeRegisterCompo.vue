@@ -204,7 +204,7 @@ const handleSubmit = async () => {
     formData.append("additionalCertification", additionalCertification.value);
 
     const fileUploadResponse = await axios.post(
-      "/api/detective/files",
+      "http://3.35.185.10:8080/detective/files",
       formData,
       {
         headers: {
@@ -224,35 +224,41 @@ const handleSubmit = async () => {
     let response;
     // 2. 탐정 정보를 서버에 전송
     if (value.value === "register") {
-      response = await axios.post("/api/detective/register", {
-        businessRegistration: businessRegistrationPath,
-        detectiveLicense: detectiveLicensePath,
-        profilePicture: profilePicturePath,
-        additionalCertification: additionalCertificationPath,
+      response = await axios.post(
+        "http://3.35.185.10:8080/detective/register",
+        {
+          businessRegistration: businessRegistrationPath,
+          detectiveLicense: detectiveLicensePath,
+          profilePicture: profilePicturePath,
+          additionalCertification: additionalCertificationPath,
 
-        introduction: introduction.value,
-        location: location.value,
-        description: description.value,
-        company: company.value,
-        detectiveGender: detectiveGender.value,
-        resolvedCases: resolvedCases.value,
-        specialties: specialtyIds,
-      });
+          introduction: introduction.value,
+          location: location.value,
+          description: description.value,
+          company: company.value,
+          detectiveGender: detectiveGender.value,
+          resolvedCases: resolvedCases.value,
+          specialties: specialtyIds,
+        }
+      );
     } else {
-      response = await axios.post("/api/detective/reregister", {
-        businessRegistration: businessRegistrationPath,
-        detectiveLicense: detectiveLicensePath,
-        profilePicture: profilePicturePath,
-        additionalCertification: additionalCertificationPath,
+      response = await axios.post(
+        "http://3.35.185.10:8080/detective/reregister",
+        {
+          businessRegistration: businessRegistrationPath,
+          detectiveLicense: detectiveLicensePath,
+          profilePicture: profilePicturePath,
+          additionalCertification: additionalCertificationPath,
 
-        introduction: introduction.value,
-        location: location.value,
-        description: description.value,
-        company: company.value,
-        detectiveGender: detectiveGender.value,
-        resolvedCases: resolvedCases.value,
-        specialties: specialtyIds,
-      });
+          introduction: introduction.value,
+          location: location.value,
+          description: description.value,
+          company: company.value,
+          detectiveGender: detectiveGender.value,
+          resolvedCases: resolvedCases.value,
+          specialties: specialtyIds,
+        }
+      );
     }
 
     console.log(response);
@@ -272,7 +278,9 @@ const checkDeRegister = async () => {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
-    const response = await axios.get("/api/detective/checkregister");
+    const response = await axios.get(
+      "http://3.35.185.10:8080/detective/checkregister"
+    );
     checkReg.value = 1;
     console.log(response.data);
     if (response.data === "PENDING") {
@@ -293,7 +301,9 @@ const fetchSpecialties = async () => {
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
-    const response = await axios.get("/api/detective/specialties");
+    const response = await axios.get(
+      "http://3.35.185.10:8080/detective/specialties"
+    );
     console.log(response.data);
     specialties.value = response.data;
   } catch (error) {

@@ -41,9 +41,12 @@ export default {
   methods: {
     async loadNotification() {
       try {
-        const response = await axios.get("/api/notification/list", {
-          params: { userId: this.getId },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/notification/list",
+          {
+            params: { userId: this.getId },
+          }
+        );
         this.notificationList = response.data;
         this.notificationList.sort(function (a, b) {
           return -(new Date(a.notifyAt) - new Date(b.notifyAt));

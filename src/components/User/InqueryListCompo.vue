@@ -59,7 +59,9 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       try {
-        const response = await axios.get("/api/inquery/listbyuser");
+        const response = await axios.get(
+          "http://3.35.185.10:8080/inquery/listbyuser"
+        );
 
         this.inquiries = response.data.map((inquery) => ({
           ...inquery,

@@ -73,9 +73,12 @@ export default {
     },
     async getRequestList() {
       try {
-        const response = await axios.get("api/request/list", {
-          params: { userId: this.getId },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/request/list",
+          {
+            params: { userId: this.getId },
+          }
+        );
         this.requests = response.data;
         this.requests.sort(function (a, b) {
           return -(new Date(a.createAt) - new Date(b.createAt));

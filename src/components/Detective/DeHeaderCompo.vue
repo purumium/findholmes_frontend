@@ -133,7 +133,7 @@ export default {
   methods: {
     async totalChatCount() {
       try {
-        const response = await axios.get("/api/chatCount", {
+        const response = await axios.get("http://3.35.185.10:8080/chatCount", {
           params: { userId: this.getId },
         });
         this.chatCount = response.data;
@@ -143,9 +143,12 @@ export default {
     },
     async loadNotificationCount() {
       try {
-        const response = await axios.get("/api/notification/receive", {
-          params: { userId: this.getId },
-        });
+        const response = await axios.get(
+          "http://3.35.185.10:8080/notification/receive",
+          {
+            params: { userId: this.getId },
+          }
+        );
         this.notificationCount = response.data;
       } catch (error) {
         console.log("미확인 알림 에러");
@@ -154,7 +157,7 @@ export default {
     setUpEventSource() {
       console.log("SSE연결전 : ", this.getId);
       const eventSource = new EventSource(
-        `http://localhost:8080/notification/subscribe?userId=${this.getId}`
+        `http://3.35.185.10:8080/notification/subscribe?userId=${this.getId}`
       );
       eventSource.onmessage = (event) => this.handleEvent(event);
 
