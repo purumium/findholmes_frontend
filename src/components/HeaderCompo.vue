@@ -178,7 +178,7 @@ export default {
     },
     setUpEventSource() {
       const eventSource = new EventSource(
-        `https://findmyholmes.store/notification/subscribe?userId=${this.getId}`
+        `/sse-endpoint/subscribe?userId=${this.getId}`
       );
       eventSource.onmessage = (event) => this.handleEvent(event);
 
