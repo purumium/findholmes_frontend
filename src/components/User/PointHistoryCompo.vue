@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 export default {
@@ -57,7 +57,7 @@ export default {
     },
     userId() {
       return this.$store.getters.getId;
-    }
+    },
   },
   methods: {
     goBack() {
@@ -68,21 +68,22 @@ export default {
       }
     },
     fetchPointHistory() {
-      console.log(this.userId)
+      console.log(this.userId);
       const token = localStorage.getItem("token");
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      let decoded = ''
-      if(token!==null){
+      let decoded = "";
+      if (token !== null) {
         decoded = jwtDecode(token);
 
-        axios.get("http://3.35.185.10:8080/payment/points/${decoded.id}`) // 결제 내역을 가지고 옴
-        .then((response) => {
-          this.paymentHistory = response.data; // 결제 내역 데이터를 배열에 저장
-          console.log(this.paymentHistory)
-        })
-        .catch((error) => {
-          console.error("Error fetching point history:", error);
-        });
+        axios
+          .get(`http://3.35.185.10:8080/payment/points/${decoded.id}`) // 결제 내역을 가지고 옴
+          .then((response) => {
+            this.paymentHistory = response.data; // 결제 내역 데이터를 배열에 저장
+            console.log(this.paymentHistory);
+          })
+          .catch((error) => {
+            console.error("Error fetching point history:", error);
+          });
       }
     },
     formatDate(dateString) {

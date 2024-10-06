@@ -275,7 +275,9 @@ export default {
 
       try {
         // 백엔드로 권한 검증 요청
-        await axios.get("http://3.35.185.10:8080/chatroom/${this.chatRoomId}/check-access`);
+        await axios.get(
+          `http://3.35.185.10:8080/chatroom/${this.chatRoomId}/check-access`
+        );
         this.hasAccess = true; // 권한이 있으면 true로 설정
       } catch (error) {
         if (error.response && error.response.status === 403) {
@@ -303,7 +305,7 @@ export default {
 
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/chatroom/${this.chatRoomId}/check-isaccepted`
+          `http://3.35.185.10:8080/chatroom/${this.chatRoomId}/check-isaccepted`
         );
         if (response.data) {
           this.fetchMessages(); // 이미 동의했으면 채팅방 접근 검증
@@ -327,7 +329,9 @@ export default {
       }
 
       try {
-        await axios.post("http://3.35.185.10:8080/chatroom/${this.chatRoomId}/is-accepted`);
+        await axios.post(
+          `http://3.35.185.10:8080/chatroom/${this.chatRoomId}/is-accepted`
+        );
         this.showAcceptedPrivacyModal = false; // 모달 닫기
         this.fetchMessages();
       } catch (error) {
@@ -352,7 +356,7 @@ export default {
       }
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/chatroom/detail/${this.chatRoomId}`
+          `http://3.35.185.10:8080/chatroom/detail/${this.chatRoomId}`
         );
         this.chatRoom = response.data;
         console.log("chatRoom 정보: ", this.chatRoom);
@@ -380,7 +384,7 @@ export default {
 
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/chat/chatroom/${this.chatRoomId}`
+          `http://3.35.185.10:8080/chat/chatroom/${this.chatRoomId}`
         );
         // this.messages = response.data;
         this.recvList = response.data;

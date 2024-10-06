@@ -154,7 +154,7 @@ export default {
 
       try {
         const response = await axios.get(
-          "http://3.35.185.10:8080/admin/inquery/${this.inqueryid}`
+          `http://3.35.185.10:8080/admin/inquery/${this.inqueryid}`
         );
         this.inquery = response.data;
       } catch (error) {
@@ -198,7 +198,7 @@ export default {
       try {
         // 상태 업데이트
         const response = await axios.get(
-          "http://3.35.185.10:8080/admin/inquery/${this.inqueryid}/status`
+          `http://3.35.185.10:8080/admin/inquery/${this.inqueryid}/status`
         );
         console.log(response.data);
       } catch (error) {

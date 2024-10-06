@@ -89,7 +89,9 @@ export default {
       }
 
       try {
-        const response = await axios.get("http://3.35.185.10:8080/chatroom/chatList`);
+        const response = await axios.get(
+          `http://3.35.185.10:8080/chatroom/chatList`
+        );
         this.chatRoomList = response.data;
         console.log("ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ", this.chatRoomList);
       } catch (error) {

@@ -138,7 +138,7 @@ export default {
     },
     async getAllSpecialties() {
       try {
-        const response = await axios.get("api/speciality");
+        const response = await axios.get("http://3.35.185.10:8080/speciality");
         this.specialities = response.data;
       } catch (error) {
         this.specialities = [];
@@ -146,7 +146,7 @@ export default {
     },
     async doRequest() {
       try {
-        await axios.post("api/request", {
+        await axios.post("http://3.35.185.10:8080/request", {
           email: this.getUser,
           location: this.selectedLocation,
           gender: this.selectedGender,

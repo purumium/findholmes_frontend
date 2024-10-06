@@ -162,7 +162,9 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const detectiveId = 1;
       try {
-        const response = await axios.get("http://3.35.185.10:8080/review/get/${detectiveId}`);
+        const response = await axios.get(
+          `http://3.35.185.10:8080/${detectiveId}`
+        );
         console.log(response.data);
       } catch (error) {
         console.error(error);

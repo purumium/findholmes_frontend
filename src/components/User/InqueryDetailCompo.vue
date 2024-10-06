@@ -98,7 +98,9 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       try {
-        const response = await axios.get("http://3.35.185.10:8080/inquery/${this.inqueryid}`);
+        const response = await axios.get(
+          `http://3.35.185.10:8080/inquery/${this.inqueryid}`
+        );
         this.inquery = response.data;
       } catch (error) {
         console.error("inquery Detail 데이터 불러오기 중 오류 발생:", error);

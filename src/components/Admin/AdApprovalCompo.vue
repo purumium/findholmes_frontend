@@ -228,7 +228,7 @@ export default {
             try {
               // detectiveId로 탐정 정보를 가져옴
               const detectiveResponse = await axios.get(
-                "http://3.35.185.10:8080/detective/${approval.detectiveId}`
+                `http://3.35.185.10:8080/detective/${approval.detectiveId}`
               );
               return { ...approval, detectiveDetails: detectiveResponse.data }; // 탐정 정보를 병합
             } catch (error) {

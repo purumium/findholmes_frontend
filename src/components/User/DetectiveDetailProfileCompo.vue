@@ -137,7 +137,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       axios
-        .get("http://3.35.185.10:8080/detective/${this.detectiveId}`)
+        .get(`http://3.35.185.10:8080/detective/${this.detectiveId}`)
         .then((response) => {
           this.detective = response.data;
           console.log(this.detective);
@@ -151,7 +151,7 @@ export default {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
       axios
-        .get("http://3.35.185.10:8080/review/get/detective/${this.detectiveId}`)
+        .get(`http://3.35.185.10:8080/review/get/detective/${this.detectiveId}`)
         .then((response) => {
           this.reviews = response.data;
           console.log("리뷰 리스트", this.reviews);
