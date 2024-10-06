@@ -178,7 +178,7 @@ export default {
     },
     setUpEventSource() {
       const eventSource = new EventSource(
-        `/sse-endpoint/notification/subscribe?userId=${this.getId}`
+        `/api/notification/subscribe?userId=${this.getId}`
       );
       eventSource.onmessage = (event) => this.handleEvent(event);
 
