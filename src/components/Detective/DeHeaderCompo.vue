@@ -160,7 +160,7 @@ export default {
     setUpEventSource() {
       console.log("SSE연결전 : ", this.getId);
       const eventSource = new EventSource(
-        `/api/notification/subscribe?userId=${this.getId}`
+        `/notification/subscribe?userId=${this.getId}`
       );
       eventSource.onmessage = (event) => this.handleEvent(event);
 

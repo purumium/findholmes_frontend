@@ -178,7 +178,7 @@ export default {
     },
     setUpEventSource() {
       const eventSource = new EventSource(
-        `/api/notification/subscribe?userId=${this.getId}`
+        `/notification/subscribe?userId=${this.getId}`
       );
       eventSource.onmessage = (event) => this.handleEvent(event);
 
