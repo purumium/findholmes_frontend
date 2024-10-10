@@ -99,7 +99,7 @@
 
 
 # 기능 소개
-## 고객 페이지 <br>
+## 1) 고객 페이지 <br>
 **1. 회원 가입** <br>
 <img src="https://github.com/user-attachments/assets/9c98864f-e511-4859-b10e-0825e48d080a" width="300"> <br><br>
 
@@ -128,9 +128,9 @@
 <img src="https://github.com/user-attachments/assets/cc7ab08b-75b7-45cc-96a1-d5987a6323e4" width="300"> <br><br>
 
 **9-1. 고객: 채팅 6회 이상이면, 포인트 결제** <br>
-<img src="https://github.com/user-attachments/assets/47fd17b3-feed-49ea-8fef-41ed41ac5146" width="300"> <br><br>
+<img src="https://github.com/user-attachments/assets/16a497ca-4a23-4381-92f7-ac9bf822d00e" width="300"> <br><br>
 
-**9-2. 포인트 결제 후 무제한 채팅하기** <br>
+**9-2. 고객: 포인트 충전 돼 있으면 차감하고 무제한 채팅하기** <br>
 <img src="https://github.com/user-attachments/assets/cd528375-7e04-46eb-86f4-ea9a3a913291" width="300"> <br><br>
 
 **10. 채팅 후 리뷰쓰기** <br>
@@ -138,3 +138,10 @@
 
 **11. 관리자에게 문의하기** <br>
 <img src="https://github.com/user-attachments/assets/fd95bba8-8c26-4454-8a9b-5091faf7c331" width="300"> <br><br>
+
+<br><br>
+
+
+## 탐정 페이지 <br>
+**1. 회원 가입** <br>
+<img src="https://github.com/user-attachments/assets/9c98864f-e511-4859-b10e-0825e48d080a" width="300"> <br><br>
