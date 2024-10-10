@@ -1,4 +1,4 @@
-![8_홈즈승인_3 mp4](https://github.com/user-attachments/assets/f03e427f-dfdd-4945-a49e-34a3cb8f033f)# 탐정 중개 플랫폼 '찾아줘 홈즈'
+# 탐정 중개 플랫폼 '찾아줘 홈즈'
 <img src="https://github.com/user-attachments/assets/3ecc3a08-cc29-4094-8872-744d2f460b02" width="200px">
 
 <br><br>
